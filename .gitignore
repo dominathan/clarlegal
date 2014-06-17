@@ -8,9 +8,23 @@
 /.bundle
 
 # Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
+/db/
+/db/
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ignore application configuration
+/config/application.yml
+
+#ignore other unneeded files
+database.yml
+secrets.yml
+doc/
+*.swp
+*~
+.project
+.DS_Store
+.idea
+.secret
