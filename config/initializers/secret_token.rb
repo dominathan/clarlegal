@@ -9,4 +9,19 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Claregal::Application.config.secret_key_base = 'e1c204836d796b70f76f60cf01a2e0641aae90c445f7e531cb65f039ba965223697e5cb9824c7e2947567503ad61d50d0d21ac1c472cc5ad0cff123defaf4c1a'
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+Claregal::Application.config.secret_key_base = secure_token
