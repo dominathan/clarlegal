@@ -19,7 +19,7 @@ development:
   encoding: utf8
   database: Claregal_development
   pool: 5
-  username: Claregal
+  username:
   password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -48,7 +48,7 @@ test:
   encoding: utf8
   database: Claregal_test
   pool: 5
-  username: Claregal
+  username:
   password:
 
 production:
@@ -56,5 +56,5 @@ production:
   encoding: utf8
   database: Claregal_production
   pool: 5
-  username: Claregal
+  username:
   password:
