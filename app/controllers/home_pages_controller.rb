@@ -5,4 +5,7 @@ class HomePagesController < ApplicationController
   def contact
   end
 
+  def about
+  end
+
 end

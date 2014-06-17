@@ -2,30 +2,35 @@ require 'spec_helper'
 
 describe "HomePages" do
 
+  subject {page}
+
     describe "Home page" do
 
-    it "should have the content 'Claregal'" do
-      visit '/home_pages/home'
-      expect(page).to have_content('Claregal')
+      before { visit root_path }
+      it { should have_content('Claregal') }
+      it { should have_title(full_title('Home')) }
     end
 
-    it "should have the base title" do
-      visit '/home_pages/home'
-      expect(page).to have_title("Claregal | Home")
-    end
-
-  end
 
   describe "Contact page" do
+    before { visit contact_path }
+    it { should have_content ('Contact') }
+    it { should have_title(full_title('Contact')) }
+  end
 
-    it "should have the content 'Contact'" do
-      visit '/home_pages/contact'
-      expect(page).to have_content('Contact')
-    end
+  describe "About page" do
+    before {visit about_path}
+    it { should have_content('About') }
+    it { should have_title(full_title('About Us')) }
+  end
 
-    it "should have the title 'Contact'" do
-      visit '/home_pages/contact'
-      expect(page).to have_title("Claregal | Contact")
+  def full_title(page_title)
+    base_title = "Claregal"
+    if page_title.empty?
+      base_title
+    else
+      page_title == base_title ? base_title : "#{base_title} | #{page_title}"
     end
   end
+
 end
