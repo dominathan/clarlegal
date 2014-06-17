@@ -9,10 +9,11 @@ describe "HomePages" do
       expect(page).to have_content('Claregal')
     end
 
-    it "should have the title 'Home'" do
+    it "should have the base title" do
       visit '/home_pages/home'
       expect(page).to have_title("Claregal | Home")
     end
+
   end
 
   describe "Contact page" do
