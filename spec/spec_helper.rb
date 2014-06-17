@@ -45,7 +45,7 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   #added it because it was causing failing tests
-    def full_title(page_title)
+  def full_title(page_title)
     base_title = "Claregal"
     if page_title.empty?
       base_title
