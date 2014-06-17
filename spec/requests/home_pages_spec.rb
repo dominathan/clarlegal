@@ -24,13 +24,6 @@ describe "HomePages" do
     it { should have_title(full_title('About Us')) }
   end
 
-  def full_title(page_title)
-    base_title = "Claregal"
-    if page_title.empty?
-      base_title
-    else
-      page_title == base_title ? base_title : "#{base_title} | #{page_title}"
-    end
-  end
+
 
 end
