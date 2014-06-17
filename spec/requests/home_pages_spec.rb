@@ -22,7 +22,7 @@ describe "HomePages" do
       expect(page).to have_content('Contact')
     end
 
-    it "should have the title 'Home'" do
+    it "should have the title 'Contact'" do
       visit '/home_pages/contact'
       expect(page).to have_title("Claregal | Contact")
     end
