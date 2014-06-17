@@ -33,7 +33,10 @@ group :production do
   gem 'rails_12factor', '0.0.2'
 end
 
+#for styling
 gem 'bootstrap-sass', '2.3.2.0'
 gem 'sprockets', '2.11.0'
 
+#for password validation
+gem 'bcrypt-ruby', '3.1.2'
 
