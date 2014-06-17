@@ -1,6 +1,9 @@
 Claregal::Application.routes.draw do
-  get "users/new"
+
+
   root 'home_pages#home'
+
+  resources :users
   match '/about', to: 'home_pages#about', via: 'get'
   match '/contact', to: 'home_pages#contact', via: 'get'
   match '/signup', to: 'users#new', via: 'get'
