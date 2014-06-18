@@ -16,7 +16,7 @@
 /config/application.yml
 
 #ignore other unneeded files
-#database.yml
+database.yml
 secrets.yml
 doc/
 *.swp
