@@ -1,12 +1,13 @@
 Claregal::Application.routes.draw do
 
-
   root 'home_pages#home'
-
   resources :users
+  resources :sessions, only: [:new, :create, :destroy]
   match '/about', to: 'home_pages#about', via: 'get'
   match '/contact', to: 'home_pages#contact', via: 'get'
   match '/signup', to: 'users#new', via: 'get'
+  match '/signin',  to: 'sessions#new',         via: 'get'
+  match '/signout', to: 'sessions#destroy',     via: 'delete'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
