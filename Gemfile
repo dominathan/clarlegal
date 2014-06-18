@@ -41,3 +41,6 @@ gem 'sprockets', '2.11.0'
 #for password validation
 gem 'bcrypt-ruby', '3.1.2'
 
+#for easy database viewing
+gem 'hirb'
+
