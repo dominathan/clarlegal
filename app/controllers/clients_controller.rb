@@ -1,12 +1,16 @@
 class ClientsController < UsersController
   before_action :signed_in_user
 
+  def index
+    @client = Client.all
+  end
+
   def new
     @client = Client.new
   end
 
   def show
-    @client = Client.find_by(params[:id])
+    @client = current_user.clients.find_by(params[:client_id])
   end
 
 

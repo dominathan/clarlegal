@@ -1,0 +1,16 @@
+<% provide(:title, 'Client List') %>
+<h1>Client List</h1>
+
+<% if current_user.clients.present? %>
+  <% current_user.clients.each do |client| %>
+   <tr>
+    <td><%= client.client_name %></td>
+    <td><%= link_to 'Show', client_path(client) %></td>
+   </tr>
+ <% end %>
+<% else %>
+ <tr>
+   <td>You must</td>
+   <td><%= link_to 'Add a Client', new_client_path %></td>
+ </tr>
+<% end %>
