@@ -4,8 +4,7 @@
 <div class="row">
   <div class="span6 offset3">
     <%= form_for(@client) do |f| %>
-
-    <!-- don't forget to include shared/error_messages...but right now it just points to @user instead of @client -->
+      <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label :client_name %>
       <%= f.text_field :client_name %>
