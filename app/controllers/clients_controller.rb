@@ -1,4 +1,5 @@
-class ClientsController < ApplicationController
+class ClientsController < UsersController
+  before_action :signed_in_user
 
   def new
     @client = Client.new
@@ -10,7 +11,7 @@ class ClientsController < ApplicationController
 
 
   def create
-    @client = Client.new(client_params)
+    @client = current_user.clients.build(client_params)
     if @client.save
       flash[:success] = "Client added sucessfully"
       redirect_to new_client_path
