@@ -3,6 +3,7 @@ Claregal::Application.routes.draw do
   root 'home_pages#home'
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+  resources :clients
   match '/about', to: 'home_pages#about', via: 'get'
   match '/contact', to: 'home_pages#contact', via: 'get'
   match '/signup', to: 'users#new', via: 'get'
