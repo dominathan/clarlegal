@@ -5,7 +5,7 @@
   <% current_user.clients.each do |client| %>
    <tr>
     <td><%= client.client_name %></td>
-    <td><%= link_to 'Show', client_path(client) %></td>
+    <td><%= link_to 'Show', client_path(client) %></td><br>
    </tr>
  <% end %>
 <% else %>

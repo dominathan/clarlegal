@@ -1,4 +1,5 @@
 module ApplicationHelper
+
   def full_title(page_title)
     base_title = "Claregal"
     if page_title.empty?
@@ -7,4 +8,6 @@ module ApplicationHelper
       page_title == base_title ? base_title : "#{base_title} | #{page_title}"
     end
   end
+
+
 end
