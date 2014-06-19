@@ -4,11 +4,16 @@ class ClientsController < ApplicationController
     @client = Client.new
   end
 
+  def show
+    @client = Client.find_by(params[:id])
+  end
+
+
   def create
     @client = Client.new(client_params)
     if @client.save
       flash[:success] = "Client added sucessfully"
-      redirect_to @client
+      redirect_to new_client_path
     else
       render 'new'
       flash[:error] = "Please fix the fields below"
@@ -26,5 +31,13 @@ class ClientsController < ApplicationController
           #     render 'new'
           #   end
           # end
+
+  private
+
+    def client_params
+      params.require(:client).permit(:client_name, :client_street_address, :client_city_address,
+                                      :client_state_address, :client_zip_code)
+    end
+
 
 end
