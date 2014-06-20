@@ -1,7 +1,12 @@
+$navbarBackground: #2459b1;
+$navbarBackgroundHighlight: #332051;
+$navbarText: #000;
+$navbarLinkColor: #FFF;
+$navbarLinkColorHover: #000; ;
+
 @import "bootstrap";
 
 /* mixins, variables, etc. */
-
 
 $grayMediumLight: #eaeaea;
 
@@ -65,6 +70,7 @@ p {
 
 
 /* header */
+
 
 #logo {
   float: left;
