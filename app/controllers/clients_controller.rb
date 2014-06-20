@@ -43,7 +43,8 @@ class ClientsController < ApplicationController
 
     def client_params
       params.require(:client).permit(:client_name, :client_street_address, :client_city_address,
-                                      :client_state_address, :client_zip_code, :client_email)
+                                      :client_state_address, :client_zip_code, :client_email,
+                                      :client_phone_number, :client_fax_number)
     end
 
 
