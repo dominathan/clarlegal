@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140619165012) do
+ActiveRecord::Schema.define(version: 20140621001335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cases", force: true do |t|
+    t.string   "matter_reference"
+    t.text     "description"
+    t.string   "practice_group"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cases", ["client_id"], name: "index_cases_on_client_id", using: :btree
 
   create_table "clients", force: true do |t|
     t.string   "client_name"
