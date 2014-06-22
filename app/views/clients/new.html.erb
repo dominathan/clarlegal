@@ -7,19 +7,19 @@
     <%= form_for(@client) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label :client_name %>
+      <%= f.label "Name:" %>
       <%= f.text_field :client_name %>
 
-      <%= f.label :client_street_address %>
+      <%= f.label "Street Address:" %>
       <%= f.text_field :client_street_address %>
 
-      <%= f.label :client_city_address %>
+      <%= f.label "City:" %>
       <%= f.text_field :client_city_address %>
 
-      <%= f.label :client_state_address %>
+      <%= f.label "State:" %>
       <%= f.text_field :client_state_address %>
 
-      <%= f.label :client_zip_code %>
+      <%= f.label "Zip Code:" %>
       <%= f.text_field :client_zip_code %>
 
       <%#= f.label :client_billing_name %>
@@ -37,13 +37,13 @@
       <%#= f.label :client_billing_zip_code %>
       <%#= f.text_field :client_billing_zip_code %>
 
-      <%= f.label :client_phone_number %>
+      <%= f.label "Phone Number:" %>
       <%= f.text_field :client_phone_number, placeholder: "e.g. (555) 555-5555" %>
 
-      <%= f.label :client_fax_number %>
+      <%= f.label "Fax Number:" %>
       <%= f.text_field :client_fax_number %>
 
-      <%= f.label :client_email %>
+      <%= f.label "Email Address:" %>
       <%= f.text_field :client_email %>
 
       <%= f.submit "Create Client", class: "btn btn-large btn-primary" %>
