@@ -25,7 +25,6 @@ class ClientsController < ApplicationController
       redirect_to clients_path
     else
       render 'new'
-      flash[:error] = "Please fix the fields below"
     end
   end
 

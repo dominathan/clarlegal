@@ -1,0 +1,21 @@
+<% provide(:title, "New Case") %>
+<h1><%= "New Case for #{@client.client_name}" %> </h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for @case, url: {action: "create"} do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :matter_reference %>
+      <%= f.text_field :matter_reference %>
+
+      <%= f.label :description %>
+      <%= f.text_area :description %>
+
+      <%= f.label :practice_group %>
+      <%= f.text_field :practice_group %>
+
+      <%= f.submit "Create Case", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>
