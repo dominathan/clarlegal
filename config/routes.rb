@@ -5,7 +5,9 @@ Claregal::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
 
   resources :clients do
-    resources :cases #nested routes so it has to be clients/3/cases/4
+    resources :cases do #nested routes so it has to be clients/3/cases/4
+      resources :fees
+    end
   end
 
   match '/about', to: 'home_pages#about', via: 'get'
