@@ -4,7 +4,7 @@
 <% if @case %> <!-- does the client have cases?  If show then show them-->
   <% @case.each do |one_case| %>
    <tr>
-    <td>Description: <%= one_case.description %> | </td>
+    <td><%= link_to "#{one_case.description}", client_case_path(:client_id => @client.id, :id => one_case.id) %> | </td>
     <td>Matter References:<%= one_case.matter_reference %> | </td>
     <td>Practice Group: <%= one_case.practice_group %> | </td>
     <td>Case ID: <%= one_case.id %> | </td>
