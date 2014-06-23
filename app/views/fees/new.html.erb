@@ -1,0 +1,34 @@
+<% provide(:title, 'Client Fee') %>
+<h1>Fee</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@fee) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label "Fee Type:" %>
+      <%= f.text_field :fee_type %>
+
+      <%= f.label "High Value Estimate:" %>
+      <%= f.text_field :high_estimate %>
+
+      <%= f.label "Medium Value Estimate:" %>
+      <%= f.text_field :medium_estimate %>
+
+      <%= f.label "Low Value Estimate:" %>
+      <%= f.text_field :low_estimate %>
+
+      <%= f.label "Likelihood of Fee Payment:" %>
+      <%= f.text_field :payment_likelihood %>
+
+      <%= f.label "Retainer:" %>
+      <%= f.text_field :retainer %>
+
+      <%= f.label "Estimated Cost:" %>
+      <%= f.text_field :cost_estimate %>
+
+      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+
+    <% end %>
+  </div>
+</div>
