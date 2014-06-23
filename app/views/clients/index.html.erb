@@ -7,7 +7,8 @@
     <td><%= client.client_name %></td>
     <td><%= link_to 'Show Client', client_path(client) %> | </td>
     <td><%= link_to 'Edit Client', edit_client_path(client) %> | </td>
-    <td><%= link_to 'Add Case', new_client_case_path(client) %></td><br>
+    <td><%= link_to 'Add Case', new_client_case_path(client) %> | </td>
+    <td><%= link_to 'Show Cases', client_cases_path(client) %></td><br>
    </tr>
  <% end %>
 <% else %>
