@@ -1,9 +1,9 @@
-<% provide(:title, 'Client Fee') %>
-<h1>Fee</h1>
+<% provide(:title, 'Update Fee') %>
+<h1>Update Fee</h1>
 
 <div class="row">
   <div class="span6 offset3">
-    <%= form_for(@fee, url: {action: "create"}) do |f| %>
+    <%= form_for(@fee, url: {action: "update"}) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label "Fee Type:" %>

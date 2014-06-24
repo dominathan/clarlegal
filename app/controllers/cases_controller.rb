@@ -4,7 +4,6 @@ class CasesController < ApplicationController
   def new
     @case = Case.new
     @client = Client.find(params[:client_id])
-    #@params = params.inspect
   end
 
   def index

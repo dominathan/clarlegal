@@ -5,4 +5,5 @@
   <h2>Description: <%= @case.description %> </h2>
   <h2>Matter References: <%= @case.matter_reference %> </h2>
   <h2>Practice Group: <%= @case.practice_group %> </h2>
+  <h2><%= link_to "Add Fee", new_client_case_fee_path(:case_id => @case.id, :client_id => params[:client_id]) %> | <%= link_to "Show Fee", client_case_fee_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.fee.id) %> </h2>
 </div>

@@ -1,0 +1,12 @@
+<% provide(:title, "Fee Structure") %>
+
+<h1>Fee Structure</h1>
+<h2><%= "Fee Type: #{@fee.fee_type}"%></h2>
+<h2><%= "High Estimate: #{@fee.high_estimate}"%></h2>
+<h2><%= "Medium Estimate: #{@fee.medium_estimate}"%></h2>
+<h2><%= "Low Estimate: #{@fee.low_estimate}"%></h2>
+<h2><%= "Likelihood of Fee Payment: #{@fee.payment_likelihood}"%></h2>
+<h2><%= "Retainer: #{@fee.retainer}"%></h2>
+<h2><%= "Estimated Costs: #{@fee.cost_estimate}"%></h2>
+
+<h2> <%= link_to "Edit Fee", edit_client_case_fee_path(@client, @case, @fee) %> </h2>
