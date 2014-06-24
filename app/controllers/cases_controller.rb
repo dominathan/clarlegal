@@ -36,13 +36,13 @@ class CasesController < ApplicationController
   end
 
   def edit
-    current_client = Client.find(params[:client_id])
-    @case = current_client.cases.find(params[:id])
+    @client = Client.find(params[:client_id])
+    @case = @client.cases.find(params[:id])
   end
 
   def show
-    current_client = Client.find(params[:client_id])
-    @case = current_client.cases.find(params[:id])
+    @client = Client.find(params[:client_id])
+    @case = @client.cases.find(params[:id])
   end
 
 

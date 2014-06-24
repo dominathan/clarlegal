@@ -6,15 +6,16 @@
   <h2>Matter References: <%= @case.matter_reference %> </h2>
   <h2>Practice Group: <%= @case.practice_group %> </h2>
   <h2>
+    <%= link_to "Edit Matter Info", edit_client_case_path(@client.id, @case.id) %> |
     <% if @case.fee.any? %>
-      <%= link_to "Show Fee", client_case_fee_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.fee.first.id) %>
+      <%= link_to "Show Fee", client_case_fee_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.fee.first.id) %> |
     <% else %>
-      <%= link_to "Add Fee", new_client_case_fee_path(:case_id => @case.id, :client_id => params[:client_id]) %>
+      <%= link_to "Add Fee", new_client_case_fee_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
     <% end %>
     <% if @case.staff.any? %>
-      <%= link_to "Show Staff", client_case_staff_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.staff.first.id) %>
+      <%= link_to "Show Staff", client_case_staff_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.staff.first.id) %> |
     <% else %>
-      <%= link_to "Add Staff", new_client_case_staff_path(:case_id => @case.id, :client_id => params[:client_id]) %>
+      <%= link_to "Add Staff", new_client_case_staff_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
     <% end %>
   </h2>
 </div>
