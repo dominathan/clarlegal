@@ -7,13 +7,13 @@
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label "Date Opened:" %>
-      <%= f.text_field :date_opened %>
+      <%= f.text_field :date_opened, id: 'datepicker' %>
 
       <%= f.label "Estimated Conclusion:" %>
-      <%= f.text_field :estimated_conclusion_date %>
+      <%= f.text_field :estimated_conclusion_date, id: 'datepicker'%>
 
       <%= f.label "Key Dates:" %>
-      <%= f.text_field :key_date %>
+      <%= f.text_field :key_date, id: 'datepicker' %>
 
       <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
 

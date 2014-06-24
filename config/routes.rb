@@ -8,6 +8,7 @@ Claregal::Application.routes.draw do
     resources :cases do #nested routes so it has to be clients/3/cases/4
       resources :staffs
       resources :fees
+      resources :timings
     end
   end
 
