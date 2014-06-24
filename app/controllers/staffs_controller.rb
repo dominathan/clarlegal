@@ -14,7 +14,7 @@ class StaffsController < ApplicationController
     if @staff.save
       flash[:success] = "Staff added sucessfully"
       #where should we go from here?
-      redirect_to client_case_path(@client, @case, @staff)
+      redirect_to client_case_path(@client, @case)
     else
       render 'new'
     end
@@ -38,7 +38,7 @@ class StaffsController < ApplicationController
     @client = Client.find(params[:client_id])
     if @staff.update_attributes(staff_params)
       flash[:success] = "Staff Updated Successfully"
-      redirect_to client_cases_path
+      redirect_to client_case_path(@client, @case)
     else
       render 'edit'
     end
