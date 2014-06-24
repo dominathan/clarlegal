@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624224218) do
+ActiveRecord::Schema.define(version: 20140624225717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20140624224218) do
 
   create_table "timings", force: true do |t|
     t.integer  "case_id"
-    t.date     "date_openend"
+    t.date     "date_opened"
     t.date     "estimated_conclusion_date"
     t.date     "key_date"
     t.datetime "created_at"

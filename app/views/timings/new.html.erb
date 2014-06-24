@@ -1,0 +1,22 @@
+<% provide(:title, 'Case Dates') %>
+<h1>Add Dates</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@staff, url: {action: "create"}) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label "Date Opened:" %>
+      <%= f.text_field :date_opened %>
+
+      <%= f.label "Estimated Conclusion:" %>
+      <%= f.text_field :estimated_conclusion_date %>
+
+      <%= f.label "Key Dates:" %>
+      <%= f.text_field :key_date %>
+
+      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+
+    <% end %>
+  </div>
+</div>

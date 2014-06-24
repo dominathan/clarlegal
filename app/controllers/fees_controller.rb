@@ -12,8 +12,7 @@ class FeesController < ApplicationController
     @case = Case.find(params[:case_id])
     @fee = @case.fee.new(fee_params)
     if @fee.save
-      flash[:success] = "Case added sucessfully"
-      #where should we go from here?
+      flash[:success] = "Fee Added Successfully"
       redirect_to client_case_path(@client, @case)
     else
       render 'new'
