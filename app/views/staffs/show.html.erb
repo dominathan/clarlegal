@@ -7,3 +7,4 @@
 <h2> Assigned Attorney 2: <%= @staff.assigned_attorney_2 %></h2>
 <h2> Assigned Staff 1: <%= @staff.assigned_staff_1 %></h2>
 <h2> Assigned Staff 2: <%= @staff.assigned_staff_2 %></h2>
+<h2> <%= link_to "Edit Staff", edit_client_case_staff_path(@client, @case, @staff) %></h2>

@@ -26,6 +26,23 @@ class StaffsController < ApplicationController
     @client = Client.find(params[:client_id])
   end
 
+  def edit
+    @staff = Staff.find(params[:id])
+    @case = Case.find(params[:case_id])
+    @client = Client.find(params[:client_id])
+  end
+
+  def update
+    @staff = Staff.find(params[:id])
+    @case = Case.find(params[:case_id])
+    @client = Client.find(params[:client_id])
+    if @staff.update_attributes(staff_params)
+      flash[:success] = "Staff Updated Successfully"
+      redirect_to client_cases_path
+    else
+      render 'edit'
+    end
+  end
 
   private
 
