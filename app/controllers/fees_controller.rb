@@ -10,7 +10,7 @@ class FeesController < ApplicationController
   def create
     @client = Client.find(params[:client_id])
     @case = Case.find(params[:case_id])
-    @fee = @case.fees.new(fee_params)
+    @fee = @case.fee.new(fee_params)
     if @fee.save
       flash[:success] = "Case added sucessfully"
       #where should we go from here?
