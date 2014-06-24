@@ -2,7 +2,7 @@ class StaffsController < ApplicationController
   before_action :signed_in_user
 
   def new
-    @staff = Fee.new
+    @staff = Staff.new
     @case = Case.find(params[:case_id])
     @client = Client.find(params[:client_id])
   end
@@ -12,13 +12,20 @@ class StaffsController < ApplicationController
     @case = Case.find(params[:case_id])
     @staff = @case.staff.new(staff_params)
     if @staff.save
-      flash[:success] = "Fee structure added sucessfully"
+      flash[:success] = "Staff added sucessfully"
       #where should we go from here?
-      redirect_to client_case_path(@client, @case)
+      redirect_to client_case_path(@client, @case, @staff)
     else
       render 'new'
     end
   end
+
+  def show
+    @staff = Staff.find(params[:id])
+    @case = Case.find(params[:case_id])
+    @client = Client.find(params[:client_id])
+  end
+
 
   private
 
