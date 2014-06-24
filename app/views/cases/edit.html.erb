@@ -6,14 +6,14 @@
     <%= form_for @case, url: {action: "update"} do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label :matter_reference %>
-      <%= f.text_field :matter_reference %>
+      <%= f.label 'Matter Reference:' %>
+      <%= f.select :matter_reference, Case::MATTER_REFERENCES %>
 
       <%= f.label :description %>
       <%= f.text_area :description %>
 
-      <%= f.label :practice_group %>
-      <%= f.text_field :practice_group %>
+      <%= f.label 'Practice Group:' %>
+      <%= f.select :practice_group, Case::PRACTICE_GROUP %>
 
       <%= f.submit "Update Case", class: "btn btn-large btn-primary" %>
     <% end %>

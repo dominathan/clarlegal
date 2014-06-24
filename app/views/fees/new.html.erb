@@ -7,7 +7,7 @@
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label "Fee Type:" %>
-      <%= f.text_field :fee_type %>
+      <%= f.select :fee_type, Fee::FEE_TYPE %>
 
       <%= f.label "High Value Estimate:" %>
       <%= f.text_field :high_estimate %>
@@ -19,7 +19,7 @@
       <%= f.text_field :low_estimate %>
 
       <%= f.label "Likelihood of Fee Payment:" %>
-      <%= f.text_field :payment_likelihood %>
+      <%= f.select :payment_likelihood, Fee::FEE_PAYMENT_LIKELIHOOD %>
 
       <%= f.label "Retainer:" %>
       <%= f.text_field :retainer %>
