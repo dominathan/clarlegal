@@ -10,7 +10,7 @@ class VenuesController < ApplicationController
   def create
     @case = Case.find(params[:case_id])
     @client = Client.find(params[:client_id])
-    @venue = @client.venue.new(venue_params)
+    @venue = @case.venue.new(venue_params)
     if @venue.save
       flash[:success] = "Venue Added to Case"
       redirect_to client_case_path(@client, @case)
