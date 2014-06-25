@@ -3,6 +3,7 @@ class Case < ActiveRecord::Base
   has_many :fee
   has_many :staff
   has_many :timing
+  has_many :origination
 
   validates :client_id, presence: true
 

@@ -9,6 +9,7 @@ Claregal::Application.routes.draw do
       resources :staffs
       resources :fees
       resources :timings
+      resources :originations
     end
   end
 
