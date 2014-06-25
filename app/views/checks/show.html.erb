@@ -1,0 +1,8 @@
+<% provide(:title, "Check Dates") %>
+
+<h1>Checks Information</h1>
+
+<h2> Conflict Check Date: <%= @check.conflict_check %></h2>
+<h2> Retention Letter Date: <%= @check.retention_letter %></h2>
+
+<h2> <%= link_to "Edit Check Dates", edit_client_case_check_path(@client, @case, @check) %></h2>
