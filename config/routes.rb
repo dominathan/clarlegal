@@ -11,6 +11,7 @@ Claregal::Application.routes.draw do
       resources :timings
       resources :originations
       resources :venues
+      resources :checks
     end
   end
 

@@ -5,6 +5,7 @@ class Case < ActiveRecord::Base
   has_many :timing
   has_many :origination
   has_many :venue
+  has_many :check
 
   validates :client_id, presence: true
 

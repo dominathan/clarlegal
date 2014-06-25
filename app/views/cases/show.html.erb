@@ -32,5 +32,10 @@
     <% else %>
       <%= link_to "Add Venue", new_client_case_venue_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
     <% end %>
+        <% if @case.check.any? %>
+      <%= link_to "Show Checks", client_case_check_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.check.first.id) %> |
+    <% else %>
+      <%= link_to "Add Checks", new_client_case_check_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
+    <% end %>
   </h2>
 </div>
