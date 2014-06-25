@@ -1,0 +1,19 @@
+<% provide(:title, 'Case Venue') %>
+<h1>Add Venue Information</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@venue, url: {action: "create"}) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label "Jurisdiction:" %>
+      <%= f.text_field :jurisdiction %>
+
+      <%= f.label "Judge:" %>
+      <%= f.text_field :judge %>
+
+      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+
+    <% end %>
+  </div>
+</div>
