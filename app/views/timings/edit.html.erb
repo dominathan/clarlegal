@@ -1,0 +1,22 @@
+<% provide(:title, 'Update Dates') %>
+<h1>Update Dates</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@timing, url: {action: "update"}) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label "Date Opened:" %>
+      <%= f.date_field :date_opened, id: 'datepicker' %>
+
+      <%= f.label "Estimated Conclusion:" %>
+      <%= f.date_field :estimated_conclusion_date, id: 'datepicker'%>
+
+      <%= f.label "Key Dates:" %>
+      <%= f.date_field :key_date, id: 'datepicker' %>
+
+      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<% provide(:title, "Case Dates") %>
+
+<h1>Date Information</h1>
+
+<h2> Date Opened: <%= @timing.date_opened %></h2>
+<h2> Estimated Conclusion: <%= @timing.estimated_conclusion_date %></h2>
+
+<h2> <%= link_to "Edit Dates and Timing", edit_client_case_timing_path(@client, @case, @timing) %></h2>
