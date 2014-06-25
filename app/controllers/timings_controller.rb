@@ -22,7 +22,7 @@ class TimingsController < ApplicationController
 
   private
 
-      def fee_params
+      def timing_params
         params.require(:timing).permit(:date_opened, :estimated_conclusion_date, :key_date)
       end
 
