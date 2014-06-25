@@ -1,0 +1,22 @@
+<% provide(:title, 'Case Origination') %>
+<h1>Update Origination Information</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@origination, url: {action: "update"}) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label "Referral Source:" %>
+      <%= f.text_field :referral_source %>
+
+      <%= f.label "Existing Client:" %>
+      <%= f.select :existing_client, Origination::EXISTING_CLIENT_CHOICES %>
+
+      <%= f.label "Other Source:" %>
+      <%= f.text_field :other_source %>
+
+      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+
+    <% end %>
+  </div>
+</div>

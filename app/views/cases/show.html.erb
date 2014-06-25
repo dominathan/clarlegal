@@ -22,5 +22,10 @@
     <% else %>
       <%= link_to "Add Timing", new_client_case_timing_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
     <% end %>
+    <% if @case.origination.any? %>
+      <%= link_to "Show Origination", client_case_origination_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.origination.first.id) %> |
+    <% else %>
+      <%= link_to "Add Origination", new_client_case_origination_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
+    <% end %>
   </h2>
 </div>

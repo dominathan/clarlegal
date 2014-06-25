@@ -1,0 +1,10 @@
+<% provide(:title, "Case Origination") %>
+
+<h1>Case Origination</h1>
+
+
+<h2>Referral Source: <%=@origination.referral_source%></h2>
+<h2>Existing Client: <%=@origination.existing_client%></h2>
+<h2>Other Source: <%=@origination.other_source%></h2>
+
+<h2><%= link_to "Update Case Origination", edit_client_case_origination_path(@client,@case,@origination) %></h2>

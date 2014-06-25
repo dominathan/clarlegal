@@ -3,5 +3,5 @@ class Origination < ActiveRecord::Base
 
   validates :case_id, presence: true
 
-  EXISTING_CLIENT = ["Yes","No"]
+  EXISTING_CLIENT_CHOICES = ['Yes','No']
 end
