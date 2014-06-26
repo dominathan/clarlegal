@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :clients
+  has_many :cases, through: :clients
 
   before_save { self.email = email.downcase }
   before_create :create_remember_token

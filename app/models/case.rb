@@ -1,5 +1,6 @@
 class Case < ActiveRecord::Base
   belongs_to :client
+  belongs_to :user
   has_many :fee
   has_many :staff
   has_many :timing
