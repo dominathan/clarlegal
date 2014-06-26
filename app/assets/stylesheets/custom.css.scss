@@ -150,4 +150,22 @@ input {
   @include box_sizing;
 }
 
+/* Subheader */
+
+#subheader {
+  clear: both;
+  float: right;
+  text-align: center;
+}
+
+#subnav {
+  width: 100%;
+  text-align: center;
+  float: none;
+  li {
+    padding-left: 55px;
+    text-align: center;
+  }
+}
+
 

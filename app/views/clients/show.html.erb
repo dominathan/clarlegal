@@ -1,5 +1,7 @@
 <% provide(:title, @client.client_name) %>
 
+<%= render 'shared/subheader' %>
+
 <h1>Client Information</h1>
 <h2> Client Name: <%= @client.client_name %></h2>
 <h2> Client Email: <%= @client.client_email %></h2>
