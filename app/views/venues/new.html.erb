@@ -7,7 +7,7 @@
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label "Jurisdiction:" %>
-      <%= f.text_field :jurisdiction %>
+      <%= f.select :jurisdiction, Venue::JURISDICTION_CHOICES %>
 
       <%= f.label "Judge:" %>
       <%= f.text_field :judge %>

@@ -8,26 +8,124 @@
                      <li>
                         <%= link_to "Cases", client_cases_path(@client) %>
                      </li>
-                     <li>
-                        <%= link_to "Matter", "#" %>
+                     <li id="fat-menu" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Matter</a>
+                        <ul class="dropdown-menu">
+                           <% if !@case.matter_reference.nil? ||  %>
+                              <li>
+                                 <%= link_to "Show Case Matter", client_case_path(@client,@case) %>
+                              </li>
+                              <li>
+                                 <%= link_to "Update Case Matter", edit_client_case_path(@client,@case) %>
+                              </li>
+                           <% else %>
+                              <li>
+                                 <%= link_to "Add Case Matter", new_client_case_path(@client) %>
+                              </li>
+                           <%end%>
+                        </ul>
                      </li>
-                     <li>
-                        <%= link_to "Fee", "#" %>
+                     <li id="fat-menu" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Fee</a>
+                        <ul class="dropdown-menu">
+                           <% if @case.fee.any?  %>
+                              <li>
+                                 <%= link_to "Show Fee", client_case_fee_path(@client,@case,@case.fee.first.id) %>
+                              </li>
+                              <li>
+                                 <%= link_to "Update Fee", edit_client_case_fee_path(@client,@case,@case.fee.first.id) %>
+                              </li>
+                           <% else %>
+                              <li>
+                                 <%= link_to "Add Case Fee", new_client_case_fee_path(@client,@case) %>
+                              </li>
+                           <%end%>
+                        </ul>
                      </li>
-                     <li>
-                        <%= link_to "Staff", "#" %>
+                     <li id="fat-menu" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Staff</a>
+                        <ul class="dropdown-menu">
+                           <% if @case.staff.any?  %>
+                              <li>
+                                 <%= link_to "Show Staff", client_case_staff_path(@client,@case,@case.staff.first.id) %>
+                              </li>
+                              <li>
+                                 <%= link_to "Update Staff", edit_client_case_staff_path(@client,@case,@case.staff.first.id) %>
+                              </li>
+                           <% else %>
+                              <li>
+                                 <%= link_to "Add Case Staff", new_client_case_staff_path(@client,@case) %>
+                              </li>
+                           <%end%>
+                        </ul>
                      </li>
-                     <li>
-                        <%= link_to "Timing", "#" %>
+                     <li id="fat-menu" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Timing</a>
+                        <ul class="dropdown-menu">
+                           <% if @case.timing.any?  %>
+                              <li>
+                                 <%= link_to "Show Timing", client_case_timing_path(@client,@case,@case.timing.first.id) %>
+                              </li>
+                              <li>
+                                 <%= link_to "Update Timing", edit_client_case_timing_path(@client,@case,@case.timing.first.id) %>
+                              </li>
+                           <% else %>
+                              <li>
+                                 <%= link_to "Add Case Timing", new_client_case_timing_path(@client,@case) %>
+                              </li>
+                           <%end%>
+                        </ul>
                      </li>
-                     <li>
-                        <%= link_to "Origination", "#" %>
+                     <li id="fat-menu" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Origination</a>
+                        <ul class="dropdown-menu">
+                           <% if @case.origination.any?  %>
+                              <li>
+                                 <%= link_to "Show Origination", client_case_origination_path(@client,@case,@case.origination.first.id) %>
+                              </li>
+                              <li>
+                                 <%= link_to "Update Origination", edit_client_case_origination_path(@client,@case,@case.origination.first.id) %>
+                              </li>
+                           <% else %>
+                              <li>
+                                 <%= link_to "Add Case Origination", new_client_case_origination_path(@client,@case) %>
+                              </li>
+                           <%end%>
+                        </ul>
                      </li>
-                     <li>
-                        <%= link_to "Venue", "#" %>
+                     <li id="fat-menu" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Venue</a>
+                        <ul class="dropdown-menu">
+                           <% if @case.venue.any?  %>
+                              <li>
+                                 <%= link_to "Show Venue", client_case_venue_path(@client,@case,@case.venue.first.id) %>
+                              </li>
+                              <li>
+                                 <%= link_to "Update Venue", edit_client_case_venue_path(@client,@case,@case.venue.first.id) %>
+                              </li>
+                           <% else %>
+                              <li>
+                                 <%= link_to "Add Case Venue", new_client_case_venue_path(@client,@case) %>
+                              </li>
+                           <%end%>
+                        </ul>
                      </li>
-                     <li>
-                        <%= link_to "Checks", "#" %>
+                     <li id="fat-menu" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Checks</a>
+                        <ul class="dropdown-menu">
+                           <% if @case.check.any?  %>
+                              <li>
+                                 <%= link_to "Show Checks", client_case_check_path(@client,@case,@case.check.first.id) %>
+                              </li>
+                              <li>
+                                 <%= link_to "Update Checks", edit_client_case_check_path(@client,@case,@case.check.first.id) %>
+                              </li>
+                           <% else %>
+                              <li>
+                                 <%= link_to "Add Case Checks", new_client_case_check_path(@client,@case) %>
+                              </li>
+                           <%end%>
+                        </ul>
                      </li>
                   <!-- </div> -->
                </ul>
