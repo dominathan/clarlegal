@@ -1,11 +1,34 @@
-<!--         <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"><a href="#">Claregal</a>
-                </li>
-                <li><a href="#">Dashboard</a>
-                </li>
-                <li><a href="#">Shortcuts</a>
-                </li>
-            </ul>
-        </div> -->
+<h2>
+    <%= link_to "Edit Matter Info", edit_client_case_path(@client.id, @case.id) %> |
+    <% if @case.fee.any? %>
+      <%= link_to "Show Fee", client_case_fee_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.fee.first.id) %> |
+    <% else %>
+      <%= link_to "Add Fee", new_client_case_fee_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
+    <% end %>
+    <% if @case.staff.any? %>
+      <%= link_to "Show Staff", client_case_staff_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.staff.first.id) %> |
+    <% else %>
+      <%= link_to "Add Staff", new_client_case_staff_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
+    <% end %>
+    <% if @case.timing.any? %>
+      <%= link_to "Show Timing", client_case_timing_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.timing.first.id) %> |
+    <% else %>
+      <%= link_to "Add Timing", new_client_case_timing_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
+    <% end %>
+    <% if @case.origination.any? %>
+      <%= link_to "Show Origination", client_case_origination_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.origination.first.id) %> |
+    <% else %>
+      <%= link_to "Add Origination", new_client_case_origination_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
+    <% end %>
+    <% if @case.venue.any? %>
+      <%= link_to "Show Venue", client_case_venue_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.venue.first.id) %> |
+    <% else %>
+      <%= link_to "Add Venue", new_client_case_venue_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
+    <% end %>
+        <% if @case.check.any? %>
+      <%= link_to "Show Checks", client_case_check_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.check.first.id) %> |
+    <% else %>
+      <%= link_to "Add Checks", new_client_case_check_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
+    <% end %>
+  </h2>
 
