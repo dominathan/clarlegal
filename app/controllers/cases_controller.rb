@@ -14,11 +14,11 @@ class CasesController < ApplicationController
   end
 
   def create
-    current_client = Client.find(params[:client_id])
-    @case = current_client.cases.new(case_params)
+    @client = Client.find(params[:client_id])
+    @case = @client.cases.new(case_params)
     if @case.save
       flash[:success] = "Case added sucessfully"
-      redirect_to client_cases_path
+      redirect_to client_case_path(@client,@case)
     else
       render 'new'
     end

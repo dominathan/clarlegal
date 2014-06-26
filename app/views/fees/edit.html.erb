@@ -1,6 +1,8 @@
 <% provide(:title, 'Update Fee') %>
 <h1>Update Fee</h1>
 
+<%= render 'shared/subheader' %>
+
 <div class="row">
   <div class="span6 offset3">
     <%= form_for(@fee, url: {action: "update"}) do |f| %>

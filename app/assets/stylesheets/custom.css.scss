@@ -167,8 +167,15 @@ input {
   float: none;
   li {
     padding-left: 5px;
-    text-align: center;
   }
+}
+
+.dropdown-menu li:hover .sub-menu {
+    visibility: visible;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
 }
 
 
