@@ -2,7 +2,7 @@
 
 <%= render 'shared/subheader' %>
 
-<h1>Case Information</h1>
+<h1>Case for <%="#{@client.client_name}"%></h1>
 <div class='case-matters'>
   <h2>Description: <%= @case.description %> </h2>
   <h2>Matter References: <%= @case.matter_reference %> </h2>
