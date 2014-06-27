@@ -1,8 +1,10 @@
 <% provide(:title, 'Profile') %>
 <h1>Account Info</h1>
+<h2>Name: <%= @user.name %> <br>
+  Email: <%= @user.email %></h2>
 <h2>
-  Name: <%= @user.name %><br>
-  Email: <%= @user.email %><br>
-  Firm: <%= @user.lawfirm.firm_name %><br>
+  <% if @user.lawfirm %>
+  Firm: <%= @user.lawfirm.firm_name %>
+  <% end %>
 </h2>
 
