@@ -1,0 +1,18 @@
+<% provide(:title, "Sign in") %>
+<h1>Join Law Group</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(:lawfirm, url: joinlawfirm_path) do |f| %>
+
+      <%= f.label "Law Group" %>
+      <%= f.select :firm_name, Lawfirm.all %>
+
+      <%= f.label "Password" %>
+      <%= f.password_field :password %>
+
+      <%= f.submit "Join Group", class: "btn btn-large btn-primary" %>
+    <% end %>
+
+  </div>
+</div>
