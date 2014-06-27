@@ -3,15 +3,16 @@ class LawfirmsController < ApplicationController
 
   def new
     @lawfirm = Lawfirm.new
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
   end
 
   def create #on creation, need to add lawfirm_id to the user index
     @lawfirm = Lawfirm.new(lawfirm_params)
     @user = User.find(params[:user_id])
     if @lawfirm.save
-      flash[:success] = "#{@lawfirm} created successfully"
-      @user.lawfirm_id = @lawfirm.id
+      flash[:success] = "#{@lawfirm.firm_name} created successfully"
+    end
+    if @user.update_attribute(:lawfirm_id, Lawfirm.find_by(firm_name: @lawfirm.firm_name).id)
       redirect_to clients_path
     else
       render 'new'

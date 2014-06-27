@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     if @user.save
       sign_in @user
       flash[:success] = "Welcome"
-      redirect_to @user
+      redirect_to new_user_lawfirm_path(@user)
     else
       render 'new'
     end
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+                                   :password_confirmation, :lawfirm_id)
     end
 
     # Before filters

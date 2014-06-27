@@ -1,9 +1,10 @@
 Claregal::Application.routes.draw do
 
   root 'home_pages#home'
-  resources :users
+  resources :users do
+    resources :lawfirms
+  end
   resources :sessions, only: [:new, :create, :destroy]
-  resources :lawfirms
 
   resources :clients do
     resources :cases do #nested routes so it has to be clients/3/cases/4
