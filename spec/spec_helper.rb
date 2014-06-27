@@ -46,7 +46,7 @@ RSpec.configure do |config|
 
   #added it because it was causing failing tests
   def full_title(page_title)
-    base_title = "Claregal"
+    base_title = "ClarLegal"
     if page_title.empty?
       base_title
     else
