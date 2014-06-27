@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140625185812) do
+ActiveRecord::Schema.define(version: 20140627195423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,23 @@ ActiveRecord::Schema.define(version: 20140625185812) do
 
   add_index "fees", ["case_id"], name: "index_fees_on_case_id", using: :btree
 
+  create_table "key_dates", force: true do |t|
+    t.integer  "case_id"
+    t.string   "event_name"
+    t.date     "event_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "key_dates", ["case_id"], name: "index_key_dates_on_case_id", using: :btree
+
+  create_table "lawfirms", force: true do |t|
+    t.string   "firm_name"
+    t.string   "password_digest"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "originations", force: true do |t|
     t.string   "referral_source"
     t.string   "existing_client"
@@ -101,7 +118,6 @@ ActiveRecord::Schema.define(version: 20140625185812) do
     t.integer  "case_id"
     t.date     "date_opened"
     t.date     "estimated_conclusion_date"
-    t.date     "key_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

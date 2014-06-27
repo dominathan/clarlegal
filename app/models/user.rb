@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  belongs_to :lawfirm
   has_many :clients
   has_many :cases, through: :clients
 
