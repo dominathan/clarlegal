@@ -1,2 +1,21 @@
-<h1>Lawfirms#new</h1>
-<p>Find me in app/views/lawfirms/new.html.erb</p>
+<% provide(:title, 'Add Lawfirm') %>
+<h1>Add Lawfirm</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@lawfirm) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label "Law Firm Name:" %>
+      <%= f.text_field :firm_name %>
+
+      <%= f.label "Password:" %>
+      <%= f.password_field :password, :placeholder => "Be sure to write this down for other firm members." %>
+
+      <%= f.label "Password Confirmation" %>
+      <%= f.password_field :password_confirmation, :placeholder => "And keep separate form your user password." %>
+
+      <%= f.submit "Create Firm", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>
