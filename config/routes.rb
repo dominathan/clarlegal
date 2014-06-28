@@ -5,6 +5,7 @@ Claregal::Application.routes.draw do
   resources :users do
     resources :lawfirms do
       resources :practicegroups
+      resources :staffings
     end
   end
 
