@@ -16,7 +16,7 @@
       <%= f.label 'Practice Group:' %>
       <%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %>
 
-      <h2>Note: You made need to <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %> if you have not already. </h2>
+      <h2>Note:  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %> if it is missing. </h2>
       <!-- do not select all practice groups...only practice groups that belong to user's lawfirm -->
 
       <%= f.submit "Create Case", class: "btn btn-large btn-primary" %>
