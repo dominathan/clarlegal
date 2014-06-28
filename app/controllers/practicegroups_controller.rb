@@ -3,11 +3,10 @@ class PracticegroupsController < ApplicationController
 
   def new
     @prac_group = Practicegroup.new
-    @lawfirm = Lawfirm.find(params[:id])
+    @lawfirm = Lawfirm.find(params[:lawfirm_id])
   end
 
   def index
-    @user = User.find(params[:user_id])
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
     @prac_group = Practicegroup.all
   end
@@ -18,7 +17,7 @@ class PracticegroupsController < ApplicationController
     @prac_group = @lawfirm.practicegroups.new(practicegroup_params)
     if @prac_group.save
       flash[:success] = "Practice Group Added Succesfully."
-      redirect_to user_lawfirm_path(@user,@lawfirm)
+      redirect_to user_lawfirm_practicegroups_path(@user,@lawfirm)
     else
       render 'new'
     end
