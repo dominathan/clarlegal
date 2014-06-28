@@ -1,0 +1,23 @@
+<% provide(:title, "Edit Staff") %>
+
+<h1>Edit Staff for <%= "#{@lawfirm.firm_name}" %> </h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@staff, url: {action: "update"}) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label "First Name:" %>
+      <%= f.text_field :first_name %>
+
+      <%= f.label "Last Name:" %>
+      <%= f.text_field :last_name %>
+
+      <%= f.label "Position:" %>
+      <%= f.text_field :position %>
+
+       <%= f.submit "Update Staff", class: "btn btn-large btn-primary" %>
+
+    <% end %>
+  </div>
+</div>

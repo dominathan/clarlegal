@@ -6,8 +6,11 @@
   <% @prac_group.each do |group| %>
    <tr>
     <td><%= group.group_name %> <%= link_to "Edit", edit_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => group.id) %> </td>   </tr> <br>
- <% end %>
- <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %>
+<% end %>
+<br>
+<div class='center'>
+  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %>
+</div>
 <% else %>
  <tr>
    <td>You must</td>
