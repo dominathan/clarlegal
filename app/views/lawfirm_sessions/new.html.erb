@@ -3,10 +3,10 @@
 
 <div class="row">
   <div class="span6 offset3">
-    <%= form_for(:lawfirm, url: joinlawfirm_path) do |f| %>
+    <%= form_for(:lawfirm, url: joinlawfirm_commit_path) do |f| %>
 
       <%= f.label "Law Group" %>
-      <%= f.select :firm_name, Lawfirm.all %>
+      <%= f.text_field :firm_name %>
 
       <%= f.label "Password" %>
       <%= f.password_field :password %>

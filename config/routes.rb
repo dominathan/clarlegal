@@ -1,14 +1,16 @@
 Claregal::Application.routes.draw do
 
   root 'home_pages#home'
+
   resources :users do
     resources :lawfirms
   end
 
-  resources :sessions, only: [:new, :create, :destroy]
+  resources :sessions,         only: [:new, :create, :destroy]
+  #resources :lawfirm_sessions, only: [:new, :create]
 
   resources :clients do
-    resources :cases do #nested routes so it has to be clients/3/cases/4
+    resources :cases do #nested routes so it has to be clients/3/cases/4....etc for parameters
       resources :staffs
       resources :fees
       resources :timings
@@ -23,7 +25,11 @@ Claregal::Application.routes.draw do
   match '/signup', to: 'users#new', via: 'get'
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
-  match '/joinlawfirm', to: 'lawfirm_sessions#new', via: 'get'
+  match '/joinlawfirm', to: 'lawfirm_sessions#new', via: 'get'   #route for joinin lawfirm
+  match '/joinlawfirm/commit', to: 'lawfirm_sessions#create', via: 'post'
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
