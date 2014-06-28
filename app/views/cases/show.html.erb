@@ -4,7 +4,9 @@
 
 <h1>Case for <%="#{@client.client_name}"%></h1>
 <div class='case-matters'>
-  <h2>Description: <%= @case.description %> </h2>
-  <h2>Matter References: <%= @case.matter_reference %> </h2>
-  <h2>Practice Group: <%= @case.practice_group %> </h2>
+<h2>Description: <%= @case.description %> </h2>
+<h2>Matter References: <%= @case.matter_reference %> </h2>
+<h2>Practice Group: <%= @case.practice_group %> </h2>
+
+<h2><%= link_to "Update Case Matter", edit_client_case_path(@client,@case) %></h2>
 

@@ -25,11 +25,11 @@ class CasesController < ApplicationController
   end
 
   def update
-    current_client = Client.find(params[:client_id])
-    client_case = current_client.cases.find(params[:id])
-    if client_case.update_attributes(case_params)
+    @client = Client.find(params[:client_id])
+    @case = @client.cases.find(params[:id])
+    if @case.update_attributes(case_params)
       flash[:success] = "Updated case matter information"
-      redirect_to client_cases_path
+      redirect_to client_case_path(@client,@case)
     else
       render 'edit'
     end
