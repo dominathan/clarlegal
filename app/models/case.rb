@@ -1,4 +1,5 @@
 class Case < ActiveRecord::Base
+
   belongs_to :client
   belongs_to :user
   has_many :fee
@@ -11,6 +12,7 @@ class Case < ActiveRecord::Base
   validates :client_id, presence: true
 
   MATTER_REFERENCES = ['Medical Malpractice', 'Insurance Fraud', 'Automotive', "Worker's Compensation"]
-  PRACTICE_GROUP = ['Medical', 'Consumer', 'Automotive', 'Other']
+
+
 
 end

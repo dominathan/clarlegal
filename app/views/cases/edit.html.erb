@@ -16,7 +16,8 @@
       <%= f.text_area :description %>
 
       <%= f.label 'Practice Group:' %>
-      <%= f.select :practice_group, Case::PRACTICE_GROUP %>
+      <%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %>
+      <!-- do not select all practice groups...only practice groups that belong to user's lawfirm -->
 
       <%= f.submit "Update Case", class: "btn btn-large btn-primary" %>
     <% end %>
