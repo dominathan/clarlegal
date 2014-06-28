@@ -3,9 +3,9 @@
 <h1>Practice Groups for <%= "#{@lawfirm.firm_name}" %></h1>
 
 <% if current_user.lawfirm.practicegroups.present? %>
-  <% @prac_group.each do |firm| %>
+  <% @prac_group.each do |group| %>
    <tr>
-    <td><%= firm.group_name %></td>   </tr> <br>
+    <td><%= group.group_name %> <%= link_to "Edit", edit_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => group.id) %> </td>   </tr> <br>
  <% end %>
 <% else %>
  <tr>
