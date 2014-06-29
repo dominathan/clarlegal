@@ -6,6 +6,14 @@ class ApplicationController < ActionController::Base
 
   private
 
+    def belongs_to_firm
+      unless current_user.lawfirm
+        redirect_to new_user_lawfirm_path(current_user.id),
+                              notice: "You must join or create your law firm."
+      end
+    end
+
+
     def signed_in_user
       unless signed_in?
         store_location

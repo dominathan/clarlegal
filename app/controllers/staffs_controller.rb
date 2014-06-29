@@ -2,6 +2,7 @@ class StaffsController < ApplicationController
   before_action :signed_in_user
 
   def new
+    @lawfirm = current_user.lawfirm
     @staff = Staff.new
     @case = Case.find(params[:case_id])
     @client = Client.find(params[:client_id])
@@ -21,12 +22,14 @@ class StaffsController < ApplicationController
   end
 
   def show
+    @lawfirm = current_user.lawfirm
     @staff = Staff.find(params[:id])
     @case = Case.find(params[:case_id])
     @client = Client.find(params[:client_id])
   end
 
   def edit
+    @lawfirm = current_user.lawfirm
     @staff = Staff.find(params[:id])
     @case = Case.find(params[:case_id])
     @client = Client.find(params[:client_id])

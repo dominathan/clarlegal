@@ -1,5 +1,6 @@
 class CasesController < ApplicationController
   before_action :signed_in_user
+  before_action :belongs_to_firm
 
   def new
     @case = Case.new
