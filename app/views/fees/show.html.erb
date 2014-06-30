@@ -3,13 +3,32 @@
 <%= render 'shared/subheader' %>
 
 <h1>Case Fee</h1>
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th>Fee Type</th>
+      <th>High Estimate</th>
+      <th>Medium Estimate</th>
+      <th>Low Estimate</th>
+      <th>Likelihood of Fee Payment</th>
+      <th>Retainer</th>
+      <th>Estimated Costs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @fee.fee_type %></td>
+      <td><%= @fee.high_estimate %></td>
+      <td><%= @fee.medium_estimate %></td>
+      <td><%= @fee.low_estimate %></td>
+      <td><%= @fee.payment_likelihood %></td>
+      <td><%= @fee.retainer %></td>
+      <td><%= @fee.cost_estimate %></td>
+    </tr>
+  </tbody>
+</table>
 
-<h2><%= "Fee Type: #{@fee.fee_type}"%></h2>
-<h2><%= "High Estimate: #{@fee.high_estimate}"%></h2>
-<h2><%= "Medium Estimate: #{@fee.medium_estimate}"%></h2>
-<h2><%= "Low Estimate: #{@fee.low_estimate}"%></h2>
-<h2><%= "Likelihood of Fee Payment: #{@fee.payment_likelihood}"%></h2>
-<h2><%= "Retainer: #{@fee.retainer}"%></h2>
-<h2><%= "Estimated Costs: #{@fee.cost_estimate}"%></h2>
+<br>
+<br>
 
 <h2> <%= link_to "Edit Fee", edit_client_case_fee_path(@client, @case, @fee) %> </h2>

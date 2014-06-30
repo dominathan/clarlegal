@@ -1,13 +1,32 @@
 <% provide(:title, @client.client_name) %>
 
 <h1>Client Information</h1>
-<h2> Client Name: <%= @client.client_name %></h2>
-<h2> Client Email: <%= @client.client_email %></h2>
-<h2> Client Address: <%= @client.client_street_address %>
-                      <%= @client.client_city_address %> | <%= @client.client_state_address.upcase %> | <%= @client.client_zip_code %>
-</h2>
-<h2> Client Phone Number: <%= @client.client_phone_number %></h2>
-<h2> Client Fax Number: <%= @client.client_fax_number %></h2>
 
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>View Cases</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @client.client_name %></td>
+      <td><%= link_to "#{@client.client_name} Cases", client_cases_path(@client) %></td>
+      <td><%= @client.client_email %></td>
+      <td><%= @client.client_phone_number %></td>
+      <td><%= @client.client_street_address %><br>
+          <%= @client.client_city_address%>, <%=@client.client_state_address%>, <%=@client.client_zip_code %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+
+<h2><%= link_to "Update Client Information", edit_client_path(@client) %></h2>
 
 

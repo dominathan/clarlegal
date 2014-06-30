@@ -3,10 +3,24 @@
 <%= render 'shared/subheader' %>
 
 <h1>Case Origination</h1>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Referral Source</th>
+      <th>Exisiting Client</th>
+      <th>Other Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%=@origination.referral_source%></td>
+      <td><%=@origination.existing_client%></td>
+      <td><%=@origination.other_source%></td>
+    </tr>
+  </tbody>
+</table>
 
-
-<h2>Referral Source: <%=@origination.referral_source%></h2>
-<h2>Existing Client: <%=@origination.existing_client%></h2>
-<h2>Other Source: <%=@origination.other_source%></h2>
+<br>
+<br>
 
 <h2><%= link_to "Update Case Origination", edit_client_case_origination_path(@client,@case,@origination) %></h2>

@@ -1,18 +1,34 @@
 <% provide(:title, 'Cases') %>
-<h1>Client Cases</h1>
+<h1><%= "#{@client.client_name} Cases" %></h1>
 
 
+<table class="table table-hover"
+  <thead>
+    <tr>
+      <th>Matter Reference</th>
+      <th>Description</th>
+      <th>Practice Group</th>
+      <th>More Information</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @case %> <!-- does the client have cases?  If show then show them-->
+      <% @case.each do |one_case| %>
+       <tr>
+        <td><%= one_case.matter_reference %></td>
+        <td><%= one_case.description %> </td>
+        <td><%= one_case.practice_group %> </td>
+        <td><%= link_to "More Information", client_case_path(:client_id => @client.id, :id => one_case.id) %> </td>
+      <% end %>
+    <% else %>
+     <tr>
+       <td>You Must</td>
+       <td><%= link_to 'Add a Case', new_client_case_path(@client) %></td>
+     </tr>
+    <% end %>
+  </tbody>
+</table>
 
-<% if @case %> <!-- does the client have cases?  If show then show them-->
-  <% @case.each do |one_case| %>
-   <tr>
-    <td><%= link_to "#{one_case.description}", client_case_path(:client_id => @client.id, :id => one_case.id) %> | </td>
-    <td>Matter References: <%= one_case.matter_reference %> | </td>
-    <td>Practice Group: <%= one_case.practice_group %> | </td><br>
-  <% end %>
-<% else %>
- <tr>
-   <td>You must</td>
-   <td><%= link_to 'Add a case', new_client_case_path(@client) %></td>
- </tr>
-<% end %>
+<div class='center'>
+  <%= link_to 'Add a Case', new_client_case_path(@client) %>
+</div>

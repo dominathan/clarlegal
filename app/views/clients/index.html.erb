@@ -2,19 +2,34 @@
 
 <h1>Client List</h1>
 
-<% if current_user.clients.present? %>
-  <% current_user.clients.each do |client| %>
-   <tr>
-    <td><%= client.client_name %></td>
-    <td><%= link_to 'Show Client', client_path(client) %> | </td>
-    <td><%= link_to 'Edit Client', edit_client_path(client) %> | </td>
-    <td><%= link_to 'Add Case', new_client_case_path(client) %> | </td>
-    <td><%= link_to 'Show Cases', client_cases_path(client) %></td><br>
-   </tr>
- <% end %>
-<% else %>
- <tr>
-   <td>You must</td>
-   <td><%= link_to 'Add a Client', new_client_path %></td>
- </tr>
-<% end %>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Cases</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if current_user.clients.present? %>
+      <% current_user.clients.each do |client| %>
+        <tr>
+          <td><%= link_to client.client_name, client_path(client) %></td>
+          <td><%= link_to "Cases for #{client.client_name}", client_cases_path(client) %></td>
+          <td><%= client.client_email %></td>
+          <td><%= client.client_phone_number %></td>
+          <td><%= client.client_street_address %><br>
+              <%= client.client_city_address%>, <%=client.client_state_address%>, <%=client.client_zip_code %>
+          </td>
+        </tr>
+      <% end %>
+      <% else %>
+       <tr>
+         <td>You Must <%= link_to 'Add a Client', new_client_path %></td>
+       </tr>
+    <% end %>
+  </tbody>
+</table>
+

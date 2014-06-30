@@ -4,9 +4,28 @@
 
 <h1>Case Staff</h1>
 
-<h2> Responsible Attorney: <%= @staff.responsible_attorney %></h2>
-<h2> Assigned Attorney 1: <%= @staff.assigned_attorney_1 %></h2>
-<h2> Assigned Attorney 2: <%= @staff.assigned_attorney_2 %></h2>
-<h2> Assigned Staff 1: <%= @staff.assigned_staff_1 %></h2>
-<h2> Assigned Staff 2: <%= @staff.assigned_staff_2 %></h2>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Responsible Attorney</th>
+      <th>Assigned Attorney 1</th>
+      <th>Assigned Attorney 2</th>
+      <th>Assigned Staff 1</th>
+      <th>Assigned Staff 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @staff.responsible_attorney %></td>
+      <td><%= @staff.assigned_attorney_1 %></td>
+      <td><%= @staff.assigned_attorney_2 %></td>
+      <td><%= @staff.assigned_staff_1 %></td>
+      <td><%= @staff.assigned_staff_2 %></td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<br>
+
 <h2> <%= link_to "Edit Staff", edit_client_case_staff_path(@client, @case, @staff) %></h2>

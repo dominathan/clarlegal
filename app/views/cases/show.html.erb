@@ -3,10 +3,23 @@
 <%= render 'shared/subheader' %>
 
 <h1>Case for <%="#{@client.client_name}"%></h1>
-<div class='case-matters'>
-<h2>Description: <%= @case.description %> </h2>
-<h2>Matter References: <%= @case.matter_reference %> </h2>
-<h2>Practice Group: <%= @case.practice_group %> </h2>
-
+<div class = 'center'>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Matter Reference</th>
+        <th>Practice Group</th>
+      </tr>
+    </thead>
+    <tbody>
+      <td><%= @case.description %></td>
+      <td><%= @case.matter_reference %></td>
+      <td><%= @case.practice_group %></td>
+    </tbody>
+  </table>
+</div>
+<br>
+<br>
 <h2><%= link_to "Update Case Matter", edit_client_case_path(@client,@case) %></h2>
-
+</table>

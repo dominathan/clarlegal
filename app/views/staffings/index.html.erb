@@ -1,17 +1,31 @@
 <h1>Staff for <%= "#{@lawfirm.firm_name}" %></h1>
 
-<% if current_user.lawfirm.staffings.present? %>
-  <% @staffing.each do |staff| %>
-   <tr>
-    <td>First Name: <%= staff.first_name %> | Last Name: <%= staff.last_name %> | Position: <%= staff.position %> | <%= link_to "Edit", edit_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => staff.id) %> </td>   </tr> <br>
-<% end %>
-<br>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <td>Name</td>
+      <td>Position</td>
+      <td>Edit</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% if current_user.lawfirm.staffings.present? %>
+      <% @staffing.each do |staff| %>
+        <tr>
+          <td><%= staff.last_name %>, <%= staff.first_name %> </td>
+          <td><%= staff.position %></td>
+          <td><%= link_to "Edit", edit_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => staff.id) %></td>
+        </tr>
+      <% end %>
+    <% else %>
+       <tr>
+         <td>You Must<%= link_to 'Add Staff', new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %></td>
+       </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <div class='center'>
-  <%= link_to "Add Staff to #{@lawfirm.firm_name}", new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %>
+
+  <%= link_to 'Add Staff', new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %>
 </div>
-<% else %>
- <tr>
-   <td>You must</td>
-   <td><%= link_to 'Add Staff', new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %></td>
- </tr>
-<% end %>

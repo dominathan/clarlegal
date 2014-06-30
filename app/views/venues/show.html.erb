@@ -3,8 +3,20 @@
 <%= render 'shared/subheader' %>
 
 <h1>Case Venue</h1>
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th>Jursidiction</th>
+      <th>Judge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @venue.jurisdiction %></td>
+      <td><%= @venue.judge %></td>
+    </tr>
+  </tbody>
+</table>
 
-<h2>Jurisdiction: <%=@venue.jurisdiction%></h2>
-<h2>Judge: <%=@venue.judge%></h2>
 
 <h2><%= link_to "Update Case Venue", edit_client_case_venue_path(@client,@case,@venue) %></h2>

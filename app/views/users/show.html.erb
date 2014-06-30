@@ -1,10 +1,27 @@
 <% provide(:title, 'Profile') %>
 <h1>Account Info</h1>
-<h2>Name: <%= @user.name %> <br>
-  Email: <%= @user.email %></h2>
-<h2>
-  <% if @user.lawfirm %>
-  Firm: <%= @user.lawfirm.firm_name %>
-  <% end %>
-</h2>
 
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <% if @user.lawfirm %>
+        <th>Firm Name</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> <%= @user.name%></td>
+      <td> <%= @user.email%></td>
+      <% if @user.lawfirm %>
+        <td><%= @user.lawfirm.firm_name %></td>
+      <%end%>
+    </tr>
+  </tbody>
+</table>
+
+<div class='center'>
+  <%= link_to "Edit #{@user.name} Profile and Settings", edit_user_path(@user) %>
+</div>
