@@ -1,6 +1,6 @@
 class Client < ActiveRecord::Base
   belongs_to :user
-  belongs_to :lawfirm
+  belongs_to :lawfirm, :through => :users
   has_many :cases
 
   validates :user_id, presence: true
