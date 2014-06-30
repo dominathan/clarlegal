@@ -1,2 +1,35 @@
-<h1>Lawfirms#index</h1>
-<p>Find me in app/views/lawfirms/index.html.erb</p>
+<% provide(:title, 'Firm Clients') %>
+
+<h1><%= "Clients of #{@firm_name}" %></h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Cases</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if current_user.lawfirm.clients.present? %>
+      <% current_user.lawfirm.clients.each do |client| %>
+        <tr>
+          <td><%= link_to client.client_name, client_path(client) %></td>
+          <td><%= link_to "Cases for #{client.client_name}", client_cases_path(client) %></td>
+          <td><%= client.client_email %></td>
+          <td><%= client.client_phone_number %></td>
+          <td><%= client.client_street_address %><br>
+              <%= client.client_city_address%>, <%=client.client_state_address%>, <%=client.client_zip_code %>
+          </td>
+        </tr>
+      <% end %>
+      <% else %>
+       <tr>
+         <td>You Must <%= link_to 'Add a Client', new_client_path %></td>
+       </tr>
+    <% end %>
+  </tbody>
+</table>
+

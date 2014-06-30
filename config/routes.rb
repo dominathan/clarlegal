@@ -29,6 +29,7 @@ Claregal::Application.routes.draw do
   match '/signout', to: 'sessions#destroy',     via: 'delete'
   match '/joinlawfirm', to: 'lawfirm_sessions#new', via: 'get'   #route for joinin lawfirm
   match '/joinlawfirm/commit', to: 'lawfirm_sessions#create', via: 'post'
+  match '/lawfirm/cases', to: 'lawfirms#show_lawfirm_cases', via: 'get' #to show current_user.lawfirm.cases
 
 
 

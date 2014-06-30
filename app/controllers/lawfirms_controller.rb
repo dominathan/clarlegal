@@ -27,7 +27,13 @@ class LawfirmsController < ApplicationController
   end
 
   def index
-    @lawfirm = Lawfirm.all
+    @firm_name = current_user.lawfirm.firm_name
+    @lawfirm = current_user.lawfirm.clients
+  end
+
+  def show_lawfirm_cases
+    @firm_name = current_user.lawfirm.firm_name
+    @lawfirm = current_user.lawfirm.cases
   end
 
   private

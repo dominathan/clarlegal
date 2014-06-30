@@ -1,0 +1,24 @@
+<% provide(:title, 'Cases') %>
+
+<h1><%= "#{@firm_name} Case List" %></h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Matter Reference</th>
+      <th>Description</th>
+      <th>Practice Group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @lawfirm %> <!-- does the lawfirm have cases?  If show then show them-->
+      <% @lawfirm.each do |one_case| %>
+       <tr>
+        <td><%= one_case.matter_reference %></td>
+        <td><%= one_case.description %> </td>
+        <td><%= one_case.practice_group %> </td>
+      <% end %>
+    <% else %>
+    <% end %>
+  </tbody>
+</table>
