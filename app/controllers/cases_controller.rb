@@ -50,6 +50,10 @@ class CasesController < ApplicationController
   def destroy
   end
 
+  def user_cases
+    @case = current_user.cases
+  end
+
   private
 
     def case_params

@@ -30,7 +30,7 @@ Claregal::Application.routes.draw do
   match '/joinlawfirm', to: 'lawfirm_sessions#new', via: 'get'   #route for joinin lawfirm
   match '/joinlawfirm/commit', to: 'lawfirm_sessions#create', via: 'post'
   match '/lawfirm/cases', to: 'lawfirms#show_lawfirm_cases', via: 'get' #to show current_user.lawfirm.cases
-
+  match '/user/cases', to:  'cases#user_cases', via: 'get' #show all cases of current_user
 
 
   # The priority is based upon order of creation: first created -> highest priority.

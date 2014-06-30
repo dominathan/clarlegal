@@ -1,0 +1,26 @@
+<% provide(:title, 'All Cases') %>
+<h1><%= "#{@current_user.name}'s Cases" %></h1>
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Matter Reference</th>
+      <th>Description</th>
+      <th>Practice Group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @case %> <!-- does the client have cases?  If show then show them-->
+      <% @case.each do |one_case| %>
+       <tr>
+        <td><%= one_case.matter_reference %></td>
+        <td><%= one_case.description %> </td>
+        <td><%= one_case.practice_group %> </td>
+      <% end %>
+    <% else %>
+
+    <% end %>
+  </tbody>
+</table>
+
