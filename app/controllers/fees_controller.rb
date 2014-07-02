@@ -1,3 +1,8 @@
+#need to update controller action.  A FEE should only be "Updated", if
+# client mis-types the data on the inital request.  Otherwise, each "update"
+# should make a "new" data object with the same CaseID, but a "new" Fee ID.
+# These can be shown with timestamps for a graphical representation of the data.
+
 class FeesController < ApplicationController
   before_action :signed_in_user
 
