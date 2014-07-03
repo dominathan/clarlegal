@@ -1,5 +1,5 @@
 class Case < ActiveRecord::Base
-
+  belongs_to :lawfirm
   belongs_to :client
   belongs_to :user
   has_many :fee

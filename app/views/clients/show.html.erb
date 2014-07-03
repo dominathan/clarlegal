@@ -15,7 +15,11 @@
   <tbody>
     <tr>
       <td><%= @client.client_name %></td>
-      <td><%= link_to "#{@client.client_name} Cases", client_cases_path(@client) %></td>
+      <% if current_user.clients.where(id: params[:id]) != [] %>
+        <td><%= link_to "Cases for #{@client.client_name}", client_cases_path(@client) %></td>
+      <% else %>
+        <td>You Must Be the Client Owner to Access Cases</td>
+      <% end %>
       <td><%= @client.client_email %></td>
       <td><%= @client.client_phone_number %></td>
       <td><%= @client.client_street_address %><br>
