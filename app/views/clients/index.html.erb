@@ -17,11 +17,7 @@
       <% current_user.clients.each do |client| %>
         <tr>
           <td><%= link_to client.client_name, client_path(client) %></td>
-          <% if current_user.client %>
-            <td><%= link_to "Cases for #{client.client_name}", client_cases_path(client) %></td>
-          <% else %>
-            <td>You Must Be the Client Owner to Access the Cases.</td>
-          <% end %>
+          <td><%= link_to "Cases for #{client.client_name}", client_cases_path(client) %></td>
           <td><%= client.client_email %></td>
           <td><%= client.client_phone_number %></td>
           <td><%= client.client_street_address %><br>
