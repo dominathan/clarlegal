@@ -21,6 +21,7 @@
                   <li><%= link_to "Cases", lawfirm_cases_path %></li>
                   <li><%= link_to "Staff", user_lawfirm_staffings_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %></li>
                   <li><%= link_to "Practice Groups", user_lawfirm_practicegroups_path(:user_id =>current_user.id,:lawfirm_id => current_user.lawfirm.id) %></li>
+                  <li><%= link_to "Matter References", user_lawfirm_case_types_path(:user_id =>current_user.id,:lawfirm_id => current_user.lawfirm.id) %></li>
                 </ul>
               </li>
             <% else %>

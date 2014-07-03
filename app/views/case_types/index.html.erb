@@ -1,0 +1,26 @@
+<% provide(:title, 'Matter References') %>
+<h1> Matter References</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Matter References</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @case_type %> <!-- does the client have cases?  If show then show them-->
+      <% @case_type.each do |matter_reference| %>
+       <tr>
+        <td><%= matter_reference.mat_ref %></td>
+      <% end %>
+    <% else %>
+     <tr>
+       <td>You Must <%= link_to 'Add Matter Reference', new_user_lawfirm_case_type_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %></td>
+     </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class='center'>
+  <%= link_to 'Add Matter Reference', new_user_lawfirm_case_type_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %>
+</div>

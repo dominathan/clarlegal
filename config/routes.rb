@@ -6,6 +6,7 @@ Claregal::Application.routes.draw do
     resources :lawfirms do
       resources :practicegroups
       resources :staffings
+      resources :case_types
     end
   end
 

@@ -4,6 +4,7 @@ class Lawfirm < ActiveRecord::Base
   has_many :staffings
   has_many :clients, through: :users
   has_many :cases, through: :clients
+  has_many :case_types
 
   validates :firm_name, presence: true, uniqueness: { case_sensitive: false }
   has_secure_password
