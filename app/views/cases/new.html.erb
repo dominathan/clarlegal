@@ -7,6 +7,9 @@
     <%= form_for @case, url: {action: "create"} do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
+      <%= f.label 'Case Name:' %>
+      <%= f.text_field :name %>
+
       <%= f.label 'Matter Reference:' %>
       <%= f.select :matter_reference, Case::MATTER_REFERENCES %>
 

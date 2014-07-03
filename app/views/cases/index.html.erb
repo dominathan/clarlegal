@@ -5,6 +5,7 @@
 <table class="table table-hover">
   <thead>
     <tr>
+      <th>Case Name</th>
       <th>Matter Reference</th>
       <th>Description</th>
       <th>Practice Group</th>
@@ -15,6 +16,7 @@
     <% if @case %> <!-- does the client have cases?  If show then show them-->
       <% @case.each do |one_case| %>
        <tr>
+        <td><%= one_case.name %></td>
         <td><%= one_case.matter_reference %></td>
         <td><%= one_case.description %> </td>
         <td><%= one_case.practice_group %> </td>
