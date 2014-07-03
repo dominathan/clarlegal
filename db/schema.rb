@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703195757) do
+ActiveRecord::Schema.define(version: 20140703212504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "case_types", force: true do |t|
+    t.integer  "lawfirm_id"
+    t.string   "mat_ref"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "case_types", ["lawfirm_id"], name: "index_case_types_on_lawfirm_id", using: :btree
 
   create_table "cases", force: true do |t|
     t.string   "matter_reference"
