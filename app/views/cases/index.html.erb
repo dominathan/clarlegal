@@ -23,10 +23,6 @@
         <td><%= link_to "More Information", client_case_path(:client_id => @client.id, :id => one_case.id) %> </td>
       <% end %>
     <% else %>
-     <tr>
-       <td>You Must</td>
-       <td><%= link_to 'Add a Case', new_client_case_path(@client) %></td>
-     </tr>
     <% end %>
   </tbody>
 </table>

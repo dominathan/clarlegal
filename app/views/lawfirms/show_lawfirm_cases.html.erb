@@ -5,18 +5,22 @@
 <table class="table table-hover">
   <thead>
     <tr>
+      <th>Case Name</th>
       <th>Matter Reference</th>
       <th>Description</th>
       <th>Practice Group</th>
+      <th>Client Name</th>
     </tr>
   </thead>
   <tbody>
     <% if @lawfirm %> <!-- does the lawfirm have cases?  If show then show them-->
       <% @lawfirm.each do |one_case| %>
        <tr>
+        <td><%= one_case.name %></td>
         <td><%= one_case.matter_reference %></td>
         <td><%= one_case.description %> </td>
         <td><%= one_case.practice_group %> </td>
+        <td><%= one_case.client.client_name %> </td>
       <% end %>
     <% else %>
     <% end %>

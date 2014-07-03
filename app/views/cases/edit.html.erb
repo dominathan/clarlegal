@@ -13,14 +13,17 @@
       <%= f.text_field :name %>
 
       <%= f.label 'Matter Reference:' %>
-      <%= f.select :matter_reference, Case::MATTER_REFERENCES %>
+      <%= f.collection_select(:matter_reference, current_user.lawfirm.case_types, :mat_ref, :mat_ref) %>
 
-      <%= f.label :description %>
+      <%= f.label 'Description:' %>
       <%= f.text_area :description %>
 
       <%= f.label 'Practice Group:' %>
       <%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %>
-      <h2>Note: <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %> if it is missing. </h2>
+      <h2>
+        Note:  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %> or <%= link_to "Add Matter Reference", new_user_lawfirm_case_type_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %> if missing.
+      </h2>
+
       <!-- do not select all practice groups...only practice groups that belong to user's lawfirm -->
 
       <%= f.submit "Update Case", class: "btn btn-large btn-primary" %>
