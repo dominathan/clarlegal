@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703222728) do
+ActiveRecord::Schema.define(version: 20140703232730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,13 +133,10 @@ ActiveRecord::Schema.define(version: 20140703222728) do
 
   create_table "staffs", force: true do |t|
     t.integer  "case_id"
-    t.string   "responsible_attorney"
-    t.string   "assigned_attorney_1"
-    t.string   "assigned_attorney_2"
-    t.string   "assigned_staff_1"
-    t.string   "assigned_staff_2"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
+    t.string   "position"
   end
 
   add_index "staffs", ["case_id"], name: "index_staffs_on_case_id", using: :btree
