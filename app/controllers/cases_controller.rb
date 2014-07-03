@@ -57,7 +57,7 @@ class CasesController < ApplicationController
   private
 
     def case_params
-        params.require(:case).permit(:matter_reference, :description, :practice_group)
+        params.require(:case).permit(:matter_reference, :description, :practice_group, :name)
     end
 
 end
