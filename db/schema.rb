@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703212504) do
+ActiveRecord::Schema.define(version: 20140703222728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,6 +168,18 @@ ActiveRecord::Schema.define(version: 20140703212504) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["lawfirm_id"], name: "index_users_on_lawfirm_id", using: :btree
   add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
+
+  create_table "utilizations", force: true do |t|
+    t.integer  "case_id"
+    t.integer  "staffing_id"
+    t.integer  "percent"
+    t.integer  "hours_expected"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "utilizations", ["case_id"], name: "index_utilizations_on_case_id", using: :btree
+  add_index "utilizations", ["staffing_id"], name: "index_utilizations_on_staffing_id", using: :btree
 
   create_table "venues", force: true do |t|
     t.string   "jurisdiction"
