@@ -1,6 +1,13 @@
 class StaffsController < ApplicationController
   before_action :signed_in_user
 
+  def index
+    @client = Client.find(params[:client_id])
+    @case = Case.find(params[:case_id])
+    @staff = @case.staff
+  end
+
+
   def new
     @lawfirm = current_user.lawfirm
     @staff = Staff.new
@@ -50,8 +57,7 @@ class StaffsController < ApplicationController
   private
 
     def staff_params
-      params.require(:staff).permit(:responsible_attorney, :assigned_attorney_1, :assigned_attorney_2,
-                                    :assigned_staff_1, :assigned_staff_2)
+      params.require(:staff).permit(:name, :position)
     end
 
 end

@@ -47,7 +47,7 @@
                         <ul class="dropdown-menu">
                            <% if @case.staff.any?  %>
                               <li>
-                                 <%= link_to "Show Staff", client_case_staff_path(@client,@case,@case.staff.first.id) %>
+                                 <%= link_to "Show Staff", client_case_staffs_path(@client,@case) %>
                               </li>
                               <li>
                                  <%= link_to "Update Staff", edit_client_case_staff_path(@client,@case,@case.staff.first.id) %>
