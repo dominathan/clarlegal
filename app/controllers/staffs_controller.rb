@@ -20,6 +20,7 @@ class StaffsController < ApplicationController
     @case = Case.find(params[:case_id])
     @staff = @case.staff.new(staff_params)
     @staff.staffing_id = Staffing.find_by(:last_name => staff_params[:name]).id
+    #this will cause problems when multiple last names enter the picture
     if @staff.save
       flash[:success] = "Staff added sucessfully"
       #where should we go from here?
