@@ -1,7 +1,7 @@
 class Staff < ActiveRecord::Base
   belongs_to :case
-  has_many :utilizations
-  accepts_nested_attributes_for :utilizations
+  belongs_to :staffing
 
   validates :case_id, presence: true
+  validates :staffing_id, presence: true
 end

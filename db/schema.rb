@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707191411) do
+ActiveRecord::Schema.define(version: 20140707193817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,9 +139,11 @@ ActiveRecord::Schema.define(version: 20140707191411) do
     t.string   "position"
     t.integer  "percent_utilization"
     t.integer  "hours_expected"
+    t.integer  "staffing_id"
   end
 
   add_index "staffs", ["case_id"], name: "index_staffs_on_case_id", using: :btree
+  add_index "staffs", ["staffing_id"], name: "index_staffs_on_staffing_id", using: :btree
 
   create_table "timings", force: true do |t|
     t.integer  "case_id"
