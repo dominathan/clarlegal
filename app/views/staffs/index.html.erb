@@ -9,6 +9,8 @@
     <tr>
       <th>Name</th>
       <th>Position</th>
+      <th>Expected Utilization %</th>
+      <th>Expected Total Hours</th>
     </tr>
   </thead>
   <tbody>
@@ -17,8 +19,13 @@
         <tr>
           <td><%= staf.name %></td>
           <td><%= staf.position %></td>
+          <td></td>
+          <td></td>
+        <% end %>
+        <!-- utilization is a separate controlller and needs to be outside the @staff form -->
+
         </tr>
-      <% end %>
+
         <% else %>
         <td>You must <%= link_to "Add Staff", new_client_case_staff_path(@client,@case) %></td>
     <% end %>
