@@ -13,10 +13,6 @@
        <tr>
         <td><%= matter_reference.mat_ref %></td>
       <% end %>
-    <% else %>
-     <tr>
-       <td>You Must <%= link_to 'Add Matter Reference', new_user_lawfirm_case_type_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %></td>
-     </tr>
     <% end %>
   </tbody>
 </table>

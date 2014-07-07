@@ -17,10 +17,6 @@
           <td><%= link_to "Edit", edit_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => staff.id) %></td>
         </tr>
       <% end %>
-    <% else %>
-       <tr>
-         <td>You Must<%= link_to 'Add Staff', new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %></td>
-       </tr>
     <% end %>
   </tbody>
 </table>
