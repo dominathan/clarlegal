@@ -9,6 +9,8 @@
     <tr>
       <th>Name</th>
       <th>Position</th>
+      <th>Expected Utilization %</th>
+      <th>Expected Total Hours</th>
     </tr>
   </thead>
   <tbody>
@@ -17,9 +19,11 @@
         <tr>
           <td><%= staf.name %></td>
           <td><%= staf.position %></td>
+          <td><%= staf.percent_utilization %></td>
+          <td><%= staf.hours_expected %></td>
         </tr>
       <% end %>
-        <% else %>
+    <% else %>
         <td>You must <%= link_to "Add Staff", new_client_case_staff_path(@client,@case) %></td>
     <% end %>
   </tbody>

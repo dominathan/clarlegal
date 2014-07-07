@@ -10,15 +10,16 @@ class StaffsController < ApplicationController
 
   def new
     @lawfirm = current_user.lawfirm
-    @staff = Staff.new
     @case = Case.find(params[:case_id])
     @client = Client.find(params[:client_id])
+    @staff = Staff.new
   end
 
   def create
     @client = Client.find(params[:client_id])
     @case = Case.find(params[:case_id])
     @staff = @case.staff.new(staff_params)
+    @staff.staffing_id = Staffing.find_by(:last_name => staff_params[:name]).id
     if @staff.save
       flash[:success] = "Staff added sucessfully"
       #where should we go from here?
@@ -57,7 +58,7 @@ class StaffsController < ApplicationController
   private
 
     def staff_params
-      params.require(:staff).permit(:name, :position)
+      params.require(:staff).permit(:name, :position, :percent_utilization, :hours_expected)
     end
 
 end

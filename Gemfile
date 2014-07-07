@@ -21,6 +21,7 @@ gem 'figaro'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
+  gem 'railroady'
 end
 
 group :test do

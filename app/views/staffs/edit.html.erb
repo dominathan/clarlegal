@@ -15,6 +15,12 @@
       <%= f.label "Position:" %>
       <%=f.collection_select(:position, current_user.lawfirm.staffings, :position, :position,:include_blank => "Select") %>
 
+      <%= f.label "Expected Utilization Percentage:" %>
+      <%=f.text_field :percent_utilization %>
+
+      <%= f.label "Expected Total Hours:" %>
+      <%=f.text_field :hours_expected %>
+
 
       <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
 
