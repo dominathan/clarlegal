@@ -8,7 +8,6 @@ class Case < ActiveRecord::Base
   has_many :origination
   has_many :venue
   has_many :check
-  has_many :utilization
 
   validates :client_id, presence: true
 
