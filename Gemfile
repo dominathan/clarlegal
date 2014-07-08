@@ -18,6 +18,7 @@ end
 #==EVERYTHING ELSE IS ADDED==#
 
 gem 'figaro'
+gem 'faker', '1.1.2'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
