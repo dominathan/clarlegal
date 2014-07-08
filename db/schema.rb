@@ -83,16 +83,6 @@ ActiveRecord::Schema.define(version: 20140707193817) do
 
   add_index "fees", ["case_id"], name: "index_fees_on_case_id", using: :btree
 
-  create_table "key_dates", force: true do |t|
-    t.integer  "case_id"
-    t.string   "event_name"
-    t.date     "event_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "key_dates", ["case_id"], name: "index_key_dates_on_case_id", using: :btree
-
   create_table "lawfirms", force: true do |t|
     t.string   "firm_name"
     t.string   "password_digest"
@@ -149,6 +139,7 @@ ActiveRecord::Schema.define(version: 20140707193817) do
     t.integer  "case_id"
     t.date     "date_opened"
     t.date     "estimated_conclusion_date"
+    t.date     "key_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
