@@ -7,7 +7,17 @@ namespace :db do
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    5.times do |n|
+    User.create!(name: "Cathy",
+                 email: "cathy@test.com",
+                 password: "password",
+                 password_confirmation: "password",
+                 lawfirm_id: 1)
+    User.create!(name: "Alice",
+                 email: "alice@test.com",
+                 password: "password",
+                 password_confirmation: "password",
+                 lawfirm_id: 1)
+    3.times do |n|
       name  = Faker::Name.name
       email = Faker::Internet.email
       password  = "password"
@@ -15,7 +25,7 @@ namespace :db do
                    email: email,
                    password: password,
                    password_confirmation: password,
-                   lawfirm_id: 1)
+                   lawfirm_id: Random.rand(1..3))
     end
   end
 
@@ -24,6 +34,11 @@ namespace :db do
     Lawfirm.create!(firm_name: "Test Firm LLC",
                   password: 'password',
                   password_confirmation: "password")
+    2.times do |n|
+      Lawfirm.create!(firm_name: Faker::Company.name,
+                  password: 'password',
+                  password_confirmation: "password")
+    end
   end
 
   desc "add practicegroups to lawfirm data-set"
