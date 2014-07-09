@@ -77,4 +77,7 @@ Claregal::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  #added for highcharts.js
+  config.assets.precompile += ['rollover.js', 'highcharts.js']
 end
