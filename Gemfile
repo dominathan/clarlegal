@@ -19,6 +19,7 @@ end
 
 gem 'figaro'
 gem 'faker', '1.1.2'
+gem 'chart-js-rails'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'

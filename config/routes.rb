@@ -33,6 +33,9 @@ Claregal::Application.routes.draw do
   match '/lawfirm/cases', to: 'lawfirms#show_lawfirm_cases', via: 'get' #to show current_user.lawfirm.cases
   match '/user/cases', to:  'cases#user_cases', via: 'get' #show all cases of current_user
 
+  match '/pie_chart', to: 'home_pages#pie_chart', via: 'get'
+  match '/pie_chart_high_chart', to: 'home_pages#pie_chart_high_chart', via: 'get'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
