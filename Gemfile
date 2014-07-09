@@ -18,8 +18,8 @@ end
 #==EVERYTHING ELSE IS ADDED==#
 
 gem 'figaro'
-gem 'faker', '1.1.2'
-gem 'chart-js-rails'
+gem 'faker', '1.1.2' #for database population
+gem 'highcharts-rails', '~> 4.0.1' #for highcharts.js
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
