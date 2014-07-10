@@ -43,10 +43,21 @@ namespace :db do
 
   desc "add practicegroups to lawfirm data-set"
   task populate: :environment do
+    practice_group_names = ["Commercial Litigation", "Single Tort",
+                            "Medical Malpractice", "Worker's Compensation",
+                            "Automotive"]
     5.times do |n|
-      group_name = "#{n+1}-Litigation"
       Practicegroup.create!(lawfirm_id: 1,
-                            group_name: group_name)
+                            group_name: practice_group_names[n])
+    end
+  end
+
+  desc "add 5 Matter References (CaseType model)"
+  task populate: :environment do
+    matter_reference_list = ['Washington','Monroe','Hayes','Reagan','Pierce','Roosevelt']
+    5.times do |n|
+      CaseType.create!(mat_ref: matter_reference_list[n+1],
+                      lawfirm_id: 1)
     end
   end
 
@@ -73,8 +84,19 @@ namespace :db do
                     description: Faker::Lorem.sentence,
                     name: plaintiff+" V. "+defendant,
                     practice_group: Practicegroup.find_by(id: Random.rand(1..5)).group_name,
-                    matter_reference: "Add Later")
+                    matter_reference: CaseType.find_by(id: Random.rand(1..5)).mat_ref)
     end
   end
+
+  desc "add 10 staff to each lawfirm"
+  task populate: :environment do
+    30.times do
+      position_list = ['Paralegal', 'Attorney','Accountant','Staff']
+      Staffing.create!(last_name: Faker::Name.name,
+                        position: position_list[Random.rand(0..3)],
+                        lawfirm_id: Random.rand(1..3))
+    end
+  end
+
 
 end
