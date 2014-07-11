@@ -12,8 +12,14 @@
       <%= f.label "Date Opened:" %>
       <%= f.date_field :date_opened, id: 'datepicker' %>
 
-      <%= f.label "Estimated Conclusion:" %>
-      <%= f.date_field :estimated_conclusion_date, id: 'datepicker'%>
+      <%= f.label "Fastest Estimated Conclusion:" %>
+      <%= f.text_field :estimated_conclusion_high, placeholder: "Months from Now" %>
+
+      <%= f.label "Expected Estimated Conclusion:" %>
+      <%= f.text_field :estimated_conclusion_med %>
+
+      <%= f.label "Slowest Estimated Conclusion:" %>
+      <%= f.text_field :estimated_conclusion_low %>
 
 
       <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
