@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140711190704) do
+ActiveRecord::Schema.define(version: 20140711203957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,12 +71,12 @@ ActiveRecord::Schema.define(version: 20140711190704) do
   create_table "fees", force: true do |t|
     t.integer  "case_id"
     t.string   "fee_type"
-    t.decimal  "high_estimate"
-    t.decimal  "medium_estimate"
-    t.decimal  "low_estimate"
+    t.integer  "high_estimate"
+    t.integer  "medium_estimate"
+    t.integer  "low_estimate"
     t.string   "payment_likelihood"
     t.string   "retainer"
-    t.decimal  "cost_estimate"
+    t.integer  "cost_estimate"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -140,9 +140,9 @@ ActiveRecord::Schema.define(version: 20140711190704) do
     t.date     "date_opened"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "estimated_conclusion_high"
-    t.integer  "estimated_conclusion_med"
-    t.integer  "estimated_conclusion_low"
+    t.integer  "estimated_conclusion_fast"
+    t.integer  "estimated_conclusion_expected"
+    t.integer  "estimated_conclusion_slow"
   end
 
   add_index "timings", ["case_id"], name: "index_timings_on_case_id", using: :btree

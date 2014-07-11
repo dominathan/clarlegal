@@ -61,6 +61,16 @@ namespace :db do
     end
   end
 
+  desc "add 10 staff to each lawfirm"
+  task populate: :environment do
+    30.times do
+      position_list = ['Paralegal', 'Attorney','Accountant','Staff']
+      Staffing.create!(last_name: Faker::Name.name,
+                        position: position_list[Random.rand(0..3)],
+                        lawfirm_id: Random.rand(1..3))
+    end
+  end
+
   desc "add 10 clients to data-set"
   task populate: :environment do
     10.times do
@@ -88,15 +98,43 @@ namespace :db do
     end
   end
 
-  desc "add 10 staff to each lawfirm"
+  desc "add 30 fees - 1 per case"
   task populate: :environment do
-    30.times do
-      position_list = ['Paralegal', 'Attorney','Accountant','Staff']
-      Staffing.create!(last_name: Faker::Name.name,
-                        position: position_list[Random.rand(0..3)],
-                        lawfirm_id: Random.rand(1..3))
+    fee_type = ['Hourly','Fixed Fee', 'Contingency']
+    payment_likelihood = ['High', 'Medium', "Low"]
+    30.times do |n|
+      Fee.create!(case_id: n+1,
+                  fee_type: fee_type[Random.rand(0..2)],
+                  high_estimate: Random.rand(2000000..10000000),
+                  #try to make it line up if fix fee but dont want to waste time on it now
+                  medium_estimate: if fee_type == 'Fixed Fee'
+                                      medium_estimate = high_estimate
+                                   else
+                                      Random.rand(500000..(2000000-1))
+                                    end,
+                  low_estimate: if fee_type != 'Fixed Fee'
+                                    Random.rand(0..499999)
+                                else
+                                    low_estimate = high_estimate
+                                end,
+                  payment_likelihood: payment_likelihood[Random.rand(0..2)],
+                  retainer: Random.rand(0..10000),
+                  cost_estimate: Random.rand(0..5000))
     end
   end
+
+  desc "add 30 Timings - 1 per case"
+  task populate: :environment do
+    30.times do |n|
+      Timing.create!(case_id: n+1,
+                      date_opened: Date.new(Random.rand(2013..2014),Random.rand(1..12),Random.rand(1..28)),
+                      estimated_conclusion_fast: Random.rand(1..12),
+                      estimated_conclusion_expected: Random.rand(13..36),
+                      estimated_conclusion_slow: Random.rand(37..60))
+    end
+  end
+
+
 
 
 end
