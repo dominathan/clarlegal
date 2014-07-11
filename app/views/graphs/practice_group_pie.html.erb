@@ -33,7 +33,7 @@ $(function () {
             text: 'Cases by Practice Group'
         },
         tooltip: {
-          pointFormat: 'Case Load by Practice Group: <b>{point.y}</b>'
+          pointFormat: 'Case Load: <b>{point.y}</b>'
         },
         plotOptions: {
             pie: {
@@ -41,7 +41,7 @@ $(function () {
                 cursor: 'pointer',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name} Cases: {point.y}</b>',
+                    format: '<b>{point.name}: {point.y}</b>',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                     }
