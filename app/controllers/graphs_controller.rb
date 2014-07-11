@@ -1,6 +1,6 @@
 class GraphsController < ApplicationController
   before_action :signed_in_user
-
+  before_action :belongs_to_firm
   def practice_group_pie
     #filter by practice_group ... pg
     @case_count_by_pg = []
