@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     <% if @lawfirm %> <!-- does the lawfirm have cases?  If show then show them-->
-      <% @lawfirm.each do |one_case| %>
+      <% @lawfirm.order(:practice_group).each do |one_case| %>
        <tr>
         <td><%= one_case.name %></td>
         <td><%= one_case.matter_reference %></td>

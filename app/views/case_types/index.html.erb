@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     <% if @case_type %> <!-- does the client have cases?  If show then show them-->
-      <% @case_type.each do |matter_reference| %>
+      <% @case_type.order(:mat_ref).each do |matter_reference| %>
        <tr>
         <td><%= matter_reference.mat_ref %></td>
       <% end %>

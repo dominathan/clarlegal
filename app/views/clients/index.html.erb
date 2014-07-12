@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     <% if current_user.clients.present? %>
-      <% current_user.clients.each do |client| %>
+      <% current_user.clients.order(:client_name).each do |client| %>
         <tr>
           <td><%= link_to client.client_name, client_path(client) %></td>
           <td><%= link_to "Cases for #{client.client_name}", client_cases_path(client) %></td>

@@ -15,7 +15,7 @@
   </thead>
   <tbody>
     <% if @case.staff.present? %>
-      <% @staff.each do |staf| %>
+      <% @staff.order(:name).each do |staf| %>
         <tr>
           <td><%= staf.name %></td>
           <td><%= staf.position %></td>
