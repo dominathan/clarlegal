@@ -128,9 +128,9 @@ namespace :db do
     30.times do |n|
       Timing.create!(case_id: n+1,
                       date_opened: Date.new(Random.rand(2013..2014),Random.rand(1..12),Random.rand(1..28)),
-                      estimated_conclusion_fast: Random.rand(0..60),
-                      estimated_conclusion_expected: Random.rand(0..60),
-                      estimated_conclusion_slow: Random.rand(0..60))
+                      estimated_conclusion_fast: Random.rand(0..12),
+                      estimated_conclusion_expected: Random.rand(13..24),
+                      estimated_conclusion_slow: Random.rand(25..60))
     end
   end
 
