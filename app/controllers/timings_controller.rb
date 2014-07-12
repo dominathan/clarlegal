@@ -49,9 +49,9 @@ class TimingsController < ApplicationController
   private
 
       def timing_params
-        params.require(:timing).permit(:date_opened, :estimated_conclusion_high,
-                                      :estimated_conclusion_med,
-                                      :estimated_conclusion_low)
+        params.require(:timing).permit(:date_opened, :estimated_conclusion_fast,
+                                      :estimated_conclusion_expected,
+                                      :estimated_conclusion_slow)
       end
 
 end

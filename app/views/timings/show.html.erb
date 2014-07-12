@@ -8,17 +8,17 @@
   <thead>
     <tr>
       <th>Date Opened</th>
-      <th>Fastest Estimated Conclusion</th>
+      <th>Accelerated Estimated Conclusion</th>
       <th>Expected Estimated Conclusion</th>
-      <th>Slowest Estimated Conclusion</th>
+      <th>Slow Estimated Conclusion</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><%= @timing.date_opened %></td>
-      <td><%= @timing.estimated_conclusion_high%></td>
-      <td><%= @timing.estimated_conclusion_med%></td>
-      <td><%= @timing.estimated_conclusion_low%></td>
+      <td><%= @timing.estimated_conclusion_fast%></td>
+      <td><%= @timing.estimated_conclusion_expected%></td>
+      <td><%= @timing.estimated_conclusion_slow%></td>
     </tr>
   </tbody>
 </table>
