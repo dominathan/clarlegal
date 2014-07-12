@@ -1,0 +1,67 @@
+<% provide(:title, 'Revenue by Year') %>
+
+<div id="revenueByYear" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<script type="text/javascript">
+// format should be .... [ {name: 'High',
+//                          data: [num,num,num,num,num] }]
+var highArray =  <%= raw @high_final_estimate %>;
+var mediumArray = <%= raw @medium_final_estimate %>;
+var lowArray = <%= raw @low_final_estimate %>;
+var categoryYear = <%= @category_years %>;
+
+
+  $(function () {
+        $('#revenueByYear').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Expected Revenue by Year'
+            },
+            subtitle: {
+                text: '(assuming medium recovery rate)'
+            },
+            xAxis: {
+                categories: categoryYear
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Revenue (in millions)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>${point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [
+            {
+              name: "Low Revenue Est.",
+              data: lowArray
+            },
+            {
+              name: "Medium Revenue Est.",
+              data: mediumArray
+            },
+            {
+              name: "High Revenue Est.",
+              data: highArray
+            }
+            ]
+        });
+    });
+
+
+
+</script>

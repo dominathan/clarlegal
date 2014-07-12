@@ -37,6 +37,7 @@ Claregal::Application.routes.draw do
   # May the Graphs Begin
   match '/practice_group/cases', to: "graphs#practice_group_pie", via: 'get'
   match '/practice_group/revenues', to: "graphs#practice_group_revenue_pie_low", via: 'get'
+  match '/revenue_by_year', to: "graphs#case_revenue_by_year", via: 'get'
 
 
 
