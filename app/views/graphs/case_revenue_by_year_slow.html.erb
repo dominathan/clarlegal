@@ -1,6 +1,6 @@
-<% provide(:title, 'Revenue by Year') %>
+<% provide(:title, 'Revenue by Year Slow') %>
 
-<div id="revenueByYear" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="revenueByYearSlow" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <br>
 <div class='center'>
 <%= link_to "Fast Recovery Rate", revenue_by_year_fast_path, class: "btn btn-large btn-small" %>
@@ -10,14 +10,13 @@
 
 <script type="text/javascript">
 
-var highArray =  <%= raw @high_final_estimate %>;
-var mediumArray = <%= raw @medium_final_estimate %>;
-var lowArray = <%= raw @low_final_estimate %>;
+var highArray =  <%= raw @high_slow_final_estimate %>;
+var mediumArray = <%= raw @medium_slow_final_estimate %>;
+var lowArray = <%= raw @low_slow_final_estimate %>;
 var categoryYear = <%= @category_years %>;
 
-
-  $(function () {
-        $('#revenueByYear').highcharts({
+$(function () {
+        $('#revenueByYearSlow').highcharts({
             chart: {
                 type: 'column'
             },
@@ -25,7 +24,7 @@ var categoryYear = <%= @category_years %>;
                 text: 'Expected Revenue by Year'
             },
             subtitle: {
-                text: '(assuming medium recovery rate)'
+                text: '(assuming slow recovery rate)'
             },
             xAxis: {
                 categories: categoryYear

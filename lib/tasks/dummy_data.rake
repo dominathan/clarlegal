@@ -105,7 +105,7 @@ namespace :db do
     30.times do |n|
       Fee.create!(case_id: n+1,
                   fee_type: fee_type[Random.rand(0..2)],
-                  high_estimate: Random.rand(1..10000000),
+                  high_estimate: Random.rand(1..4000000),
                   #try to make it line up if fix fee but dont want to waste time on it now
                   medium_estimate: if fee_type == 'Fixed Fee'
                                       medium_estimate = high_estimate

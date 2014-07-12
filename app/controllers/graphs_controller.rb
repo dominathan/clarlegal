@@ -84,8 +84,6 @@ class GraphsController < ApplicationController
     case_revenue_by_year_low
     case_revenue_by_year_medium
     @high_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
-    #@final_json = { "name"=> 'High Rev Est.', "data"=>final_estimate }.to_json
-
   end
 
   def case_revenue_by_year_medium
@@ -111,7 +109,6 @@ class GraphsController < ApplicationController
       end
     end
     @medium_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
-    #@med_final_json = { "name"=> 'Medium Rev Est.', "data"=>final_estimate }.to_json
   end
 
     def case_revenue_by_year_low
@@ -137,9 +134,186 @@ class GraphsController < ApplicationController
       end
     end
     @low_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
-    #@med_final_json = { "name"=> 'Medium Rev Est.', "data"=>final_estimate }.to_json
+  end
+
+  def case_revenue_by_year_fast
+    #graph for HIGH REVENUE ESTIMATE on FAST EXPECTED COLLECTION DATES
+    #this is for expected conclusion date and high revenues
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    rev_est_year1 = 0
+    rev_est_year2 = 0
+    rev_est_year3 = 0
+    rev_est_year4 = 0
+    rev_est_year5_plus = 0
+    @high_fast_final_estimate = []
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast))
+      if current_date.year == conclusion_date.year
+        rev_est_year1 += ca.fee.last.high_estimate
+      elsif current_date.year+1 == conclusion_date.year
+        rev_est_year2 += ca.fee.last.high_estimate
+      elsif current_date.year+2 == conclusion_date.year
+        rev_est_year3 += ca.fee.last.high_estimate
+      elsif current_date.year+3 == conclusion_date.year
+        rev_est_year4 += ca.fee.last.high_estimate
+      elsif current_date.year+4 >= conclusion_date.year
+        rev_est_year5_plus += ca.fee.last.high_estimate
+      end
+    end
+    case_revenue_by_year_fast_medium
+    case_revenue_by_year_fast_low
+    @high_fast_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
+  end
+
+  def case_revenue_by_year_fast_medium
+    #graph for MEDIUM REVENUE ESTIMATE on FAST EXPECTED COLLECTION DATES
+    #this is for expected conclusion date and high revenues
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    rev_est_year1 = 0
+    rev_est_year2 = 0
+    rev_est_year3 = 0
+    rev_est_year4 = 0
+    rev_est_year5_plus = 0
+    @medium_fast_final_estimate = []
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast))
+      if current_date.year == conclusion_date.year
+        rev_est_year1 += ca.fee.last.medium_estimate
+      elsif current_date.year+1 == conclusion_date.year
+        rev_est_year2 += ca.fee.last.medium_estimate
+      elsif current_date.year+2 == conclusion_date.year
+        rev_est_year3 += ca.fee.last.medium_estimate
+      elsif current_date.year+3 == conclusion_date.year
+        rev_est_year4 += ca.fee.last.medium_estimate
+      elsif current_date.year+4 >= conclusion_date.year
+        rev_est_year5_plus += ca.fee.last.medium_estimate
+      end
+    end
+    @medium_fast_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
+  end
+
+  def case_revenue_by_year_fast_low
+    #graph for LOW REVENUE ESTIMATE on FAST EXPECTED COLLECTION DATES
+    #this is for expected conclusion date and high revenues
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    rev_est_year1 = 0
+    rev_est_year2 = 0
+    rev_est_year3 = 0
+    rev_est_year4 = 0
+    rev_est_year5_plus = 0
+    @low_fast_final_estimate = []
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast))
+      if current_date.year == conclusion_date.year
+        rev_est_year1 += ca.fee.last.low_estimate
+      elsif current_date.year+1 == conclusion_date.year
+        rev_est_year2 += ca.fee.last.low_estimate
+      elsif current_date.year+2 == conclusion_date.year
+        rev_est_year3 += ca.fee.last.low_estimate
+      elsif current_date.year+3 == conclusion_date.year
+        rev_est_year4 += ca.fee.last.low_estimate
+      elsif current_date.year+4 >= conclusion_date.year
+        rev_est_year5_plus += ca.fee.last.low_estimate
+      end
+    end
+    @low_fast_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
+  end
+
+  def case_revenue_by_year_slow
+    #graph for LOW REVENUE ESTIMATE on SLOW EXPECTED COLLECTION DATES
+    #this is for expected conclusion date and high revenues
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    rev_est_year1 = 0
+    rev_est_year2 = 0
+    rev_est_year3 = 0
+    rev_est_year4 = 0
+    rev_est_year5_plus = 0
+    @low_slow_final_estimate = []
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow))
+      if current_date.year == conclusion_date.year
+        rev_est_year1 += ca.fee.last.low_estimate
+      elsif current_date.year+1 == conclusion_date.year
+        rev_est_year2 += ca.fee.last.low_estimate
+      elsif current_date.year+2 == conclusion_date.year
+        rev_est_year3 += ca.fee.last.low_estimate
+      elsif current_date.year+3 == conclusion_date.year
+        rev_est_year4 += ca.fee.last.low_estimate
+      elsif current_date.year+4 >= conclusion_date.year
+        rev_est_year5_plus += ca.fee.last.low_estimate
+      end
+    end
+    case_revenue_by_year_slow_medium
+    case_revenue_by_year_slow_high
+    @low_slow_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
+  end
+
+    def case_revenue_by_year_slow_medium
+    #graph for MEDIUM REVENUE ESTIMATE on SLOW EXPECTED COLLECTION DATES
+    #this is for expected conclusion date and high revenues
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    rev_est_year1 = 0
+    rev_est_year2 = 0
+    rev_est_year3 = 0
+    rev_est_year4 = 0
+    rev_est_year5_plus = 0
+    @medium_slow_final_estimate = []
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow))
+      if current_date.year == conclusion_date.year
+        rev_est_year1 += ca.fee.last.medium_estimate
+      elsif current_date.year+1 == conclusion_date.year
+        rev_est_year2 += ca.fee.last.medium_estimate
+      elsif current_date.year+2 == conclusion_date.year
+        rev_est_year3 += ca.fee.last.medium_estimate
+      elsif current_date.year+3 == conclusion_date.year
+        rev_est_year4 += ca.fee.last.medium_estimate
+      elsif current_date.year+4 >= conclusion_date.year
+        rev_est_year5_plus += ca.fee.last.medium_estimate
+      end
+    end
+    @medium_slow_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
+  end
+
+    def case_revenue_by_year_slow_high
+    #graph for HIGH REVENUE ESTIMATE on SLOW EXPECTED COLLECTION DATES
+    #this is for expected conclusion date and high revenues
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    rev_est_year1 = 0
+    rev_est_year2 = 0
+    rev_est_year3 = 0
+    rev_est_year4 = 0
+    rev_est_year5_plus = 0
+    @high_slow_final_estimate = []
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow))
+      if current_date.year == conclusion_date.year
+        rev_est_year1 += ca.fee.last.high_estimate
+      elsif current_date.year+1 == conclusion_date.year
+        rev_est_year2 += ca.fee.last.high_estimate
+      elsif current_date.year+2 == conclusion_date.year
+        rev_est_year3 += ca.fee.last.high_estimate
+      elsif current_date.year+3 == conclusion_date.year
+        rev_est_year4 += ca.fee.last.high_estimate
+      elsif current_date.year+4 >= conclusion_date.year
+        rev_est_year5_plus += ca.fee.last.high_estimate
+      end
+    end
+    @high_slow_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
   end
 
 
-
 end
+
