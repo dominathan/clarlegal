@@ -64,9 +64,9 @@ namespace :db do
   desc "add 10 staff to each lawfirm"
   task populate: :environment do
     30.times do
-      position_list = ['Paralegal', 'Attorney','Accountant','Staff']
-      Staffing.create!(last_name: Faker::Name.name,
-                        position: position_list[Random.rand(0..3)],
+      position_list = ['Paralegal', 'Attorney','Accountant','Staff','Responsible Attorney']
+      Staffing.create!(full_name: Faker::Name.name,
+                        position: position_list[Random.rand(0..4)],
                         lawfirm_id: Random.rand(1..3))
     end
   end
