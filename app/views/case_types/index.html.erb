@@ -8,8 +8,8 @@
     </tr>
   </thead>
   <tbody>
-    <% if @case_type %> <!-- does the client have cases?  If show then show them-->
-      <% @case_type.order(:mat_ref).each do |matter_reference| %>
+    <% if current_user.lawfirm.case_types %> <!-- does the client have cases?  If show then show them-->
+      <% current_user.lawfirm.case_types.order(:mat_ref).each do |matter_reference| %>
        <tr>
         <td><%= matter_reference.mat_ref %></td>
       <% end %>

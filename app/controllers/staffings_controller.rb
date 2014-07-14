@@ -48,7 +48,7 @@ class StaffingsController < ApplicationController
   private
 
     def staffing_params
-      params.require(:staffing).permit(:full_name, :position)
+      params.require(:staffing).permit(:full_name, :position, :hourly_rate)
     end
 
 end

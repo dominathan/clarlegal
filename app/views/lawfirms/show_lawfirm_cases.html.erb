@@ -13,8 +13,8 @@
     </tr>
   </thead>
   <tbody>
-    <% if @lawfirm %> <!-- does the lawfirm have cases?  If show then show them-->
-      <% @lawfirm.order(:practice_group).each do |one_case| %>
+    <% if current_user.lawfirm.present? %> <!-- does the lawfirm have cases?  If show then show them-->
+      <% current_user.lawfirm.cases.order(:practice_group).each do |one_case| %>
        <tr>
         <td><%= one_case.name %></td>
         <td><%= one_case.matter_reference %></td>

@@ -10,7 +10,7 @@
   </thead>
   <tbody>
     <% if current_user.lawfirm.practicegroups.present? %>
-      <% @prac_group.order(:group_name).each do |group| %>
+      <% current_user.lawfirm.practicegroups.order(:group_name).each do |group| %>
         <tr>
           <td><%= group.group_name %> <%= link_to "Edit", edit_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => group.id) %></td>
         </tr>
