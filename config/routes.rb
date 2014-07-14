@@ -42,6 +42,10 @@ Claregal::Application.routes.draw do
   match '/revenue_by_year/fast', to: "graphs#case_revenue_by_year_fast", via: 'get'
   match '/revenue_by_year/slow', to: "graphs#case_revenue_by_year_slow", via: 'get'
 
+  match '/revenue_by_year/practice_group', to: "graphs#rev_by_year_by_pg", via: 'get'
+  match '/revenue_by_year/practice_group/high', to: "graphs#rev_by_year_by_pg_high", via: 'get'
+  match '/revenue_by_year/practice_group/low', to: "graphs#rev_by_year_by_pg_low", via: 'get'
+
 
 
 

@@ -1,0 +1,56 @@
+<% provide(:title, 'Revenue by Year by PG') %>
+
+<div id="revenueByYearByPGHigh" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<br>
+<div class='center'>
+<%= link_to "High Fee Value", revenue_by_year_practice_group_high_path, class: "btn btn-large btn-small" %>
+<%= link_to "Middle Fee Value", revenue_by_year_practice_group_path, class: "btn btn-large btn-small" %>
+<%= link_to "Low Fee Value", revenue_by_year_practice_group_low_path, class: "btn btn-large btn-small" %>
+</div>
+
+<script type="text/javascript">
+var categoryYear = <%= @category_years %>;
+var seriesData = <%= raw @hash_file_high %>;
+
+
+  $(function () {
+        $('#revenueByYearByPGHigh').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Expected Revenue by Year by Practice Group'
+            },
+            subtitle: {
+                text: '(assuming expected recovery rate and High Fees)'
+            },
+            xAxis: {
+                categories: categoryYear
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Revenue (in millions)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>${point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: seriesData
+        });
+    });
+
+
+
+</script>

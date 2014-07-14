@@ -314,7 +314,111 @@ class GraphsController < ApplicationController
     @high_slow_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
   end
 
+  def list_of_firm_practice_groups
+    @lf_pgs = current_user.lawfirm.practicegroups.collect { |n| n.group_name }
+  end
 
 
+  def rev_by_year_by_pg
+    list_of_firm_practice_groups
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    rev_est_year1 = 0
+    rev_est_year2 = 0
+    rev_est_year3 = 0
+    rev_est_year4 = 0
+    rev_est_year5_plus = 0
+    @final_tally =[]
+    @lf_pgs.each do |lf_pg|
+      current_user.lawfirm.cases.where(practice_group: lf_pg).each do |ca|
+        conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected))
+        if current_date.year == conclusion_date.year
+          rev_est_year1 += ca.fee.last.medium_estimate
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est_year2 += ca.fee.last.medium_estimate
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est_year3 += ca.fee.last.medium_estimate
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est_year4 += ca.fee.last.medium_estimate
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est_year5_plus += ca.fee.last.medium_estimate
+        end
+        @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5_plus]
+      end
+      @final_tally.push(@five_year_rev)
+    end
+    @final_tally
+    zipped_file = @lf_pgs.zip(@final_tally)
+    @hash_file = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+  end
+
+    def rev_by_year_by_pg_high
+    list_of_firm_practice_groups
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    rev_est_year1 = 0
+    rev_est_year2 = 0
+    rev_est_year3 = 0
+    rev_est_year4 = 0
+    rev_est_year5_plus = 0
+    @final_tally =[]
+    @lf_pgs.each do |lf_pg|
+      current_user.lawfirm.cases.where(practice_group: lf_pg).each do |ca|
+        conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected))
+        if current_date.year == conclusion_date.year
+          rev_est_year1 += ca.fee.last.high_estimate
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est_year2 += ca.fee.last.high_estimate
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est_year3 += ca.fee.last.high_estimate
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est_year4 += ca.fee.last.high_estimate
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est_year5_plus += ca.fee.last.high_estimate
+        end
+        @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5_plus]
+      end
+      @final_tally.push(@five_year_rev)
+    end
+    @final_tally
+    zipped_file = @lf_pgs.zip(@final_tally)
+    @hash_file_high = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+  end
+
+  def rev_by_year_by_pg_low
+    list_of_firm_practice_groups
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    rev_est_year1 = 0
+    rev_est_year2 = 0
+    rev_est_year3 = 0
+    rev_est_year4 = 0
+    rev_est_year5_plus = 0
+    @final_tally =[]
+    @lf_pgs.each do |lf_pg|
+      current_user.lawfirm.cases.where(practice_group: lf_pg).each do |ca|
+        conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected))
+        if current_date.year == conclusion_date.year
+          rev_est_year1 += ca.fee.last.low_estimate
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est_year2 += ca.fee.last.low_estimate
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est_year3 += ca.fee.last.low_estimate
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est_year4 += ca.fee.last.low_estimate
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est_year5_plus += ca.fee.last.low_estimate
+        end
+        @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5_plus]
+      end
+      @final_tally.push(@five_year_rev)
+    end
+    @final_tally
+    zipped_file = @lf_pgs.zip(@final_tally)
+    @hash_file_low = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+  end
 end
 
