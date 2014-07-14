@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     <% if @case %> <!-- does the client have cases?  If show then show them-->
-      <% @case.order(:name).each do |one_case| %>
+      <% @case.each do |one_case| %>
        <tr>
         <td><%= one_case.name %></td>
         <td><%= one_case.matter_reference %></td>
