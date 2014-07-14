@@ -21,6 +21,8 @@
       <%= f.label "Expected Total Hours:" %>
       <%=f.text_field :hours_expected %>
 
+      <%= f.label "Actual Hours Worked:" %>
+      <%=f.text_field :hours_actual, :placeholder => 'Leave blank if this is a new case' %>
 
       <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
 

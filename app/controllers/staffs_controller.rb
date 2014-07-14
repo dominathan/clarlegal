@@ -59,7 +59,7 @@ class StaffsController < ApplicationController
   private
 
     def staff_params
-      params.require(:staff).permit(:name, :position, :percent_utilization, :hours_expected)
+      params.require(:staff).permit(:name, :position, :percent_utilization, :hours_expected, :hours_actual)
     end
 
 end
