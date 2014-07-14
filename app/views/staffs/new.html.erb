@@ -10,7 +10,7 @@
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label "Name:" %>
-      <%=f.collection_select(:name, current_user.lawfirm.staffings, :last_name, :last_name, :include_blank => "Select") %>
+      <%=f.collection_select(:name, current_user.lawfirm.staffings, :full_name, :full_name, :include_blank => "Select") %>
 
       <%= f.label "Position:" %>
       <%=f.collection_select(:position, current_user.lawfirm.staffings, :position, :position, :include_blank => "Select") %>
