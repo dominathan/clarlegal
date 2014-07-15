@@ -1,6 +1,11 @@
 class TimingsController < ApplicationController
   before_action :signed_in_user
 
+  def index
+    @case = Case.find(params[:case_id])
+    @client = Client.find(params[:client_id])
+  end
+
   def new
     @timing = Timing.new
     @case = Case.find(params[:case_id])

@@ -1,0 +1,36 @@
+<% provide(:title, 'Timing Timeline') %>
+
+<%= render 'shared/subheader' %>
+
+<h1>Timing Timeline </h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Date Opened</th>
+      <th>Accelerated Estimated Conclusion</th>
+      <th>Expected Estimated Conclusion</th>
+      <th>Slow Estimated Conclusion</th>
+      <th>Last Update</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if current_user.clients.find_by(id: @client.id).cases.find_by(id: @case.id).timing.present? %>
+      <% current_user.clients.find_by(id: @client.id).cases.find_by(id: @case.id).timing.order(:created_at).each do |timing| %>
+        <tr>
+          <td><%= Client.find_by(id: @client.id).cases.find_by(id: @case.id).timing.first.date_opened %></td>
+          <td><%= timing.estimated_conclusion_fast %></td>
+          <td><%= timing.estimated_conclusion_expected %></td>
+          <td><%= timing.estimated_conclusion_slow %></td>
+          <td><%= timing.updated_at%></td>
+          <td><%= link_to "Edit", edit_client_case_timing_path(@client,@case,timing.id)%></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<div class='center'>
+   <p> <%= link_to 'Update Timing Timeline', new_client_case_timing_path(@client,@case) %></p>
+</div>

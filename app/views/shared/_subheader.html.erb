@@ -65,10 +65,12 @@
                         <ul class="dropdown-menu">
                            <% if @case.timing.any?  %>
                               <li>
-                                 <%= link_to "Show Timing", client_case_timing_path(@client,@case,@case.timing.first.id) %>
+                                 <%= link_to "Current Timing", client_case_timing_path(@client,@case,@case.timing.last.id) %>
+                              </li> <li>
+                                 <%= link_to "Timing Timeline", client_case_timings_path(@client,@case) %>
                               </li>
                               <li>
-                                 <%= link_to "Update Timing", edit_client_case_timing_path(@client,@case,@case.timing.first.id) %>
+                                 <%= link_to "Update Timing", new_client_case_timing_path(@client,@case) %>
                               </li>
                            <% else %>
                               <li>
