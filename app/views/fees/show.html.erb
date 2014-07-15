@@ -7,23 +7,25 @@
   <thead>
     <tr>
       <th>Fee Type</th>
-      <th>High Estimate</th>
-      <th>Medium Estimate</th>
       <th>Low Estimate</th>
+      <th>Medium Estimate</th>
+      <th>High Estimate</th>
+      <th>Cost Estimate</th>
       <th>Likelihood of Fee Payment</th>
       <th>Retainer</th>
-      <th>Estimated Costs</th>
+      <th>Last Update</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><%= @fee.fee_type %></td>
-      <td><%= @fee.high_estimate %></td>
-      <td><%= @fee.medium_estimate %></td>
       <td><%= @fee.low_estimate %></td>
-      <td><%= @fee.payment_likelihood %></td>
-      <td><%= @fee.retainer %></td>
+      <td><%= @fee.medium_estimate %></td>
+      <td><%= @fee.high_estimate %></td>
       <td><%= @fee.cost_estimate %></td>
+      <td><%= @fee.retainer %></td>
+      <td><%= @fee.payment_likelihood %></td>
+      <td><%= @fee.updated_at %></td>
     </tr>
   </tbody>
 </table>
@@ -31,4 +33,4 @@
 <br>
 <br>
 
-<h2> <%= link_to "Edit Fee", edit_client_case_fee_path(@client, @case, @fee) %> </h2>
+

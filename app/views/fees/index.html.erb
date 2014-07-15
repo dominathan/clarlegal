@@ -1,0 +1,42 @@
+<% provide(:title, 'Fee Timeline') %>
+
+<%= render 'shared/subheader' %>
+
+<h1>Fee Timeline </h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Fee Type</th>
+      <th>Low Estimate</th>
+      <th>Medium Estimate</th>
+      <th>High Estimate</th>
+      <th>Cost Estimate</th>
+      <th>Payment Likelihood</th>
+      <th>Retainer</th>
+      <th>Last Update</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if current_user.clients.find_by(id: @client.id).cases.find_by(id: @case.id).fee.present? %>
+      <% current_user.clients.find_by(id: @client.id).cases.find_by(id: @case.id).fee.order(:created_at).each do |fee| %>
+        <tr>
+          <td><%= fee.fee_type%></td>
+          <td><%= fee.low_estimate%></td>
+          <td><%= fee.medium_estimate%></td>
+          <td><%= fee.high_estimate%></td>
+          <td><%= fee.cost_estimate%></td>
+          <td><%= fee.payment_likelihood%></td>
+          <td><%= fee.retainer%></td>
+          <td><%= fee.updated_at%></td>
+          <td><%= link_to "Edit", edit_client_case_fee_path(@client,@case,fee.id)%></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<div class='center'>
+   <p> <%= link_to 'Update Fee Timeline', new_client_case_fee_path(@client,@case,) %></p>
+</div>
