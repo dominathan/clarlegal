@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140715133643) do
+ActiveRecord::Schema.define(version: 20140715232412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,17 @@ ActiveRecord::Schema.define(version: 20140715133643) do
   end
 
   add_index "practicegroups", ["lawfirm_id"], name: "index_practicegroups_on_lawfirm_id", using: :btree
+
+  create_table "staff_cases", force: true do |t|
+    t.integer  "staffing_id"
+    t.integer  "case_id"
+    t.boolean  "current_case"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "staff_cases", ["case_id"], name: "index_staff_cases_on_case_id", using: :btree
+  add_index "staff_cases", ["staffing_id"], name: "index_staff_cases_on_staffing_id", using: :btree
 
   create_table "staffings", force: true do |t|
     t.integer  "lawfirm_id"
