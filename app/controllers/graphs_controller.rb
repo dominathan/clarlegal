@@ -20,7 +20,7 @@ class GraphsController < ApplicationController
     @lawfirm_pgs.each do |pg|
       sum_total = 0
       current_user.lawfirm.cases.where(practice_group: pg).each do |ca|
-        sum_total += ca.fee.last.low_estimate
+        sum_total += ca.fee.first.low_estimate
       end
       @total_rev_per_pg_low << sum_total
     end
@@ -35,7 +35,7 @@ class GraphsController < ApplicationController
     @lawfirm_pgs.each do |pg|
       sum_total = 0
       current_user.lawfirm.cases.where(practice_group: pg).each do |ca|
-        sum_total += ca.fee.last.medium_estimate
+        sum_total += ca.fee.first.medium_estimate
       end
       @total_rev_per_pg_medium << sum_total
     end
@@ -48,7 +48,7 @@ class GraphsController < ApplicationController
     @lawfirm_pgs.each do |pg|
       sum_total = 0
       current_user.lawfirm.cases.where(practice_group: pg).each do |ca|
-        sum_total += ca.fee.last.high_estimate
+        sum_total += ca.fee.first.high_estimate
       end
       @total_rev_per_pg_high << sum_total
     end
@@ -68,17 +68,17 @@ class GraphsController < ApplicationController
     rev_est_year5_plus = 0
     @high_final_estimate = []
     current_user.lawfirm.cases.each do |ca|
-      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected))
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected))
       if current_date.year == conclusion_date.year
-        rev_est_year1 += ca.fee.last.high_estimate
+        rev_est_year1 += ca.fee.first.high_estimate
       elsif current_date.year+1 == conclusion_date.year
-        rev_est_year2 += ca.fee.last.high_estimate
+        rev_est_year2 += ca.fee.first.high_estimate
       elsif current_date.year+2 == conclusion_date.year
-        rev_est_year3 += ca.fee.last.high_estimate
+        rev_est_year3 += ca.fee.first.high_estimate
       elsif current_date.year+3 == conclusion_date.year
-        rev_est_year4 += ca.fee.last.high_estimate
+        rev_est_year4 += ca.fee.first.high_estimate
       elsif current_date.year+4 >= conclusion_date.year
-        rev_est_year5_plus += ca.fee.last.high_estimate
+        rev_est_year5_plus += ca.fee.first.high_estimate
       end
     end
     case_revenue_by_year_low
@@ -95,17 +95,17 @@ class GraphsController < ApplicationController
     rev_est_year5_plus = 0
     @medium_final_estimate = []
     current_user.lawfirm.cases.each do |ca|
-      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected))
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected))
       if current_date.year == conclusion_date.year
-        rev_est_year1 += ca.fee.last.medium_estimate
+        rev_est_year1 += ca.fee.first.medium_estimate
       elsif current_date.year+1 == conclusion_date.year
-        rev_est_year2 += ca.fee.last.medium_estimate
+        rev_est_year2 += ca.fee.first.medium_estimate
       elsif current_date.year+2 == conclusion_date.year
-        rev_est_year3 += ca.fee.last.medium_estimate
+        rev_est_year3 += ca.fee.first.medium_estimate
       elsif current_date.year+3 == conclusion_date.year
-        rev_est_year4 += ca.fee.last.medium_estimate
+        rev_est_year4 += ca.fee.first.medium_estimate
       elsif current_date.year+4 >= conclusion_date.year
-        rev_est_year5_plus += ca.fee.last.medium_estimate
+        rev_est_year5_plus += ca.fee.first.medium_estimate
       end
     end
     @medium_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
@@ -120,17 +120,17 @@ class GraphsController < ApplicationController
     rev_est_year5_plus = 0
     @low_final_estimate = []
     current_user.lawfirm.cases.each do |ca|
-      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected))
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected))
       if current_date.year == conclusion_date.year
-        rev_est_year1 += ca.fee.last.low_estimate
+        rev_est_year1 += ca.fee.first.low_estimate
       elsif current_date.year+1 == conclusion_date.year
-        rev_est_year2 += ca.fee.last.low_estimate
+        rev_est_year2 += ca.fee.first.low_estimate
       elsif current_date.year+2 == conclusion_date.year
-        rev_est_year3 += ca.fee.last.low_estimate
+        rev_est_year3 += ca.fee.first.low_estimate
       elsif current_date.year+3 == conclusion_date.year
-        rev_est_year4 += ca.fee.last.low_estimate
+        rev_est_year4 += ca.fee.first.low_estimate
       elsif current_date.year+4 >= conclusion_date.year
-        rev_est_year5_plus += ca.fee.last.low_estimate
+        rev_est_year5_plus += ca.fee.first.low_estimate
       end
     end
     @low_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
@@ -149,17 +149,17 @@ class GraphsController < ApplicationController
     rev_est_year5_plus = 0
     @high_fast_final_estimate = []
     current_user.lawfirm.cases.each do |ca|
-      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast))
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_fast))
       if current_date.year == conclusion_date.year
-        rev_est_year1 += ca.fee.last.high_estimate
+        rev_est_year1 += ca.fee.first.high_estimate
       elsif current_date.year+1 == conclusion_date.year
-        rev_est_year2 += ca.fee.last.high_estimate
+        rev_est_year2 += ca.fee.first.high_estimate
       elsif current_date.year+2 == conclusion_date.year
-        rev_est_year3 += ca.fee.last.high_estimate
+        rev_est_year3 += ca.fee.first.high_estimate
       elsif current_date.year+3 == conclusion_date.year
-        rev_est_year4 += ca.fee.last.high_estimate
+        rev_est_year4 += ca.fee.first.high_estimate
       elsif current_date.year+4 >= conclusion_date.year
-        rev_est_year5_plus += ca.fee.last.high_estimate
+        rev_est_year5_plus += ca.fee.first.high_estimate
       end
     end
     case_revenue_by_year_fast_medium
@@ -180,17 +180,17 @@ class GraphsController < ApplicationController
     rev_est_year5_plus = 0
     @medium_fast_final_estimate = []
     current_user.lawfirm.cases.each do |ca|
-      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast))
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_fast))
       if current_date.year == conclusion_date.year
-        rev_est_year1 += ca.fee.last.medium_estimate
+        rev_est_year1 += ca.fee.first.medium_estimate
       elsif current_date.year+1 == conclusion_date.year
-        rev_est_year2 += ca.fee.last.medium_estimate
+        rev_est_year2 += ca.fee.first.medium_estimate
       elsif current_date.year+2 == conclusion_date.year
-        rev_est_year3 += ca.fee.last.medium_estimate
+        rev_est_year3 += ca.fee.first.medium_estimate
       elsif current_date.year+3 == conclusion_date.year
-        rev_est_year4 += ca.fee.last.medium_estimate
+        rev_est_year4 += ca.fee.first.medium_estimate
       elsif current_date.year+4 >= conclusion_date.year
-        rev_est_year5_plus += ca.fee.last.medium_estimate
+        rev_est_year5_plus += ca.fee.first.medium_estimate
       end
     end
     @medium_fast_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
@@ -209,17 +209,17 @@ class GraphsController < ApplicationController
     rev_est_year5_plus = 0
     @low_fast_final_estimate = []
     current_user.lawfirm.cases.each do |ca|
-      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast))
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_fast))
       if current_date.year == conclusion_date.year
-        rev_est_year1 += ca.fee.last.low_estimate
+        rev_est_year1 += ca.fee.first.low_estimate
       elsif current_date.year+1 == conclusion_date.year
-        rev_est_year2 += ca.fee.last.low_estimate
+        rev_est_year2 += ca.fee.first.low_estimate
       elsif current_date.year+2 == conclusion_date.year
-        rev_est_year3 += ca.fee.last.low_estimate
+        rev_est_year3 += ca.fee.first.low_estimate
       elsif current_date.year+3 == conclusion_date.year
-        rev_est_year4 += ca.fee.last.low_estimate
+        rev_est_year4 += ca.fee.first.low_estimate
       elsif current_date.year+4 >= conclusion_date.year
-        rev_est_year5_plus += ca.fee.last.low_estimate
+        rev_est_year5_plus += ca.fee.first.low_estimate
       end
     end
     @low_fast_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
@@ -238,17 +238,17 @@ class GraphsController < ApplicationController
     rev_est_year5_plus = 0
     @low_slow_final_estimate = []
     current_user.lawfirm.cases.each do |ca|
-      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow))
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_slow))
       if current_date.year == conclusion_date.year
-        rev_est_year1 += ca.fee.last.low_estimate
+        rev_est_year1 += ca.fee.first.low_estimate
       elsif current_date.year+1 == conclusion_date.year
-        rev_est_year2 += ca.fee.last.low_estimate
+        rev_est_year2 += ca.fee.first.low_estimate
       elsif current_date.year+2 == conclusion_date.year
-        rev_est_year3 += ca.fee.last.low_estimate
+        rev_est_year3 += ca.fee.first.low_estimate
       elsif current_date.year+3 == conclusion_date.year
-        rev_est_year4 += ca.fee.last.low_estimate
+        rev_est_year4 += ca.fee.first.low_estimate
       elsif current_date.year+4 >= conclusion_date.year
-        rev_est_year5_plus += ca.fee.last.low_estimate
+        rev_est_year5_plus += ca.fee.first.low_estimate
       end
     end
     case_revenue_by_year_slow_medium
@@ -269,17 +269,17 @@ class GraphsController < ApplicationController
     rev_est_year5_plus = 0
     @medium_slow_final_estimate = []
     current_user.lawfirm.cases.each do |ca|
-      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow))
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_slow))
       if current_date.year == conclusion_date.year
-        rev_est_year1 += ca.fee.last.medium_estimate
+        rev_est_year1 += ca.fee.first.medium_estimate
       elsif current_date.year+1 == conclusion_date.year
-        rev_est_year2 += ca.fee.last.medium_estimate
+        rev_est_year2 += ca.fee.first.medium_estimate
       elsif current_date.year+2 == conclusion_date.year
-        rev_est_year3 += ca.fee.last.medium_estimate
+        rev_est_year3 += ca.fee.first.medium_estimate
       elsif current_date.year+3 == conclusion_date.year
-        rev_est_year4 += ca.fee.last.medium_estimate
+        rev_est_year4 += ca.fee.first.medium_estimate
       elsif current_date.year+4 >= conclusion_date.year
-        rev_est_year5_plus += ca.fee.last.medium_estimate
+        rev_est_year5_plus += ca.fee.first.medium_estimate
       end
     end
     @medium_slow_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
@@ -298,17 +298,17 @@ class GraphsController < ApplicationController
     rev_est_year5_plus = 0
     @high_slow_final_estimate = []
     current_user.lawfirm.cases.each do |ca|
-      conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow))
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_slow))
       if current_date.year == conclusion_date.year
-        rev_est_year1 += ca.fee.last.high_estimate
+        rev_est_year1 += ca.fee.first.high_estimate
       elsif current_date.year+1 == conclusion_date.year
-        rev_est_year2 += ca.fee.last.high_estimate
+        rev_est_year2 += ca.fee.first.high_estimate
       elsif current_date.year+2 == conclusion_date.year
-        rev_est_year3 += ca.fee.last.high_estimate
+        rev_est_year3 += ca.fee.first.high_estimate
       elsif current_date.year+3 == conclusion_date.year
-        rev_est_year4 += ca.fee.last.high_estimate
+        rev_est_year4 += ca.fee.first.high_estimate
       elsif current_date.year+4 >= conclusion_date.year
-        rev_est_year5_plus += ca.fee.last.high_estimate
+        rev_est_year5_plus += ca.fee.first.high_estimate
       end
     end
     @high_slow_final_estimate.push(rev_est_year1,rev_est_year2,rev_est_year3,rev_est_year4,rev_est_year5_plus)
@@ -324,25 +324,25 @@ class GraphsController < ApplicationController
     current_date = DateTime.now
     @category_years = [current_date.year, current_date.year+1, current_date.year+2,
                       current_date.year+3, current_date.year+4]
-    rev_est_year1 = 0
-    rev_est_year2 = 0
-    rev_est_year3 = 0
-    rev_est_year4 = 0
-    rev_est_year5_plus = 0
     @final_tally =[]
     @lf_pgs.each do |lf_pg|
+      rev_est_year1 = 0
+      rev_est_year2 = 0
+      rev_est_year3 = 0
+      rev_est_year4 = 0
+      rev_est_year5_plus = 0
       current_user.lawfirm.cases.where(practice_group: lf_pg).each do |ca|
-        conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected))
+        conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected))
         if current_date.year == conclusion_date.year
-          rev_est_year1 += ca.fee.last.medium_estimate
+          rev_est_year1 += ca.fee.first.medium_estimate
         elsif current_date.year+1 == conclusion_date.year
-          rev_est_year2 += ca.fee.last.medium_estimate
+          rev_est_year2 += ca.fee.first.medium_estimate
         elsif current_date.year+2 == conclusion_date.year
-          rev_est_year3 += ca.fee.last.medium_estimate
+          rev_est_year3 += ca.fee.first.medium_estimate
         elsif current_date.year+3 == conclusion_date.year
-          rev_est_year4 += ca.fee.last.medium_estimate
+          rev_est_year4 += ca.fee.first.medium_estimate
         elsif current_date.year+4 >= conclusion_date.year
-          rev_est_year5_plus += ca.fee.last.medium_estimate
+          rev_est_year5_plus += ca.fee.first.medium_estimate
         end
         @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5_plus]
       end
@@ -358,25 +358,25 @@ class GraphsController < ApplicationController
     current_date = DateTime.now
     @category_years = [current_date.year, current_date.year+1, current_date.year+2,
                       current_date.year+3, current_date.year+4]
-    rev_est_year1 = 0
-    rev_est_year2 = 0
-    rev_est_year3 = 0
-    rev_est_year4 = 0
-    rev_est_year5_plus = 0
     @final_tally =[]
     @lf_pgs.each do |lf_pg|
+      rev_est_year1 = 0
+      rev_est_year2 = 0
+      rev_est_year3 = 0
+      rev_est_year4 = 0
+      rev_est_year5_plus = 0
       current_user.lawfirm.cases.where(practice_group: lf_pg).each do |ca|
-        conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected))
+        conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected))
         if current_date.year == conclusion_date.year
-          rev_est_year1 += ca.fee.last.high_estimate
+          rev_est_year1 += ca.fee.first.high_estimate
         elsif current_date.year+1 == conclusion_date.year
-          rev_est_year2 += ca.fee.last.high_estimate
+          rev_est_year2 += ca.fee.first.high_estimate
         elsif current_date.year+2 == conclusion_date.year
-          rev_est_year3 += ca.fee.last.high_estimate
+          rev_est_year3 += ca.fee.first.high_estimate
         elsif current_date.year+3 == conclusion_date.year
-          rev_est_year4 += ca.fee.last.high_estimate
+          rev_est_year4 += ca.fee.first.high_estimate
         elsif current_date.year+4 >= conclusion_date.year
-          rev_est_year5_plus += ca.fee.last.high_estimate
+          rev_est_year5_plus += ca.fee.first.high_estimate
         end
         @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5_plus]
       end
@@ -392,25 +392,25 @@ class GraphsController < ApplicationController
     current_date = DateTime.now
     @category_years = [current_date.year, current_date.year+1, current_date.year+2,
                       current_date.year+3, current_date.year+4]
-    rev_est_year1 = 0
-    rev_est_year2 = 0
-    rev_est_year3 = 0
-    rev_est_year4 = 0
-    rev_est_year5_plus = 0
     @final_tally =[]
     @lf_pgs.each do |lf_pg|
+      rev_est_year1 = 0
+      rev_est_year2 = 0
+      rev_est_year3 = 0
+      rev_est_year4 = 0
+      rev_est_year5_plus = 0
       current_user.lawfirm.cases.where(practice_group: lf_pg).each do |ca|
-        conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected))
+        conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected))
         if current_date.year == conclusion_date.year
-          rev_est_year1 += ca.fee.last.low_estimate
+          rev_est_year1 += ca.fee.first.low_estimate
         elsif current_date.year+1 == conclusion_date.year
-          rev_est_year2 += ca.fee.last.low_estimate
+          rev_est_year2 += ca.fee.first.low_estimate
         elsif current_date.year+2 == conclusion_date.year
-          rev_est_year3 += ca.fee.last.low_estimate
+          rev_est_year3 += ca.fee.first.low_estimate
         elsif current_date.year+3 == conclusion_date.year
-          rev_est_year4 += ca.fee.last.low_estimate
+          rev_est_year4 += ca.fee.first.low_estimate
         elsif current_date.year+4 >= conclusion_date.year
-          rev_est_year5_plus += ca.fee.last.low_estimate
+          rev_est_year5_plus += ca.fee.first.low_estimate
         end
         @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5_plus]
       end
