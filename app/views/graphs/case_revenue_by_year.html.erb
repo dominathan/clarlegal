@@ -14,6 +14,13 @@ var highArray =  <%= raw @high_final_estimate %>;
 var mediumArray = <%= raw @medium_final_estimate %>;
 var lowArray = <%= raw @low_final_estimate %>;
 var categoryYear = <%= @category_years %>;
+var categoryLinks = {
+   "<%=@category_years[0] %>" : "<%=revenue_by_year_yr_1_url.to_str %>",
+   "<%=@category_years[1] %>" : "<%=revenue_by_year_yr_2_url.to_str %>",
+   "<%=@category_years[2] %>" : "<%=revenue_by_year_yr_3_url.to_str %>",
+   "<%=@category_years[3] %>" : "<%=revenue_by_year_yr_4_url.to_str %>",
+   "<%=@category_years[4] %>" : "<%=revenue_by_year_yr_5_url.to_str %>",
+ };
 
 
   $(function () {
@@ -31,7 +38,13 @@ var categoryYear = <%= @category_years %>;
                 text: '(assuming medium recovery rate)'
             },
             xAxis: {
-                categories: categoryYear
+                categories: categoryYear,
+                labels: {
+                    formatter: function () {
+                        return '<a href="'  + categoryLinks[this.value] + '">' + this.value + '</a>';
+                    },
+                    useHTML: true
+                }
             },
             yAxis: {
                 min: 0,

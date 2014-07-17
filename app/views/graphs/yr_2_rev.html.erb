@@ -1,0 +1,60 @@
+<% provide(:title, 'Revenue by Year') %>
+
+<div id="revenueByMonthYr2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<br>
+<div class='center'>
+<%= link_to "Expected Recovery Rate", revenue_by_year_path, class: "btn btn-large btn-small" %>
+</div>
+
+<script type="text/javascript">
+var categoryMonths = <%= raw @category_months %>
+var mediumRevByMonth = <%= raw @first_year_rev_medium %>
+var highRevByMonth = <%= raw @first_year_rev_high %>
+var lowRevByMonth = <%= raw @first_year_rev_low %>
+
+$(function () {
+        $('#revenueByMonthYr2').highcharts({
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'Expected Revenue by Month for <%= raw @category_years[1]%>'
+            },
+            subtitle: {
+                text: "Accelerated Recovery"
+            },
+            xAxis: {
+                categories: categoryMonths
+            },
+            yAxis: {
+                title: {
+                    text: 'Revenue ($mm)'
+                },
+            },
+            tooltip: {
+                crosshairs: true,
+                shared: true
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                name: 'Low Estimate',
+                data: lowRevByMonth
+            }, {
+                name: 'Medium Estimate',
+                data: mediumRevByMonth
+            },
+            {
+                name: 'High Estimate',
+                data: highRevByMonth
+            }]
+        });
+    });
+
+</script>

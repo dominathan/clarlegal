@@ -420,5 +420,241 @@ class GraphsController < ApplicationController
     zipped_file = @lf_pgs.zip(@final_tally)
     @hash_file_low = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
   end
+
+  def set_monthly_rev
+    @rev_jan=0
+    @rev_feb=0
+    @rev_mar=0
+    @rev_apr=0
+    @rev_may=0
+    @rev_jun=0
+    @rev_jul=0
+    @rev_aug=0
+    @rev_sept=0
+    @rev_oct=0
+    @rev_nov=0
+    @rev_dec=0
+  end
+
+  def yr_1_rev
+    #ALL YEAR 1 REV BY MONTH AT FAST CONCLUSION DATE at MEDIUM ESTIMATE
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    @category_months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
+    set_monthly_rev
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_fast))
+      if current_date.year == conclusion_date.year
+        if conclusion_date.month == 1
+          @rev_jan += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 2
+          @rev_feb += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 3
+          @rev_mar += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 4
+          @rev_apr += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 5
+          @rev_may += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 6
+          @rev_jun += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 7
+          @rev_jul += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 8
+          @rev_aug += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 9
+          @rev_sept += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 10
+          @rev_oct += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 11
+          @rev_nov += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 12
+          @rev_dec += ca.fee.first.medium_estimate
+        end
+      end
+    end
+    @first_year_rev_medium = [@rev_jan,@rev_feb,@rev_mar,@rev_apr,@rev_may,@rev_jun,@rev_jul,@rev_aug,@rev_sept,@rev_oct,@rev_nov,@rev_dec]
+    #ALL YEAR 1 REV BY MONTH AT FAST CONCLUSION at HIGH ESTIMATE
+    set_monthly_rev
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_fast))
+      if current_date.year == conclusion_date.year
+        if conclusion_date.month == 1
+          @rev_jan += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 2
+          @rev_feb += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 3
+          @rev_mar += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 4
+          @rev_apr += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 5
+          @rev_may += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 6
+          @rev_jun += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 7
+          @rev_jul += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 8
+          @rev_aug += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 9
+          @rev_sept += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 10
+          @rev_oct += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 11
+          @rev_nov += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 12
+          @rev_dec += ca.fee.first.high_estimate
+        end
+      end
+    end
+    @first_year_rev_high = [@rev_jan,@rev_feb,@rev_mar,@rev_apr,@rev_may,@rev_jun,@rev_jul,@rev_aug,@rev_sept,@rev_oct,@rev_nov,@rev_dec]
+    #and fast low revenue
+    set_monthly_rev
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_fast))
+      if current_date.year == conclusion_date.year
+        if conclusion_date.month == 1
+          @rev_jan += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 2
+          @rev_feb += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 3
+          @rev_mar += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 4
+          @rev_apr += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 5
+          @rev_may += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 6
+          @rev_jun += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 7
+          @rev_jul += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 8
+          @rev_aug += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 9
+          @rev_sept += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 10
+          @rev_oct += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 11
+          @rev_nov += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 12
+          @rev_dec += ca.fee.first.low_estimate
+        end
+      end
+    end
+    @first_year_rev_low = [@rev_jan,@rev_feb,@rev_mar,@rev_apr,@rev_may,@rev_jun,@rev_jul,@rev_aug,@rev_sept,@rev_oct,@rev_nov,@rev_dec]
+  end
+
+  def yr_2_rev
+    #ALL YEAR 2 REV BY MONTH AT FAST CONCLUSION at HIGH ESTIMATE
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    @category_months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
+    set_monthly_rev
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_fast))
+      if current_date.year+1 == conclusion_date.year
+        if conclusion_date.month == 1
+          @rev_jan += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 2
+          @rev_feb += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 3
+          @rev_mar += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 4
+          @rev_apr += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 5
+          @rev_may += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 6
+          @rev_jun += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 7
+          @rev_jul += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 8
+          @rev_aug += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 9
+          @rev_sept += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 10
+          @rev_oct += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 11
+          @rev_nov += ca.fee.first.medium_estimate
+        elsif conclusion_date.month == 12
+          @rev_dec += ca.fee.first.medium_estimate
+        end
+      end
+    end
+    @first_year_rev_medium = [@rev_jan,@rev_feb,@rev_mar,@rev_apr,@rev_may,@rev_jun,@rev_jul,@rev_aug,@rev_sept,@rev_oct,@rev_nov,@rev_dec]
+    #ALL YEAR 2 REV BY MONTH AT FAST CONCLUSION at HIGH ESTIMATE
+    set_monthly_rev
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_fast))
+      if current_date.year+1 == conclusion_date.year
+        if conclusion_date.month == 1
+          @rev_jan += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 2
+          @rev_feb += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 3
+          @rev_mar += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 4
+          @rev_apr += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 5
+          @rev_may += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 6
+          @rev_jun += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 7
+          @rev_jul += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 8
+          @rev_aug += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 9
+          @rev_sept += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 10
+          @rev_oct += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 11
+          @rev_nov += ca.fee.first.high_estimate
+        elsif conclusion_date.month == 12
+          @rev_dec += ca.fee.first.high_estimate
+        end
+      end
+    end
+    @first_year_rev_high = [@rev_jan,@rev_feb,@rev_mar,@rev_apr,@rev_may,@rev_jun,@rev_jul,@rev_aug,@rev_sept,@rev_oct,@rev_nov,@rev_dec]
+    #and fast low revenue
+    set_monthly_rev
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_fast))
+      if current_date.year+1 == conclusion_date.year
+        if conclusion_date.month == 1
+          @rev_jan += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 2
+          @rev_feb += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 3
+          @rev_mar += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 4
+          @rev_apr += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 5
+          @rev_may += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 6
+          @rev_jun += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 7
+          @rev_jul += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 8
+          @rev_aug += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 9
+          @rev_sept += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 10
+          @rev_oct += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 11
+          @rev_nov += ca.fee.first.low_estimate
+        elsif conclusion_date.month == 12
+          @rev_dec += ca.fee.first.low_estimate
+        end
+      end
+    end
+    @first_year_rev_low = [@rev_jan,@rev_feb,@rev_mar,@rev_apr,@rev_may,@rev_jun,@rev_jul,@rev_aug,@rev_sept,@rev_oct,@rev_nov,@rev_dec]
+  end
+
+
+  def yr_3_rev
+  end
+  def yr_4_rev
+  end
+  def yr_5_rev
+  end
+
 end
 
