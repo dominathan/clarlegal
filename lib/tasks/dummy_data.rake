@@ -67,7 +67,7 @@ namespace :db do
       position_list = ['Paralegal', 'Attorney','Accountant','Staff','Responsible Attorney']
       Staffing.create!(full_name: Faker::Name.name,
                         position: position_list[Random.rand(0..4)],
-                        lawfirm_id: Random.rand(1..3))
+                        lawfirm_id: 1)
     end
   end
 
@@ -81,7 +81,7 @@ namespace :db do
                       client_zip_code: Faker::Address.zip,
                       client_phone_number: Faker::PhoneNumber.phone_number,
                       client_email: Faker::Internet.email,
-                      user_id: Random.rand(1..5))
+                      user_id: Random.rand(1..3))
     end
   end
 
@@ -119,18 +119,21 @@ namespace :db do
                                 end,
                   payment_likelihood: payment_likelihood[Random.rand(0..2)],
                   retainer: Random.rand(0..10000),
-                  cost_estimate: Random.rand(0..5000))
+                  cost_estimate: Random.rand(0..100000))
     end
   end
 
   desc "add 30 Timings - 1 per case"
   task populate: :environment do
     30.times do |n|
+      fast_conclusion = Random.rand(0..24)
+      expected_conclusion = fast_conclusion+Random.rand(0..24)
+      slow_conclusion = fast_conclusion+expected_conclusion+Random.rand(0..24)
       Timing.create!(case_id: n+1,
                       date_opened: Date.new(Random.rand(2013..2014),Random.rand(1..12),Random.rand(1..28)),
-                      estimated_conclusion_fast: Random.rand(0..12),
-                      estimated_conclusion_expected: Random.rand(13..24),
-                      estimated_conclusion_slow: Random.rand(25..60))
+                      estimated_conclusion_fast: fast_conclusion,
+                      estimated_conclusion_expected: expected_conclusion,
+                      estimated_conclusion_slow: slow_conclusion)
     end
   end
 

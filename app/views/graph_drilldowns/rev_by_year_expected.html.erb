@@ -1,0 +1,100 @@
+<% provide(:title, 'Revenue by Year') %>
+
+<div id="revenueByYearExpected" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<br>
+<div class='center'>
+  <%= link_to "Accelerated Recovery", revenue_by_year_accelerated_path, class: "btn btn-large btn-small" %>
+  <%= link_to "Expected Recovery", revenue_by_year_expected_path, class: "btn btn-large btn-small" %>
+  <%= link_to "Slow Recovery", revenue_by_year_slow_path, class: "btn btn-large btn-small" %>
+</div>
+
+<script type="text/javascript">
+
+ $(function () {
+
+var categoryByYear = <%= @category_years %>;
+var costByYear = <%= @cost_by_year %>
+var revByYearHigh = <%= @rev_by_year_high %>;
+var revByYearMedium = <%= @rev_by_year_medium %>;
+var revByYearLow = <%= @rev_by_year_low %>;
+var categoryLinks = {
+   "<%=@category_years[0] %>" : "<%=revenue_by_year_yr_1_url.to_str %>",
+   "<%=@category_years[1] %>" : "<%=revenue_by_year_yr_2_url.to_str %>",
+   "<%=@category_years[2] %>" : "<%=revenue_by_year_yr_3_url.to_str %>",
+   "<%=@category_years[3] %>" : "<%=revenue_by_year_yr_4_url.to_str %>",
+   "<%=@category_years[4] %>" : "<%=revenue_by_year_yr_5_url.to_str %>",
+ };
+
+
+  // Create the chart
+  $('#revenueByYearExpected').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Expected Revenue By Year'
+      },
+      subtitle: {
+          text: 'Expected Recovery Rate'
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+          labels: {
+                    formatter: function () {
+                        return '<a href="'  + categoryLinks[this.value] + '">' + this.value + '</a>';
+                    },
+                    useHTML: true
+                }
+      },
+      yAxis: {
+          title: {
+              text: 'Revenue'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX + 20,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Low Revenue',
+          data: revByYearLow,
+      },
+      {
+          name: 'Medium Revenue',
+          data: revByYearMedium
+      },
+      {
+          name: 'High Revenue',
+          data: revByYearHigh
+      },
+      {
+          name: 'Estimated Cost',
+          color: 'red',
+          data: costByYear
+      }],
+  })
+});
+
+</script>

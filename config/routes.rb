@@ -38,10 +38,6 @@ Claregal::Application.routes.draw do
   match '/practice_group/cases', to: "graphs#practice_group_pie", via: 'get'
   match '/practice_group/revenues', to: "graphs#practice_group_revenue_pie_low", via: 'get'
 
-  match '/revenue_by_year', to: "graphs#case_revenue_by_year", via: 'get'
-  match '/revenue_by_year/fast', to: "graphs#case_revenue_by_year_fast", via: 'get'
-  match '/revenue_by_year/slow', to: "graphs#case_revenue_by_year_slow", via: 'get'
-
   match '/revenue_by_year/practice_group', to: "graphs#rev_by_year_by_pg", via: 'get'
   match '/revenue_by_year/practice_group/high', to: "graphs#rev_by_year_by_pg_high", via: 'get'
   match '/revenue_by_year/practice_group/low', to: "graphs#rev_by_year_by_pg_low", via: 'get'
@@ -51,6 +47,10 @@ Claregal::Application.routes.draw do
   match '/revenue_by_year/yr_3', to: "graphs#yr_3_rev", via: 'get'
   match '/revenue_by_year/yr_4', to: "graphs#yr_4_rev", via: 'get'
   match '/revenue_by_year/yr_5', to: "graphs#yr_5_rev", via: 'get'
+
+  match '/revenue_by_year/accelerated',     to: 'graph_drilldowns#rev_by_year', via: 'get'
+  match '/revenue_by_year/expected',     to: 'graph_drilldowns#rev_by_year_expected', via: 'get'
+  match '/revenue_by_year/slow',     to: 'graph_drilldowns#rev_by_year_slow', via: 'get'
 
 
 
