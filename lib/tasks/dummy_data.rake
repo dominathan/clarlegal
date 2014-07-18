@@ -17,6 +17,11 @@ namespace :db do
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
+    User.create!(name: "liz",
+                 email: "liz@test.com",
+                 password: "password",
+                 password_confirmation: "password",
+                 lawfirm_id: 1)
     3.times do |n|
       name  = Faker::Name.name
       email = Faker::Internet.email
@@ -87,7 +92,7 @@ namespace :db do
 
   desc "add 30 cases to data-set"
   task populate: :environment do
-    30.times do
+    50.times do
       plaintiff = Faker::Name.name
       defendant = Faker::Name.name
       Case.create!(client_id: Random.rand(1..10),

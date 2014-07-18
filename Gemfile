@@ -20,6 +20,7 @@ end
 gem 'figaro'
 gem 'faker', '1.1.2' #for database population
 gem 'highcharts-rails', '~> 4.0.1' #for highcharts.js
+gem 'will_paginate' #added to have clickiable page numbers at bottom of page
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
@@ -29,7 +30,7 @@ end
 group :test do
   gem 'selenium-webdriver', '2.35.1'
   gem 'capybara', '2.1.0'
-  gem 'factory_girl_rails', '4.2.1'  #added for testing and generating random items
+  gem 'factory_girl_rails', '4.2.1'  #added for testing
 end
 
 group :production do
