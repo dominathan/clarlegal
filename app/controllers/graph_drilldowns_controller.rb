@@ -28,43 +28,10 @@ class GraphDrilldownsController < ApplicationController
     yearly_collection(@cost_by_year)
   end
 
-
-
   def rev_by_year
     set_category_years
     years_broken_out_by_months
     all_year_variables
-    # revenue_collection_by_month(0,'fast','high')
-    # monthly_collection(@year_1_by_month_high)
-    # revenue_collection_by_month(0,'fast','medium')
-    # monthly_collection(@year_1_by_month_medium)
-    # revenue_collection_by_month(0,'fast','low')
-    # monthly_collection(@year_1_by_month_low)
-    # revenue_collection_by_month(1,'fast','high')
-    # monthly_collection(@year_2_by_month_high)
-    # revenue_collection_by_month(1,'fast','medium')
-    # monthly_collection(@year_2_by_month_medium)
-    # revenue_collection_by_month(1,'fast','low')
-    # monthly_collection(@year_2_by_month_low)
-    # revenue_collection_by_month(2,'fast','high')
-    # monthly_collection(@year_3_by_month_high)
-    # revenue_collection_by_month(2,'fast','medium')
-    # monthly_collection(@year_3_by_month_medium)
-    # revenue_collection_by_month(2,'fast','low')
-    # monthly_collection(@year_3_by_month_low)
-    # revenue_collection_by_month(3,'fast','high')
-    # monthly_collection(@year_4_by_month_high)
-    # revenue_collection_by_month(3,'fast','medium')
-    # monthly_collection(@year_4_by_month_medium)
-    # revenue_collection_by_month(3,'fast','low')
-    # monthly_collection(@year_4_by_month_low)
-    # revenue_collection_by_month(4,'fast','high')
-    # monthly_collection(@year_5_by_month_high)
-    # revenue_collection_by_month(4,'fast','medium')
-    # monthly_collection(@year_5_by_month_medium)
-    # revenue_collection_by_month(4,'fast','low')
-    # monthly_collection(@year_5_by_month_low)
-    #the three by year
     revenue_collection_by_year('fast','high')
     yearly_collection(@rev_by_year_high)
     revenue_collection_by_year('fast','medium')
@@ -74,6 +41,187 @@ class GraphDrilldownsController < ApplicationController
     cost_by_year('fast','cost')
     yearly_collection(@cost_by_year)
   end
+
+  def rev_year_1_slow
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(0,'slow','high')
+    monthly_collection(@year_1_by_month_high)
+    revenue_collection_by_month(0,'slow','medium')
+    monthly_collection(@year_1_by_month_medium)
+    revenue_collection_by_month(0,'slow','low')
+    monthly_collection(@year_1_by_month_low)
+  end
+
+  def rev_year_1_expected
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(0,'expected','high')
+    monthly_collection(@year_1_by_month_high)
+    revenue_collection_by_month(0,'expected','medium')
+    monthly_collection(@year_1_by_month_medium)
+    revenue_collection_by_month(0,'expected','low')
+    monthly_collection(@year_1_by_month_low)
+  end
+
+  def rev_year_1_accelerated
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(0,'fast','high')
+    monthly_collection(@year_1_by_month_high)
+    revenue_collection_by_month(0,'fast','medium')
+    monthly_collection(@year_1_by_month_medium)
+    revenue_collection_by_month(0,'fast','low')
+    monthly_collection(@year_1_by_month_low)
+  end
+
+  def rev_year_2_slow
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(1,'slow','high')
+    monthly_collection(@year_2_by_month_high)
+    revenue_collection_by_month(1,'slow','medium')
+    monthly_collection(@year_2_by_month_medium)
+    revenue_collection_by_month(1,'slow','low')
+    monthly_collection(@year_2_by_month_low)
+  end
+
+  def rev_year_2_expected
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(1,'expected','high')
+    monthly_collection(@year_2_by_month_high)
+    revenue_collection_by_month(1,'expected','medium')
+    monthly_collection(@year_2_by_month_medium)
+    revenue_collection_by_month(1,'expected','low')
+    monthly_collection(@year_2_by_month_low)
+  end
+
+  def rev_year_2_accelerated
+      set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(1,'fast','high')
+    monthly_collection(@year_2_by_month_high)
+    revenue_collection_by_month(1,'fast','medium')
+    monthly_collection(@year_2_by_month_medium)
+    revenue_collection_by_month(1,'fast','low')
+    monthly_collection(@year_2_by_month_low)
+  end
+
+  def rev_year_3_slow
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(2,'slow','high')
+    monthly_collection(@year_3_by_month_high)
+    revenue_collection_by_month(2,'slow','medium')
+    monthly_collection(@year_3_by_month_medium)
+    revenue_collection_by_month(2,'slow','low')
+    monthly_collection(@year_3_by_month_low)
+  end
+
+  def rev_year_3_expected
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(2,'expected','high')
+    monthly_collection(@year_3_by_month_high)
+    revenue_collection_by_month(2,'expected','medium')
+    monthly_collection(@year_3_by_month_medium)
+    revenue_collection_by_month(2,'expected','low')
+    monthly_collection(@year_3_by_month_low)
+  end
+
+  def rev_year_3_accelerated
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(2,'fast','high')
+    monthly_collection(@year_3_by_month_high)
+    revenue_collection_by_month(2,'fast','medium')
+    monthly_collection(@year_3_by_month_medium)
+    revenue_collection_by_month(2,'fast','low')
+    monthly_collection(@year_3_by_month_low)
+  end
+
+  def rev_year_4_slow
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(3,'slow','high')
+    monthly_collection(@year_4_by_month_high)
+    revenue_collection_by_month(3,'slow','medium')
+    monthly_collection(@year_4_by_month_medium)
+    revenue_collection_by_month(3,'slow','low')
+    monthly_collection(@year_4_by_month_low)
+  end
+
+  def rev_year_4_expected
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(3,'expected','high')
+    monthly_collection(@year_4_by_month_high)
+    revenue_collection_by_month(3,'expected','medium')
+    monthly_collection(@year_4_by_month_medium)
+    revenue_collection_by_month(3,'expected','low')
+    monthly_collection(@year_4_by_month_low)
+  end
+
+  def rev_year_4_accelerated
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(3,'fast','high')
+    monthly_collection(@year_4_by_month_high)
+    revenue_collection_by_month(3,'fast','medium')
+    monthly_collection(@year_4_by_month_medium)
+    revenue_collection_by_month(3,'fast','low')
+    monthly_collection(@year_4_by_month_low)
+  end
+
+  def rev_year_5_slow
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(4,'slow','high')
+    monthly_collection(@year_5_by_month_high)
+    revenue_collection_by_month(4,'slow','medium')
+    monthly_collection(@year_5_by_month_medium)
+    revenue_collection_by_month(4,'slow','low')
+    monthly_collection(@year_5_by_month_low)
+  end
+
+  def rev_year_5_expected
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(4,'expected','high')
+    monthly_collection(@year_5_by_month_high)
+    revenue_collection_by_month(4,'expected','medium')
+    monthly_collection(@year_5_by_month_medium)
+    revenue_collection_by_month(4,'expected','low')
+    monthly_collection(@year_5_by_month_low)
+  end
+
+  def rev_year_5_accelerated
+    set_category_months
+    set_category_years
+    years_broken_out_by_months
+    revenue_collection_by_month(4,'fast','high')
+    monthly_collection(@year_5_by_month_high)
+    revenue_collection_by_month(4,'fast','medium')
+    monthly_collection(@year_5_by_month_medium)
+    revenue_collection_by_month(4,'fast','low')
+    monthly_collection(@year_5_by_month_low)
+  end
+
 
   def revenue_collection_by_year(collection_rate,collection_amount)
     set_yearly_rev
@@ -94,6 +242,7 @@ class GraphDrilldownsController < ApplicationController
   end
 
   def cost_by_year(collection_rate,collection_amount)
+    #change the -= to += for above the line grid, also works for line graph if positive
     set_yearly_rev
     current_user.lawfirm.cases.each do |ca|
       conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
@@ -217,6 +366,7 @@ class GraphDrilldownsController < ApplicationController
   end
 
   def set_category_months
+    @current_date = DateTime.now
     @category_months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
   end
 

@@ -1,4 +1,4 @@
-<% provide(:title, 'Revenue by Year') %>
+<% provide(:title, 'Revenue by Year: revenueByYearSlow') %>
 
 <div id="revenueByYearSlow" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <br>
@@ -18,11 +18,11 @@ var revByYearHigh = <%= @rev_by_year_high %>;
 var revByYearMedium = <%= @rev_by_year_medium %>;
 var revByYearLow = <%= @rev_by_year_low %>;
 var categoryLinks = {
-   "<%=@category_years[0] %>" : "<%=revenue_by_year_yr_1_url.to_str %>",
-   "<%=@category_years[1] %>" : "<%=revenue_by_year_yr_2_url.to_str %>",
-   "<%=@category_years[2] %>" : "<%=revenue_by_year_yr_3_url.to_str %>",
-   "<%=@category_years[3] %>" : "<%=revenue_by_year_yr_4_url.to_str %>",
-   "<%=@category_years[4] %>" : "<%=revenue_by_year_yr_5_url.to_str %>",
+   "<%=@category_years[0] %>" : "<%=revenue_year_1_slow_url.to_str %>",
+   "<%=@category_years[1] %>" : "<%=revenue_year_2_slow_url.to_str %>",
+   "<%=@category_years[2] %>" : "<%=revenue_year_3_slow_url.to_str %>",
+   "<%=@category_years[3] %>" : "<%=revenue_year_4_slow_url.to_str %>",
+   "<%=@category_years[4] %>" : "<%=revenue_year_5_slow_url.to_str %>",
  };
 
 

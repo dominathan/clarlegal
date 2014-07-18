@@ -1,0 +1,73 @@
+<% provide(:title, "Revenue By Month") %>
+
+<div id="revenueYear5Accelerated" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<br>
+<div class='center'>
+  <%= link_to "Back", revenue_by_year_accelerated_path, class: "btn btn-large btn-small" %>
+</div>
+
+<script type="text/javascript">
+
+ $(function () {
+
+var categoryByMonths = <%= raw @category_months %>;
+var revByMonthHigh = <%= @year_5_by_month_high %>;
+var revByMonthMedium = <%= @year_5_by_month_medium %>;
+var revByMonthLow = <%= @year_5_by_month_low %>;
+
+
+  // Create the chart
+  $('#revenueYear5Accelerated').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Revenue <%= @category_years[4]%>'
+      },
+      subtitle: {
+          text: 'Accelerated Recovery Rate'
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+        categories: categoryByMonths,
+      },
+      yAxis: {
+          title: {
+              text: 'Revenue'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Low Revenue',
+          data: revByMonthLow,
+      },
+      {
+          name: 'Medium Revenue',
+          data: revByMonthMedium
+      },
+      {
+          name: 'High Revenue',
+          data: revByMonthHigh
+      }],
+  })
+});
+
+</script>
