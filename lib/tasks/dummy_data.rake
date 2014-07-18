@@ -90,7 +90,7 @@ namespace :db do
     end
   end
 
-  desc "add 30 cases to data-set"
+  desc "add 50 cases to data-set"
   task populate: :environment do
     50.times do
       plaintiff = Faker::Name.name
@@ -107,7 +107,7 @@ namespace :db do
   task populate: :environment do
     fee_type = ['Hourly','Fixed Fee', 'Contingency']
     payment_likelihood = ['High', 'Medium', "Low"]
-    30.times do |n|
+    50.times do |n|
       Fee.create!(case_id: n+1,
                   fee_type: fee_type[Random.rand(0..2)],
                   high_estimate: Random.rand(1..4000000),
@@ -130,7 +130,7 @@ namespace :db do
 
   desc "add 30 Timings - 1 per case"
   task populate: :environment do
-    30.times do |n|
+    50.times do |n|
       fast_conclusion = Random.rand(0..24)
       expected_conclusion = fast_conclusion+Random.rand(0..24)
       slow_conclusion = fast_conclusion+expected_conclusion+Random.rand(0..24)
