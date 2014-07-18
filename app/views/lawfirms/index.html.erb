@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <% if current_user.lawfirm.clients.present? %>
-      <% current_user.lawfirm.clients.order(:client_name).each do |client| %>
+      <% @lawfirm_clients.each do |client| %>
         <tr>
           <td><%= link_to client.client_name, client_path(client) %></td>
           <td><%= client.client_email %></td>
@@ -30,4 +30,6 @@
     <% end %>
   </tbody>
 </table>
+
+<%= will_paginate @lawfirm_clients %>
 

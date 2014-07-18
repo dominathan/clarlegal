@@ -14,15 +14,16 @@
   </thead>
   <tbody>
     <% if current_user.lawfirm.present? %> <!-- does the lawfirm have cases?  If show then show them-->
-      <% current_user.lawfirm.cases.order(:practice_group).each do |one_case| %>
+      <% @lawfirm_cases.each do |one_case| %>
        <tr>
         <td><%= one_case.name %></td>
         <td><%= one_case.matter_reference %></td>
         <td><%= one_case.description %> </td>
         <td><%= one_case.practice_group %> </td>
         <td><%= one_case.client.client_name %> </td>
-      <% end %>
-    <% else %>
+        <% end %>
     <% end %>
   </tbody>
 </table>
+
+<%= will_paginate @lawfirm_cases %>

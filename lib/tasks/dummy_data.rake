@@ -103,7 +103,7 @@ namespace :db do
     end
   end
 
-  desc "add 30 fees - 1 per case"
+  desc "add 50 fees - 1 per case"
   task populate: :environment do
     fee_type = ['Hourly','Fixed Fee', 'Contingency']
     payment_likelihood = ['High', 'Medium', "Low"]
@@ -128,7 +128,7 @@ namespace :db do
     end
   end
 
-  desc "add 30 Timings - 1 per case"
+  desc "add 50 Timings - 1 per case"
   task populate: :environment do
     50.times do |n|
       fast_conclusion = Random.rand(0..24)
