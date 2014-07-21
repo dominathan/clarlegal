@@ -10,6 +10,7 @@
       <th>Email</th>
       <th>Phone Number</th>
       <th>Address</th>
+      <th>Add Case</th>
     </tr>
   </thead>
   <tbody>
@@ -17,12 +18,13 @@
       <% current_user.clients.order(:client_name).each do |client| %>
         <tr>
           <td><%= link_to client.client_name, client_path(client) %></td>
-          <td><%= link_to "Cases for #{client.client_name}", client_cases_path(client) %></td>
+          <td><%= link_to "Cases", client_cases_path(client) %></td>
           <td><%= client.client_email %></td>
           <td><%= client.client_phone_number %></td>
           <td><%= client.client_street_address %><br>
               <%= client.client_city_address%>, <%=client.client_state_address%>, <%=client.client_zip_code %>
           </td>
+          <td><%= link_to "Add New Case", new_client_case_path(client.id)  %></td>
         </tr>
       <% end %>
       <% else %>
