@@ -5,22 +5,21 @@
 <table class="table table-hover sortable">
   <thead>
     <tr>
-      <th>Case Name</th>
+      <th>Case Name<br>
+        (click to view)</th>
       <th>Matter Reference</th>
       <th>Description</th>
       <th>Practice Group</th>
-      <th>More Information</th>
     </tr>
   </thead>
   <tbody>
     <% if @case %> <!-- does the client have cases?  If show then show them-->
       <% @case.each do |one_case| %>
        <tr>
-        <td><%= one_case.name %></td>
+        <td><%= link_to one_case.name, client_case_path(:client_id => @client.id, :id => one_case.id) %></td>
         <td><%= one_case.matter_reference %></td>
         <td><%= one_case.description %> </td>
         <td><%= one_case.practice_group %> </td>
-        <td><%= link_to "More Information", client_case_path(:client_id => @client.id, :id => one_case.id) %> </td>
       <% end %>
     <% else %>
     <% end %>
