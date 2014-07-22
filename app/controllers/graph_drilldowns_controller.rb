@@ -103,7 +103,7 @@ class GraphDrilldownsController < ApplicationController
   end
 
   def rev_year_2_accelerated
-      set_category_months
+    set_category_months
     set_category_years
     years_broken_out_by_months
     revenue_collection_by_month(1,'fast','high')
@@ -297,24 +297,30 @@ class GraphDrilldownsController < ApplicationController
   end
 
   def time_to_collection(case_name,speed)
-    if speed == 'fast'
-      case_name.timing.order(:created_at).last.estimated_conclusion_fast
-    elsif speed == 'expected'
-      case_name.timing.order(:created_at).last.estimated_conclusion_expected
-    elsif speed == 'slow'
-      case_name.timing.order(:created_at).last.estimated_conclusion_slow
+    if case_name.timing.last
+      if speed == 'fast'
+        case_name.timing.order(:created_at).last.estimated_conclusion_fast
+      elsif speed == 'expected'
+        case_name.timing.order(:created_at).last.estimated_conclusion_expected
+      elsif speed == 'slow'
+        case_name.timing.order(:created_at).last.estimated_conclusion_slow
+      end
     end
   end
 
   def collection_expectation(case_name,amount)
-    if amount == 'high'
-      case_name.fee.order(:created_at).last.high_estimate
-    elsif amount == 'medium'
-      case_name.fee.order(:created_at).last.medium_estimate
-    elsif amount == 'low'
-      case_name.fee.order(:created_at).last.low_estimate
-    elsif amount == 'cost'
-      case_name.fee.order(:created_at).last.cost_estimate
+    if case_name.fee.last
+      if amount == 'high'
+        case_name.fee.order(:created_at).last.high_estimate
+      elsif amount == 'medium'
+        case_name.fee.order(:created_at).last.medium_estimate
+      elsif amount == 'low'
+        case_name.fee.order(:created_at).last.low_estimate
+      elsif amount == 'cost'
+        case_name.fee.order(:created_at).last.cost_estimate
+      end
+    else
+      return 0
     end
   end
 
