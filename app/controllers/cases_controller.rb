@@ -17,6 +17,7 @@ class CasesController < ApplicationController
   def create
     @client = Client.find(params[:client_id])
     @case = @client.cases.new(case_params)
+    @case.open = true
     if @case.save
       flash[:success] = "Case added sucessfully"
       redirect_to client_case_path(@client,@case)
@@ -57,7 +58,7 @@ class CasesController < ApplicationController
   private
 
     def case_params
-        params.require(:case).permit(:matter_reference, :description, :practice_group, :name)
+        params.require(:case).permit(:matter_reference, :description, :practice_group, :name, :open)
     end
 
 end

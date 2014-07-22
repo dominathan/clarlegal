@@ -1,5 +1,9 @@
 Claregal::Application.routes.draw do
 
+  get "closeouts/new"
+  get "closeouts/edit"
+  get "closeouts/show"
+  get "closeouts/create"
   root 'home_pages#home'
 
   resources :users do
