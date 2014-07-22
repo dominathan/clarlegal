@@ -17,8 +17,8 @@ class CasesController < ApplicationController
   def create
     @client = Client.find(params[:client_id])
     @case = @client.cases.new(case_params)
-    @case.open = true
     if @case.save
+      Closeout.open_case(@case) #set case.open = true
       flash[:success] = "Case added sucessfully"
       redirect_to client_case_path(@client,@case)
     else
