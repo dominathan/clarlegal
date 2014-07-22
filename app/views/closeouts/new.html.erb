@@ -1,2 +1,25 @@
-<h1>Closeouts#new</h1>
-<p>Find me in app/views/closeouts/new.html.erb</p>
+<% provide(:title, 'Closeout') %>
+
+<%= render 'shared/subheader' %>
+
+<h2>Case Closeout Form</h2>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@closeout, url: {action: "create"}) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label "Date Closed:" %>
+      <%= f.date_field :date, id: 'datepicker' %>
+
+      <%= f.label "Total Revenue:" %>
+      <%= f.text_field :total_revenue %>
+
+      <%= f.label "Total Cost:" %>
+      <%= f.text_field :total_cost %>
+
+      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+
+    <% end %>
+  </div>
+</div>
