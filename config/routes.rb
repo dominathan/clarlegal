@@ -24,6 +24,10 @@ Claregal::Application.routes.draw do
     end
   end
 
+  match '/new_case', to: 'cases#new_case', via: 'get' #for creating a new case directly, more ux friendly
+  match '/new_case/create', to:'cases#create_case', via: 'get' #same as above
+  match '/new_case/create', to:'cases#create_case', via: 'post' #same as above
+
   match '/about', to: 'home_pages#about', via: 'get'
   match '/contact', to: 'home_pages#contact', via: 'get'
   match '/signup', to: 'users#new', via: 'get'
