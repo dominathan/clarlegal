@@ -13,7 +13,7 @@
       <%=f.collection_select(:name, current_user.lawfirm.staffings, :full_name, :full_name, :include_blank => "Select") %>
 
       <%= f.label "Position:" %>
-      <%=f.collection_select(:position, current_user.lawfirm.staffings, :position, :position,:include_blank => "Select") %>
+      <%=f.select(:position, Staffing.all_positions, :include_blank => "Select") %>
 
       <%= f.label "Expected Utilization Percentage:" %>
       <%=f.text_field :percent_utilization %>
