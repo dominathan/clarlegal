@@ -2,7 +2,7 @@
 
 <%= render 'shared/subheader' %>
 
-<h1>Add Case Staff</h1>
+<h2>Add Case Personnel</h2>
 
 <div class="row">
   <div class="span6 offset3">
@@ -15,22 +15,20 @@
       <%= f.label "Position:" %>
       <%=f.select(:position, Staffing.all_positions, :include_blank => "Select") %>
 
-      <%= f.label "Expected Utilization Percentage:" %>
-      <%=f.text_field :percent_utilization %>
-
       <%= f.label "Expected Total Hours:" %>
       <%=f.text_field :hours_expected %>
 
       <%= f.label "Actual Hours Worked:" %>
       <%=f.text_field :hours_actual, :placeholder => 'Leave blank if new case' %>
 
+
+
+    <div class="center">
       <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
-
     <% end %>
-
-  <div class='center'>
-    <%= link_to "Add Staff to #{@lawfirm.firm_name}", new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %>
-  </div>
-
+    <br>
+    <br>
+      <%= link_to "Add Staff to #{@lawfirm.firm_name}", new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %>
+    </div>
   </div>
 </div>

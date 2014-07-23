@@ -10,19 +10,17 @@
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label "Name:" %>
-      <%=f.collection_select(:name, current_user.lawfirm.staffings, :full_name, :full_name, :include_blank => "Select") %>
+      <%=f.select(:name, @case.staff.all.collect! {|case_staff| case_staff.name }, :include_blank => "Select") %>
 
       <%= f.label "Position:" %>
       <%=f.select(:position, Staffing.all_positions, :include_blank => "Select") %>
 
-      <%= f.label "Expected Utilization Percentage:" %>
-      <%=f.text_field :percent_utilization %>
 
       <%= f.label "Expected Total Hours:" %>
       <%=f.text_field :hours_expected %>
 
       <%= f.label "Actual Hours Worked:" %>
-      <%=f.text_field :hours_actual, :placeholder => 'Leave blank if this is a new case' %>
+      <%=f.text_field :hours_actual, :placeholder => 'Leave blank if new case' %>
 
       <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
 
