@@ -11,7 +11,7 @@ class CloseoutsController < ApplicationController
     @client = Client.find(params[:client_id])
     @closeout = @case.closeout.new(closeout_params)
     if @closeout.save
-      #Closeout.close_case(@case)
+      Closeout.close_case(@case)
       flash[:success] = "Case Closed Successfully"
       redirect_to clients_path
     else

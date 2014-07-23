@@ -22,6 +22,11 @@ namespace :db do
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
+    User.create!(name: "mike",
+                 email: "mike@test.com",
+                 password: "password",
+                 password_confirmation: "password",
+                 lawfirm_id: 1)
     3.times do |n|
       name  = Faker::Name.name
       email = Faker::Internet.email
@@ -66,19 +71,20 @@ namespace :db do
     end
   end
 
-  desc "add 10 staff to each lawfirm"
+  desc "add 30 staff to lawfirm 1"
   task populate: :environment do
     30.times do
       position_list = ['Paralegal', 'Attorney','Accountant','Staff','Responsible Attorney']
       Staffing.create!(full_name: Faker::Name.name,
                         position: position_list[Random.rand(0..4)],
+                        hourly_rate: (Random.rand(10..45)*10),
                         lawfirm_id: 1)
     end
   end
 
   desc "add 10 clients to data-set"
   task populate: :environment do
-    10.times do
+    15.times do
       Client.create!(client_name: Faker::Name.name,
                       client_street_address: Faker::Address.street_address,
                       client_city_address: Faker::Address.city,
@@ -86,7 +92,7 @@ namespace :db do
                       client_zip_code: Faker::Address.zip,
                       client_phone_number: Faker::PhoneNumber.phone_number,
                       client_email: Faker::Internet.email,
-                      user_id: Random.rand(1..3))
+                      user_id: Random.rand(1..5))
     end
   end
 
