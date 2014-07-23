@@ -15,7 +15,7 @@ class CasesController < ApplicationController
     @case = Case.new(case_params)
     @case.client_id = Client.find_by(client_name: params[:case][:client]).id
     if @case.save
-      Closeout.open_case(@case)
+      #Closeout.open_case(@case)
       flash[:success] = "Case Added Successfully"
       redirect_to client_case_path(@case.client_id,@case)
     else
@@ -34,7 +34,7 @@ class CasesController < ApplicationController
     @client = Client.find(params[:client_id])
     @case = @client.cases.new(case_params)
     if @case.save
-      Closeout.open_case(@case) #set case.open = true
+      #Closeout.open_case(@case) #set case.open = true
       flash[:success] = "Case Added Successfully"
       redirect_to client_case_path(@client,@case)
     else
