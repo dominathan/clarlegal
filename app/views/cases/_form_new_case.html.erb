@@ -1,0 +1,51 @@
+ <%= form_for(@case, url: {action: "create_case"})  do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label 'Case Name:' %>
+      <%= f.text_field :name %>
+
+      <%= f.label 'Matter Reference:' %>
+      <%= f.collection_select(:matter_reference, current_user.lawfirm.case_types, :mat_ref, :mat_ref) %>
+
+      <%= f.label 'Case Description:' %>
+      <%= f.text_area :description %>
+
+      <%= f.label 'Practice Group:' %>
+      <%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %>
+      <br>
+      <br>
+      <br>
+      <div class='center'>
+        <h4>Fees</h4>
+      </div>
+      <div class="fee">
+        <%= f.fields_for :fees do |ff| %>
+
+          <%= ff.label "Fee Type:" %>
+          <%= ff.select :fee_type, Fee::FEE_TYPE %>
+
+          <%= ff.label "High Value Estimate:" %>
+          <%= ff.text_field :high_estimate %>
+
+          <%= ff.label "Medium Value Estimate:" %>
+          <%= ff.text_field :medium_estimate %>
+
+          <%= ff.label "Low Value Estimate:" %>
+          <%= ff.text_field :low_estimate %>
+
+          <%= ff.label "Likelihood of Fee Payment:" %>
+          <%= ff.select :payment_likelihood, Fee::FEE_PAYMENT_LIKELIHOOD %>
+
+          <%= ff.label "Retainer:" %>
+          <%= ff.text_field :retainer %>
+
+          <%= ff.label "Estimated Cost:" %>
+          <%= ff.text_field :cost_estimate %>
+
+        <%end%>
+      </div> <!-- FEE DIV -->
+
+
+  <% end %>
+
+

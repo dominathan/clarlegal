@@ -2,7 +2,10 @@ class Case < ActiveRecord::Base
   belongs_to :lawfirm
   belongs_to :client
   belongs_to :user
+
   has_many :fee
+  accepts_nested_attributes_for :fee
+
   has_many :staff
   has_many :timing
   has_many :origination
