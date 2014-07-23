@@ -44,8 +44,106 @@
 
         <%end%>
       </div> <!-- FEE DIV -->
+      <br>
+      <br>
+      <br>
+      <div class='center'>
+        <h4>Staff</h4>
+      </div>
+      <div class='staff'>
+        <%= f.fields_for :staffs do |ff| %>
+          <%= ff.label "Name:" %>
+          <%= ff.collection_select(:name, current_user.lawfirm.staffings, :full_name, :full_name, :include_blank => "Select") %>
 
+          <%= ff.label "Position:" %>
+          <%= ff.select(:position, Staffing.all_positions, :include_blank => "Select") %>
 
+          <%= ff.label "Expected Total Hours:" %>
+          <%= ff.text_field :hours_expected %>
+
+          <%= ff.label "Actual Hours Worked:" %>
+          <%= ff.text_field :hours_actual, :placeholder => 'Leave blank if new case' %>
+
+        <% end %>
+      </div> <!-- STAFF DIV -->
+      <br>
+      <br>
+      <br>
+      <div class='center'>
+        <h4>Timing</h4>
+      </div>
+      <div class='timing'>
+        <%= f.fields_for :timings do |ff| %>
+
+          <%= ff.label "Date Opened:" %>
+          <%= ff.date_field :date_opened, id: 'datepicker' %>
+
+          <%= ff.label "Accelerated Estimated Conclusion:" %>
+          <%= ff.text_field :estimated_conclusion_fast, placeholder: "Months from Now"%>
+
+          <%= ff.label "Expected Estimated Conclusion:" %>
+          <%= ff.text_field :estimated_conclusion_expected, placeholder: "Months from Now" %>
+
+          <%= ff.label "Slow Estimated Conclusion:" %>
+          <%= ff.text_field :estimated_conclusion_slow, placeholder: "Months from Now" %>
+
+        <% end %>
+      </div> <!-- Timing DIV -->
+      <br>
+      <br>
+      <br>
+      <div class='center'>
+        <h4>Origination</h4>
+      </div>
+      <div class='origination'>
+        <%= f.fields_for :originations do |ff| %>
+
+          <%= ff.label "Referral Source:" %>
+          <%= ff.text_field :referral_source %>
+
+          <%= ff.label "Existing Client:" %>
+          <%= ff.select :existing_client, Origination::EXISTING_CLIENT_CHOICES %>
+
+          <%= ff.label "Other Source:" %>
+          <%= ff.text_field :other_source %>
+
+        <% end %>
+      </div> <!-- Originations DIV -->
+      <br>
+      <br>
+      <br>
+      <div class='center'>
+        <h4>Venue</h4>
+      </div>
+      <div class='venue'>
+        <%= f.fields_for :venues do |ff| %>
+
+          <%= ff.label "Jurisdiction:" %>
+          <%= ff.select :jurisdiction, Venue::JURISDICTION_CHOICES %>
+
+          <%= ff.label "Judge:" %>
+          <%= ff.text_field :judge %>
+
+        <% end %>
+      </div> <!-- VENUE DIV -->
+      <br>
+      <br>
+      <br>
+      <div class='center'>
+        <h4>Checks</h4>
+      </div>
+      <div class='checks'>
+        <%= f.fields_for :checks do |ff| %>
+
+            <%= ff.label "Conflict Check Date:" %>
+            <%= ff.date_field :conflict_check %>
+
+            <%= ff.label "Retention Letter Date:" %>
+            <%= ff.date_field :retention_letter %>
+
+        <% end %>
+      </div> <!-- CHECKS DIV -->
+    <%= f.submit "Create Case", class: "btn btn-large btn-primary" %>
   <% end %>
 
 

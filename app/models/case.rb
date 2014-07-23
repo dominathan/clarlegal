@@ -3,15 +3,22 @@ class Case < ActiveRecord::Base
   belongs_to :client
   belongs_to :user
 
-  has_many :fee
-  accepts_nested_attributes_for :fee
 
-  has_many :staff
-  has_many :timing
-  has_many :origination
-  has_many :venue
-  has_many :check
+  has_many :fees
+  accepts_nested_attributes_for :fees
+  has_many :staffs
+  accepts_nested_attributes_for :staffs
+  has_many :timings
+  accepts_nested_attributes_for :timings
+  has_many :originations
+  accepts_nested_attributes_for :originations
+  has_many :venues
+  accepts_nested_attributes_for :venues
+  has_many :checks
+  accepts_nested_attributes_for :checks
   has_many :closeout
+
+
 
   validates :client_id, presence: true
 

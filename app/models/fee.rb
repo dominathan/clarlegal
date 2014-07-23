@@ -1,7 +1,7 @@
 class Fee < ActiveRecord::Base
   belongs_to :case
 
-  validates :case_id, presence: true
+  #validates :case_id, presence: true
   validates :high_estimate, presence: true
   validates :medium_estimate, presence: true
   validates :low_estimate, presence: true

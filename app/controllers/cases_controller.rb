@@ -9,6 +9,12 @@ class CasesController < ApplicationController
 
   def new_case
     @case = Case.new
+    @case.fees.build
+    @case.staffs.build
+    @case.timings.build
+    @case.originations.build
+    @case.venues.build
+    @case.checks.build
   end
 
   def create_case
@@ -42,9 +48,6 @@ class CasesController < ApplicationController
     end
   end
 
-
-
-
   def update
     @client = Client.find(params[:client_id])
     @case = @client.cases.find(params[:id])
@@ -77,7 +80,10 @@ class CasesController < ApplicationController
   private
 
     def case_params
-        params.require(:case).permit(:matter_reference, :description, :practice_group, :name, :open, :client_id)
+        params.require(:case).permit(:client, :matter_reference, :description, :practice_group, :name, :open, :client_id,
+                                     :fee_attributes => [])
     end
+
+
 
 end
