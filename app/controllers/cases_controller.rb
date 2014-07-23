@@ -19,7 +19,7 @@ class CasesController < ApplicationController
 
   def create_case
     @case = Case.new(case_params)
-    @case.client_id = Client.find_by(client_name: params[:case][:client]).id
+    #@case.client_id = Client.find_by(client_name: params[:case][:client]).id
     if @case.save
       Closeout.open_case(@case)
       flash[:success] = "Case Added Successfully"
@@ -81,7 +81,17 @@ class CasesController < ApplicationController
 
     def case_params
         params.require(:case).permit(:client, :matter_reference, :description, :practice_group, :name, :open, :client_id,
-                                     :fee_attributes => [])
+                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
+                                                          :low_estimate, :payment_likelihood, :retainer,
+                                                          :cost_estimate],
+                                    :staffs_attributes => [:name, :position, :percent_utilization, :hours_expected,
+                                                           :hours_actual],
+                                    :originations_attributes => [:referral_source, :existing_client, :other_source],
+                                    :venues_attributes => [:jurisdiction, :judge],
+                                    :checks_attributes => [:conflict_check, :retention_letter],
+                                    :timings_attributes => [:date_opened, :estimated_conclusion_fast,
+                                                            :estimated_conclusion_expected,
+                                                           :estimated_conclusion_slow])
     end
 
 

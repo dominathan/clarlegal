@@ -26,9 +26,9 @@
                      <li id="fat-menu" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Fee</a>
                         <ul class="dropdown-menu">
-                           <% if @case.fee.any?  %>
+                           <% if @case.fees.any?  %>
                               <li>
-                                 <%= link_to "Current Fee", client_case_fee_path(@client,@case,@case.fee.last) %>
+                                 <%= link_to "Current Fee", client_case_fee_path(@client,@case,@case.fees.last) %>
                               </li>
                               <li>
                                  <%= link_to "Fee Timeline", client_case_fees_path(@client,@case) %>
@@ -46,12 +46,12 @@
                      <li id="fat-menu" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Staff</a>
                         <ul class="dropdown-menu">
-                           <% if @case.staff.any?  %>
+                           <% if @case.staffs.any?  %>
                               <li>
                                  <%= link_to "Show Staff", client_case_staffs_path(@client,@case) %>
                               </li>
                               <li>
-                                 <%= link_to "Update Staff", edit_client_case_staff_path(@client,@case,@case.staff.first.id) %>
+                                 <%= link_to "Update Staff", edit_client_case_staff_path(@client,@case,@case.staffs.first.id) %>
                               </li>
                            <% else %>
                               <li>
@@ -63,9 +63,9 @@
                      <li id="fat-menu" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Timing</a>
                         <ul class="dropdown-menu">
-                           <% if @case.timing.any?  %>
+                           <% if @case.timings.any?  %>
                               <li>
-                                 <%= link_to "Current Timing", client_case_timing_path(@client,@case,@case.timing.last.id) %>
+                                 <%= link_to "Current Timing", client_case_timing_path(@client,@case,@case.timings.last.id) %>
                               </li> <li>
                                  <%= link_to "Timing Timeline", client_case_timings_path(@client,@case) %>
                               </li>
@@ -82,12 +82,12 @@
                      <li id="fat-menu" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Origination</a>
                         <ul class="dropdown-menu">
-                           <% if @case.origination.any?  %>
+                           <% if @case.originations.any?  %>
                               <li>
-                                 <%= link_to "Show Origination", client_case_origination_path(@client,@case,@case.origination.first.id) %>
+                                 <%= link_to "Show Origination", client_case_origination_path(@client,@case,@case.originations.first.id) %>
                               </li>
                               <li>
-                                 <%= link_to "Update Origination", edit_client_case_origination_path(@client,@case,@case.origination.first.id) %>
+                                 <%= link_to "Update Origination", edit_client_case_origination_path(@client,@case,@case.originations.first.id) %>
                               </li>
                            <% else %>
                               <li>
@@ -99,12 +99,12 @@
                      <li id="fat-menu" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Venue</a>
                         <ul class="dropdown-menu">
-                           <% if @case.venue.any?  %>
+                           <% if @case.venues.any?  %>
                               <li>
-                                 <%= link_to "Show Venue", client_case_venue_path(@client,@case,@case.venue.first.id) %>
+                                 <%= link_to "Show Venue", client_case_venue_path(@client,@case,@case.venues.first.id) %>
                               </li>
                               <li>
-                                 <%= link_to "Update Venue", edit_client_case_venue_path(@client,@case,@case.venue.first.id) %>
+                                 <%= link_to "Update Venue", edit_client_case_venue_path(@client,@case,@case.venues.first.id) %>
                               </li>
                            <% else %>
                               <li>
@@ -116,12 +116,12 @@
                      <li id="fat-menu" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Checks</a>
                         <ul class="dropdown-menu">
-                           <% if @case.check.any?  %>
+                           <% if @case.checks.any?  %>
                               <li>
-                                 <%= link_to "Show Checks", client_case_check_path(@client,@case,@case.check.first.id) %>
+                                 <%= link_to "Show Checks", client_case_check_path(@client,@case,@case.checks.first.id) %>
                               </li>
                               <li>
-                                 <%= link_to "Update Checks", edit_client_case_check_path(@client,@case,@case.check.first.id) %>
+                                 <%= link_to "Update Checks", edit_client_case_check_path(@client,@case,@case.checks.first.id) %>
                               </li>
                            <% else %>
                               <li>

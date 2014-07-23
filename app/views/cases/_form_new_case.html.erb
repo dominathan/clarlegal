@@ -12,6 +12,10 @@
 
       <%= f.label 'Practice Group:' %>
       <%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %>
+
+      <%= f.label 'Client Name:' %>
+      <%= f.collection_select(:client_id, current_user.lawfirm.clients, :id, :client_name) %>
+
       <br>
       <br>
       <br>
