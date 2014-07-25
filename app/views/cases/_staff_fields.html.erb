@@ -1,0 +1,15 @@
+<div class='nested-fields'>
+
+  <%= f.label "Name:" %>
+  <%= f.collection_select(:name, current_user.lawfirm.staffings, :full_name, :full_name, :include_blank => "Select") %>
+
+  <%= f.label "Position:" %>
+  <%= f.select(:position, Staffing.all_positions, :include_blank => "Select") %>
+
+  <%= f.label "Expected Total Hours:" %>
+  <%= f.text_field :hours_expected %>
+
+  <%= f.label "Actual Hours Worked:" %>
+  <%= f.text_field :hours_actual, :placeholder => 'Leave blank if new case' %>
+
+</div>

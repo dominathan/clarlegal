@@ -22,6 +22,7 @@ gem 'faker', '1.1.2' #for database population
 gem 'highcharts-rails', '~> 4.0.1' #for highcharts.js
 gem 'will_paginate' #added to have clickiable page numbers at bottom of page
 gem 'will_paginate-bootstrap'
+gem 'cocoon'  #nested forms, javascript adds new form
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'

@@ -55,19 +55,11 @@
         <h4>Staff</h4>
       </div>
       <div class='staff'>
-        <%= f.fields_for :staffs do |ff| %>
-          <%= ff.label "Name:" %>
-          <%= ff.collection_select(:name, current_user.lawfirm.staffings, :full_name, :full_name, :include_blank => "Select") %>
-
-          <%= ff.label "Position:" %>
-          <%= ff.select(:position, Staffing.all_positions, :include_blank => "Select") %>
-
-          <%= ff.label "Expected Total Hours:" %>
-          <%= ff.text_field :hours_expected %>
-
-          <%= ff.label "Actual Hours Worked:" %>
-          <%= ff.text_field :hours_actual, :placeholder => 'Leave blank if new case' %>
-
+        <%= f.fields_for :staffs do |staff| %>
+          <% render 'staff_fields', :f => staff %>
+          <div class='center'>
+            <%= link_to_add_association "Click to Add More Staff", f, :staffs %>
+          </div>
         <% end %>
       </div> <!-- STAFF DIV -->
       <br>
