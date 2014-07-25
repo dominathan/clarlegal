@@ -16,6 +16,7 @@
 //= require highcharts
 //= require highcharts/modules/exporting
 //= require bootstrap
+//= require bootstrap-modal
 //= require_tree .
 
 /*

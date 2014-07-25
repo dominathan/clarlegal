@@ -24,6 +24,8 @@ Claregal::Application.routes.draw do
     end
   end
 
+  get '/new_practice_group_modal' => "cases#new_pg_modal", :as => 'new_pg_modal'
+
   match '/new_case', to: 'cases#new_case', via: 'get' #for creating a new case directly, more ux friendly
   match '/new_case/create', to:'cases#create_case', via: 'get' #same as above
   match '/new_case/create', to:'cases#create_case', via: 'post' #same as above
