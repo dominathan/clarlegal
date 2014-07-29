@@ -6,8 +6,8 @@
   <thead>
     <tr>
       <th>Case Name</th>
-      <th>Matter Reference</th>
-      <th>Description</th>
+      <th></th>
+      <th></th>
       <th>Practice Group</th>
       <th>Client Name</th>
     </tr>
@@ -17,8 +17,8 @@
       <% @lawfirm_cases.each do |one_case| %>
        <tr>
         <td><%= one_case.name %></td>
-        <td><%= one_case.matter_reference %></td>
-        <td><%= one_case.description %> </td>
+        <td></td>
+        <td></td>
         <td><%= one_case.practice_group %> </td>
         <td><%= one_case.client.client_name %> </td>
         <% end %>
