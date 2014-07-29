@@ -12,7 +12,7 @@
 
       <%= f.label 'Practice Group:' %>
       <%= f.select(:practice_group, current_user.lawfirm.practicegroups.all.map { |c| [c.group_name] }, :include_blank => "Please Select") %> <br>
-      <%= link_to "New Practice Group? Click here", new_pg_modal_path, {:remote => true, 'data-toggle' => 'modal', 'data-target' => '#modal-window'} %><br><br>
+      <%= link_to "New Practice Group? Click here", new_user_lawfirm_practicegroup_path(current_user.id, current_user.lawfirm.id)  %><br><br>
 
       <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div> <!-- div to popup practicegroup modal -->
 
