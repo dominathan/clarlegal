@@ -7,18 +7,18 @@
                <ul class="nav navbar-inner" id="subnav">
                   <!-- <div class='navtext'> -->
                      <li id="fat-menu" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Matter</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Info</a>
                         <ul class="dropdown-menu">
-                           <% if !@case.matter_reference.nil? ||  %>
+                           <% if @case  %>
                               <li>
-                                 <%= link_to "Show Case Matter", client_case_path(@client,@case) %>
+                                 <%= link_to "Show Case Info", client_case_path(@client,@case) %>
                               </li>
                               <li>
-                                 <%= link_to "Update Case Matter", edit_client_case_path(@client,@case) %>
+                                 <%= link_to "Update Case Info", edit_client_case_path(@client,@case) %>
                               </li>
                            <% else %>
                               <li>
-                                 <%= link_to "Add Case Matter", new_client_case_path(@client) %>
+                                 <%= link_to "Add Case Info", new_client_case_path(@client) %>
                               </li>
                            <%end%>
                         </ul>
@@ -55,7 +55,7 @@
                               </li>
                            <% else %>
                               <li>
-                                 <%= link_to "Add Case Staff", new_client_case_staff_path(@client,@case) %>
+                                 <%= link_to "Add Staff", new_client_case_staff_path(@client,@case) %>
                               </li>
                            <%end%>
                         </ul>

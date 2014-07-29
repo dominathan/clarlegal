@@ -10,16 +10,28 @@
       <%= f.label 'Case Name:' %>
       <%= f.text_field :name %>
 
-      <%= f.label 'Matter Reference:' %>
-      <%= f.collection_select(:matter_reference, current_user.lawfirm.case_types, :mat_ref, :mat_ref) %>
+      <%= f.label 'Court:' %>
+      <%= f.text_field :court %>
 
-      <%= f.label 'Case Description:' %>
-      <%= f.text_area :description %>
+      <%= f.label 'Judge:' %>
+      <%= f.text_field :judge %>
+
+      <%= f.label 'Case Number:' %>
+      <%= f.text_field :case_number %>
+
+      <%= f.label 'Opposing Attorney:' %>
+      <%= f.text_field :opposing_attorney %>
+
+      <%= f.label 'Matter Type:' %>
+      <%= f.text_field :type_of_matter %>
+
+      <%= f.label 'Related Cases:' %>
+      <%= f.select(:related_cases, current_user.lawfirm.cases.all.map { |c| c.name }.prepend("N/A"), :include_blank => "Select Related Cases or N/A") %>
 
       <%= f.label 'Practice Group:' %>
       <%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %>
 
-      <h2>Note:  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %> or <%= link_to "Add Matter Reference", new_user_lawfirm_case_type_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %> if missing. </h2>
+      <h2>Note:  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %> if missing. </h2>
       <!-- do not select all practice groups...only practice groups that belong to user's lawfirm -->
 
       <%= f.submit "Create Case", class: "btn btn-large btn-primary" %>
