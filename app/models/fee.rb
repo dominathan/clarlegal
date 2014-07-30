@@ -8,5 +8,5 @@ class Fee < ActiveRecord::Base
 
 
   FEE_PAYMENT_LIKELIHOOD = ['High','Medium','Low']
-  FEE_TYPE = ['Hourly', 'Fixed Fee', 'Contingency']
+  FEE_TYPE = ['Hourly', 'Fixed Fee', "Mixed", 'Contingency']
 end

@@ -51,14 +51,18 @@
           <%= ff.label "Low Value Estimate:" %>
           <%= ff.text_field :low_estimate %>
 
-          <%= ff.label "Likelihood of Fee Payment:" %>
+          <%= ff.label "Likelihood of Recovery:" %>
           <%= ff.select :payment_likelihood, Fee::FEE_PAYMENT_LIKELIHOOD %>
+
+          <%= ff.label "Fee Owed to Referral Source:" %>
+          <%= ff.text_field :referral %>
+
+          <%= ff.label "Estimated Out-of-Pocket Expenses:" %>
+          <%= ff.text_field :cost_estimate %>
 
           <%= ff.label "Retainer:" %>
           <%= ff.text_field :retainer %>
 
-          <%= ff.label "Estimated Cost:" %>
-          <%= ff.text_field :cost_estimate %>
 
         <%end%>
       </div> <!-- FEE DIV -->

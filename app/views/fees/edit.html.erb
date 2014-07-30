@@ -1,5 +1,5 @@
 <% provide(:title, 'Update Fee') %>
-<h1>Update Case Fees</h1>
+<h2>Update Case Fees</h2>
 
 <%= render 'shared/subheader' %>
 
@@ -20,14 +20,17 @@
       <%= f.label "Low Value Estimate:" %>
       <%= f.text_field :low_estimate %>
 
-      <%= f.label "Likelihood of Fee Payment:" %>
+      <%= f.label "Likelihood of Recovery:" %>
       <%= f.select :payment_likelihood, Fee::FEE_PAYMENT_LIKELIHOOD %>
+
+      <%= f.label "Fee Owed to Referral Source:" %>
+      <%= f.text_field :referral %>
+
+      <%= f.label "Estimated Out-of-Pocket Expenses:" %>
+      <%= f.text_field :cost_estimate %>
 
       <%= f.label "Retainer:" %>
       <%= f.text_field :retainer %>
-
-      <%= f.label "Estimated Cost:" %>
-      <%= f.text_field :cost_estimate %>
 
       <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
 

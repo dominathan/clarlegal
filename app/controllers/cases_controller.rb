@@ -85,7 +85,7 @@ class CasesController < ApplicationController
                                               :judge, :related_cases,
                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
                                                           :low_estimate, :payment_likelihood, :retainer,
-                                                          :cost_estimate],
+                                                          :cost_estimate, :referral],
                                     :staffs_attributes => [:name, :position, :percent_utilization, :hours_expected,
                                                            :hours_actual],
                                     :originations_attributes => [:referral_source, :existing_client, :other_source],

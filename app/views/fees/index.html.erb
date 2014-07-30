@@ -2,7 +2,7 @@
 
 <%= render 'shared/subheader' %>
 
-<h1>Fee Timeline </h1>
+<h2>Fee Timeline </h2>
 
 <table class="table table-hover sortable">
   <thead>
@@ -11,8 +11,9 @@
       <th>Low Estimate</th>
       <th>Medium Estimate</th>
       <th>High Estimate</th>
-      <th>Cost Estimate</th>
-      <th>Payment Likelihood</th>
+      <th>Estimated Out-of-Pocket Expenses</th>
+      <th>Fee Owed to Referral Source</th>
+      <th>Likelihood of Recovery</th>
       <th>Retainer</th>
       <th>Last Update</th>
       <th>Edit</th>
@@ -27,6 +28,7 @@
           <td><%= fee.medium_estimate%></td>
           <td><%= fee.high_estimate%></td>
           <td><%= fee.cost_estimate%></td>
+          <td><%= fee.referral %></td>
           <td><%= fee.payment_likelihood%></td>
           <td><%= fee.retainer%></td>
           <td><%= fee.updated_at%></td>

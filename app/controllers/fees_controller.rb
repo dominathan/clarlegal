@@ -60,7 +60,7 @@ class FeesController < ApplicationController
     def fee_params
         params.require(:fee).permit(:fee_type, :high_estimate, :medium_estimate,
                                     :low_estimate, :payment_likelihood, :retainer,
-                                    :cost_estimate)
+                                    :cost_estimate, :referral)
     end
 
 end
