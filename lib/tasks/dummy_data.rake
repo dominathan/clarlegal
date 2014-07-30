@@ -102,10 +102,9 @@ namespace :db do
       plaintiff = Faker::Name.name
       defendant = Faker::Name.name
       Case.create!(client_id: Random.rand(1..10),
-                    description: Faker::Lorem.sentence,
                     name: plaintiff+" V. "+defendant,
                     practice_group: Practicegroup.find_by(id: Random.rand(1..5)).group_name,
-                    matter_reference: CaseType.find_by(id: Random.rand(1..5)).mat_ref)
+                    type_of_matter: CaseType.find_by(id: Random.rand(1..5)).mat_ref)
     end
   end
 
@@ -141,7 +140,8 @@ namespace :db do
       expected_conclusion = fast_conclusion+Random.rand(0..24)
       slow_conclusion = fast_conclusion+expected_conclusion+Random.rand(0..24)
       Timing.create!(case_id: n+1,
-                      date_opened: Date.new(Random.rand(2013..2014),Random.rand(1..12),Random.rand(1..28)),
+                      date_opened: Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28)),
+                      case_filed: Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28)),
                       estimated_conclusion_fast: fast_conclusion,
                       estimated_conclusion_expected: expected_conclusion,
                       estimated_conclusion_slow: slow_conclusion)

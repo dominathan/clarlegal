@@ -9,8 +9,11 @@
     <%= form_for(@timing, url: {action: "update"}) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label "Date Opened:" %>
+      <%= f.label "File Opened:" %>
       <%= f.date_field :date_opened, id: 'datepicker' %>
+
+      <%= f.label "Case Filed:" %>
+      <%= f.date_field :case_filed, id: 'datepicker' %>
 
       <%= f.label "Fastest Estimated Conclusion:" %>
       <%= f.text_field :estimated_conclusion_fast, placeholder: "Months from Now" %>

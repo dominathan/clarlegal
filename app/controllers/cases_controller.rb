@@ -93,7 +93,7 @@ class CasesController < ApplicationController
                                     :checks_attributes => [:conflict_check, :retention_letter],
                                     :timings_attributes => [:date_opened, :estimated_conclusion_fast,
                                                             :estimated_conclusion_expected,
-                                                           :estimated_conclusion_slow])
+                                                            :estimated_conclusion_slow, :case_filed])
     end
 
 
