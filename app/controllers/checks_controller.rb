@@ -10,7 +10,7 @@ class ChecksController < ApplicationController
   def create
     @case = Case.find(params[:case_id])
     @client = Client.find(params[:client_id])
-    @check = @case.check.new(check_params)
+    @check = @case.checks.new(check_params)
     if @check.save
       flash[:success] = "Check Dates Added Successfully."
       redirect_to client_case_path(@client, @case)
@@ -46,7 +46,9 @@ class ChecksController < ApplicationController
   private
 
     def check_params
-      params.require(:check).permit(:conflict_check, :retention_letter)
+      params.require(:check).permit(:conflict_check, :conflict_date, :referring_engagement_letter,
+                                    :referring_engagement_letter_date, :client_engagement_letter,
+                                    :client_engagement_letter_date)
     end
 
 

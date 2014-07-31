@@ -2,18 +2,36 @@
 
 <%= render 'shared/subheader' %>
 
-<h1>Update Case Checks</h1>
+<h2>Update Case Checks</h2>
 
 <div class="row">
   <div class="span6 offset3">
     <%= form_for(@check, url: {action: "update"}) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label "Conflict Check Date:" %>
-      <%= f.date_field :conflict_check %>
+      <%= f.label "Conflict?" %>
+      <%= f.check_box :conflict_check %>
 
-      <%= f.label "Retention Letter Date:" %>
-      <%= f.date_field :retention_letter %>
+      <div class="conflict date">
+        <%= f.label "Conflict Date:" %>
+        <%= f.date_field :conflict_date, id: 'datepicker'%>
+      </div>
+
+        <%= f.label "Referring Engagement Letter?" %>
+        <%= f.check_box :referring_engagement_letter %>
+
+      <div class="conflict date">
+        <%= f.label "Referring Engagement Letter Date:" %>
+        <%= f.date_field :referring_engagement_letter_date, id: 'datepicker' %>
+      </div>
+
+        <%= f.label "Client Engagement Letter?" %>
+        <%= f.check_box :client_engagement_letter %>
+
+      <div class="conflict date">
+        <%= f.label "Client Engagement Letter Date:" %>
+        <%= f.date_field :client_engagement_letter_date, id: 'datepicker' %>
+      </div>
 
       <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
 

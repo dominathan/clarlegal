@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731015833) do
+ActiveRecord::Schema.define(version: 20140731024522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,10 +44,14 @@ ActiveRecord::Schema.define(version: 20140731015833) do
 
   create_table "checks", force: true do |t|
     t.integer  "case_id"
-    t.date     "conflict_check"
-    t.date     "retention_letter"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "conflict_date"
+    t.boolean  "conflict_check"
+    t.date     "referring_engagement_letter_date"
+    t.date     "client_engagement_letter_date"
+    t.boolean  "referring_engagement_letter"
+    t.boolean  "client_engagement_letter"
   end
 
   add_index "checks", ["case_id"], name: "index_checks_on_case_id", using: :btree

@@ -97,35 +97,18 @@
                         </ul>
                      </li>
                      <li id="fat-menu" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Venue</a>
-                        <ul class="dropdown-menu">
-                           <% if @case.venues.any?  %>
-                              <li>
-                                 <%= link_to "Show Venue", client_case_venue_path(@client,@case,@case.venues.first.id) %>
-                              </li>
-                              <li>
-                                 <%= link_to "Update Venue", edit_client_case_venue_path(@client,@case,@case.venues.first.id) %>
-                              </li>
-                           <% else %>
-                              <li>
-                                 <%= link_to "Add Case Venue", new_client_case_venue_path(@client,@case) %>
-                              </li>
-                           <%end%>
-                        </ul>
-                     </li>
-                     <li id="fat-menu" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Checks</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Conflicts</a>
                         <ul class="dropdown-menu">
                            <% if @case.checks.any?  %>
                               <li>
-                                 <%= link_to "Show Checks", client_case_check_path(@client,@case,@case.checks.first.id) %>
+                                 <%= link_to "Show Conflicts & Letters", client_case_check_path(@client,@case,@case.checks.first.id) %>
                               </li>
                               <li>
-                                 <%= link_to "Update Checks", edit_client_case_check_path(@client,@case,@case.checks.first.id) %>
+                                 <%= link_to "Update Conflicts & Letters", edit_client_case_check_path(@client,@case,@case.checks.first.id) %>
                               </li>
                            <% else %>
                               <li>
-                                 <%= link_to "Add Case Checks", new_client_case_check_path(@client,@case) %>
+                                 <%= link_to "Add Conflicts & Letters", new_client_case_check_path(@client,@case) %>
                               </li>
                            <%end%>
                         </ul>

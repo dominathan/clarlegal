@@ -129,33 +129,39 @@
       <br>
       <br>
       <div class='center'>
-        <h4>Venue</h4>
-      </div>
-      <div class='venue'>
-        <%= f.fields_for :venues do |ff| %>
-
-          <%= ff.label "Jurisdiction:" %>
-          <%= ff.select :jurisdiction, Venue::JURISDICTION_CHOICES %>
-
-          <%= ff.label "Judge:" %>
-          <%= ff.text_field :judge %>
-
-        <% end %>
-      </div> <!-- VENUE DIV -->
-      <br>
-      <br>
-      <br>
-      <div class='center'>
-        <h4>Checks</h4>
+        <h4>Conflicts</h4>
       </div>
       <div class='checks'>
         <%= f.fields_for :checks do |ff| %>
 
-            <%= ff.label "Conflict Check Date:" %>
-            <%= ff.date_field :conflict_check %>
+           <%= ff.label "Conflict Check:" %>
+      Complete     <%= ff.check_box :conflict_check %>
+      <br>
+      <br>
 
-            <%= ff.label "Retention Letter Date:" %>
-            <%= ff.date_field :retention_letter %>
+        <%= ff.label "Conflict Date:" %>
+        <%= ff.date_field :conflict_date, id: 'datepicker' %>
+
+      <br>
+      <br>
+        <%= ff.label "Referring Engagement Letter?" %>
+      Complete  <%= ff.check_box :referring_engagement_letter %>
+      <br>
+      <br>
+
+        <%= ff.label "Referring Engagement Letter Date:" %>
+        <%= ff.date_field :referring_engagement_letter_date, id: 'datepicker' %>
+        <br>
+        <br>
+
+        <%= ff.label "Client Engagement Letter?" %>
+      Complete <%= ff.check_box :client_engagement_letter %>
+      <br>
+      <br>
+
+
+        <%= ff.label "Client Engagement Letter Date:" %>
+        <%= ff.date_field :client_engagement_letter_date, id: 'datepicker' %>
 
         <% end %>
       </div> <!-- CHECKS DIV -->

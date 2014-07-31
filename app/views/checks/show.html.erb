@@ -2,17 +2,19 @@
 
 <%= render 'shared/subheader' %>
 
-<h1>Case Checks</h1>
+<h2>Conflicts</h2>
 <table class='table table-hover'>
   <thead>
     <tr>
       <th>Conflict Check Date</th>
-      <th>Retention Letter Date</th>
+      <th>Referring Engagement Letter Date</th>
+      <th>Client Engagement Letter Date</th>
     </tr>
   </thead>
   <tbody>
-    <td><%= @check.conflict_check %></td>
-    <td><%= @check.retention_letter %></td>
+    <td><%= @check.conflict_date %></td>
+    <td><%= @check.referring_engagement_letter_date %></td>
+    <td><%= @check.client_engagement_letter_date %></td>
   </tbody>
 </table>
 <br>

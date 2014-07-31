@@ -89,8 +89,9 @@ class CasesController < ApplicationController
                                     :staffs_attributes => [:name, :position, :percent_utilization, :hours_expected,
                                                            :hours_actual],
                                     :originations_attributes => [:referral_source, :source_description],
-                                    :venues_attributes => [:jurisdiction, :judge],
-                                    :checks_attributes => [:conflict_check, :retention_letter],
+                                    :checks_attributes => [:conflict_check, :conflict_date, :referring_engagement_letter,
+                                                            :referring_engagement_letter_date, :client_engagement_letter,
+                                                            :client_engagement_letter_date],
                                     :timings_attributes => [:date_opened, :estimated_conclusion_fast,
                                                             :estimated_conclusion_expected,
                                                             :estimated_conclusion_slow, :case_filed])
