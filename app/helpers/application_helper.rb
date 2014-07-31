@@ -9,5 +9,9 @@ module ApplicationHelper
     end
   end
 
+  def is_active?(page_controller)
+    controller.controller_name == page_controller ? "active" : ""
+  end
+
 
 end
