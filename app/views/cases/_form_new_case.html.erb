@@ -120,11 +120,8 @@
           <%= ff.label "Referral Source:" %>
           <%= ff.text_field :referral_source %>
 
-          <%= ff.label "Existing Client:" %>
-          <%= ff.select :existing_client, Origination::EXISTING_CLIENT_CHOICES %>
-
-          <%= ff.label "Other Source:" %>
-          <%= ff.text_field :other_source %>
+          <%= ff.label "Further Source Information:" %>
+          <%= ff.text_field :source_description %>
 
         <% end %>
       </div> <!-- Originations DIV -->

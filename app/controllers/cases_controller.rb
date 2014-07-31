@@ -88,7 +88,7 @@ class CasesController < ApplicationController
                                                           :cost_estimate, :referral],
                                     :staffs_attributes => [:name, :position, :percent_utilization, :hours_expected,
                                                            :hours_actual],
-                                    :originations_attributes => [:referral_source, :existing_client, :other_source],
+                                    :originations_attributes => [:referral_source, :source_description],
                                     :venues_attributes => [:jurisdiction, :judge],
                                     :checks_attributes => [:conflict_check, :retention_letter],
                                     :timings_attributes => [:date_opened, :estimated_conclusion_fast,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730194440) do
+ActiveRecord::Schema.define(version: 20140731015833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,11 +104,10 @@ ActiveRecord::Schema.define(version: 20140730194440) do
 
   create_table "originations", force: true do |t|
     t.string   "referral_source"
-    t.string   "existing_client"
-    t.string   "other_source"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "case_id"
+    t.string   "source_description"
   end
 
   add_index "originations", ["case_id"], name: "index_originations_on_case_id", using: :btree

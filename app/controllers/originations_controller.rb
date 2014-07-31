@@ -46,7 +46,7 @@ class OriginationsController < ApplicationController
   private
 
     def origination_params
-      params.require(:origination).permit(:referral_source, :existing_client, :other_source)
+      params.require(:origination).permit(:referral_source, :source_description)
     end
 
 

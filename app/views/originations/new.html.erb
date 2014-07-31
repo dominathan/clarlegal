@@ -2,7 +2,7 @@
 
 <%= render 'shared/subheader' %>
 
-<h1>New Case Origination</h1>
+<h2>New Case Origination</h2>
 
 <div class="row">
   <div class="span6 offset3">
@@ -12,11 +12,8 @@
       <%= f.label "Referral Source:" %>
       <%= f.text_field :referral_source %>
 
-      <%= f.label "Existing Client:" %>
-      <%= f.select :existing_client, Origination::EXISTING_CLIENT_CHOICES %>
-
-      <%= f.label "Other Source:" %>
-      <%= f.text_field :other_source %>
+      <%= f.label "More Information:" %>
+      <%= f.text_field :source_description, :placeholder => "Any other source information?" %>
 
       <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
 
