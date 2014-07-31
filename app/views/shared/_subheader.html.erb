@@ -51,7 +51,7 @@
                                  <%= link_to "Show Staff", client_case_staffs_path(@client,@case) %>
                               </li>
                               <li>
-                                 <%= link_to "Update Staff", edit_client_case_staff_path(@client,@case,@case.staffs.first.id) %>
+                                 <%= link_to "Update Staff", edit_client_case_staff_path(@client,@case,@staff) %>
                               </li>
                            <% else %>
                               <li>
@@ -84,10 +84,10 @@
                         <ul class="dropdown-menu">
                            <% if @case.originations.any?  %>
                               <li>
-                                 <%= link_to "Show Origination", client_case_origination_path(@client,@case,@case.originations.first.id) %>
+                                 <%= link_to "Show Origination", client_case_origination_path(@client,@case,@origination) %>
                               </li>
                               <li>
-                                 <%= link_to "Update Origination", edit_client_case_origination_path(@client,@case,@case.originations.first.id) %>
+                                 <%= link_to "Update Origination", edit_client_case_origination_path(@client,@case,@origination) %>
                               </li>
                            <% else %>
                               <li>

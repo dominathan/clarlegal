@@ -9,25 +9,30 @@
     <%= form_for(@check, url: {action: "update"}) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label "Conflict?" %>
-      <%= f.check_box :conflict_check %>
-
+      <%= f.label "Conflict Check:" %>
+      Completed?   <%= f.check_box :conflict_check %>
+      <br>
+      <br>
       <div class="conflict date">
         <%= f.label "Conflict Date:" %>
         <%= f.date_field :conflict_date, id: 'datepicker'%>
       </div>
-
-        <%= f.label "Referring Engagement Letter?" %>
-        <%= f.check_box :referring_engagement_letter %>
-
+      <br>
+      <br>
+        <%= f.label "Referring Engagement Letter" %>
+        Completed?    <%= f.check_box :referring_engagement_letter %>
+      <br>
+      <br>
       <div class="conflict date">
         <%= f.label "Referring Engagement Letter Date:" %>
         <%= f.date_field :referring_engagement_letter_date, id: 'datepicker' %>
       </div>
-
-        <%= f.label "Client Engagement Letter?" %>
-        <%= f.check_box :client_engagement_letter %>
-
+      <br>
+      <br>
+        <%= f.label "Client Engagement Letter" %>
+        Completed?   <%= f.check_box :client_engagement_letter %>
+      <br>
+      <br>
       <div class="conflict date">
         <%= f.label "Client Engagement Letter Date:" %>
         <%= f.date_field :client_engagement_letter_date, id: 'datepicker' %>

@@ -4,7 +4,7 @@
   <%= f.collection_select(:name, current_user.lawfirm.staffings, :full_name, :full_name, :include_blank => "Select") %>
 
   <%= f.label "Position:" %>
-  <%= f.select(:position, Staffing.all.collect! { |per| per.position }, :include_blank => "Select") %>
+  <%= f.select(:position, Staffing.all.collect! { |per| per.position }.uniq, :include_blank => "Select") %>
 
   <%= f.label "Expected Total Hours:" %>
   <%= f.text_field :hours_expected %>

@@ -13,7 +13,7 @@ class LawfirmsController < ApplicationController
       flash[:success] = "#{@lawfirm.firm_name} created successfully"
     end
     if @user.update_attribute(:lawfirm_id, Lawfirm.find_by(firm_name: @lawfirm.firm_name).id)
-      redirect_to clients_path
+      redirect_to new_user_lawfirm_staffing_path(current_user.id,current_user.lawfirm.id)
     else
       render 'new'
     end

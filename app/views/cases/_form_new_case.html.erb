@@ -135,7 +135,7 @@
         <%= f.fields_for :checks do |ff| %>
 
            <%= ff.label "Conflict Check:" %>
-      Complete     <%= ff.check_box :conflict_check %>
+      Completed?     <%= ff.check_box :conflict_check %>
       <br>
       <br>
 
@@ -144,8 +144,8 @@
 
       <br>
       <br>
-        <%= ff.label "Referring Engagement Letter?" %>
-      Complete  <%= ff.check_box :referring_engagement_letter %>
+        <%= ff.label "Referring Engagement Letter" %>
+      Completed?  <%= ff.check_box :referring_engagement_letter %>
       <br>
       <br>
 
@@ -154,8 +154,8 @@
         <br>
         <br>
 
-        <%= ff.label "Client Engagement Letter?" %>
-      Complete <%= ff.check_box :client_engagement_letter %>
+        <%= ff.label "Client Engagement Letter" %>
+      Completed? <%= ff.check_box :client_engagement_letter %>
       <br>
       <br>
 
