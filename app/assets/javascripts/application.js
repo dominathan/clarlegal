@@ -15,8 +15,7 @@
 //= require cocoon
 //= require highcharts
 //= require highcharts/modules/exporting
-//= require bootstrap
-//= require bootstrap-modal
+//= require bootstrap.min
 //= require_tree .
 
 /*
