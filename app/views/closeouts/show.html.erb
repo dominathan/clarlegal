@@ -1,0 +1,30 @@
+<% provide(:title, "Closeout") %>
+
+<%= render 'shared/subheader' %>
+
+<h2>Closeout</h2>
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th>Total Recovery</th>
+      <th>Total Gross Fee Received</th>
+      <th>Total Out-of-Pocket Expenses</th>
+      <th>Referring Fee Paid</th>
+      <th>Total Fee Received</th>
+      <th>Date Fee Received</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td><%= @closeout.total_recovery %></td>
+    <td><%= @closeout.total_gross_fee_received %></td>
+    <td><%= @closeout.total_out_of_pocket_expenses %></td>
+    <td><%= @closeout.referring_fees_paid %></td>
+    <td><%= @closeout.total_fee_received %></td>
+    <td><%= @closeout.date_fee_received ? @closeout.date_fee_received.strftime("%b %Y") : "" %></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+<h2> <%= link_to "Edit Closeout", edit_client_case_closeout_path(@client, @case, @closeout) %></h2>
+

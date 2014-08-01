@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731172243) do
+ActiveRecord::Schema.define(version: 20140801000132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,8 +81,8 @@ ActiveRecord::Schema.define(version: 20140731172243) do
     t.integer  "total_gross_fee_received"
     t.integer  "total_out_of_pocket_expenses"
     t.integer  "referring_fees_paid"
-    t.integer  "total_fee_receieved"
-    t.integer  "date_fee_received"
+    t.integer  "total_fee_received"
+    t.date     "date_fee_received"
   end
 
   add_index "closeouts", ["case_id"], name: "index_closeouts_on_case_id", using: :btree

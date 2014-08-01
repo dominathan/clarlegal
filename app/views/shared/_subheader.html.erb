@@ -108,8 +108,18 @@
          </ul>
       </li>
 
-      <li class= "<%= is_active?('cases') %>">
-         <%= link_to "Closeout", new_client_case_closeout_path(@client,@case) %>
+       <li id="fat-menu" class="<%= is_active?('closeouts') %> dropdown">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Closeout</a>
+         <ul class="dropdown-menu">
+            <% if !@case.closeouts.any? %>
+               <li>
+                  <%= link_to "Closeout Case", new_client_case_closeout_path(@client,@case) %>
+               </li>
+            <% else %>
+               <li><%= link_to "Show Closeout", client_case_closeout_path(@client,@case,@case.closeouts.first.id) %>
+               </li>
+            <% end %>
+         </ul>
       </li>
    </ul>
 
