@@ -103,7 +103,6 @@ p {
   font-weight: bold;
   line-height: 1;
   &:hover {
-    color: blue;
     text-decoration: none;
   }
 }
@@ -143,6 +142,11 @@ input, textarea, select, .uneditable-input {
   width: 100%;
   margin-bottom: 15px;
   @include box_sizing;
+}
+
+.btn {
+  background-color: #1341BF;
+  width: 150px;
 }
 
 input {
