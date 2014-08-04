@@ -82,7 +82,7 @@ class CasesController < ApplicationController
     def case_params
         params.require(:case).permit(:client, :court, :type_of_matter, :practice_group,
                                               :name, :open, :client_id, :case_number, :opposing_attorney,
-                                              :judge, :related_cases,
+                                              :judge, :related_cases, :description,
                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
                                                           :low_estimate, :payment_likelihood, :retainer,
                                                           :cost_estimate, :referral],

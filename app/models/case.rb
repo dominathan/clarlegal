@@ -32,6 +32,13 @@ class Case < ActiveRecord::Base
 
   MATTER_REFERENCES = ['Medical Malpractice', 'Insurance Fraud', 'Automotive', "Worker's Compensation"]
 
+  def self.lead_attorney(case_name)
+    @lead_att = nil
+    case_name.staff.each do |stf|
+      stf.position == "Responsible Attorney" ? @lead_att = stf.name : next
+    end
+    @lead_att
+  end
 
 
 end
