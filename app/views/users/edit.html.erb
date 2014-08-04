@@ -6,19 +6,24 @@
     <div class="col-md-8 col-md-offset-2">
       <%= form_for(@user) do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
-
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-
-        <%= f.label :email %>
-        <%= f.text_field :email %>
-
-        <%= f.label :password %>
-        <%= f.password_field :password %>
-
-        <%= f.label :password_confirmation, "Confirmation" %>
-        <%= f.password_field :password_confirmation %>
-
+        <table class="table">
+          <tr>
+            <td>  <%= f.label :name %></td>
+            <td><%= f.text_field :name %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :email %></td>
+            <td><%= f.text_field :email %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :password %></td>
+            <td><%= f.password_field :password %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :password_confirmation, "Confirmation" %></td>
+            <td><%= f.password_field :password_confirmation %></td>
+          </tr>
+        </table>
         <%= f.submit "Save Change", class: "btn btn-large btn-primary" %>
       <% end %>
     </div>

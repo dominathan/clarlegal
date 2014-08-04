@@ -6,15 +6,21 @@
     <div class="col-md-8 col-md-offset-2">
       <%= form_for(:session, url: sessions_path) do |f| %>
 
-        <%= f.label :email %>
-        <%= f.text_field :email %>
-
-        <%= f.label :password %>
-        <%= f.password_field :password %>
+      <table class="table">
+        <tr>
+          <td><%= f.label :email %></td>
+          <td><%= f.text_field :email %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :password %></td>
+          <td><%= f.password_field :password %></td>
+        </tr>
+      </table>
         <div class="center">
           <%= f.submit "Sign in", class: "btn btn-large btn-primary" %>
         </div>
       <% end %>
+
 
       <p>New user? <%= link_to "Sign up", signup_path %></p>
     </div>
