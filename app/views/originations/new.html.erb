@@ -4,19 +4,28 @@
 
 <h2>New Case Origination</h2>
 
-<div class="row">
-  <div class="span6 offset3">
-    <%= form_for(@origination, url: {action: "create"}) do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
+<div class='container'>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <%= form_for(@origination, url: {action: "create"}) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label "Referral Source:" %>
-      <%= f.text_field :referral_source %>
+        <table class='table'>
+          <tr>
+            <td><%= f.label "Referral Source:" %></td>
+            <td><%= f.text_field :referral_source %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "More Information:" %></td>
+            <td><%= f.text_field :source_description, :placeholder => "Any other source information?" %></td>
+          </tr>
+        </table>
 
-      <%= f.label "More Information:" %>
-      <%= f.text_field :source_description, :placeholder => "Any other source information?" %>
+        <div class="center">
+          <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+        </div>
 
-      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
-
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>

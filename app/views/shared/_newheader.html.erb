@@ -11,7 +11,7 @@
     </div>
     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
       <ul class="nav navbar-nav pull-right">
-
+          <li><%= link_to "Home", root_path %></li>
       <% if signed_in? %>
 
         <% if current_user.lawfirm_id != nil %>

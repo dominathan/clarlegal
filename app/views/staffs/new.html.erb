@@ -4,31 +4,41 @@
 
 <h2>Add Case Personnel</h2>
 
-<div class="row">
-  <div class="span6 offset3">
-    <%= form_for(@staff, url: {action: "create"}) do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <%= form_for(@staff, url: {action: "create"}) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label "Name:" %>
-      <%=f.collection_select(:name, current_user.lawfirm.staffings, :full_name, :full_name, :include_blank => "Select") %>
+        <table class="table">
+          <tr>
+            <td><%= f.label "Name:" %></td>
+            <td><%=f.select(:name, current_user.lawfirm.staffings.all.collect! {|case_staff| case_staff.full_name }, :include_blank => "Select") %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Position:" %></td>
+            <td><%=f.select(:position, Staffing.all_positions, :include_blank => "Select") %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Expected Total Hours:" %></td>
+            <td><%=f.text_field :hours_expected %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Actual Hours Worked:" %></td>
+            <td><%=f.text_field :hours_actual, :placeholder => 'Leave blank if new case' %></td>
+          </tr>
+        </table>
 
-      <%= f.label "Position:" %>
-      <%=f.select(:position, Staffing.all_positions, :include_blank => "Select") %>
+    <div class='center'>
+        <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
 
-      <%= f.label "Expected Total Hours:" %>
-      <%=f.text_field :hours_expected %>
+      <% end %>
+      <br>
+      <br>
 
-      <%= f.label "Actual Hours Worked:" %>
-      <%=f.text_field :hours_actual, :placeholder => 'Leave blank if new case' %>
-
-
-
-    <div class="center">
-      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
-    <% end %>
-    <br>
-    <br>
       <%= link_to "Add Staff to #{@lawfirm.firm_name}", new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %>
+    </div>
+
     </div>
   </div>
 </div>

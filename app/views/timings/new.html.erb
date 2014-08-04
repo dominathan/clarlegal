@@ -4,29 +4,39 @@
 
 <h2>Add Timing</h2>
 
-<div class="row">
-  <div class="span6 offset3">
-    <%= form_for(@timing, url: {action: "create"}) do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
-
-      <%= f.label "File Opened:" %>
-      <%= f.date_field :date_opened, id: 'datepicker' %>
-
-      <%= f.label "Case Filed:" %>
-      <%= f.date_field :case_filed, id: 'datepicker' %>
-
-      <%= f.label "Accelerated Estimated Conclusion:" %>
-      <%= f.text_field :estimated_conclusion_fast, placeholder: "Months from Now"%>
-
-      <%= f.label "Expected Estimated Conclusion:" %>
-      <%= f.text_field :estimated_conclusion_expected, placeholder: "Months from Now" %>
-
-      <%= f.label "Slow Estimated Conclusion:" %>
-      <%= f.text_field :estimated_conclusion_slow, placeholder: "Months from Now" %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <%= form_for(@timing, url: {action: "create"}) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
 
 
-      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+        <table class='table'>
+          <tr>
+            <td><%= f.label "File Opened:" %></td>
+            <td><%= f.date_field :date_opened, id: 'datepicker' %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Case Filed:" %></td>
+            <td><%= f.date_field :case_filed, id: 'datepicker' %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Fastest Estimated Conclusion:" %></td>
+            <td><%= f.text_field :estimated_conclusion_fast, placeholder: "Months from Now" %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Expected Estimated Conclusion:" %></td>
+            <td><%= f.text_field :estimated_conclusion_expected, placeholder: "Months from Now" %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Slowest Estimated Conclusion:" %></td>
+            <td><%= f.text_field :estimated_conclusion_slow, placeholder: "Months from Now" %></td>
+          </tr>
+        </table>
 
-    <% end %>
+        <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+
+      <% end %>
+    </div>
   </div>
 </div>

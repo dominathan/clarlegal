@@ -1,4 +1,5 @@
-
+<br>
+<br>
 <div id='subheader'>
 
 
@@ -46,6 +47,9 @@
             <% if @case.staffs.any?  %>
                <li>
                   <%= link_to "Show Staff", client_case_staffs_path(@client,@case) %>
+               </li>
+               <li>
+                  <%= link_to "Add Staff", new_client_case_staff_path(@client,@case) %>
                </li>
             <% else %>
                <li>
@@ -111,11 +115,11 @@
 
       <% if !@case.closeouts.any? %>
          <li class="<%= is_active?('closeouts') %> dropdown">
-            <%= link_to "Closeout Case", new_client_case_closeout_path(@client,@case) %>
+            <%= link_to "Closeout", new_client_case_closeout_path(@client,@case) %>
          </li>
       <% else %>
-         <li class="<%= is_active?('closeouts') %> dropdown">>
-            <%= link_to "Show Closeout", client_case_closeout_path(@client,@case,@case.closeouts.first.id) %>
+         <li class="<%= is_active?('closeouts') %> dropdown">
+            <%= link_to "Closeout", client_case_closeout_path(@client,@case,@case.closeouts.first.id) %>
          </li>
       <% end %>
 

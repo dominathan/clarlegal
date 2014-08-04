@@ -13,7 +13,7 @@ class CloseoutsController < ApplicationController
     if @closeout.save
       Closeout.close_case(@case)
       flash[:success] = "Case Closed Successfully"
-      redirect_to clients_path
+      redirect_to client_case_path(@client,@case)
     else
       render 'new'
     end
@@ -38,7 +38,7 @@ class CloseoutsController < ApplicationController
     @closeout = Closeout.find(params[:id])
     if @closeout.update_attributes(closeout_params)
       flash[:success] = "Update Closeout Information"
-      redirect_to client_case_closeout_path(@client,@case,@closeout)
+      redirect_to client_case_path(@client,@case)
     else
       render 'edit'
     end

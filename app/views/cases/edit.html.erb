@@ -4,42 +4,58 @@
 
 <h2>Update Case Information</h2>
 
-<div class="row">
-  <div class="span6 offset3">
-    <%= form_for @case, url: {action: "update"} do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
+<div class='container'>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
 
-      <%= f.label 'Case Name:' %>
-      <%= f.text_field :name %>
+      <%= form_for @case, url: {action: "update"} do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <table class="table">
+          <tr>
+            <td><%= f.label 'Case Name:' %></td>
+            <td><%= f.text_field :name %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Court:' %></td>
+            <td><%= f.text_field :court %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Judge:' %></td>
+            <td><%= f.text_field :judge %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Case Number:' %></td>
+            <td><%= f.text_field :case_number %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Opposing Attorney:' %></td>
+            <td><%= f.text_field :opposing_attorney %> </td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Matter Type:' %></td>
+            <td><%= f.text_field :type_of_matter %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Related Cases:' %></td>
+            <td><%= f.select(:related_cases, current_user.lawfirm.cases.all.map { |c| c.name }.prepend("N/A"), :include_blank => "Select Related Cases or N/A") %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Practice Group:' %></td>
+            <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %></td>
+          </tr>
+        </table>
+        <div class="center">
 
-      <%= f.label 'Court:' %>
-      <%= f.text_field :court %>
+          <%= f.label 'Notes and Description' %>
+          <%= f.text_area :description %>
+        <!-- do not select all practice groups...only practice groups that belong to user's lawfirm -->
+            <h2>
+              Note:  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %> if missing.
+            </h2>
 
-      <%= f.label 'Judge:' %>
-      <%= f.text_field :judge %>
-
-      <%= f.label 'Case Number:' %>
-      <%= f.text_field :case_number %>
-
-      <%= f.label 'Opposing Attorney:' %>
-      <%= f.text_field :opposing_attorney %>
-
-      <%= f.label 'Matter Type:' %>
-      <%= f.text_field :type_of_matter %>
-
-      <%= f.label 'Related Cases:' %>
-      <%= f.text_field :related_cases %>
-
-      <%= f.label 'Practice Group:' %>
-      <%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %>
-
-      <h2>Note:  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %> if missing. </h2>
-      <!-- do not select all practice groups...only practice groups that belong to user's lawfirm -->
-
-
-      <%= f.submit "Update Case", class: "btn btn-large btn-primary" %>
-    <% end %>
-
-
+        <%= f.submit "Create Case", class: "btn btn-large btn-primary" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

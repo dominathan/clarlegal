@@ -3,37 +3,52 @@
 
 <%= render 'shared/subheader' %>
 
-<div class="row">
-  <div class="span6 offset3">
-    <%= form_for(@fee, url: {action: "update"}) do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <%= form_for(@fee, url: {action: "update"}) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label "Fee Type:" %>
-      <%= f.select :fee_type, Fee::FEE_TYPE %>
+        <table class='table'>
+          <tr>
+            <td><%= f.label "Fee Type:" %></td>
+            <td><%= f.select :fee_type, Fee::FEE_TYPE %></td>
+          </tr>
 
-      <%= f.label "High Value Estimate:" %>
-      <%= f.text_field :high_estimate %>
+          <tr>
+            <td><%= f.label "High Value Estimate:" %></td>
+            <td><%= f.text_field :high_estimate %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Medium Value Estimate:" %></td>
+            <td><%= f.text_field :medium_estimate %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Low Value Estimate:" %></td>
+            <td><%= f.text_field :low_estimate %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Likelihood of Recovery:" %></td>
+            <td><%= f.select :payment_likelihood, Fee::FEE_PAYMENT_LIKELIHOOD %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Fee Owed to Referral Source:" %></td>
+            <td><%= f.text_field :referral %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Estimated Out-of-Pocket Expenses:" %></td>
+            <td><%= f.text_field :cost_estimate %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Retainer:" %></td>
+            <td><%= f.text_field :retainer %></td>
+          </tr>
+        </table>
 
-      <%= f.label "Medium Value Estimate:" %>
-      <%= f.text_field :medium_estimate %>
+          <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
 
-      <%= f.label "Low Value Estimate:" %>
-      <%= f.text_field :low_estimate %>
+        <% end %>
 
-      <%= f.label "Likelihood of Recovery:" %>
-      <%= f.select :payment_likelihood, Fee::FEE_PAYMENT_LIKELIHOOD %>
-
-      <%= f.label "Fee Owed to Referral Source:" %>
-      <%= f.text_field :referral %>
-
-      <%= f.label "Estimated Out-of-Pocket Expenses:" %>
-      <%= f.text_field :cost_estimate %>
-
-      <%= f.label "Retainer:" %>
-      <%= f.text_field :retainer %>
-
-      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
-
-    <% end %>
+    </div>
   </div>
 </div>

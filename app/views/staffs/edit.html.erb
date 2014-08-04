@@ -2,33 +2,40 @@
 
 <%= render 'shared/subheader' %>
 
-<h1>Update Case Staff</h1>
+<h2>Update Case Staff</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <%= form_for(@staff, url: {action: "update"}) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
 
-<div class="row">
-  <div class="span6 offset3">
-    <%= form_for(@staff, url: {action: "update"}) do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
+        <table class="table">
+          <tr>
+            <td><%= f.label "Name:" %></td>
+            <td><%=f.select(:name, current_user.lawfirm.staffings.all.collect! {|case_staff| case_staff.full_name }, :include_blank => "Select") %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Position:" %></td>
+            <td><%=f.select(:position, Staffing.all_positions, :include_blank => "Select") %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Expected Total Hours:" %></td>
+            <td><%=f.text_field :hours_expected %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Actual Hours Worked:" %></td>
+            <td><%=f.text_field :hours_actual, :placeholder => 'Leave blank if new case' %></td>
+          </tr>
+        </table>
 
-      <%= f.label "Name:" %>
-      <%=f.select(:name, @case.staff.all.collect! {|case_staff| case_staff.name }, :include_blank => "Select") %>
+        <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
 
-      <%= f.label "Position:" %>
-      <%=f.select(:position, Staffing.all_positions, :include_blank => "Select") %>
+      <% end %>
 
+    <div class='center'>
+      <%= link_to "Add Staff to #{@lawfirm.firm_name}", new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %>
+    </div>
 
-      <%= f.label "Expected Total Hours:" %>
-      <%=f.text_field :hours_expected %>
-
-      <%= f.label "Actual Hours Worked:" %>
-      <%=f.text_field :hours_actual, :placeholder => 'Leave blank if new case' %>
-
-      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
-
-    <% end %>
-
-  <div class='center'>
-    <%= link_to "Add Staff to #{@lawfirm.firm_name}", new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %>
-  </div>
-
+    </div>
   </div>
 </div>

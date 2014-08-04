@@ -2,45 +2,48 @@
 
 <%= render 'shared/subheader' %>
 
-<h2>Case Check Dates</h2>
+<h2>Case Conflicts and Engagement</h2>
 
-<div class="row">
-  <div class="span6 offset3">
-    <%= form_for(@check, url: {action: "create"}) do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
+<div class='container'>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
 
-      <%= f.label "Conflict Check:" %>
-      Completed?     <%= f.check_box :conflict_check %>
-      <br>
-      <br>
+      <%= form_for(@check, url: {action: "create"}) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
 
-        <%= f.label "Conflict Date:" %>
-        <%= f.date_field :conflict_date, id: 'datepicker' %>
+        <table class='table'>
+          <tr>
+            <td> <%= f.label "Conflict Check:" %></td>
+            <td>Completed?     <%= f.check_box :conflict_check %></td>
+          </tr>
+          <tr>
+              <td><%= f.label "Conflict Date:" %></td>
+              <td><%= f.date_field :conflict_date, id: 'datepicker' %></td>
+          </tr>
+          <tr>
+              <td><%= f.label "Referring Engagement Letter?" %></td>
+            <td>Completed?  <%= f.check_box :referring_engagement_letter %></td>
+          </tr>
+          <tr>
+              <td><%= f.label "Referring Engagement Letter Date:" %></td>
+              <td><%= f.date_field :referring_engagement_letter_date, id: 'datepicker' %></td>
+          </tr>
 
-      <br>
-      <br>
-        <%= f.label "Referring Engagement Letter?" %>
-      Completed?  <%= f.check_box :referring_engagement_letter %>
-      <br>
-      <br>
+          <tr>
+              <td><%= f.label "Client Engagement Letter?" %></td>
+            <td>Completed? <%= f.check_box :client_engagement_letter %></td>
+          </tr>
+          <tr>
+              <td><%= f.label "Client Engagement Letter Date:" %></td>
+              <td><%= f.date_field :client_engagement_letter_date, id: 'datepicker' %></td>
+          </tr>
+        </table>
 
-        <%= f.label "Referring Engagement Letter Date:" %>
-        <%= f.date_field :referring_engagement_letter_date, id: 'datepicker' %>
-        <br>
-        <br>
+        <div class="center">
+          <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+        </div>
 
-        <%= f.label "Client Engagement Letter?" %>
-      Completed? <%= f.check_box :client_engagement_letter %>
-      <br>
-      <br>
-
-
-        <%= f.label "Client Engagement Letter Date:" %>
-        <%= f.date_field :client_engagement_letter_date, id: 'datepicker' %>
-
-
-      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
-
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
