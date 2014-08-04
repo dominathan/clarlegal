@@ -82,10 +82,10 @@
          <ul class="dropdown-menu">
             <% if @case.originations.any?  %>
                <li>
-                  <%= link_to "Show Origination", client_case_origination_path(@client,@case,@origination) %>
+                  <%= link_to "Show Origination", client_case_origination_path(@client,@case,@case.originations.first.id) %>
                </li>
                <li>
-                  <%= link_to "Update Origination", edit_client_case_origination_path(@client,@case,@origination) %>
+                  <%= link_to "Update Origination", edit_client_case_origination_path(@client,@case,@case.originations.first.id) %>
                </li>
             <% else %>
                <li>

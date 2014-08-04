@@ -16,7 +16,7 @@
             <td> <%= f.label "Conflict Check:" %></td>
             <td>Completed?     <%= f.check_box :conflict_check %></td>
           </tr>
-          <tr>
+          <tr class="hide" id="conflict-date">
               <td><%= f.label "Conflict Date:" %></td>
               <td><%= f.date_field :conflict_date, id: 'datepicker' %></td>
           </tr>
@@ -24,7 +24,7 @@
               <td><%= f.label "Referring Engagement Letter?" %></td>
             <td>Completed?  <%= f.check_box :referring_engagement_letter %></td>
           </tr>
-          <tr>
+          <tr class="hide" id="referring-date">
               <td><%= f.label "Referring Engagement Letter Date:" %></td>
               <td><%= f.date_field :referring_engagement_letter_date, id: 'datepicker' %></td>
           </tr>
@@ -33,7 +33,7 @@
               <td><%= f.label "Client Engagement Letter?" %></td>
             <td>Completed? <%= f.check_box :client_engagement_letter %></td>
           </tr>
-          <tr>
+          <tr class="hide" id="client-engagement-date">
               <td><%= f.label "Client Engagement Letter Date:" %></td>
               <td><%= f.date_field :client_engagement_letter_date, id: 'datepicker' %></td>
           </tr>
@@ -47,3 +47,15 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $("#check_conflict_check").click(function(){
+     $("#conflict-date").toggleClass('show')
+   });
+  $("#check_referring_engagement_letter").click(function(){
+     $("#referring-date").toggleClass('show')
+   });
+  $("#check_client_engagement_letter").click(function(){
+     $("#client-engagement-date").toggleClass('show')
+   });
+</script>

@@ -13,11 +13,11 @@
         <table class='table'>
           <tr>
             <td><%= f.label "Referral Source:" %></td>
-            <td><%= f.text_field :referral_source %></td>
+            <td><%= f.select :referral_source, Origination::REFERRALS, :include_blank => "Select" %></td>
           </tr>
           <tr>
             <td><%= f.label "More Information:" %></td>
-            <td><%= f.text_field :source_description, :placeholder => "Any other source information?" %></td>
+            <td><%= f.text_field :source_description %></td>
           </tr>
         </table>
 

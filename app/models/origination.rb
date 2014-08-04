@@ -3,5 +3,6 @@ class Origination < ActiveRecord::Base
 
   #validates :case_id, presence: true
 
-  EXISTING_CLIENT_CHOICES = ['Yes','No']
+  REFERRALS = ['Attorney','Client','Internet','Advertising','Reputation']
+
 end
