@@ -12,9 +12,9 @@
     </tr>
   </thead>
   <tbody>
-    <td><%= @check.conflict_date %></td>
-    <td><%= @check.referring_engagement_letter_date %></td>
-    <td><%= @check.client_engagement_letter_date %></td>
+    <td><%= @check.conflict_date ? @check.conflict_date.strftime("%b %d, %Y") : ""%></td>
+    <td><%= @check.referring_engagement_letter_date ? @check.referring_engagement_letter_date.strftime("%b %d, %Y") : "" %></td>
+    <td><%= @check.client_engagement_letter_date ? @check.client_engagement_letter_date.strftime("%b %d, %Y") : "" %></td>
   </tbody>
 </table>
 <br>
