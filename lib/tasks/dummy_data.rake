@@ -62,10 +62,15 @@ namespace :db do
     end
   end
 
-  desc "add 5 Matter References (CaseType model)"
+  desc "add 25 Matter References (CaseType model)"
   task populate: :environment do
-    matter_reference_list = ['Washington','Monroe','Hayes','Reagan','Pierce','Roosevelt']
-    5.times do |n|
+    matter_reference_list = ['Airplane Accident', 'Plane Crash', 'SUV Rollover', 'Car Accident', 'Motorcycle Accident',
+                              'Truck Accident', 'Fire & Explosion', 'Construction Accident', 'Employment Discrimination',
+                              'Bad Faith', 'Medical Malpractice', 'Car/Truck/Motorcycle Accident', 'Nursing Home Neglect',
+                              'Product Liability', 'Property and Casualty Insurance', 'Underinsured Motorist',
+                              'Uninsured Motorist', 'Maritime', 'Jones Act', 'Premises Liability', "Slips & Falls",
+                              'Spinal Chord Injury', 'Traumatic Brain Injury', "Worker's Compensation", 'Wrongful Death']
+    25.times do |n|
       CaseType.create!(mat_ref: matter_reference_list[n+1],
                       lawfirm_id: 1)
     end
@@ -101,10 +106,18 @@ namespace :db do
     50.times do
       plaintiff = Faker::Name.name
       defendant = Faker::Name.name
+      opposing_attorney = Faker::Name.name
+      judge = Faker::Name.name
       Case.create!(client_id: Random.rand(1..10),
                     name: plaintiff+" V. "+defendant,
                     practice_group: Practicegroup.find_by(id: Random.rand(1..5)).group_name,
-                    type_of_matter: CaseType.find_by(id: Random.rand(1..5)).mat_ref)
+                    type_of_matter: CaseType.find_by(id: Random.rand(1..24)).mat_ref,
+                    court: 'Alabama Circuit Court',
+                    judge: judge,
+                    case_number: Random.rand(0..100000).to_s,
+                    opposing_attorney: opposing_attorney,
+                    description: Faker::Lorem.paragraph,
+                    open: true)
     end
   end
 
@@ -114,22 +127,23 @@ namespace :db do
     payment_likelihood = ['High', 'Medium', "Low"]
     50.times do |n|
       Fee.create!(case_id: n+1,
-                  fee_type: fee_type[Random.rand(0..2)],
-                  high_estimate: Random.rand(1..4000000),
+                  fee_type: fee_type[Random.rand(0..3)],
+                  high_estimate: Random.rand(1..4000)*1000,
                   #try to make it line up if fix fee but dont want to waste time on it now
                   medium_estimate: if fee_type == 'Fixed Fee'
                                       medium_estimate = high_estimate
                                    else
-                                      Random.rand(500000..(1000000-1))
+                                      Random.rand(500..(1000-1)*1000)
                                     end,
                   low_estimate: if fee_type != 'Fixed Fee'
-                                    Random.rand(0..499999)
+                                    Random.rand(0..499)*1000
                                 else
                                     low_estimate = high_estimate
                                 end,
                   payment_likelihood: payment_likelihood[Random.rand(0..2)],
-                  retainer: Random.rand(0..10000),
-                  cost_estimate: Random.rand(0..100000))
+                  retainer: Random.rand(0..100)*100,
+                  cost_estimate: Random.rand(0..100)*1000,
+                  referral: Random.rand(0..100)*1000)
     end
   end
 
@@ -147,6 +161,8 @@ namespace :db do
                       estimated_conclusion_slow: slow_conclusion)
     end
   end
+
+
 
 
 

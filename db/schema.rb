@@ -195,14 +195,4 @@ ActiveRecord::Schema.define(version: 20140804143049) do
   add_index "users", ["lawfirm_id"], name: "index_users_on_lawfirm_id", using: :btree
   add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
 
-  create_table "venues", force: true do |t|
-    t.string   "jurisdiction"
-    t.string   "judge"
-    t.integer  "case_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "venues", ["case_id"], name: "index_venues_on_case_id", using: :btree
-
 end
