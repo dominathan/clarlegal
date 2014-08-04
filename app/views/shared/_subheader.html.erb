@@ -131,3 +131,12 @@
    <h3><%= @case.name %> </h3>
 </div>
 <br>
+
+
+<script type="text/javascript">
+   $('ul.nav li.dropdown').hover(function() {
+      $(this).find('.dropdown-menu').stop(true, true).delay(150).fadeIn();
+   }, function() {
+      $(this).find('.dropdown-menu').stop(true, true).delay(150).fadeOut();
+   });
+</script>
