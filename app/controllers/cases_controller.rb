@@ -13,7 +13,6 @@ class CasesController < ApplicationController
     @case.staffs.build
     @case.timings.build
     @case.originations.build
-    @case.venues.build
     @case.checks.build
   end
 
