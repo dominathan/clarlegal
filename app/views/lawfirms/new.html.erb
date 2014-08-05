@@ -3,24 +3,32 @@
 <% provide(:title, 'Add Law Firm') %>
 <h1>Add Law Firm</h1>
 
-<div class="row">
-  <div class="span6 offset3">
-    <%= link_to "Already Belong to a Law Firm? Click Here", joinlawfirm_path %>
+<div class='container'>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="center">
+        <%= link_to "Already Belong to a Law Firm? Click Here", joinlawfirm_path %>
+      </div>
     <br>
     <br>
     <%= form_for(@lawfirm, url: {action: "create"}) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
-
-      <%= f.label "Law Firm Name:" %>
-      <%= f.text_field :firm_name %>
-
-      <%= f.label "Password:" %>
-      <%= f.password_field :password, :placeholder => "Be sure to write this down for other firm members." %>
-
-      <%= f.label "Password Confirmation" %>
-      <%= f.password_field :password_confirmation, :placeholder => "And keep separate form your user password." %>
-
+      <table class="table">
+        <tr>
+          <td><%= f.label "Law Firm Name:" %></td>
+          <td><%= f.text_field :firm_name %></td>
+        </tr>
+        <tr>
+          <td><%= f.label "Password:" %></td>
+          <td><%= f.password_field :password, :placeholder => "Be sure to write this down for other firm members." %></td>
+        </tr>
+        <tr>
+          <td><%= f.label "Password Confirmation" %></td>
+          <td><%= f.password_field :password_confirmation, :placeholder => "And keep separate form your user password." %></td>
+        </tr>
+      </table>
       <%= f.submit "Create Firm", class: "btn btn-large btn-primary" %>
     <% end %>
+    </div>
   </div>
 </div>

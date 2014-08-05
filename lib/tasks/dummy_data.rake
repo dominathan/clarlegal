@@ -162,7 +162,68 @@ namespace :db do
     end
   end
 
+  desc 'add 1 responsible attorney per case'
+  task populate: :environment do
+    head_atts = Staffing.where(position: "Responsible Attorney")
+    head_atts_number = head_atts.length-1
+    50.times do |n|
+      Staff.create!(case_id: n+1,
+                    name: head_atts[Random.rand(0..head_atts_number)].full_name,
+                    position: 'Responsible Attorney')
+    end
+  end
 
+
+  desc 'add 200 Staff - random amount per case'
+  task populate: :environment do
+    200.times do |n|
+      staff = Staffing.find_by(id: Random.rand(1..30))
+      name = staff.full_name
+      position = staff.position
+      Staff.create!(case_id: Random.rand(1..50),
+                    name: name,
+                    position: position,
+                    hours_expected: Random.rand(1..30)*10)
+    end
+  end
+
+  desc 'add 50 originations to cases'
+  task populate: :environment do
+    50.times do  |n|
+      referrals = ['Attorney','Client','Internet','Advertising','Reputation']
+      Origination.create!(case_id: n+1,
+                          referral_source: referrals[Random.rand(0..4)],
+                          source_description: Faker::Lorem.sentence)
+    end
+  end
+
+  desc 'add 50 conflicts and checks to cases'
+  task populate: :environment do
+    50.times do |n|
+      conflict_check = Random.rand(0..1)
+      conflict_check_date = nil
+      if conflict_check == 1
+        conflict_check_date = Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28))
+      end
+      referring_engagement_letter = Random.rand(0..1)
+      referring_engagement_letter_date = nil
+      if referring_engagement_letter == 1
+        Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28))
+      end
+      client_engagement_letter = Random.rand(0..1)
+      client_engagement_letter_date = nil
+      if client_engagement_letter == 1
+        client_engagement_letter_date = Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28))
+      end
+      Check.create!(case_id: n+1,
+                    conflict_check: conflict_check,
+                    conflict_date: conflict_check_date,
+                    referring_engagement_letter: referring_engagement_letter,
+                    referring_engagement_letter_date: referring_engagement_letter_date,
+                    client_engagement_letter: client_engagement_letter,
+                    client_engagement_letter_date: client_engagement_letter_date)
+    end
+  end
 
 
 
