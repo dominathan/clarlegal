@@ -1,11 +1,15 @@
 <% provide(:title, 'PG Case Load') %>
 
 
+<div class="chart container">
 
-<div id='piecharthighchart' style="min-width: 310px;
-                                  height: 600px; width: 600px;
-                                  max-width: 600px;
-                                   margin: 0 auto">
+    <div class="col-lg-8 col-lg-offset-1">
+        <div id='piecharthighchart' style="min-width: 310px;
+                                      height: 600px; width: 600px;
+                                      max-width: 600px;
+                                       margin: 0 auto">
+        </div>
+    </div>
 </div>
 
 <script>
@@ -39,7 +43,7 @@ $(function () {
             plotShadow: false
         },
         title: {
-            text: 'Cases by Practice Group'
+            text: "Pending Cases by Practice Group"
         },
         tooltip: {
           pointFormat: 'Case Load: <b>{point.y}</b>'

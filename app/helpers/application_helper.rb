@@ -13,5 +13,21 @@ module ApplicationHelper
     controller.controller_name == page_controller ? "active" : ""
   end
 
+  def is_active_graph?(page_controller,action)
+    if controller.controller_name == page_controller &&
+                                    controller.action_name == action
+      "active"
+    else
+      ""
+    end
+  end
+
+
+  def graph_sidebar?(page_controller)
+    if controller.controller_name == page_controller
+      render 'shared/sidebar'
+    end
+  end
+
 
 end

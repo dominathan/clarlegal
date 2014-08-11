@@ -1,34 +1,25 @@
-<h2>
-    <%= link_to "Edit Matter Info", edit_client_case_path(@client.id, @case.id) %> |
-    <% if @case.fee.any? %>
-      <%= link_to "Show Fee", client_case_fee_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.fee.first.id) %> |
-    <% else %>
-      <%= link_to "Add Fee", new_client_case_fee_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
-    <% end %>
-    <% if @case.staff.any? %>
-      <%= link_to "Show Staff", client_case_staff_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.staff.first.id) %> |
-    <% else %>
-      <%= link_to "Add Staff", new_client_case_staff_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
-    <% end %>
-    <% if @case.timing.any? %>
-      <%= link_to "Show Timing", client_case_timing_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.timing.first.id) %> |
-    <% else %>
-      <%= link_to "Add Timing", new_client_case_timing_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
-    <% end %>
-    <% if @case.origination.any? %>
-      <%= link_to "Show Origination", client_case_origination_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.origination.first.id) %> |
-    <% else %>
-      <%= link_to "Add Origination", new_client_case_origination_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
-    <% end %>
-    <% if @case.venue.any? %>
-      <%= link_to "Show Venue", client_case_venue_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.venue.first.id) %> |
-    <% else %>
-      <%= link_to "Add Venue", new_client_case_venue_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
-    <% end %>
-        <% if @case.check.any? %>
-      <%= link_to "Show Checks", client_case_check_path(:case_id => @case.id, :client_id => params[:client_id], :id => @case.check.first.id) %> |
-    <% else %>
-      <%= link_to "Add Checks", new_client_case_check_path(:case_id => @case.id, :client_id => params[:client_id]) %> |
-    <% end %>
-  </h2>
-
+<div class="sidebar">
+  <div class="col-md-9">
+    <ul class="nav nav-pills nav-stacked">
+      <li class="<%=is_active_graph?("graphs","practice_group_pie") %>">
+        <%= link_to "Cases by Practice Group", practice_group_cases_path %>
+      </li>
+      <li role='presentation'class="divider"></li>
+      <li class="<%=is_active_graph?("graphs","practice_group_revenue_pie_low") %>">
+        <%= link_to "Revenue by Practice Group", practice_group_revenues_path %>
+      </li>
+       <li role='presentation' class="divider"></li>
+      <li class="<%=is_active_graph?("graph_drilldowns","rev_by_year_expected")%>">
+       <%= link_to "Expected Revenue by Year", revenue_by_year_expected_path %>
+     </li>
+       <li class="divider"></li>
+      <li class="<%=is_active_graph?("graphs","rev_by_year_by_pg")%>">
+        <%= link_to "Expected Revenue by Practice Group by Year", revenue_by_year_practice_group_path %>
+      </li>
+       <li class="divider"></li>
+      <li class="<%=is_active_graph?("graph_drilldowns","rev_by_fee_type")%>">
+        <%= link_to "Expected Revenue by Fee Type", revenue_by_year_fee_type_path %>
+      </li>
+    </ul>
+  </div>
+</div>
