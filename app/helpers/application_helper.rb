@@ -22,6 +22,16 @@ module ApplicationHelper
     end
   end
 
+  def is_active_for_drilldowns?(page_controller, action)
+    if controller.controller_name == page_controller &&
+                                    controller.action_name != action
+      "active"
+    else
+      ""
+    end
+  end
+
+
 
   def graph_sidebar?(page_controller)
     if controller.controller_name == page_controller

@@ -1,15 +1,15 @@
 <% provide(:title, 'Revenue by Year: Accelerated') %>
+
 <div class="chart container">
-  <div class="col-lg-9">
+  <div class="col-lg-9 col-lg-offset-1">
     <div id="revenueByYear" style="min-width: 310px; height: 400px; margin: 0 auto">
     </div>
-  </div>
     <br>
-  <div class='center'>
-      <%= link_to "Accelerated Recovery", revenue_by_year_accelerated_path, class: "btn btn-default btn-sm" %>
-      <%= link_to "Expected Recovery", revenue_by_year_expected_path, class: "btn btn-default btn-sm" %>
-      <%= link_to "Slow Recovery", revenue_by_year_slow_path, class: "btn btn-default btn-sm" %>
-
+    <div class='center'>
+        <%= link_to "Accelerated Recovery", revenue_by_year_accelerated_path, class: "btn btn-default btn-md" %>
+        <%= link_to "Expected Recovery", revenue_by_year_expected_path, class: "btn btn-default btn-md" %>
+        <%= link_to "Slow Recovery", revenue_by_year_slow_path, class: "btn btn-default btn-md" %>
+    </div>
   </div>
 </div>
 

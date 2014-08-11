@@ -9,7 +9,7 @@
         <%= link_to "Revenue by Practice Group", practice_group_revenues_path %>
       </li>
        <li role='presentation' class="divider"></li>
-      <li class="<%=is_active_graph?("graph_drilldowns","rev_by_year_expected")%>">
+      <li class="<%=is_active_for_drilldowns?("graph_drilldowns","rev_by_fee_type")%>">
        <%= link_to "Expected Revenue by Year", revenue_by_year_expected_path %>
      </li>
        <li class="divider"></li>
