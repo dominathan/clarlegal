@@ -1,13 +1,17 @@
+<div class="chart container">
+  <div class='col-lg-9 col-lg-offset-1'>
+    <div id="revByFeeType" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  </div>
+</div>
 
-<div id="revByFeeType" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <script type="text/javascript">
 
-var categoryByYear = <%= @category_years %>
-var contingencyRevenue = <%= @contingency_rev %>
-var hourlyRevenue = <%= @hourly_rev %>
-var fixedFeeRevenue = <%= @fixed_fee_rev %>
+  var categoryByYear = <%= @category_years %>
+  var contingencyRevenue = <%= @contingency_rev %>
+  var hourlyRevenue = <%= @hourly_rev %>
+  var fixedFeeRevenue = <%= @fixed_fee_rev %>
 
-$(function () {
+  $(function () {
       $('#revByFeeType').highcharts({
           chart: {
               type: 'column'

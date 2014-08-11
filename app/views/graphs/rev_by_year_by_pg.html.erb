@@ -1,7 +1,12 @@
 <% provide(:title, 'Revenue by Year by PG') %>
 
-<div id="revenueByYearByPG" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-<br>
+<div class="chart container">
+    <div class="col-lg-9 col-lg-offset-1">
+        <div id="revenueByYearByPG" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <br>
+    </div>
+</div>
+
 <div class='center'>
 <%= link_to "High Fee Value", revenue_by_year_practice_group_high_path, class: "btn btn-large btn-small" %>
 <%= link_to "Middle Fee Value", revenue_by_year_practice_group_path, class: "btn btn-large btn-small" %>

@@ -1,160 +1,194 @@
 <% provide(:title, 'Revenue by PG') %>
 
+<div class="chart container">
+    <div class="col-lg-9 col-lg-offset-1">
+        <div class="center">
+            <div class="btn-group btn-group-md">
+                <button id="lowButton" type="button" class="btn btn-default">Low Revenue</button>
+                <button id="expectedButton" type="button" class="btn btn-default">Expected Revenue</button>
+                <button id="highButton" type="button" class="btn">High Revenue</button>
+            </div>
+        </div>
+        <br>
+        <div class="" id='RevenueByPracticeGroupLow'
+                style="min-width: 310px;
+                       height: 600px; width: 600px;
+                       max-width: 600px;
+                       margin: 0 auto">
+        </div>
 
-<div id='RevenueByPracticeGroupLow' style="min-width: 310px;
-                                  height: 600px; width: 600px;
-                                  max-width: 600px;
-                                   margin: 0 auto">
+        <div class="" id='RevenueByPracticeGroupMedium'
+                                        style="min-width: 310px;
+                                          height: 600px; width: 600px;
+                                          max-width: 600px;
+                                           margin: 0 auto">
+        </div>
+
+        <div class="" id='RevenueByPracticeGroupHigh'
+                                          style="min-width: 310px;
+                                          height: 600px; width: 600px;
+                                          max-width: 600px;
+                                           margin: 0 auto">
+        </div>
+
+
+    </div>
 </div>
 
-<div id='RevenueByPracticeGroupMedium' style="min-width: 310px;
-                                  height: 600px; width: 600px;
-                                  max-width: 600px;
-                                   margin: 0 auto">
-</div>
+<script type="text/javascript">
+$(function() {
+    event.preventDefault();
+    $("#expectedButton").click(function() {
+        $('#RevenueByPracticeGroupLow').hide();
+        $('#RevenueByPracticeGroupHigh').hide();
+        $('#RevenueByPracticeGroupMedium').show();
+    });
+    $("#lowButton").click(function() {
+        $('#RevenueByPracticeGroupHigh').hide();
+        $('#RevenueByPracticeGroupMedium').hide();
+        $('#RevenueByPracticeGroupLow').show();
+    });
+    $("#highButton").click(function() {
+        $('#RevenueByPracticeGroupLow').hide();
+        $('#RevenueByPracticeGroupMedium').hide();
+        $('#RevenueByPracticeGroupHigh').show();
+    });
+});
+</script>
 
-<div id='RevenueByPracticeGroupHigh' style="min-width: 310px;
-                                  height: 600px; width: 600px;
-                                  max-width: 600px;
-                                   margin: 0 auto">
-</div>
-
-<script>
+<script> /*for the 3 pie charts*/
 
 
-var pieDataLow = [<% @final_low_rev.each do |d|%>
-                  <%= raw d %>,
-                <% end %>]
-var pieDataMedium = [<% @final_medium_rev.each do |d|%>
-                  <%= raw d %>,
-                <% end %>]
-var pieDataHigh = [<% @final_high_rev.each do |d|%>
-                  <%= raw d %>,
-                <% end %>]
+    var pieDataLow = [<% @final_low_rev.each do |d|%>
+                      <%= raw d %>,
+                    <% end %>]
+    var pieDataMedium = [<% @final_medium_rev.each do |d|%>
+                      <%= raw d %>,
+                    <% end %>]
+    var pieDataHigh = [<% @final_high_rev.each do |d|%>
+                      <%= raw d %>,
+                    <% end %>]
 
-$(function () {
-    //coloring
-    Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
-            return {
-                radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
-                stops: [
-                    [0, color],
-                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-                ]
-            };
+    $(function () {
+        //coloring
+        Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+                return {
+                    radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+                    stops: [
+                        [0, color],
+                        [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                    ]
+                };
+            });
+
+        $('#RevenueByPracticeGroupLow').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            credits: {
+                    enabled: false
+            },
+            title: {
+                text: 'Estimated Revenue by Practice Group (Low)'
+            },
+            tooltip: {
+              pointFormat: '<b>${point.y}</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: "Practice Group",
+                data: pieDataLow
+            }]
         });
+    });//end Low Revenue Pie
 
-    $('#RevenueByPracticeGroupLow').highcharts({
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: 1,//null,
-            plotShadow: false
-        },
-        credits: {
-                enabled: false
-        },
-        title: {
-            text: 'Estimated Revenue by Practice Group (Low)'
-        },
-        tooltip: {
-          pointFormat: '<b>${point.y}</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+    $(function () {
+        $('#RevenueByPracticeGroupMedium').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Estimated Revenue by Practice Group (Medium)'
+            },
+            credits: {
+                    enabled: false
+            },
+            tooltip: {
+              pointFormat: '<b>${point.y}</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
                     }
                 }
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: "Practice Group",
-            data: pieDataLow
-        }]
-    });
-});//end Low Revenue Pie
+            },
+            series: [{
+                type: 'pie',
+                name: "Practice Group",
+                data: pieDataMedium
+            }]
+        });
+    });//end Medium Revenue Pie
 
-$(function () {
-    $('#RevenueByPracticeGroupMedium').highcharts({
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: 1,//null,
-            plotShadow: false
-        },
-        title: {
-            text: 'Estimated Revenue by Practice Group (Medium)'
-        },
-        credits: {
-                enabled: false
-        },
-        tooltip: {
-          pointFormat: '<b>${point.y}</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+    $(function () {
+        $('#RevenueByPracticeGroupHigh').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Estimated Revenue by Practice Group (High)'
+            },
+            credits: {
+                    enabled: false
+            },
+            tooltip: {
+              pointFormat: '<b>${point.y}</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
                     }
                 }
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: "Practice Group",
-            data: pieDataMedium
-        }]
-    });
-});//end Medium Revenue Pie
-
-$(function () {
-    $('#RevenueByPracticeGroupHigh').highcharts({
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: 1,//null,
-            plotShadow: false
-        },
-        title: {
-            text: 'Estimated Revenue by Practice Group (High)'
-        },
-        credits: {
-                enabled: false
-        },
-        tooltip: {
-          pointFormat: '<b>${point.y}</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                }
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: "Practice Group",
-            data: pieDataHigh
-        }]
-    });
-});//end high revenue PIE
+            },
+            series: [{
+                type: 'pie',
+                name: "Practice Group",
+                data: pieDataHigh
+            }]
+        });
+    });//end high revenue PIE
 </script>
 
-
-
-</script>
