@@ -225,6 +225,26 @@ namespace :db do
     end
   end
 
+  desc 'closeout Random.rand(1..30) cases to begin making close case graphs'
+  task populate: :environment do
+    Random.rand(1..30).times do |n|
+      ca = Case.find_by(id: n+1)
+      possible_recovery = [ca.fee.last.high_estimate, ca.fee.last.medium_estimate, ca.fee.last.low_estimate]
+      actual_recovery = possible_recovery[Random.rand(0..2)]
+      ca.closeouts.create!(case_id: ca.id,
+                           total_recovery: actual_recovery,
+                           date_fee_received: Date.new(Random.rand(2008..2013),Random.rand(1..12),Random.rand(1..28)),
+                           total_gross_fee_received: actual_recovery*0.5,
+                           total_out_of_pocket_expenses: ca.fee.last.cost_estimate,
+                           referring_fees_paid: ca.fee.last.referral,
+                           total_fee_received: (actual_recovery*0.5 -
+                                                ca.fee.last.cost_estimate -
+                                                ca.fee.last.referral))
+      Closeout.close_case(ca)
+    end
+  end
+
+
 
 
 
