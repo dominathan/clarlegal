@@ -225,7 +225,7 @@ namespace :db do
     end
   end
 
-  desc 'closeout Random.rand(1..30) cases to begin making close case graphs'
+  desc 'case closeout Random.rand(1..30)to begin making completed case graphs (case.open ==false)'
   task populate: :environment do
     Random.rand(1..30).times do |n|
       ca = Case.find_by(id: n+1)
