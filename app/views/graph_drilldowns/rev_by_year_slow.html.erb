@@ -17,7 +17,8 @@
  $(function () {
 
 var categoryByYear = <%= @category_years %>;
-var costByYear = <%= @cost_by_year %>
+var costByYear = <%= @cost_by_year %>;
+var referralFee = <%= @referral_by_year %>;
 var revByYearHigh = <%= @rev_by_year_high %>;
 var revByYearMedium = <%= @rev_by_year_medium %>;
 var revByYearLow = <%= @rev_by_year_low %>;
@@ -94,9 +95,13 @@ var categoryLinks = {
           data: revByYearHigh
       },
       {
-          name: 'Estimated Cost',
+          name: 'Estimated Case Expenses',
           data: costByYear,
           color: 'red'
+      },
+      {
+          name: 'Referral Fee',
+          data: referralFee
       }],
   })
 });

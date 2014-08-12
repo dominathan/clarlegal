@@ -6,10 +6,11 @@
 
 <script type="text/javascript">
 
-  var categoryByYear = <%= @category_years %>
-  var contingencyRevenue = <%= @contingency_rev %>
-  var hourlyRevenue = <%= @hourly_rev %>
-  var fixedFeeRevenue = <%= @fixed_fee_rev %>
+  var categoryByYear = <%= @category_years %>;
+  var mixedRevenue = <%= @mixed_rev %>;
+  var contingencyRevenue = <%= @contingency_rev %>;
+  var hourlyRevenue = <%= @hourly_rev %>;
+  var fixedFeeRevenue = <%= @fixed_fee_rev %>;
 
   $(function () {
       $('#revByFeeType').highcharts({
@@ -69,17 +70,22 @@
               }
           },
           series: [{
+              name: 'Continency',
+              data: contingencyRevenue
+          },
+          {
+              name: 'Mixed',
+              data: mixedRevenue
+          },
+          {
               name: 'Hourly',
               data: hourlyRevenue
           }, {
-              name: 'Fixed Fee',
+              name: 'Fixed',
               data: fixedFeeRevenue
-          }, {
-              name: 'Continency',
-              data: contingencyRevenue
           }]
       });
   });
-
+// Contingency, Mixed, Hourly, Fixed
 </script>
 

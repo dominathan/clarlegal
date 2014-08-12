@@ -123,7 +123,7 @@ namespace :db do
 
   desc "add 50 fees - 1 per case"
   task populate: :environment do
-    fee_type = ['Hourly','Fixed Fee', 'Contingency']
+    fee_type = ['Hourly','Fixed Fee', 'Contingency', 'Mixed']
     payment_likelihood = ['High', 'Medium', "Low"]
     50.times do |n|
       Fee.create!(case_id: n+1,

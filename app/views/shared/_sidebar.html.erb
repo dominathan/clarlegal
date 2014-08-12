@@ -13,7 +13,9 @@
        <%= link_to "Expected Revenue by Year", revenue_by_year_expected_path %>
      </li>
        <li class="divider"></li>
-      <li class="<%=is_active_graph?("graphs","rev_by_year_by_pg")%>">
+      <li class="<%=is_active_graph?("graphs","rev_by_year_by_pg") ||
+                    is_active_graph?("graphs","rev_by_year_by_pg_high") ||
+                    is_active_graph?("graphs","rev_by_year_by_pg_low")%>">
         <%= link_to "Expected Revenue by Practice Group by Year", revenue_by_year_practice_group_path %>
       </li>
        <li class="divider"></li>

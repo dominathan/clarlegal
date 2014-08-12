@@ -18,7 +18,7 @@ module ApplicationHelper
                                     controller.action_name == action
       "active"
     else
-      ""
+      false
     end
   end
 

@@ -7,19 +7,22 @@ class GraphDrilldownsController < ApplicationController
     @hourly_rev = []
     @contingency_rev = []
     @fixed_fee_rev = []
+    @mixed_rev = []
     rev_fee_per_year('Fixed Fee', 'expected', 'medium')
     yearly_collection(@fixed_fee_rev)
     rev_fee_per_year('Hourly','expected','medium')
     yearly_collection(@hourly_rev)
     rev_fee_per_year('Contingency','expected','medium')
     yearly_collection(@contingency_rev)
+    rev_fee_per_year('Mixed', 'expected', 'medium')
+    yearly_collection(@mixed_rev)
   end
 
   def rev_fee_per_year(fee_structure, collection_rate,collection_amount)
     set_yearly_rev
     current_user.lawfirm.cases.each do |ca|
       conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
-      if ca.fee.first != nil
+      if ca.fee.first
         if ca.fee.order(:created_at).last.fee_type == fee_structure
           if @current_date.year == conclusion_date.year
             @rev_est_year1 += collection_expectation(ca,collection_amount)
@@ -83,6 +86,29 @@ class GraphDrilldownsController < ApplicationController
     end
   end
 
+  def referral_by_year(collection_rate, collection_amount)
+    set_yearly_rev
+    current_user.lawfirm.cases.each do |ca|
+      conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
+      if ca.fee.last
+        if ca.fee.last.referral
+          if @current_date.year == conclusion_date.year
+            @rev_est_year1 -= collection_expectation(ca,collection_amount)
+          elsif @current_date.year+1 == conclusion_date.year
+            @rev_est_year2 -= collection_expectation(ca,collection_amount)
+          elsif @current_date.year+2 == conclusion_date.year
+            @rev_est_year3 -= collection_expectation(ca,collection_amount)
+          elsif @current_date.year+3 == conclusion_date.year
+            @rev_est_year4 -= collection_expectation(ca,collection_amount)
+          elsif @current_date.year+4 >= conclusion_date.year
+            @rev_est_year5_plus -= collection_expectation(ca,collection_amount)
+          end
+        else
+          next
+        end
+      end
+    end
+  end
 
   def revenue_collection_by_month(year_addition,collection_rate,collection_amount)
   #collection_rate = [fast,expected,slow]-- year=(0..4)--collection_amount=[high,collection_amount,low]
@@ -141,6 +167,8 @@ class GraphDrilldownsController < ApplicationController
         case_name.fee.order(:created_at).last.low_estimate
       elsif amount == 'cost'
         case_name.fee.order(:created_at).last.cost_estimate
+      elsif amount == 'referral'
+        case_name.fee.order(:created_at).last.referral
       end
     else
       return 0
@@ -152,6 +180,7 @@ class GraphDrilldownsController < ApplicationController
     @rev_by_year_medium = []
     @rev_by_year_low = []
     @cost_by_year = []
+    @referral_by_year = []
   end
 
   def monthly_collection(bucket)
@@ -225,6 +254,8 @@ class GraphDrilldownsController < ApplicationController
     yearly_collection(@rev_by_year_low)
     cost_by_year('expected','cost')
     yearly_collection(@cost_by_year)
+    referral_by_year('expected','referral')
+    yearly_collection(@referral_by_year)
   end
 
   def rev_by_year_slow
@@ -236,8 +267,10 @@ class GraphDrilldownsController < ApplicationController
     yearly_collection(@rev_by_year_medium)
     revenue_collection_by_year('slow','low')
     yearly_collection(@rev_by_year_low)
-    cost_by_year('expected','cost')
+    cost_by_year('slow','cost')
     yearly_collection(@cost_by_year)
+    referral_by_year('slow','referral')
+    yearly_collection(@referral_by_year)
   end
 
   def rev_by_year
@@ -252,6 +285,8 @@ class GraphDrilldownsController < ApplicationController
     yearly_collection(@rev_by_year_low)
     cost_by_year('fast','cost')
     yearly_collection(@cost_by_year)
+    referral_by_year('fast','referral')
+    yearly_collection(@referral_by_year)
   end
 
   def rev_year_1_slow
