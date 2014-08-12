@@ -2,13 +2,13 @@
 
 <div class="chart container">
     <div class="col-lg-7 col-lg-offset-1">
-<!--         <div class="center">
+        <div class="center">
             <div class="btn-group btn-group-md">
                 <button id="lowButton" type="button" class="btn btn-default">Low Revenue</button>
                 <button id="expectedButton" type="button" class="btn btn-default">Expected Revenue</button>
                 <button id="highButton" type="button" class="btn">High Revenue</button>
             </div>
-        </div> -->
+        </div>
         <br>
         <div class="" id='RevenueByPracticeGroupLow'
                 style="min-width: 310px;
@@ -36,24 +36,24 @@
 </div>
 
 <script type="text/javascript">
-// $(function() {
-//     event.preventDefault();
-//     $("#expectedButton").click(function() {
-//         $('#RevenueByPracticeGroupLow').hide();
-//         $('#RevenueByPracticeGroupHigh').hide();
-//         $('#RevenueByPracticeGroupMedium').show();
-//     });
-//     $("#lowButton").click(function() {
-//         $('#RevenueByPracticeGroupHigh').hide();
-//         $('#RevenueByPracticeGroupMedium').hide();
-//         $('#RevenueByPracticeGroupLow').show();
-//     });
-//     $("#highButton").click(function() {
-//         $('#RevenueByPracticeGroupLow').hide();
-//         $('#RevenueByPracticeGroupMedium').hide();
-//         $('#RevenueByPracticeGroupHigh').show();
-//     });
-// });
+$(function() {
+    event.preventDefault();
+    $("#expectedButton").click(function() {
+        $('#RevenueByPracticeGroupLow').hide();
+        $('#RevenueByPracticeGroupHigh').hide();
+        $('#RevenueByPracticeGroupMedium').show();
+    });
+    $("#lowButton").click(function() {
+        $('#RevenueByPracticeGroupHigh').hide();
+        $('#RevenueByPracticeGroupMedium').hide();
+        $('#RevenueByPracticeGroupLow').show();
+    });
+    $("#highButton").click(function() {
+        $('#RevenueByPracticeGroupLow').hide();
+        $('#RevenueByPracticeGroupMedium').hide();
+        $('#RevenueByPracticeGroupHigh').show();
+    });
+});
 </script>
 
 <script> /*for the 3 pie charts*/
