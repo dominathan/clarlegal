@@ -1,6 +1,5 @@
 <% provide(:title, 'Pending PG Case Load') %>
 
-
 <div class="chart container">
 
     <div class="col-lg-8 col-lg-offset-1">
@@ -19,7 +18,7 @@
 //all_practice_group names = current_user.lawfirm.practicegroups
 //all_practice_group_length = all_practice_group.length
 //current_user.lawfirm.cases.where(practice_group: ABOVEARRAY[0]).count
-  var pieData = [<% @final_data.each do |d|%>
+  var pieData = [<% @final_case_open.each do |d|%>
                   <%= raw d %>,
                 <% end %>]
 

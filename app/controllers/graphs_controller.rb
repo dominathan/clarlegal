@@ -4,13 +4,18 @@ class GraphsController < ApplicationController
 
   def practice_group_pie
     #filter by practice_group ... pg
-    @case_count_by_pg = []
+    @open_cases_by_pg = []
+    @closed_cases_by_pg = []
     @lawfirm_pgs = current_user.lawfirm.practicegroups.collect { |n| n.group_name }
     @pg_count = @lawfirm_pgs.length
+    open_cases = current_user.lawfirm.cases.where(open: true)
+    closed_cases = current_user.lawfirm.cases.where(open: false)
     0.upto(@pg_count-1) do |n|
-      @case_count_by_pg.push(current_user.lawfirm.cases.where(practice_group: @lawfirm_pgs[n]).count)
+      @open_cases_by_pg.push(open_cases.where(practice_group: @lawfirm_pgs[n]).count)
+      @closed_cases_by_pg.push(closed_cases.where(practice_group: @lawfirm_pgs[n]).count)
     end
-    @final_data = @lawfirm_pgs.zip(@case_count_by_pg)
+    @final_case_closed = @lawfirm_pgs.zip(@closed_cases_by_pg)
+    @final_case_open = @lawfirm_pgs.zip(@open_cases_by_pg)
   end
 
   def practice_group_revenue_pie_low
