@@ -3,74 +3,110 @@ class GraphsController < ApplicationController
   before_action :belongs_to_firm
 
   def practice_group_pie
-    #filter by practice_group ... pg
-    @open_cases_by_pg = []
-    @closed_cases_by_pg = []
-    @lawfirm_pgs = current_user.lawfirm.practicegroups.collect { |n| n.group_name }
-    @pg_count = @lawfirm_pgs.length
-    open_cases = current_user.lawfirm.cases.where(open: true)
-    closed_cases = current_user.lawfirm.cases.where(open: false)
-    0.upto(@pg_count-1) do |n|
-      @open_cases_by_pg.push(open_cases.where(practice_group: @lawfirm_pgs[n]).count)
-      @closed_cases_by_pg.push(closed_cases.where(practice_group: @lawfirm_pgs[n]).count)
+    #Step 1. Get list of all cases that are either open or closed.
+            # Create arrays to hold practicegroup totals
+    open_cases = Graph.open_cases(current_user)
+    closed_cases = Graph.closed_cases(current_user)
+    open_cases_by_pg = []
+    closed_cases_by_pg = []
+    #Step 2. Get list of practice groups in current user lawfirm
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    pg_count = lawfirm_pgs.length
+     #Step 3.  For every practice group in a lawfirm, total the number of cases that belong
+              # to that practice group and is open, as well as closed
+    0.upto(pg_count-1) do |n|
+      open_cases_by_pg.push(open_cases.where(practice_group: lawfirm_pgs[n]).count)
+      closed_cases_by_pg.push(closed_cases.where(practice_group: lawfirm_pgs[n]).count)
     end
-    @final_case_closed = @lawfirm_pgs.zip(@closed_cases_by_pg)
-    @final_case_open = @lawfirm_pgs.zip(@open_cases_by_pg)
+    #Step 4. Combine the lawfirm practice group with the count..e.g.[['Med Mal', 5]]
+    @final_case_closed = lawfirm_pgs.zip(closed_cases_by_pg)
+    @final_case_open = lawfirm_pgs.zip(open_cases_by_pg)
   end
 
+
+
+#---------------------- These are for open cases, aka estimated revenue -----------
+
   def practice_group_revenue_pie_low
-    @lawfirm_pgs = current_user.lawfirm.practicegroups.collect { |n| n.group_name }
+    # Step 1. Get list of all cases that are either open or closed.
+    #         Create arrays to hold practicegroup totals
+    #         Get list of practice groups in current user lawfirm
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    open_cases = Graph.open_cases(current_user)
     #need to have one for high, one for medium, one for low
-    @total_rev_per_pg_low = []
-    @lawfirm_pgs.each do |pg|
+    total_rev_per_pg_low = []
+    lawfirm_pgs.each do |pg|
       sum_total = 0
-      current_user.lawfirm.cases.where(practice_group: pg).each do |ca|
-        ca.fee.first ? sum_total += ca.fee.first.low_estimate : next
+      open_cases.where(practice_group: pg).each do |ca|
+        ca.fee.order(:created_at).last.low_estimate ?
+          sum_total += ca.fee.order(:created_at).last.low_estimate : next
       end
-      @total_rev_per_pg_low << sum_total
+      total_rev_per_pg_low << sum_total
     end
-    @final_low_rev = @lawfirm_pgs.zip(@total_rev_per_pg_low)
+    @final_low_rev = lawfirm_pgs.zip(total_rev_per_pg_low)
     practice_group_revenue_pie_medium
     practice_group_revenue_pie_high
+    practice_group_revenue_pie_actual
   end
 
   def practice_group_revenue_pie_medium
-    @lawfirm_pgs = current_user.lawfirm.practicegroups.collect { |n| n.group_name }
-    @total_rev_per_pg_medium = []
-    @lawfirm_pgs.each do |pg|
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    open_cases = Graph.open_cases(current_user)
+    total_rev_per_pg_medium = []
+    lawfirm_pgs.each do |pg|
       sum_total = 0
-      current_user.lawfirm.cases.where(practice_group: pg).each do |ca|
-        ca.fee.first ? sum_total += ca.fee.first.medium_estimate : next
+      open_cases.where(practice_group: pg).each do |ca|
+        ca.fee.order(:created_at).last.medium_estimate ?
+            sum_total += ca.fee.order(:created_at).last.medium_estimate : next
       end
-      @total_rev_per_pg_medium << sum_total
+      total_rev_per_pg_medium << sum_total
     end
-    @final_medium_rev = @lawfirm_pgs.zip(@total_rev_per_pg_medium)
+    @final_medium_rev = lawfirm_pgs.zip(total_rev_per_pg_medium)
   end
 
   def practice_group_revenue_pie_high
-    @lawfirm_pgs = current_user.lawfirm.practicegroups.collect { |n| n.group_name }
-    @total_rev_per_pg_high = []
-    @lawfirm_pgs.each do |pg|
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    open_cases = Graph.open_cases(current_user)
+    total_rev_per_pg_high = []
+    lawfirm_pgs.each do |pg|
       sum_total = 0
-      current_user.lawfirm.cases.where(practice_group: pg).each do |ca|
-        ca.fee.first ? sum_total += ca.fee.first.high_estimate : next
+      open_cases.where(practice_group: pg).each do |ca|
+        ca.fee.order(:created_at).last.high_estimate ?
+            sum_total += ca.fee.order(:created_at).last.high_estimate : next
       end
-      @total_rev_per_pg_high << sum_total
+      total_rev_per_pg_high << sum_total
     end
-    @final_high_rev = @lawfirm_pgs.zip(@total_rev_per_pg_high)
+    @final_high_rev = lawfirm_pgs.zip(total_rev_per_pg_high)
   end
 
-  def list_of_firm_practice_groups
-    @lf_pgs = current_user.lawfirm.practicegroups.collect { |n| n.group_name }
+#----------------------End Open Cases-----------------------------------------
+
+#---------------------Closed Cases-- AKA Actual Revenue ----------------------
+
+  def practice_group_revenue_pie_actual
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    closed_cases = Graph.closed_cases(current_user)
+    total_rev_per_pg_actual = []
+    lawfirm_pgs.each do |pg|
+      sum_total = 0
+      closed_cases.where(practice_group: pg).each do |ca|
+        ca.closeouts ?
+              sum_total += ca.closeouts.order(:created_at).last.total_fee_received : next
+      end
+      total_rev_per_pg_actual << sum_total
+    end
+    @final_actual_rev_by_pg = lawfirm_pgs.zip(total_rev_per_pg_actual)
   end
+
+#--------------End practice_group_revenue_pie_charts---------------------------
 
   def rev_by_year_by_pg
-    list_of_firm_practice_groups
+    @lawfirm_pgs = Graph.user_practice_groups(current_user)
     current_date = DateTime.now
     @category_years = [current_date.year, current_date.year+1, current_date.year+2,
                       current_date.year+3, current_date.year+4]
     @final_tally =[]
-    @lf_pgs.each do |lf_pg|
+    @lawfirm_pgs.each do |lf_pg|
       rev_est_year1 = 0
       rev_est_year2 = 0
       rev_est_year3 = 0
@@ -98,17 +134,17 @@ class GraphsController < ApplicationController
       @final_tally.push(@five_year_rev)
     end
     @final_tally
-    zipped_file = @lf_pgs.zip(@final_tally)
+    zipped_file = @lawfirm_pgs.zip(@final_tally)
     @hash_file = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
   end
 
     def rev_by_year_by_pg_high
-    list_of_firm_practice_groups
+    @lawfirm_pgs = Graph.user_practice_groups(current_user)
     current_date = DateTime.now
     @category_years = [current_date.year, current_date.year+1, current_date.year+2,
                       current_date.year+3, current_date.year+4]
     @final_tally =[]
-    @lf_pgs.each do |lf_pg|
+    @lawfirm_pgs.each do |lf_pg|
       rev_est_year1 = 0
       rev_est_year2 = 0
       rev_est_year3 = 0
@@ -136,17 +172,17 @@ class GraphsController < ApplicationController
       @final_tally.push(@five_year_rev)
     end
     @final_tally
-    zipped_file = @lf_pgs.zip(@final_tally)
+    zipped_file = @lawfirm_pgs.zip(@final_tally)
     @hash_file_high = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
   end
 
   def rev_by_year_by_pg_low
-    list_of_firm_practice_groups
+    @lawfirm_pgs = Graph.user_practice_groups(current_user)
     current_date = DateTime.now
     @category_years = [current_date.year, current_date.year+1, current_date.year+2,
                       current_date.year+3, current_date.year+4]
     @final_tally =[]
-    @lf_pgs.each do |lf_pg|
+    @lawfirm_pgs.each do |lf_pg|
       rev_est_year1 = 0
       rev_est_year2 = 0
       rev_est_year3 = 0
@@ -174,24 +210,10 @@ class GraphsController < ApplicationController
       @final_tally.push(@five_year_rev)
     end
     @final_tally
-    zipped_file = @lf_pgs.zip(@final_tally)
+    zipped_file = @lawfirm_pgs.zip(@final_tally)
     @hash_file_low = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
   end
 
-  def set_monthly_rev
-    @rev_jan=0
-    @rev_feb=0
-    @rev_mar=0
-    @rev_apr=0
-    @rev_may=0
-    @rev_jun=0
-    @rev_jul=0
-    @rev_aug=0
-    @rev_sept=0
-    @rev_oct=0
-    @rev_nov=0
-    @rev_dec=0
-  end
 
 end
 
