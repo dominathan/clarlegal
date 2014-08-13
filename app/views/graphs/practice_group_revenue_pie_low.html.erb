@@ -1,5 +1,5 @@
 <% provide(:title, 'Revenue by PG') %>
-
+<h1><%=@final_tally%></h1>
 <div class="chart container">
     <div class="col-lg-12">
         <div class="center">
@@ -215,7 +215,10 @@ $(function() {
                 plotShadow: false
             },
             title: {
-                text: 'Actual Revenue by Practice Group'
+                text: 'Actual Fee Received by Practice Group'
+            },
+            subtitle: {
+                text: 'Lifetime Earnings'
             },
             credits: {
                     enabled: false
