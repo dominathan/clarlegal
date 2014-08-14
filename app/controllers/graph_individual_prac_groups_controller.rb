@@ -1,7 +1,8 @@
 class GraphIndividualPracGroupsController < ApplicationController
 
 
-  def expected_individual_pg_rev(prac_group)
+  def expected_individual_pg_rev
+    prac_group = Practicegroup.find(params[:id]).group_name
     open_cases = Graph.open_cases(current_user)
     current_date = DateTime.now
     category_years = set_yearly_category_variables

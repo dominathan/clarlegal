@@ -12,8 +12,13 @@ class Graph < ActiveRecord::Base
 
   #practice_group names by lawfirm
   def self.user_practice_groups(user)
-    user.lawfirm.practicegroups.collect { |n| n.group_name }
+    user.lawfirm.practicegroups.order(:id).collect { |n| n.group_name }
   end
+
+  def self.user_practice_group_ids(user)
+    user.lawfirm.practicegroups.order(:id).collect { |n| n.id }
+  end
+
 
   #start year should be five years prior to the most recent collection fee_received
   def self.closeout_years

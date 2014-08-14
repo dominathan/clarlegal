@@ -48,14 +48,17 @@
 
 <script type="text/javascript">
   $(function () {
-    var allPracticeGroups = <%= raw Graph.user_practice_groups(current_user) %>
+    <% prac_group = Graph.user_practice_groups(current_user) %>
+    var allPracticeGroups = <%= raw prac_group %>;
+    var allPracticeGroupIds = <%= raw Graph.user_practice_group_ids(current_user) %>
     var ulToAddTo = document.getElementById("individualPracticeGroups");
     for (var i in allPracticeGroups) {
+      var pracgroupID = allPracticeGroupIds[i]
       var li = document.createElement("li");
       var a = document.createElement('a');
       var textForAElement = document.createTextNode(allPracticeGroups[i])
       a.appendChild(textForAElement)
-      a.href =  "/lawfirm/cases"
+      a.href =  "/practice_group/"+pracgroupID+"/revenue"
       li.appendChild(a);
       ulToAddTo.appendChild(li);
     };
