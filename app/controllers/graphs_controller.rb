@@ -310,6 +310,7 @@ class GraphsController < ApplicationController
     @hash_file_low = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
   end
 #---------------End Estimated/Expected Revenue by Year by PracticeGroup---------
+
 end
 
 
