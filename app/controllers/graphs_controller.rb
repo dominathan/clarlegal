@@ -152,7 +152,7 @@ class GraphsController < ApplicationController
     end
     #see method below
     if closeout_amount_type(case_name,amount_type)
-      #augment variable amount by the amount_type if years match
+      #augment variable by the amount_type if years match
       if date_received == category_years[0]
         @rev_est_year1 += closeout_amount_type(case_name,amount_type)
       elsif date_received == category_years[1]
@@ -194,6 +194,49 @@ class GraphsController < ApplicationController
 
 #--------------End Actual Revenue By Year--------------------------------------
 
+
+#--------------Individual PracticeGroup Rev by Year----------------------------
+
+  def expected_individual_pg_rev
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    current_date = DateTime.now
+    category_years = set_yearly_category_variables
+    @lawfirm_pg_rev = []
+    lawfirm_pgs.each do |lf_pg|
+      rev_est = set_yearly_rev_array
+      open_cases(current_user).where(practice_group: lf_pg).each do |ca|
+        ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.order(:created_at).last.estimated_conclusion_expected)) : next
+        if ca.fee.order(:created_at).last
+          if current_date.year == conclusion_date.year
+            rev_est[0] += ca.fee.first.medium_estimate
+          elsif current_date.year+1 == conclusion_date.year
+            rev_est[1] += ca.fee.first.medium_estimate
+          elsif current_date.year+2 == conclusion_date.year
+            rev_est[2] += ca.fee.first.medium_estimate
+          elsif current_date.year+3 == conclusion_date.year
+            rev_est[3] += ca.fee.first.medium_estimate
+          elsif current_date.year+4 >= conclusion_date.year
+            rev_est[4] += ca.fee.first.medium_estimate
+          end
+        else
+          next
+        end
+        @five_year_estimate = rev_est
+      end
+      @lawfirm_pg_rev << @five_year_estimate
+    end
+  end
+
+  def set_yearly_rev_array
+    [rev_est_year1 = 0, rev_est_year2 = 0, rev_est_year3 = 0, rev_est_year4 = 0, rev_est_year5_plus = 0]
+  end
+
+  def set_yearly_category_variables
+    current_date = DateTime.now
+    [current_date.year, current_date.year+1, current_date.year+2,
+                        current_date.year+3, current_date.year+4]
+  end
+#--------------End                                 ----------------------------
 #--------------Expected/Estimated Revenue By Year By Practice Group------------
 
   def rev_by_year_by_pg

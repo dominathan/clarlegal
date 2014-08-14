@@ -33,6 +33,36 @@
         <li class="<%=is_active_graph?("graph_drilldowns","rev_by_fee_type")%>">
           <%= link_to "Expected Revenue by Fee Type", revenue_by_year_fee_type_path %>
         </li>
+        <li class="divider"></li>
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Individual Practice Groups <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu" id="individualPracticeGroups">
+
+          </ul>
+        <li>
       </ul>
     </div>
   </div>
+
+<script type="text/javascript">
+  $(function () {
+    var allPracticeGroups = <%= raw Graph.user_practice_groups(current_user) %>
+    var ulToAddTo = document.getElementById("individualPracticeGroups");
+    for (var i in allPracticeGroups) {
+      var li = document.createElement("li");
+      var a = document.createElement('a');
+      var textForAElement = document.createTextNode(allPracticeGroups[i])
+      a.appendChild(textForAElement)
+      a.href =  "/lawfirm/cases"
+      li.appendChild(a);
+      ulToAddTo.appendChild(li);
+    };
+  });
+
+
+
+
+
+</script>
