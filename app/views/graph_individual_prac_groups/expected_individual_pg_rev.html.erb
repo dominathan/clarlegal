@@ -1,1 +1,94 @@
-<h1><%= @lawfirm_pg_rev %> </h1>
+
+<% provide(:title, Practicegroup.find_by(id: params[:id]).group_name) %>
+
+<div class="chart container">
+  <div class="col-lg-10 col-lg-offset-2">
+    <div id="individualPGRevenueByYear" style="min-width: 310px; height: 400px; margin: 0 auto">
+    </div>
+    <br>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+ $(function () {
+
+var categoryByYear = <%= @category_years %>;
+var costByYear = <%= @lawfirm_pg_rev[3] %>;
+var referralFee = <%= @lawfirm_pg_rev[4] %>;
+var revByYearHigh = <%= @lawfirm_pg_rev[2] %>;
+var revByYearMedium = <%= @lawfirm_pg_rev[1] %>;
+var revByYearLow = <%= @lawfirm_pg_rev[0] %>;
+var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
+
+
+  // Create the chart
+  $('#individualPGRevenueByYear').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: pracGroup+" Group"
+      },
+      subtitle: {
+          text: 'Estimated Revenue'
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+      },
+      yAxis: {
+          title: {
+              text: 'Revenue'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX + 20,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Low Revenue',
+          data: revByYearLow,
+      },
+      {
+          name: 'Medium Revenue',
+          data: revByYearMedium
+      },
+      {
+          name: 'High Revenue',
+          data: revByYearHigh
+      },
+      {
+          name: 'Estimated Case Expenses',
+          data: costByYear,
+          color: 'red'
+      },
+      {
+          name: 'Referral Fee',
+          data: referralFee
+      }],
+  })
+});
+
+</script>

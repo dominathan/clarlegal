@@ -28,6 +28,8 @@ gem 'whenever', :require => false
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
   gem 'railroady'
+  gem 'pry'
+  gem 'jazz_hands'
 end
 
 group :test do
