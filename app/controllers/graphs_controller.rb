@@ -107,12 +107,16 @@ class GraphsController < ApplicationController
 #--------------Actual_Revenue_By_Year -----------------------------------------
 
   def actual_revenue_by_year
+    #Get List of Closed Cases.  Set Variables
     closed_cases = Graph.closed_cases(current_user)
     set_yearly_revenue_variables
+    #For each Closed case, call closeout_amounts (see below)
     closed_cases.each do |ca|
       closeout_amounts(ca,'total_recovery')
     end
+    #Set variable = to closeout_amount return variable
     @final_total_recovery = @final
+    #restart....repeat all the way down
     set_yearly_revenue_variables
     closed_cases.each do |ca|
       closeout_amounts(ca,'total_gross_fee_received')
@@ -123,6 +127,7 @@ class GraphsController < ApplicationController
       closeout_amounts(ca,'total_out_of_pocket_expenses')
     end
     @total_out_of_pocket_expenses = @final
+    #set all elements in variable negative because it is an expense
     @total_out_of_pocket_expenses = @total_out_of_pocket_expenses.collect { |num| num*-1 }
     set_yearly_revenue_variables
     closed_cases.each do |ca|
@@ -138,11 +143,16 @@ class GraphsController < ApplicationController
   end
 
   def closeout_amounts(case_name,amount_type)
+    #get list of 5 years leading up to most recent date fee received
     category_years = Graph.closeout_years
+    #check if the closeoutform .date_fee_receveived is not false
     if case_name.closeouts.last.date_fee_received
+      #set date recevied = to date fee received
       date_received = case_name.closeouts.last.date_fee_received.year
     end
+    #see method below
     if closeout_amount_type(case_name,amount_type)
+      #augment variable amount by the amount_type if years match
       if date_received == category_years[0]
         @rev_est_year1 += closeout_amount_type(case_name,amount_type)
       elsif date_received == category_years[1]
@@ -155,10 +165,12 @@ class GraphsController < ApplicationController
         @rev_est_year5_plus += closeout_amount_type(case_name,amount_type)
       end
     end
+    #put all elements into a @final variable that match yearly revenue
     @final = [@rev_est_year1,@rev_est_year2,@rev_est_year3,@rev_est_year4,@rev_est_year5_plus]
   end
 
   def closeout_amount_type(case_name,amount_type)
+    #to set all amount_types possible in Closeout Table
     if amount_type == 'total_recovery'
       case_name.closeouts.last.total_recovery
     elsif amount_type == 'total_gross_fee_received'
@@ -179,9 +191,6 @@ class GraphsController < ApplicationController
     @rev_est_year4 = 0
     @rev_est_year5_plus = 0
   end
-
-
-
 
 #--------------End Actual Revenue By Year--------------------------------------
 
