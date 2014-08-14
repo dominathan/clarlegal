@@ -42,7 +42,6 @@ class GraphDrilldownsController < ApplicationController
     end
   end
 
-
   def revenue_collection_by_year(collection_rate,collection_amount)
     set_yearly_rev
     current_user.lawfirm.cases.each do |ca|
