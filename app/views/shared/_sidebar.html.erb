@@ -13,8 +13,8 @@
         </li>
          <li role='presentation' class="divider"></li>
 
-        <li class="throwinisactive">
-          <%= link_to "Actual Revenue by Year", "#" %>
+        <li class="<%=is_active_graph?("graphs","actual_revenue_by_year") %>">
+          <%= link_to "Actual Revenue by Year", revenue_by_year_actual_path %>
         </li>
          <li role='presentation' class="divider"></li>
 

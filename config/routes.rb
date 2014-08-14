@@ -69,7 +69,7 @@ Claregal::Application.routes.draw do
 
   match '/revenue_by_year/fee_type',        to: 'graph_drilldowns#rev_by_fee_type', via: 'get'
 
-
+  match '/revenue_by_year/actual',          to: 'graphs#actual_revenue_by_year', via: 'get'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
