@@ -107,7 +107,92 @@ class GraphIndividualPracGroupsController < ApplicationController
       end
     end
     @lawfirm_pg_rev << rev_est
+    actual_indivual_pg_revenue
   end
+#---------------------Begin Actual Revenue by PG--------------------------------------
+  def actual_indivual_pg_revenue
+    prac_group = Practicegroup.find(params[:id]).group_name
+    closed_cases = Graph.closed_cases(current_user)
+    set_yearly_revenue_variables
+    @category_years_backwards = Graph.closeout_years
+    @lawfirm_pg_rev_actual = []
+    rev_est = set_yearly_rev_array
+    closed_cases.where(practice_group: prac_group).each do |ca|
+      closeout_amounts(ca,'total_recovery')
+    end
+    @total_recovery = @final
+    set_yearly_revenue_variables
+    closed_cases.where(practice_group: prac_group).each do |ca|
+      closeout_amounts(ca,'total_gross_fee_received')
+    end
+    @gross_fee_received = @final
+    set_yearly_revenue_variables
+    closed_cases.where(practice_group: prac_group).each do |ca|
+      closeout_amounts(ca,'total_out_of_pocket_expenses')
+    end
+    @out_of_pocket_expenses = @final
+    set_yearly_revenue_variables
+    closed_cases.where(practice_group: prac_group).each do |ca|
+      closeout_amounts(ca,'referring_fees_paid')
+    end
+    @referring_fees_paid = @final
+    set_yearly_revenue_variables
+    closed_cases.where(practice_group: prac_group).each do |ca|
+      closeout_amounts(ca,'total_fee_received')
+    end
+    @total_fee_received = @final
+  end
+
+  def closeout_amounts(case_name,amount_type)
+    #get list of 5 years leading up to most recent date fee received
+    category_years = Graph.closeout_years
+    #check if the closeoutform .date_fee_receveived is not false
+    if case_name.closeouts.last.date_fee_received
+      #set date recevied = to date fee received
+      date_received = case_name.closeouts.last.date_fee_received.year
+    end
+    #see method below
+    if closeout_amount_type(case_name,amount_type)
+      #augment variable by the amount_type if years match
+      if date_received == category_years[0]
+        @rev_est_year1 += closeout_amount_type(case_name,amount_type)
+      elsif date_received == category_years[1]
+        @rev_est_year2 += closeout_amount_type(case_name,amount_type)
+      elsif date_received == category_years[2]
+        @rev_est_year3 += closeout_amount_type(case_name,amount_type)
+      elsif date_received == category_years[3]
+        @rev_est_year4 += closeout_amount_type(case_name,amount_type)
+      elsif date_received == category_years[4]
+        @rev_est_year5_plus += closeout_amount_type(case_name,amount_type)
+      end
+    end
+    #put all elements into a @final variable that match yearly revenue
+    @final = [@rev_est_year1,@rev_est_year2,@rev_est_year3,@rev_est_year4,@rev_est_year5_plus]
+  end
+
+  def closeout_amount_type(case_name,amount_type)
+    #to set all amount_types possible in Closeout Table
+    if amount_type == 'total_recovery'
+      case_name.closeouts.last.total_recovery
+    elsif amount_type == 'total_gross_fee_received'
+      case_name.closeouts.last.total_gross_fee_received
+    elsif amount_type == "total_out_of_pocket_expenses"
+      case_name.closeouts.last.total_out_of_pocket_expenses
+    elsif amount_type == "referring_fees_paid"
+      case_name.closeouts.last.referring_fees_paid
+    elsif amount_type == "total_fee_received"
+      case_name.closeouts.last.total_fee_received
+    end
+  end
+
+  def set_yearly_revenue_variables
+    @rev_est_year1 = 0
+    @rev_est_year2 = 0
+    @rev_est_year3 = 0
+    @rev_est_year4 = 0
+    @rev_est_year5_plus = 0
+  end
+
 
   def set_yearly_rev_array
     [rev_est_year1 = 0, rev_est_year2 = 0, rev_est_year3 = 0, rev_est_year4 = 0, rev_est_year5_plus = 0]

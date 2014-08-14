@@ -5,6 +5,8 @@
   <div class="col-lg-10 col-lg-offset-2">
     <div id="individualPGRevenueByYear" style="min-width: 310px; height: 400px; margin: 0 auto">
     </div>
+    <div id="individualPGRevenueByYearActual" style="min-width: 310px; height: 400px; margin: 0 auto">
+    </div>
     <br>
   </div>
 </div>
@@ -91,4 +93,83 @@ var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
   })
 });
 
+$(function () {
+
+var categoryByYearBackwards = <%= @category_years_backwards %>;
+var totalRecovery = <%= @total_recovery %>;
+var grossFeeReceived = <%= @gross_fee_received %>;
+var outOfPocketExpenses = <%= @out_of_pocket_expenses %>;
+var referringFeesPaid = <%= @referring_fees_paid %>;
+var totalFeeReceived = <%= @total_fee_received %>;
+var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
+
+
+  // Create the chart
+  $('#individualPGRevenueByYearActual').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: pracGroup+" Group"
+      },
+      subtitle: {
+          text: 'Actual Revenue'
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYearBackwards,
+      },
+      yAxis: {
+          title: {
+              text: 'Actual Fees and Expenses'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX + 20,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Total Recovery',
+          data: totalRecovery,
+      },
+      {
+          name: 'Gross Fee Received',
+          data: grossFeeReceived
+      },
+      {
+          name: 'Out-of-Pocket Expenses',
+          data: outOfPocketExpenses
+      },
+      {
+          name: 'Referring Fees Paid',
+          data: referringFeesPaid,
+          color: 'red'
+      },
+      {
+          name: 'Total Fee Received',
+          data: totalFeeReceived
+      }],
+  })
+});
 </script>

@@ -57,18 +57,5 @@ class Graph < ActiveRecord::Base
     end
   end
 
-  def self.bucket_yearly_revenue(case_name,amount,est_current_date,est_conclusion_date,yr1,yr2,yr3,yr4,yr5)
-    if est_current_date.year == est_conclusion_date.year
-      yr1 += Graph.collection_expectation(case_name,amount)
-    elsif est_current_date.year+1 == est_conclusion_date.year
-      yr2 += Graph.collection_expectation(case_name,amount)
-    elsif est_current_date.year+2 == est_conclusion_date.year
-      yr3 += Graph.collection_expectation(case_name,amount)
-    elsif est_current_date.year+3 == est_conclusion_date.year
-      yr4 += Graph.collection_expectation(case_name,amount)
-    elsif est_current_date.year+4 >= est_conclusion_date.year
-      yr5 += Graph.collection_expectation(case_name,amount)
-    end
-  end
 
 end
