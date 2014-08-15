@@ -29,8 +29,16 @@ class CasesController < ApplicationController
       @case.practice_group = params[:case][:new_practice_group]
       @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id)
     end
+    unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
+      @case.originations.first.referral_source = params[:case][:originations_attributes]["0"][:new_referral_source]
+    end
     if @case.save
       Closeout.open_case(@case)
+      unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
+        @new_origination = Origination.create!(referral_source: params[:case][:originations_attributes]["0"][:new_referral_source],
+                                              case_id: @case.id,
+                                              source_description: params[:case][:originations_attributes]["0"][:source_description])
+      end
       flash[:success] = "Case Added Successfully"
       redirect_to client_case_path(@case.client_id,@case)
     else
@@ -97,7 +105,7 @@ class CasesController < ApplicationController
                                                           :cost_estimate, :referral],
                                     :staffs_attributes => [:name, :position, :percent_utilization, :hours_expected,
                                                            :hours_actual],
-                                    :originations_attributes => [:referral_source, :source_description],
+                                    :originations_attributes => [:new_referral_source, :referral_source, :source_description],
                                     :checks_attributes => [:conflict_check, :conflict_date, :referring_engagement_letter,
                                                             :referring_engagement_letter_date, :client_engagement_letter,
                                                             :client_engagement_letter_date],

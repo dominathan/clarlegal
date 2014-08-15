@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812203246) do
+ActiveRecord::Schema.define(version: 20140815201006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 20140812203246) do
     t.datetime "updated_at"
     t.integer  "case_id"
     t.string   "source_description"
+    t.string   "new_referral_source"
   end
 
   add_index "originations", ["case_id"], name: "index_originations_on_case_id", using: :btree
