@@ -173,15 +173,15 @@ class GraphIndividualPracGroupsController < ApplicationController
   def closeout_amount_type(case_name,amount_type)
     #to set all amount_types possible in Closeout Table
     if amount_type == 'total_recovery'
-      case_name.closeouts.last.total_recovery unless nil
+      case_name.closeouts.last.total_recovery ? case_name.closeouts.last.total_recovery : 0
     elsif amount_type == 'total_gross_fee_received'
-      case_name.closeouts.last.total_gross_fee_received unless nil
+      case_name.closeouts.last.total_gross_fee_received ? case_name.closeouts.last.total_gross_fee_received : 0
     elsif amount_type == "total_out_of_pocket_expenses"
-      case_name.closeouts.last.total_out_of_pocket_expenses unless nil
+      case_name.closeouts.last.total_out_of_pocket_expenses ? case_name.closeouts.last.total_out_of_pocket_expenses : 0
     elsif amount_type == "referring_fees_paid"
-      case_name.closeouts.last.referring_fees_paid unless nil
+      case_name.closeouts.last.referring_fees_paid ? case_name.closeouts.last.referring_fees_paid : 0
     elsif amount_type == "total_fee_received"
-      case_name.closeouts.last.total_fee_received unless nil
+      case_name.closeouts.last.total_fee_received ? case_name.closeouts.last.total_fee_received : 0
     end
   end
 
