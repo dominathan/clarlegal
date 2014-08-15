@@ -396,9 +396,6 @@ class GraphsController < ApplicationController
   end
 
 
-
-
-
 #---------------END Estimated/Actual Revenue by Referral Source -----------------------
 
 end
