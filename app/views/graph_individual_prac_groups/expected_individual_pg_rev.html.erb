@@ -16,11 +16,11 @@
  $(function () {
 
 var categoryByYear = <%= @category_years %>;
-var costByYear = <%= @lawfirm_pg_rev[3] ? @lawfirm_pg_rev[3] : 0 %>;
-var referralFee = <%= @lawfirm_pg_rev[4] ? @lawfirm_pg_rev[4] : 0%>;
-var revByYearHigh = <%= @lawfirm_pg_rev[2] ? @lawfirm_pg_rev[4] : 0%>;
-var revByYearMedium = <%= @lawfirm_pg_rev[1] ? @lawfirm_pg_rev[1] : 0%>;
-var revByYearLow = <%= @lawfirm_pg_rev[0] ? @lawfirm_pg_rev[0] : 0 %>;
+var costByYear = <%= @lawfirm_pg_rev[3] %>;
+var referralFee = <%= @lawfirm_pg_rev[4] %>;
+var revByYearHigh = <%= @lawfirm_pg_rev[2] %>;
+var revByYearMedium = <%= @lawfirm_pg_rev[1] %>;
+var revByYearLow = <%= @lawfirm_pg_rev[0] %>;
 var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
 
 
@@ -95,13 +95,13 @@ var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
 
 $(function () {
 
-var categoryByYearBackwards = <%= @category_years_backwards %>;
-var totalRecovery = <%= @total_recovery %>;
-var grossFeeReceived = <%= @gross_fee_received %>;
-var outOfPocketExpenses = <%= @out_of_pocket_expenses %>;
-var referringFeesPaid = <%= @referring_fees_paid %>;
-var totalFeeReceived = <%= @total_fee_received %>;
-var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
+var categoryByYearBackwards = <%= @category_years_backwards %>
+var totalRecovery = <%= @total_recovery %>
+var grossFeeReceived = <%= @gross_fee_received %>
+var outOfPocketExpenses = <%= @out_of_pocket_expenses %>
+var referringFeesPaid = <%= @referring_fees_paid %>
+var totalFeeReceived = <%= @total_fee_received %>
+var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>";
 
 
   // Create the chart
