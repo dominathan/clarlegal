@@ -117,28 +117,38 @@ class GraphIndividualPracGroupsController < ApplicationController
     @category_years_backwards = Graph.closeout_years
     @lawfirm_pg_rev_actual = []
     rev_est = set_yearly_rev_array
-    closed_cases.where(practice_group: prac_group).each do |ca|
-      closeout_amounts(ca,'total_recovery')
+    if closed_cases.where(practice_group: prac_group) != nil
+      closed_cases.where(practice_group: prac_group).each do |ca|
+        closeout_amounts(ca,'total_recovery')
+      end
     end
     @total_recovery = @final
     set_yearly_revenue_variables
-    closed_cases.where(practice_group: prac_group).each do |ca|
-      closeout_amounts(ca,'total_gross_fee_received')
+    if closed_cases.where(practice_group: prac_group) != nil
+      closed_cases.where(practice_group: prac_group).each do |ca|
+        closeout_amounts(ca,'total_gross_fee_received')
+      end
     end
     @gross_fee_received = @final
     set_yearly_revenue_variables
-    closed_cases.where(practice_group: prac_group).each do |ca|
-      closeout_amounts(ca,'total_out_of_pocket_expenses')
+    if closed_cases.where(practice_group: prac_group) != nil
+      closed_cases.where(practice_group: prac_group).each do |ca|
+        closeout_amounts(ca,'total_out_of_pocket_expenses')
+      end
     end
     @out_of_pocket_expenses = @final
     set_yearly_revenue_variables
-    closed_cases.where(practice_group: prac_group).each do |ca|
-      closeout_amounts(ca,'referring_fees_paid')
+    if closed_cases.where(practice_group: prac_group) != nil
+      closed_cases.where(practice_group: prac_group).each do |ca|
+        closeout_amounts(ca,'referring_fees_paid')
+      end
     end
     @referring_fees_paid = @final
     set_yearly_revenue_variables
-    closed_cases.where(practice_group: prac_group).each do |ca|
-      closeout_amounts(ca,'total_fee_received')
+    if closed_cases.where(practice_group: prac_group) != nil
+      closed_cases.where(practice_group: prac_group).each do |ca|
+        closeout_amounts(ca,'total_fee_received')
+      end
     end
     @total_fee_received = @final
   end
