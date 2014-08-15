@@ -40,7 +40,8 @@
           </tr>
           <tr>
             <td><%= f.label 'Practice Group:' %></td>
-            <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups.order(:group_name), :group_name, :group_name) %></td>
+            <td><%= f.text_field :new_practice_group %></td>
+            <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups.order(:group_name), :group_name, :group_name, :include_blank => "Or Select Existing") %></td>
           </tr>
           <tr>
             <td><%= f.label 'Client Name:' %></td>

@@ -23,7 +23,11 @@ class CasesController < ApplicationController
     @case.opposing_attorney = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
     unless params[:case][:new_type_of_matter].empty?
       @case.type_of_matter = params[:case][:new_type_of_matter]
-      @new_pg = CaseType.create!(mat_ref: params[:case][:new_type_of_matter], lawfirm_id: current_user.lawfirm.id)
+      @new_matref = CaseType.create!(mat_ref: params[:case][:new_type_of_matter], lawfirm_id: current_user.lawfirm.id)
+    end
+    unless params[:case][:new_practice_group].empty?
+      @case.practice_group = params[:case][:new_practice_group]
+      @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id)
     end
     if @case.save
       Closeout.open_case(@case)
@@ -85,8 +89,8 @@ class CasesController < ApplicationController
   private
 
     def case_params
-        params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :type_of_matter, :practice_group,
-                                              :name, :open, :client_id, :case_number, :new_opposing_attorney,
+        params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :type_of_matter, :new_practice_group,
+                                              :practice_group, :name, :open, :client_id, :case_number, :new_opposing_attorney,
                                               :opposing_attorney, :new_judge, :judge, :related_cases, :description,
                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
                                                           :low_estimate, :payment_likelihood, :retainer,
