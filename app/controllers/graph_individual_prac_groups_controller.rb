@@ -162,18 +162,20 @@ class GraphIndividualPracGroupsController < ApplicationController
       date_received = case_name.closeouts.last.date_fee_received.year
     end
     #see method below
-    if closeout_amount_type(case_name,amount_type)
-      #augment variable by the amount_type if years match
-      if date_received == category_years[0]
-        @rev_est_year1 += closeout_amount_type(case_name,amount_type)
-      elsif date_received == category_years[1]
-        @rev_est_year2 += closeout_amount_type(case_name,amount_type)
-      elsif date_received == category_years[2]
-        @rev_est_year3 += closeout_amount_type(case_name,amount_type)
-      elsif date_received == category_years[3]
-        @rev_est_year4 += closeout_amount_type(case_name,amount_type)
-      elsif date_received == category_years[4]
-        @rev_est_year5_plus += closeout_amount_type(case_name,amount_type)
+    if case_name.closeouts.last
+      if closeout_amount_type(case_name,amount_type)
+        #augment variable by the amount_type if years match
+        if date_received == category_years[0]
+          @rev_est_year1 += closeout_amount_type(case_name,amount_type)
+        elsif date_received == category_years[1]
+          @rev_est_year2 += closeout_amount_type(case_name,amount_type)
+        elsif date_received == category_years[2]
+          @rev_est_year3 += closeout_amount_type(case_name,amount_type)
+        elsif date_received == category_years[3]
+          @rev_est_year4 += closeout_amount_type(case_name,amount_type)
+        elsif date_received == category_years[4]
+          @rev_est_year5_plus += closeout_amount_type(case_name,amount_type)
+        end
       end
     end
     #put all elements into a @final variable that match yearly revenue
@@ -182,16 +184,20 @@ class GraphIndividualPracGroupsController < ApplicationController
 
   def closeout_amount_type(case_name,amount_type)
     #to set all amount_types possible in Closeout Table
-    if amount_type == 'total_recovery'
-      case_name.closeouts.last.total_recovery ? case_name.closeouts.last.total_recovery : 0
-    elsif amount_type == 'total_gross_fee_received'
-      case_name.closeouts.last.total_gross_fee_received ? case_name.closeouts.last.total_gross_fee_received : 0
-    elsif amount_type == "total_out_of_pocket_expenses"
-      case_name.closeouts.last.total_out_of_pocket_expenses ? case_name.closeouts.last.total_out_of_pocket_expenses : 0
-    elsif amount_type == "referring_fees_paid"
-      case_name.closeouts.last.referring_fees_paid ? case_name.closeouts.last.referring_fees_paid : 0
-    elsif amount_type == "total_fee_received"
-      case_name.closeouts.last.total_fee_received ? case_name.closeouts.last.total_fee_received : 0
+    if case_name.closeouts.last
+      if amount_type == 'total_recovery'
+        case_name.closeouts.last.total_recovery ? case_name.closeouts.last.total_recovery : 0
+      elsif amount_type == 'total_gross_fee_received'
+        case_name.closeouts.last.total_gross_fee_received ? case_name.closeouts.last.total_gross_fee_received : 0
+      elsif amount_type == "total_out_of_pocket_expenses"
+        case_name.closeouts.last.total_out_of_pocket_expenses ? case_name.closeouts.last.total_out_of_pocket_expenses : 0
+      elsif amount_type == "referring_fees_paid"
+        case_name.closeouts.last.referring_fees_paid ? case_name.closeouts.last.referring_fees_paid : 0
+      elsif amount_type == "total_fee_received"
+        case_name.closeouts.last.total_fee_received ? case_name.closeouts.last.total_fee_received : 0
+      end
+    else
+      return 0
     end
   end
 
