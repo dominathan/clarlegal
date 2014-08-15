@@ -1,0 +1,200 @@
+<% provide(:title, 'Revenue by Referral Source') %>
+
+<div class="chart container">
+  <div class="col-lg-10 col-lg-offset-2">
+    <div id='referralSourceRevenueActual' style="min-width: 310px;
+                                  height: 600px; width: 600px;
+                                  max-width: 600px;
+                                   margin: 0 auto">
+    </div>
+    <div id='referralSourceRevenueExpected' style="min-width: 310px;
+                                  height: 600px; width: 600px;
+                                  max-width: 600px;
+                                   margin: 0 auto">
+    </div>
+    <div id='referralSourceRevenueLow' style="min-width: 310px;
+                                  height: 600px; width: 600px;
+                                  max-width: 600px;
+                                   margin: 0 auto">
+    </div>
+    <div id='referralSourceRevenueHigh' style="min-width: 310px;
+                                  height: 600px; width: 600px;
+                                  max-width: 600px;
+                                   margin: 0 auto">
+    </div>
+  </div>
+</div>
+
+<script>
+
+$(function () {
+
+
+  var pieData = [<% @final_fee_by_referral_source.each do |d|%>
+                  <%= raw d %>,
+                <% end %>]
+
+  var pieDataExpected = [<% @final_fee_by_referral_source_expected.each do |d|%>
+                  <%= raw d %>,
+                <% end %>]
+
+  var pieDataLow = [<% @final_fee_by_referral_source_low.each do |d|%>
+                  <%= raw d %>,
+                <% end %>]
+
+  var pieDataHigh = [<% @final_fee_by_referral_source_high.each do |d|%>
+                  <%= raw d %>,
+                <% end %>]
+
+    Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+            return {
+                radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+                stops: [
+                    [0, color],
+                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                ]
+            };
+        });
+
+    $('#referralSourceRevenueActual').highcharts({
+        chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            credits: {
+                    enabled: false
+            },
+            title: {
+                text: 'Actual Fee Received by Referral Source'
+            },
+            tooltip: {
+              pointFormat: '<b>${point.y}</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: "Practice Group",
+                data: pieData
+            }]
+        });
+
+    $('#referralSourceRevenueExpected').highcharts({
+        chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            credits: {
+                    enabled: false
+            },
+            title: {
+                text: 'Expected Revenue by Referral Source'
+            },
+            tooltip: {
+              pointFormat: '<b>${point.y}</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: "Expected Revenue by Referral Source",
+                data: pieDataExpected
+            }]
+        });
+
+      $('#referralSourceRevenueLow').highcharts({
+        chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            credits: {
+                    enabled: false
+            },
+            title: {
+                text: 'Low Revenue by Referral Source'
+            },
+            tooltip: {
+              pointFormat: '<b>${point.y}</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: "Low Revenue by Referral Source",
+                data: pieDataLow
+            }]
+        });
+
+      $('#referralSourceRevenueHigh').highcharts({
+        chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            credits: {
+                    enabled: false
+            },
+            title: {
+                text: 'High Revenue by Referral Source'
+            },
+            tooltip: {
+              pointFormat: '<b>${point.y}</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: "High Revenue by Referral Source",
+                data: pieDataHigh
+            }]
+        });
+    });
+
+</script>

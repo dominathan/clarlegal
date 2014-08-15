@@ -310,6 +310,97 @@ class GraphsController < ApplicationController
   end
 #---------------End Estimated/Expected Revenue by Year by PracticeGroup---------
 
+
+#---------------BEGIN Estimated/Actual Revenue by Referral Source -----------------------
+  def actual_revenue_by_referral_source
+    closed_cases = Graph.closed_cases(current_user)
+    all_referral_sources = Origination.all_referral_sources(current_user)
+    array_of_fee_received = []
+    all_referral_sources.each do |ref_source|
+      sum_total = 0
+      closed_cases.each do |ca|
+        if ca.originations.order(:created_at).last.referral_source
+          if ca.originations.order(:created_at).last.referral_source == ref_source
+            sum_total += ca.closeouts.order(:created_at).last.total_fee_received
+          end
+        else
+          next
+        end
+      end
+      array_of_fee_received << sum_total
+    end
+    @final_fee_by_referral_source = all_referral_sources.zip(array_of_fee_received)
+    expected_revenue_by_referral_source
+    low_revenue_by_referral_source
+    high_revenue_by_referral_source
+  end
+
+  def expected_revenue_by_referral_source
+    open_cases = Graph.open_cases(current_user)
+    all_referral_sources = Origination.all_referral_sources(current_user)
+    array_of_fee_received = []
+    all_referral_sources.each do |ref_source|
+      sum_total = 0
+      open_cases.each do |ca|
+        if ca.originations.order(:created_at).last.referral_source
+          if ca.originations.order(:created_at).last.referral_source == ref_source
+            sum_total += ca.fees.order(:created_at).last.medium_estimate
+          end
+        else
+          next
+        end
+      end
+      array_of_fee_received << sum_total
+    end
+    @final_fee_by_referral_source_expected = all_referral_sources.zip(array_of_fee_received)
+  end
+
+  def low_revenue_by_referral_source
+    open_cases = Graph.open_cases(current_user)
+    all_referral_sources = Origination.all_referral_sources(current_user)
+    array_of_fee_received = []
+    all_referral_sources.each do |ref_source|
+      sum_total = 0
+      open_cases.each do |ca|
+        if ca.originations.order(:created_at).last.referral_source
+          if ca.originations.order(:created_at).last.referral_source == ref_source
+            sum_total += ca.fees.order(:created_at).last.low_estimate
+          end
+        else
+          next
+        end
+      end
+      array_of_fee_received << sum_total
+    end
+    @final_fee_by_referral_source_low = all_referral_sources.zip(array_of_fee_received)
+  end
+
+  def high_revenue_by_referral_source
+    open_cases = Graph.open_cases(current_user)
+    all_referral_sources = Origination.all_referral_sources(current_user)
+    array_of_fee_received = []
+    all_referral_sources.each do |ref_source|
+      sum_total = 0
+      open_cases.each do |ca|
+        if ca.originations.order(:created_at).last.referral_source
+          if ca.originations.order(:created_at).last.referral_source == ref_source
+            sum_total += ca.fees.order(:created_at).last.high_estimate
+          end
+        else
+          next
+        end
+      end
+      array_of_fee_received << sum_total
+    end
+    @final_fee_by_referral_source_high = all_referral_sources.zip(array_of_fee_received)
+  end
+
+
+
+
+
+#---------------END Estimated/Actual Revenue by Referral Source -----------------------
+
 end
 
 
