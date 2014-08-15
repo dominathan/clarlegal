@@ -12,11 +12,13 @@
           </tr>
           <tr>
             <td><%= f.label 'Court:' %></td>
-            <td><%= f.text_field :court %></td>
+            <td><%= f.text_field :new_court %></td>
+            <td><%= f.select(:court, current_user.lawfirm.cases.order(:court).collect(&:court).uniq, :include_blank => "Or Select Existing") %></td>
           </tr>
           <tr>
             <td><%= f.label 'Judge:' %></td>
-            <td><%= f.text_field :judge %></td>
+            <td><%= f.text_field :new_judge %></td>
+            <td><%= f.select(:judge, current_user.lawfirm.cases.order(:judge).collect(&:judge).uniq, :include_blank => "Or Select Existing")%></td>
           </tr>
           <tr>
             <td><%= f.label 'Case Number:' %></td>
@@ -24,19 +26,21 @@
           </tr>
           <tr>
             <td><%= f.label 'Opposing Attorney:' %></td>
-            <td><%= f.text_field :opposing_attorney %> </td>
+            <td><%= f.text_field :new_opposing_attorney %> </td>
+            <td><%= f.select(:opposing_attorney, current_user.lawfirm.cases.order(:opposing_attorney).collect(&:opposing_attorney).uniq, :include_blank => "Or Select Existing") %> </td>
           </tr>
           <tr>
             <td><%= f.label 'Matter Type:' %></td>
-            <td><%= f.text_field :type_of_matter %></td>
+            <td><%= f.text_field :new_type_of_matter %></td>
+            <td><%= f.select(:type_of_matter, current_user.lawfirm.case_types.order(:mat_ref).collect(&:mat_ref).uniq, :include_blank => "Or Select Existing") %></td>
           </tr>
           <tr>
             <td><%= f.label 'Related Cases:' %></td>
-            <td><%= f.select(:related_cases, current_user.lawfirm.cases.all.map { |c| c.name }.prepend("N/A"), :include_blank => "Select Related Cases or N/A") %></td>
+            <td><%= f.select(:related_cases, current_user.lawfirm.cases.order(:name).all.map { |c| c.name }.prepend("N/A"), :include_blank => "Select Related Cases or N/A") %></td>
           </tr>
           <tr>
             <td><%= f.label 'Practice Group:' %></td>
-            <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %></td>
+            <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups.order(:group_name), :group_name, :group_name) %></td>
           </tr>
           <tr>
             <td><%= f.label 'Client Name:' %></td>
@@ -157,7 +161,8 @@
           <table class='table'>
             <tr>
               <td><%= ff.label "Referral Source:" %></td>
-              <td><%= ff.select :referral_source, Origination::REFERRALS, :include_blank => "Select" %></td>
+              <td><%= ff.text_field :referral_source %></td>
+              <td><%= ff.select(:referral_source, Origination.all_referral_sources(current_user), :include_blank => "Or Select One") %></td>
             </tr>
             <tr>
               <td><%= ff.label "More Information:" %></td>

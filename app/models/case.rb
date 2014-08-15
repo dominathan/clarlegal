@@ -10,27 +10,25 @@ class Case < ActiveRecord::Base
   has_many :staff
   has_many :staffs
   accepts_nested_attributes_for :staffs, :reject_if => :all_blank
-
   has_many :timing
   has_many :timings
   accepts_nested_attributes_for :timings
-
   has_many :originations
   accepts_nested_attributes_for :originations
-
   has_many :venues
   accepts_nested_attributes_for :venues
-
   has_many :checks
   accepts_nested_attributes_for :checks
-
   has_many :closeouts
-
 
 
   validates :client_id, presence: true
 
-  MATTER_REFERENCES = ['Medical Malpractice', 'Insurance Fraud', 'Automotive', "Worker's Compensation"]
+  attr_accessor :new_court, :new_judge, :new_opposing_attorney,
+                :new_type_of_matter
+
+
+
 
   def self.lead_attorney(case_name)
     @lead_att = nil

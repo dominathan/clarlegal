@@ -18,7 +18,13 @@ class CasesController < ApplicationController
 
   def create_case
     @case = Case.new(case_params)
-    #@case.client_id = Client.find_by(client_name: params[:case][:client]).id
+    @case.court = params[:case][:new_court] unless params[:case][:new_court].empty?
+    @case.judge = params[:case][:new_judge] unless params[:case][:new_judge].empty?
+    @case.opposing_attorney = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
+    unless params[:case][:new_type_of_matter].empty?
+      @case.type_of_matter = params[:case][:new_type_of_matter]
+      @new_pg = CaseType.create!(mat_ref: params[:case][:new_type_of_matter], lawfirm_id: current_user.lawfirm.id)
+    end
     if @case.save
       Closeout.open_case(@case)
       flash[:success] = "Case Added Successfully"
@@ -79,9 +85,9 @@ class CasesController < ApplicationController
   private
 
     def case_params
-        params.require(:case).permit(:client, :court, :type_of_matter, :practice_group,
-                                              :name, :open, :client_id, :case_number, :opposing_attorney,
-                                              :judge, :related_cases, :description,
+        params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :type_of_matter, :practice_group,
+                                              :name, :open, :client_id, :case_number, :new_opposing_attorney,
+                                              :opposing_attorney, :new_judge, :judge, :related_cases, :description,
                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
                                                           :low_estimate, :payment_likelihood, :retainer,
                                                           :cost_estimate, :referral],
