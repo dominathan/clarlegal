@@ -49,7 +49,13 @@ var seriesData = <%= raw @hash_file %>;
                     '<td style="padding:0"><b>${point.y}</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
-                useHTML: true
+                useHTML: true,
+                positioner: function(boxWidth, boxHeight, point) {
+                    return {
+                        x: point.plotX - 40,
+                        y: point.plotY - 20
+                     };
+                } //this moves the box out of the way of the category links
             },
             plotOptions: {
                 column: {

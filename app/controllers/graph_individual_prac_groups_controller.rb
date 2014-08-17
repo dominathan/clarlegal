@@ -109,7 +109,229 @@ class GraphIndividualPracGroupsController < ApplicationController
     @lawfirm_pg_rev << rev_est.collect {|amount| amount*-1}
     actual_indivual_pg_revenue
     actual_indiv_pg_revenue_by_referral_source
+    accelerated_individual_pg_rev
+    slow_individual_pg_rev
   end
+#---------------------Begin Accelerated Revenue by PG---------------------------------
+  def accelerated_individual_pg_rev
+    prac_group = Practicegroup.find(params[:id]).group_name
+    open_cases = Graph.open_cases(current_user)
+    current_date = DateTime.now
+    @category_years = @category_years
+    @lawfirm_pg_rev_accelerated = []
+    rev_est = set_yearly_rev_array
+    open_cases.where(practice_group: prac_group).each do |ca|
+      ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'fast'))) : next
+      if ca.fee.order(:created_at).last
+        if current_date.year == conclusion_date.year
+          rev_est[0] += Graph.collection_expectation(ca,"low")
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est[1] += Graph.collection_expectation(ca,"low")
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est[2] += Graph.collection_expectation(ca,"low")
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est[3] += Graph.collection_expectation(ca,"low")
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est[4] += Graph.collection_expectation(ca,"low")
+        end
+      else
+        next
+      end
+    end
+    @lawfirm_pg_rev_accelerated << rev_est
+    #for medium estimate
+    rev_est = set_yearly_rev_array
+    open_cases.where(practice_group: prac_group).each do |ca|
+      ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'fast'))) : next
+      if ca.fee.order(:created_at).last
+        if current_date.year == conclusion_date.year
+          rev_est[0] += Graph.collection_expectation(ca,"medium")
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est[1] += Graph.collection_expectation(ca,"medium")
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est[2] += Graph.collection_expectation(ca,"medium")
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est[3] += Graph.collection_expectation(ca,"medium")
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est[4] += Graph.collection_expectation(ca,"medium")
+        end
+      else
+        next
+      end
+    end
+    @lawfirm_pg_rev_accelerated << rev_est
+    rev_est = set_yearly_rev_array
+    open_cases.where(practice_group: prac_group).each do |ca|
+      ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'fast'))) : next
+      if ca.fee.order(:created_at).last
+        if current_date.year == conclusion_date.year
+          rev_est[0] += Graph.collection_expectation(ca,"high")
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est[1] += Graph.collection_expectation(ca,"high")
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est[2] += Graph.collection_expectation(ca,"high")
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est[3] += Graph.collection_expectation(ca,"high")
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est[4] += Graph.collection_expectation(ca,"high")
+        end
+      else
+        next
+      end
+    end
+    @lawfirm_pg_rev_accelerated << rev_est
+    rev_est = set_yearly_rev_array
+    open_cases.where(practice_group: prac_group).each do |ca|
+      ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'fast'))) : next
+      if ca.fee.order(:created_at).last
+        if current_date.year == conclusion_date.year
+          rev_est[0] += Graph.collection_expectation(ca,"cost")
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est[1] += Graph.collection_expectation(ca,"cost")
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est[2] += Graph.collection_expectation(ca,"cost")
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est[3] += Graph.collection_expectation(ca,"cost")
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est[4] += Graph.collection_expectation(ca,"cost")
+        end
+      else
+        next
+      end
+    end
+    @lawfirm_pg_rev_accelerated << rev_est.collect {|amount| amount*-1}
+    rev_est = set_yearly_rev_array
+    open_cases.where(practice_group: prac_group).each do |ca|
+      ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'fast'))) : next
+      if ca.fee.order(:created_at).last
+        if current_date.year == conclusion_date.year
+          rev_est[0] += Graph.collection_expectation(ca,"referral")
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est[1] += Graph.collection_expectation(ca,"referral")
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est[2] += Graph.collection_expectation(ca,"referral")
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est[3] += Graph.collection_expectation(ca,"referral")
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est[4] += Graph.collection_expectation(ca,"referral")
+        end
+      else
+        next
+      end
+    end
+    @lawfirm_pg_rev_accelerated << rev_est.collect {|amount| amount*-1}
+  end
+#--------------------Begin Slow Collection by PG-----------------------
+  def slow_individual_pg_rev
+    prac_group = Practicegroup.find(params[:id]).group_name
+    open_cases = Graph.open_cases(current_user)
+    current_date = DateTime.now
+    @category_years = @category_years
+    @lawfirm_pg_rev_slow = []
+    rev_est = set_yearly_rev_array
+    open_cases.where(practice_group: prac_group).each do |ca|
+      ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'slow'))) : next
+      if ca.fee.order(:created_at).last
+        if current_date.year == conclusion_date.year
+          rev_est[0] += Graph.collection_expectation(ca,"low")
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est[1] += Graph.collection_expectation(ca,"low")
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est[2] += Graph.collection_expectation(ca,"low")
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est[3] += Graph.collection_expectation(ca,"low")
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est[4] += Graph.collection_expectation(ca,"low")
+        end
+      else
+        next
+      end
+    end
+    @lawfirm_pg_rev_slow << rev_est
+    #for medium estimate
+    rev_est = set_yearly_rev_array
+    open_cases.where(practice_group: prac_group).each do |ca|
+      ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'slow'))) : next
+      if ca.fee.order(:created_at).last
+        if current_date.year == conclusion_date.year
+          rev_est[0] += Graph.collection_expectation(ca,"medium")
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est[1] += Graph.collection_expectation(ca,"medium")
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est[2] += Graph.collection_expectation(ca,"medium")
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est[3] += Graph.collection_expectation(ca,"medium")
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est[4] += Graph.collection_expectation(ca,"medium")
+        end
+      else
+        next
+      end
+    end
+    @lawfirm_pg_rev_slow << rev_est
+    rev_est = set_yearly_rev_array
+    open_cases.where(practice_group: prac_group).each do |ca|
+      ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'slow'))) : next
+      if ca.fee.order(:created_at).last
+        if current_date.year == conclusion_date.year
+          rev_est[0] += Graph.collection_expectation(ca,"high")
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est[1] += Graph.collection_expectation(ca,"high")
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est[2] += Graph.collection_expectation(ca,"high")
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est[3] += Graph.collection_expectation(ca,"high")
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est[4] += Graph.collection_expectation(ca,"high")
+        end
+      else
+        next
+      end
+    end
+    @lawfirm_pg_rev_slow << rev_est
+    rev_est = set_yearly_rev_array
+    open_cases.where(practice_group: prac_group).each do |ca|
+      ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'slow'))) : next
+      if ca.fee.order(:created_at).last
+        if current_date.year == conclusion_date.year
+          rev_est[0] += Graph.collection_expectation(ca,"cost")
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est[1] += Graph.collection_expectation(ca,"cost")
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est[2] += Graph.collection_expectation(ca,"cost")
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est[3] += Graph.collection_expectation(ca,"cost")
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est[4] += Graph.collection_expectation(ca,"cost")
+        end
+      else
+        next
+      end
+    end
+    @lawfirm_pg_rev_slow << rev_est.collect {|amount| amount*-1}
+    rev_est = set_yearly_rev_array
+    open_cases.where(practice_group: prac_group).each do |ca|
+      ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'slow'))) : next
+      if ca.fee.order(:created_at).last
+        if current_date.year == conclusion_date.year
+          rev_est[0] += Graph.collection_expectation(ca,"referral")
+        elsif current_date.year+1 == conclusion_date.year
+          rev_est[1] += Graph.collection_expectation(ca,"referral")
+        elsif current_date.year+2 == conclusion_date.year
+          rev_est[2] += Graph.collection_expectation(ca,"referral")
+        elsif current_date.year+3 == conclusion_date.year
+          rev_est[3] += Graph.collection_expectation(ca,"referral")
+        elsif current_date.year+4 >= conclusion_date.year
+          rev_est[4] += Graph.collection_expectation(ca,"referral")
+        end
+      else
+        next
+      end
+    end
+    @lawfirm_pg_rev_slow << rev_est.collect {|amount| amount*-1}
+  end
+
+
 #---------------------Begin Actual Revenue by PG--------------------------------------
   def actual_indivual_pg_revenue
     prac_group = Practicegroup.find(params[:id]).group_name
