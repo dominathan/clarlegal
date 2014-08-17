@@ -342,7 +342,7 @@ class GraphsController < ApplicationController
     all_referral_sources.each do |ref_source|
       sum_total = 0
       open_cases.each do |ca|
-        if ca.originations.order(:created_at).last.referral_source
+        if ca.originations.order(:created_at).last
           if ca.originations.order(:created_at).last.referral_source == ref_source
             sum_total += ca.fees.order(:created_at).last.medium_estimate
           end
@@ -362,7 +362,7 @@ class GraphsController < ApplicationController
     all_referral_sources.each do |ref_source|
       sum_total = 0
       open_cases.each do |ca|
-        if ca.originations.order(:created_at).last.referral_source
+        if ca.originations.order(:created_at).last
           if ca.originations.order(:created_at).last.referral_source == ref_source
             sum_total += ca.fees.order(:created_at).last.low_estimate
           end
@@ -382,7 +382,7 @@ class GraphsController < ApplicationController
     all_referral_sources.each do |ref_source|
       sum_total = 0
       open_cases.each do |ca|
-        if ca.originations.order(:created_at).last.referral_source
+        if ca.originations.order(:created_at).last
           if ca.originations.order(:created_at).last.referral_source == ref_source
             sum_total += ca.fees.order(:created_at).last.high_estimate
           end

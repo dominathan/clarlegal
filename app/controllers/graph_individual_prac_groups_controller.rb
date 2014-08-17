@@ -86,7 +86,7 @@ class GraphIndividualPracGroupsController < ApplicationController
         next
       end
     end
-    @lawfirm_pg_rev << rev_est
+    @lawfirm_pg_rev << rev_est.collect {|amount| amount*-1}
     rev_est = set_yearly_rev_array
     open_cases.where(practice_group: prac_group).each do |ca|
       ca.timing.order(:created_at).last ? conclusion_date = current_date.to_time.advance(:months => (Graph.time_to_collection(ca,'expected'))) : next
@@ -106,7 +106,7 @@ class GraphIndividualPracGroupsController < ApplicationController
         next
       end
     end
-    @lawfirm_pg_rev << rev_est
+    @lawfirm_pg_rev << rev_est.collect {|amount| amount*-1}
     actual_indivual_pg_revenue
     actual_indiv_pg_revenue_by_referral_source
   end
@@ -140,7 +140,7 @@ class GraphIndividualPracGroupsController < ApplicationController
       closed_cases.where(practice_group: prac_group).each do |ca|
         closeout_amounts(ca,'total_out_of_pocket_expenses')
       end
-      @out_of_pocket_expenses = @final
+      @out_of_pocket_expenses = @final.each.collect { |amount| amount*-1 }
     else
       @out_of_pocket_expenses = [0,0,0,0,0]
     end
@@ -149,7 +149,7 @@ class GraphIndividualPracGroupsController < ApplicationController
       closed_cases.where(practice_group: prac_group).each do |ca|
         closeout_amounts(ca,'referring_fees_paid')
       end
-      @referring_fees_paid = @final
+      @referring_fees_paid = @final.each.collect { |amount| amount*-1 }
     else
       @referring_fees_paid = [0,0,0,0,0]
     end
@@ -235,26 +235,6 @@ class GraphIndividualPracGroupsController < ApplicationController
 
   #---------------Individual PG Rev by Referral Source -----------------
 
-  def low_indiv_pg_revenue_by_referral_source
-    open_cases = Graph.open_cases(current_user)
-    prac_group = Practicegroup.find(params[:id]).group_name
-    all_referral_sources = Origination.all_referral_sources(current_user)
-    array_of_fee_received = []
-    all_referral_sources.each do |ref_source|
-      sum_total = 0
-      open_cases.where(practice_group: prac_group).each do |ca|
-        if ca.originations.order(:created_at).last.referral_source
-          if ca.originations.order(:created_at).last.referral_source == ref_source
-            sum_total += ca.fees.order(:created_at).last.low_estimate
-          end
-        else
-          next
-        end
-      end
-      array_of_fee_received << sum_total
-    end
-    @final_indiv_pg_fee_by_referral_source_low = all_referral_sources.zip(array_of_fee_received)
-  end
 
   def actual_indiv_pg_revenue_by_referral_source
     closed_cases = Graph.closed_cases(current_user)
