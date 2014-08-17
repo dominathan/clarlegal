@@ -20,7 +20,8 @@ class GraphDrilldownsController < ApplicationController
 
   def rev_fee_per_year(fee_structure, collection_rate,collection_amount)
     set_yearly_rev
-    current_user.lawfirm.cases.each do |ca|
+    open_cases = Graph.open_cases(current_user)
+    open_cases.each do |ca|
       conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
       if ca.fee.first
         if ca.fee.order(:created_at).last.fee_type == fee_structure
@@ -41,6 +42,9 @@ class GraphDrilldownsController < ApplicationController
       end
     end
   end
+
+
+  #---------------------BEGIN expected revenue by year and month --------------------
 
   def revenue_collection_by_year(collection_rate,collection_amount)
     set_yearly_rev
