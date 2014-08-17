@@ -108,6 +108,7 @@ class GraphIndividualPracGroupsController < ApplicationController
     end
     @lawfirm_pg_rev << rev_est
     actual_indivual_pg_revenue
+    actual_indiv_pg_revenue_by_referral_source
   end
 #---------------------Begin Actual Revenue by PG--------------------------------------
   def actual_indivual_pg_revenue
@@ -230,5 +231,52 @@ class GraphIndividualPracGroupsController < ApplicationController
                         current_date.year+3, current_date.year+4]
   end
 
+  #------------------END --------------------------------
+
+  #---------------Individual PG Rev by Referral Source -----------------
+
+  def low_indiv_pg_revenue_by_referral_source
+    open_cases = Graph.open_cases(current_user)
+    prac_group = Practicegroup.find(params[:id]).group_name
+    all_referral_sources = Origination.all_referral_sources(current_user)
+    array_of_fee_received = []
+    all_referral_sources.each do |ref_source|
+      sum_total = 0
+      open_cases.where(practice_group: prac_group).each do |ca|
+        if ca.originations.order(:created_at).last.referral_source
+          if ca.originations.order(:created_at).last.referral_source == ref_source
+            sum_total += ca.fees.order(:created_at).last.low_estimate
+          end
+        else
+          next
+        end
+      end
+      array_of_fee_received << sum_total
+    end
+    @final_indiv_pg_fee_by_referral_source_low = all_referral_sources.zip(array_of_fee_received)
+  end
+
+  def actual_indiv_pg_revenue_by_referral_source
+    closed_cases = Graph.closed_cases(current_user)
+    prac_group = Practicegroup.find(params[:id]).group_name
+    all_referral_sources = Origination.all_referral_sources(current_user)
+    array_of_fee_received = []
+    all_referral_sources.each do |ref_source|
+      sum_total = 0
+      closed_cases.where(practice_group: prac_group).each do |ca|
+        if ca.originations.order(:created_at).last.referral_source
+          if ca.originations.order(:created_at).last.referral_source == ref_source
+            sum_total += ca.closeouts.order(:created_at).last.total_fee_received
+          end
+        else
+          next
+        end
+      end
+      array_of_fee_received << sum_total
+    end
+    @final_indiv_pg_fee_by_referral_source_actual = all_referral_sources.zip(array_of_fee_received)
+  end
+
+#--------------------------------------------------------------------------------
 
 end

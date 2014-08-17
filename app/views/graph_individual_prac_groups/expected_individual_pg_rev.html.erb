@@ -1,12 +1,26 @@
 
 <% provide(:title, Practicegroup.find_by(id: params[:id]).group_name) %>
-
 <div class="chart container">
   <div class="col-lg-10 col-lg-offset-2">
-    <div id="individualPGRevenueByYear" style="min-width: 310px; height: 400px; margin: 0 auto">
+
+    <div id="individualPGRevenueByYear" style="min-width: 310px;
+                                              height: 400px;
+                                              margin: 0 auto">
     </div>
-    <div id="individualPGRevenueByYearActual" style="min-width: 310px; height: 400px; margin: 0 auto">
+
+    <div id="individualPGRevenueByYearActual" style="min-width: 310px;
+                                                      height: 400px;
+                                                      margin: 0 auto">
     </div>
+    <br>
+    <br>
+
+    <div id='actualRevByReferral' style="min-width: 310px;
+                                      height: 600px; width: 600px;
+                                      max-width: 600px;
+                                       margin: 0 auto">
+    </div>
+
     <br>
   </div>
 </div>
@@ -22,7 +36,6 @@ var revByYearHigh = <%= @lawfirm_pg_rev[2] %>;
 var revByYearMedium = <%= @lawfirm_pg_rev[1] %>;
 var revByYearLow = <%= @lawfirm_pg_rev[0] %>;
 var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
-
 
   // Create the chart
   $('#individualPGRevenueByYear').highcharts({
@@ -172,4 +185,48 @@ var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>";
       }],
   })
 });
+$(function () {
+
+  var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>";
+  var pieDataActual = [<% @final_indiv_pg_fee_by_referral_source_actual.each do |d|%>
+                      <%= raw d %>,
+                    <% end %>];
+
+    $('#actualRevByReferral').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: "Total Fee Received By Referral Source for "+ pracGroup
+        },
+        tooltip: {
+              pointFormat: '<b>${point.y}</b>'
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    pointFormat: '<b>{point.name}: ${point.y}</b>',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    },
+                    connectorColor: 'silver'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: "Practice Group",
+            data: pieDataActual
+        }]
+    });
+});
+
 </script>
