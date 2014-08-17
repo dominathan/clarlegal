@@ -117,40 +117,50 @@ class GraphIndividualPracGroupsController < ApplicationController
     @category_years_backwards = Graph.closeout_years
     @lawfirm_pg_rev_actual = []
     rev_est = set_yearly_rev_array
-    if closed_cases.where(practice_group: prac_group) != nil
+    if closed_cases.where(practice_group: prac_group).any?
       closed_cases.where(practice_group: prac_group).each do |ca|
         closeout_amounts(ca,'total_recovery')
       end
+      @total_recovery = @final
+    else
+      @total_recovery = [0,0,0,0,0]
     end
-    @total_recovery = @final
     set_yearly_revenue_variables
-    if closed_cases.where(practice_group: prac_group) != nil
+    if closed_cases.where(practice_group: prac_group).any?
       closed_cases.where(practice_group: prac_group).each do |ca|
         closeout_amounts(ca,'total_gross_fee_received')
       end
+      @gross_fee_received = @final
+    else
+      @gross_fee_received = [0,0,0,0,0]
     end
-    @gross_fee_received = @final
     set_yearly_revenue_variables
-    if closed_cases.where(practice_group: prac_group) != nil
+    if closed_cases.where(practice_group: prac_group).any?
       closed_cases.where(practice_group: prac_group).each do |ca|
         closeout_amounts(ca,'total_out_of_pocket_expenses')
       end
+      @out_of_pocket_expenses = @final
+    else
+      @out_of_pocket_expenses = [0,0,0,0,0]
     end
-    @out_of_pocket_expenses = @final
     set_yearly_revenue_variables
-    if closed_cases.where(practice_group: prac_group) != nil
+    if closed_cases.where(practice_group: prac_group).any?
       closed_cases.where(practice_group: prac_group).each do |ca|
         closeout_amounts(ca,'referring_fees_paid')
       end
+      @referring_fees_paid = @final
+    else
+      @referring_fees_paid = [0,0,0,0,0]
     end
-    @referring_fees_paid = @final
     set_yearly_revenue_variables
-    if closed_cases.where(practice_group: prac_group) != nil
+    if closed_cases.where(practice_group: prac_group).any?
       closed_cases.where(practice_group: prac_group).each do |ca|
         closeout_amounts(ca,'total_fee_received')
       end
+      @total_fee_received = @final
+    else
+      @total_fee_received = [0,0,0,0,0]
     end
-    @total_fee_received = @final
   end
 
   def closeout_amounts(case_name,amount_type)
