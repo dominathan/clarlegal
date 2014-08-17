@@ -169,7 +169,7 @@ class GraphIndividualPracGroupsController < ApplicationController
     #check if the closeoutform .date_fee_receveived is not false
     if case_name.closeouts.last.date_fee_received
       #set date recevied = to date fee received
-      date_received = case_name.closeouts.last.date_fee_received.year
+      date_received = case_name.closeouts.order(:created_at).last.date_fee_received.year
     end
     #see method below
     if case_name.closeouts.last
@@ -194,7 +194,7 @@ class GraphIndividualPracGroupsController < ApplicationController
 
   def closeout_amount_type(case_name,amount_type)
     #to set all amount_types possible in Closeout Table
-    if case_name.closeouts.last
+    if case_name.closeouts.order(:created_at).last
       if amount_type == 'total_recovery'
         case_name.closeouts.last.total_recovery ? case_name.closeouts.last.total_recovery : 0
       elsif amount_type == 'total_gross_fee_received'
