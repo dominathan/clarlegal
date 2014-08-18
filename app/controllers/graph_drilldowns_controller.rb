@@ -16,7 +16,42 @@ class GraphDrilldownsController < ApplicationController
     yearly_collection(@contingency_rev)
     rev_fee_per_year('Mixed', 'expected', 'medium')
     yearly_collection(@mixed_rev)
+    rev_by_fee_type_low
+    rev_by_fee_type_high
   end
+
+  def rev_by_fee_type_low
+    set_category_years
+    @hourly_rev_low = []
+    @contingency_rev_low = []
+    @fixed_fee_rev_low = []
+    @mixed_rev_low = []
+    rev_fee_per_year('Fixed Fee', 'expected', 'low')
+    yearly_collection(@fixed_fee_rev_low)
+    rev_fee_per_year('Hourly','expected','low')
+    yearly_collection(@hourly_rev_low)
+    rev_fee_per_year('Contingency','expected','low')
+    yearly_collection(@contingency_rev_low)
+    rev_fee_per_year('Mixed', 'expected', 'low')
+    yearly_collection(@mixed_rev_low)
+  end
+
+  def rev_by_fee_type_high
+    set_category_years
+    @hourly_rev_high = []
+    @contingency_rev_high = []
+    @fixed_fee_rev_high = []
+    @mixed_rev_high = []
+    rev_fee_per_year('Fixed Fee', 'expected', 'high')
+    yearly_collection(@fixed_fee_rev_high)
+    rev_fee_per_year('Hourly','expected','high')
+    yearly_collection(@hourly_rev_high)
+    rev_fee_per_year('Contingency','expected','high')
+    yearly_collection(@contingency_rev_high)
+    rev_fee_per_year('Mixed', 'expected', 'high')
+    yearly_collection(@mixed_rev_high)
+  end
+
 
   def rev_fee_per_year(fee_structure, collection_rate,collection_amount)
     set_yearly_rev
@@ -259,6 +294,9 @@ class GraphDrilldownsController < ApplicationController
     yearly_collection(@cost_by_year)
     referral_by_year('expected','referral')
     yearly_collection(@referral_by_year)
+    @rev_by_year_high = Graph.add_arrays(@rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_medium = Graph.add_arrays(@rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_low = Graph.add_arrays(@rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
   end
 
   def rev_by_year_slow
@@ -274,6 +312,9 @@ class GraphDrilldownsController < ApplicationController
     yearly_collection(@cost_by_year)
     referral_by_year('slow','referral')
     yearly_collection(@referral_by_year)
+    @rev_by_year_high = Graph.add_arrays(@rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_medium = Graph.add_arrays(@rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_low = Graph.add_arrays(@rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
   end
 
   def rev_by_year
@@ -290,6 +331,9 @@ class GraphDrilldownsController < ApplicationController
     yearly_collection(@cost_by_year)
     referral_by_year('fast','referral')
     yearly_collection(@referral_by_year)
+    @rev_by_year_high = Graph.add_arrays(@rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_medium = Graph.add_arrays(@rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_low = Graph.add_arrays(@rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
   end
 
   def rev_year_1_slow

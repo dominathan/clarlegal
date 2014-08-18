@@ -73,5 +73,16 @@ class Graph < ActiveRecord::Base
     end
   end
 
+  def self.subtract_arrays(array1,array2)
+    subtracted_array = array1.zip(array2).map { |x,y| x-y }
+    subtracted_array
+  end
+
+  def self.add_arrays(array1,array2)
+    added_array = array1.zip(array2).map { |x,y| x+y }
+    added_array
+  end
+
+
 
 end

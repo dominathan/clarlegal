@@ -1,4 +1,4 @@
-<% provide(:title, 'Revenue by Referral Source') %>
+<% provide(:title, 'Net Fee by Referral Source') %>
 
 <div class="chart container">
   <div class="col-lg-10 col-lg-offset-2">
@@ -66,7 +66,7 @@ $(function () {
                     enabled: false
             },
             title: {
-                text: 'Actual Fee Received by Referral Source'
+                text: 'Actual Net Fee Received by Referral Source'
             },
             tooltip: {
               pointFormat: '<b>${point.y}</b>'
@@ -101,7 +101,7 @@ $(function () {
                     enabled: false
             },
             title: {
-                text: 'Expected Revenue by Referral Source'
+                text: 'Expected Gross Fee by Referral Source (Medium Estimate)'
             },
             tooltip: {
               pointFormat: '<b>${point.y}</b>'
@@ -136,7 +136,7 @@ $(function () {
                     enabled: false
             },
             title: {
-                text: 'Low Revenue by Referral Source'
+                text: 'Expected Gross Fee by Referral Source (Low Estimate)'
             },
             tooltip: {
               pointFormat: '<b>${point.y}</b>'
@@ -171,7 +171,7 @@ $(function () {
                     enabled: false
             },
             title: {
-                text: 'High Revenue by Referral Source'
+                text: 'Expected Gross Fee by Referral Source (High Estimate)'
             },
             tooltip: {
               pointFormat: '<b>${point.y}</b>'

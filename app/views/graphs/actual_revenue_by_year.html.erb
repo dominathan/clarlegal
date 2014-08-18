@@ -23,7 +23,7 @@ var totalFeeReceived = <%= @total_fee_received %>;
           type: 'column'
       },
       title: {
-          text: 'Revenue By Year'
+          text: 'Net Fee Received by Year'
       },
       credits: {
         enabled: false
@@ -33,7 +33,7 @@ var totalFeeReceived = <%= @total_fee_received %>;
       },
       yAxis: {
           title: {
-              text: 'Revenue'
+              text: 'Dollar Recovery and Costs'
           }
       },
       legend: {
@@ -77,7 +77,7 @@ var totalFeeReceived = <%= @total_fee_received %>;
           color: 'red'
       },
       {
-          name: 'Total Fee Received',
+          name: 'Net Fee Received',
           data: totalFeeReceived
       }],
   })

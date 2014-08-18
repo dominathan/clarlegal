@@ -27,7 +27,7 @@ var revByMonthLow = <%= @year_4_by_month_low %>;
           type: 'column'
       },
       title: {
-          text: 'Revenue <%= @category_years[3]%>'
+          text: 'Gross Fee <%= @category_years[3]%>'
       },
       subtitle: {
           text: 'Accelerated Recovery Rate'
@@ -61,15 +61,15 @@ var revByMonthLow = <%= @year_4_by_month_low %>;
           }
       },
       series: [{
-          name: 'Low Revenue',
+          name: 'Low Gross Fee',
           data: revByMonthLow,
       },
       {
-          name: 'Medium Revenue',
+          name: 'Medium Gross Fee',
           data: revByMonthMedium
       },
       {
-          name: 'High Revenue',
+          name: 'High Gross Fee',
           data: revByMonthHigh
       }],
   })

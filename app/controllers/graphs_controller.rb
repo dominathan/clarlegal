@@ -3,21 +3,21 @@ class GraphsController < ApplicationController
   before_action :belongs_to_firm
 
   def practice_group_pie
-    #Step 1. Get list of all cases that are either open or closed.
+    #Step 1. Get list of all cases that are open.
             # Create arrays to hold practicegroup totals
     open_cases = Graph.open_cases(current_user)
-    closed_cases = Graph.closed_cases(current_user)
     open_cases_by_pg = []
-    closed_cases_by_pg = []
     #Step 2. Get list of practice groups in current user lawfirm
     lawfirm_pgs = Graph.user_practice_groups(current_user)
     pg_count = lawfirm_pgs.length
      #Step 3.  For every practice group in a lawfirm, total the number of cases that belong
-              # to that practice group and is open, as well as closed
+              # to that practice group and is open
     0.upto(pg_count-1) do |n|
       open_cases_by_pg.push(open_cases.where(practice_group: lawfirm_pgs[n]).count)
     end
     #Step 4. Combine the lawfirm practice group with the count..e.g.[['Med Mal', 5]]
+              #practice_group_pie_actual takes the closed cases, with a number of previous year
+              #look back limit
     @final_case_closed = practice_group_pie_actual
     @final_case_open = lawfirm_pgs.zip(open_cases_by_pg)
   end
@@ -38,9 +38,6 @@ class GraphsController < ApplicationController
     end
     lawfirm_pgs.zip(closed_cases_by_pg)
   end
-
-
-
 
 #---------------------- These are for open cases, aka estimated revenue -----------
 
@@ -104,15 +101,21 @@ class GraphsController < ApplicationController
 #---------------------Closed Cases by Practice Group Pie-- AKA Actual Revenue-
 
   def practice_group_revenue_pie_actual
-    actual_revenue_by_year
     lawfirm_pgs = Graph.user_practice_groups(current_user)
-    closed_cases = Graph.closed_cases(current_user)
+    closed_cases = Graph.closed_cases_after(current_user,3)
     total_rev_per_pg_actual = []
     lawfirm_pgs.each do |pg|
       sum_total = 0
-      closed_cases.where(practice_group: pg).each do |ca|
-        ca.closeouts ?
-              sum_total += ca.closeouts.order(:created_at).last.total_fee_received : next
+      closed_cases.each do |ca|
+        if ca.practice_group == pg
+          if ca.closeouts.order(:created_at).last.total_fee_received
+            sum_total += ca.closeouts.order(:created_at).last.total_fee_received
+          else
+            next
+          end
+        else
+          next
+        end
       end
       total_rev_per_pg_actual << sum_total
     end
