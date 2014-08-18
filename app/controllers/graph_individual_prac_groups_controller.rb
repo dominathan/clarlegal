@@ -107,6 +107,13 @@ class GraphIndividualPracGroupsController < ApplicationController
       end
     end
     @lawfirm_pg_rev << rev_est.collect {|amount| amount*-1}
+    #the following 5 lines are to make the first 3 positions in the array subtract the last two
+    #this is to make it net fee instead of gross fee
+    a = @lawfirm_pg_rev
+    a[0] = Graph.add_arrays(a[0],Graph.add_arrays(a[3],a[4]))
+    a[1] = Graph.add_arrays(a[1],Graph.add_arrays(a[3],a[4]))
+    a[2] = Graph.add_arrays(a[2],Graph.add_arrays(a[3],a[4]))
+    @lawfirm_pg_rev = a
     actual_indivual_pg_revenue
     actual_indiv_pg_revenue_by_referral_source
     accelerated_individual_pg_rev
@@ -220,6 +227,13 @@ class GraphIndividualPracGroupsController < ApplicationController
       end
     end
     @lawfirm_pg_rev_accelerated << rev_est.collect {|amount| amount*-1}
+    #the following 5 lines are to make the first 3 positions in the array subtract the last two
+    #this is to make it net fee instead of gross fee
+    a = @lawfirm_pg_rev_accelerated
+    a[0] = Graph.add_arrays(a[0],Graph.add_arrays(a[3],a[4]))
+    a[1] = Graph.add_arrays(a[1],Graph.add_arrays(a[3],a[4]))
+    a[2] = Graph.add_arrays(a[2],Graph.add_arrays(a[3],a[4]))
+    @lawfirm_pg_rev_accelerated = a
   end
 #--------------------Begin Slow Collection by PG-----------------------
   def slow_individual_pg_rev
@@ -329,6 +343,13 @@ class GraphIndividualPracGroupsController < ApplicationController
       end
     end
     @lawfirm_pg_rev_slow << rev_est.collect {|amount| amount*-1}
+    #the following 5 lines are to make the first 3 positions in the array subtract the last two
+    #this is to make it net fee instead of gross fee
+    a = @lawfirm_pg_rev_slow
+    a[0] = Graph.add_arrays(a[0],Graph.add_arrays(a[3],a[4]))
+    a[1] = Graph.add_arrays(a[1],Graph.add_arrays(a[3],a[4]))
+    a[2] = Graph.add_arrays(a[2],Graph.add_arrays(a[3],a[4]))
+    @lawfirm_pg_rev_slow = a
   end
 
 
