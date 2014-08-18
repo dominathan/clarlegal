@@ -16,12 +16,29 @@ class GraphsController < ApplicationController
               # to that practice group and is open, as well as closed
     0.upto(pg_count-1) do |n|
       open_cases_by_pg.push(open_cases.where(practice_group: lawfirm_pgs[n]).count)
-      closed_cases_by_pg.push(closed_cases.where(practice_group: lawfirm_pgs[n]).count)
     end
     #Step 4. Combine the lawfirm practice group with the count..e.g.[['Med Mal', 5]]
-    @final_case_closed = lawfirm_pgs.zip(closed_cases_by_pg)
+    @final_case_closed = practice_group_pie_actual
     @final_case_open = lawfirm_pgs.zip(open_cases_by_pg)
   end
+
+  def practice_group_pie_actual
+    closed_cases = Graph.closed_cases_after(current_user,3)
+    closed_cases_by_pg = []
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    lawfirm_pgs.each do |pg|
+      count = 0
+      closed_cases.each do |ca|
+        if ca.practice_group == pg
+          count += 1
+        end
+      end
+      closed_cases_by_pg << count
+      count=0
+    end
+    lawfirm_pgs.zip(closed_cases_by_pg)
+  end
+
 
 
 

@@ -19,6 +19,22 @@ class Graph < ActiveRecord::Base
     prac_groups = user.lawfirm.practicegroups.order(:id).collect { |n| n.id }
   end
 
+  def self.closed_cases_after(user,this_year)
+    last_date_to_enter = DateTime.now - this_year.years
+    closed_cases = Graph.closed_cases(user)
+    final_case_list = []
+    closed_cases.each do |ca|
+      if ca.closeouts.order(:created_at).last
+        if ca.closeouts.order(:created_at).last.date_fee_received
+          if ca.closeouts.order(:created_at).last.date_fee_received > last_date_to_enter
+            final_case_list << ca
+          end
+        end
+      end
+    end
+    final_case_list
+  end
+
 
   #start year should be five years prior to the most recent collection fee_received
   def self.closeout_years
