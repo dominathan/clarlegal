@@ -28,12 +28,12 @@ class LawfirmsController < ApplicationController
 
   def index
     @firm_name = current_user.lawfirm.firm_name
-    @lawfirm_clients = current_user.lawfirm.clients.paginate(:page => params[:page], per_page: 5)
+    @lawfirm_clients = current_user.lawfirm.clients.paginate(:page => params[:page], per_page: 10)
   end
 
   def show_lawfirm_cases
     @firm_name = current_user.lawfirm.firm_name
-    @lawfirm_cases = current_user.lawfirm.cases.paginate(:page => params[:page], per_page: 10)  #this is the paginate form
+    @lawfirm_cases = current_user.lawfirm.cases.paginate(:page => params[:page], per_page: 20)  #this is the paginate form
   end
 
   private

@@ -91,7 +91,7 @@ class CasesController < ApplicationController
   end
 
   def user_cases
-    @case = current_user.cases
+    @case = current_user.cases.paginate(:page => params[:page], per_page: 20)
   end
 
   private
