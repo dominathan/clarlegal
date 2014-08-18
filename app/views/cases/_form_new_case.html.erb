@@ -49,7 +49,9 @@
           </tr>
 
         </table>
+        <h2><%= link_to "New Client? Click Here", new_client_path %></h2>
         <hr>
+
 
       <br>
       <div class='center'>
@@ -101,24 +103,7 @@
       </div> <!-- FEE DIV -->
       <br>
       <br>
-      <div class='center'>
-        <h4>Staff</h4>
-      </div>
-      <div class='staff'>
-        <%= f.fields_for :staffs do |staff| %>
-          <% render 'staff_fields', :f => staff %>
-          <div class='center'>
-            <%= link_to_add_association "Click to Add More Staff", f, :staffs %> <br><br>
-            <%= link_to "New Staff? Click here", new_user_lawfirm_staffing_path(@current_user.id, @current_user.lawfirm.id) %>
-
-          </div>
-        <% end %>
-        <hr>
-      </div> <!-- STAFF DIV -->
-      <br>
-      <br>
-      <br>
-      <div class='center'>
+       <div class='center'>
         <h4>Timing</h4>
       </div>
       <div class='timing'>
@@ -153,6 +138,24 @@
       <br>
       <br>
       <br>
+      <div class='center'>
+        <h4>Staff</h4>
+      </div>
+      <div class='staff'>
+        <%= f.fields_for :staffs do |staff| %>
+          <% render 'staff_fields', :f => staff %>
+          <div class='center'>
+            <%= link_to_add_association "Click to Add More Staff", f, :staffs %> <br><br>
+            <%= link_to "New Staff? Click here", new_user_lawfirm_staffing_path(@current_user.id, @current_user.lawfirm.id) %>
+
+          </div>
+        <% end %>
+        <hr>
+      </div> <!-- STAFF DIV -->
+      <br>
+      <br>
+      <br>
+
       <div class='center'>
         <h4>Origination</h4>
       </div>
