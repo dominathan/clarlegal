@@ -112,7 +112,7 @@ namespace :db do
                     name: plaintiff+" V. "+defendant,
                     practice_group: Practicegroup.find_by(id: Random.rand(1..5)).group_name,
                     type_of_matter: CaseType.find_by(id: Random.rand(1..24)).mat_ref,
-                    court: 'Alabama Circuit Court',
+                    court: 'Jefferson County Circuit Court - Civil',
                     judge: judge,
                     case_number: Random.rand(0..100000).to_s,
                     opposing_attorney: opposing_attorney,
