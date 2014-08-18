@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140815201006) do
+ActiveRecord::Schema.define(version: 20140818204013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "billings", force: true do |t|
+    t.string   "name"
+    t.string   "street_address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip_code"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "billings", ["client_id"], name: "index_billings_on_client_id", using: :btree
 
   create_table "case_types", force: true do |t|
     t.integer  "lawfirm_id"
@@ -69,6 +82,7 @@ ActiveRecord::Schema.define(version: 20140815201006) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "different_billing"
   end
 
   add_index "clients", ["user_id", "created_at"], name: "index_clients_on_user_id_and_created_at", using: :btree

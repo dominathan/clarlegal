@@ -1,0 +1,26 @@
+
+    <%= f.fields_for :billings do |ff| %>
+      <table class="table">
+        <tr>
+          <td><%= ff.label 'Name:' %></td>
+          <td><%= ff.text_field :name %></td>
+        </tr>
+        <tr>
+          <td><%= ff.label 'Street Address:' %></td>
+          <td><%= ff.text_field :street_address %></td>
+        </tr>
+        <tr>
+          <td><%= ff.label 'City:' %></td>
+          <td><%= ff.text_field :city %></td>
+        </tr>
+        <tr>
+          <td><%= ff.label 'State:' %></td>
+          <td><%= ff.text_field :state %></td>
+        </tr>
+        <tr>
+          <td><%= ff.label 'Zip Code:' %></td>
+          <td><%= ff.text_field :zip_code %></td>
+        </tr>
+      </table>
+
+      <% end %>

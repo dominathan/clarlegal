@@ -1,6 +1,9 @@
 class Client < ActiveRecord::Base
   belongs_to :user
   has_many :cases
+  has_many :billings
+
+  accepts_nested_attributes_for :billings, :reject_if => :all_blank
 
   validates :user_id, presence: true
   validates :client_name, presence: true

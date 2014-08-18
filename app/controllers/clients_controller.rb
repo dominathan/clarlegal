@@ -7,6 +7,7 @@ class ClientsController < ApplicationController
 
   def new
     @client = Client.new
+    @client.billings.build
   end
 
   def edit
@@ -43,8 +44,9 @@ class ClientsController < ApplicationController
 
     def client_params
       params.require(:client).permit(:client_name, :client_street_address, :client_city_address,
-                                      :client_state_address, :client_zip_code, :client_email,
-                                      :client_phone_number, :client_fax_number)
+                                          :client_state_address, :client_zip_code, :client_email,
+                                          :client_phone_number, :client_fax_number, :different_billing,
+                                      :billings_attributes => [:name, :street_address, :city, :state, :zip_code])
     end
 
 

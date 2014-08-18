@@ -5,47 +5,91 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-    <%= form_for(@client) do |f| %>
+    <%= form_for @client do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
         <table class="table">
           <tr>
-            <td><%= f.label :client_name %></td>
+            <td><%= f.label "Name:" %></td>
             <td><%= f.text_field :client_name %></td>
           </tr>
           <tr>
-            <td><%= f.label :client_street_address %></td>
+            <td><%= f.label "Street Address:" %></td>
             <td><%= f.text_field :client_street_address %></td>
           </tr>
           <tr>
-            <td><%= f.label :client_city_address %></td>
+            <td><%= f.label "City:" %></td>
             <td><%= f.text_field :client_city_address %></td>
           </tr>
           <tr>
-            <td><%= f.label :client_state_address %></td>
+            <td><%= f.label "State:" %></td>
             <td><%= f.text_field :client_state_address %></td>
           </tr>
           <tr>
-            <td><%= f.label :client_zip_code %></td>
+            <td><%= f.label "Zip Code:" %></td>
             <td><%= f.text_field :client_zip_code %></td>
           </tr>
           <tr>
-            <td><%= f.label :client_phone_number %></td>
+            <td><%= f.label "Primary Phone Number:" %></td>
             <td><%= f.text_field :client_phone_number %></td>
           </tr>
           <tr>
-            <td><%= f.label :client_fax_number %></td>
+            <td><%= f.label "Fax Number:" %></td>
             <td><%= f.text_field :client_fax_number %></td>
           </tr>
           <tr>
-            <td><%= f.label :client_email %></td>
+            <td><%= f.label "Email Address:" %></td>
             <td><%= f.text_field :client_email %></td>
           </tr>
+          <tr>
+            <td><%= f.label "Different Billing Address?" %> </td>
+            <td><%= f.check_box :different_billing %> </td>
+          </tr>
+
+
         </table>
 
-      <%= f.submit "Create Client", class: "btn btn-large btn-primary" %>
+        <br>
+
+          <div class='billing hide' id="billing-information">
+            <h2>Billing Address</h2>
+
+            <%= f.fields_for :billings do |ff| %>
+              <table class="table">
+                <tr>
+                  <td><%= ff.label 'Name:' %></td>
+                  <td><%= ff.text_field :name %></td>
+                </tr>
+                <tr>
+                  <td><%= ff.label 'Street Address:' %></td>
+                  <td><%= ff.text_field :street_address %></td>
+                </tr>
+                <tr>
+                  <td><%= ff.label 'City:' %></td>
+                  <td><%= ff.text_field :city %></td>
+                </tr>
+                <tr>
+                  <td><%= ff.label 'State:' %></td>
+                  <td><%= ff.text_field :state %></td>
+                </tr>
+                <tr>
+                  <td><%= ff.label 'Zip Code:' %></td>
+                  <td><%= ff.text_field :zip_code %></td>
+                </tr>
+              </table>
+
+              <% end %>
+          </div>
+
+      <%= f.submit "Create Client", class: "btn btn-default btn-lg" %>
     <% end %>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $("#client_different_billing").click(function(){
+     $("#billing-information").toggleClass('hide')
+   });
+</script>
 
