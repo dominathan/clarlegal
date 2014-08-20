@@ -91,7 +91,10 @@ class CasesController < ApplicationController
   end
 
   def user_cases
-    @case = current_user.cases.paginate(:page => params[:page], per_page: 20)
+    client_id_list = Case.client_id_list(current_user)
+    case_ids = Case.search(params[:search], with: { client_id: client_id_list}).collect { |c| c.id }
+    @case = Case.where(:id => case_ids).paginate(:per_page => 22, :page => params[:page])
+    # @case = current_user.cases.paginate(:page   => params[:page], :per_page => 10 )
   end
 
   private
@@ -99,7 +102,7 @@ class CasesController < ApplicationController
     def case_params
         params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :type_of_matter, :new_practice_group,
                                               :practice_group, :name, :open, :client_id, :case_number, :new_opposing_attorney,
-                                              :opposing_attorney, :new_judge, :judge, :related_cases, :description,
+                                              :opposing_attorney, :new_judge, :judge, :related_cases, :description, :user_id,
                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
                                                           :low_estimate, :payment_likelihood, :retainer,
                                                           :cost_estimate, :referral],
