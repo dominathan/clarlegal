@@ -76,5 +76,5 @@ Claregal::Application.routes.draw do
 
   #-------------------------------Search Routes--------------------------------------------------
 
-  match '/clients/search', to: 'clients#search', via: 'get'
+
 end
