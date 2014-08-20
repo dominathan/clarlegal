@@ -1,13 +1,10 @@
 <% provide(:title, 'Client List') %>
-
-<h1>Client List</h1>
-
-<%= form_tag clients_path, method: :get do %>
-  <div class="field">
-    <%= text_field_tag :search, params[:search] %>
-    <%= submit_tag "Search", name: nil %>
+<div class="row">
+  <div class='title'>
+    <h1>Client List</h1>
   </div>
-<% end %>
+  <%= render 'shared/search_bar' %>
+</div>
 
 <table class="table table-hover sortable">
   <thead>
