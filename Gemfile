@@ -52,3 +52,6 @@ gem 'bcrypt-ruby', '3.1.2'
 #for easy database viewing
 gem 'hirb'
 
+#for searching
+gem 'mysql2'
+gem 'thinking-sphinx'

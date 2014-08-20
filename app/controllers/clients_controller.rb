@@ -2,7 +2,7 @@ class ClientsController < ApplicationController
   before_action :signed_in_user
 
   def index
-    @client = Client.all.paginate(:page => params[:page], per_page: 10)
+    @client = Client.search(params[:search], page: 1, per_page: 10, with: {user_id: current_user.id})
   end
 
   def new
