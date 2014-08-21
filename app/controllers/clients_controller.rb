@@ -3,8 +3,10 @@ class ClientsController < ApplicationController
   before_action :belongs_to_firm
 
   def index
-    clients = Client.search(params[:search], with: {user_id: current_user.id}, per_page: 1000).collect { |c| c.id }
-    @client = Client.where(id: clients).paginate(per_page: 10, page: 1)
+    #disable search until heroku or deployed to production
+    # clients = Client.search(params[:search], with: {user_id: current_user.id}, per_page: 1000).collect { |c| c.id }
+    # @client = Client.where(id: clients).paginate(per_page: 10, page: 1)
+    @client = current_user.clients.all.paginate(per_page: 10, page: 1)
   end
 
   def new

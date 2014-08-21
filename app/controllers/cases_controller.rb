@@ -91,13 +91,13 @@ class CasesController < ApplicationController
   end
 
   def user_cases
-    if params[:search] != nil
-      client_id_list = Case.client_id_list(current_user)
-      case_list = Case.search(params[:search], with: { client_id: client_id_list}, page: 1, per_page: 1000).collect {|c|c.id}
-      @case = Case.where(id: case_list).paginate(:page   => params[:page], :per_page => 10 )
-    else
+    # if params[:search] != nil
+    #   client_id_list = Case.client_id_list(current_user)
+    #   case_list = Case.search(params[:search], with: { client_id: client_id_list}, page: 1, per_page: 1000).collect {|c|c.id}
+    #   @case = Case.where(id: case_list).paginate(:page   => params[:page], :per_page => 10 )
+    # else
       @case = current_user.cases.paginate(:page   => params[:page], :per_page => 10 )
-    end
+    # end
   end
 
   private
