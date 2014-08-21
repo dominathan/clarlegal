@@ -227,7 +227,7 @@ class GraphsController < ApplicationController
       rev_est_year3 = 0
       rev_est_year4 = 0
       rev_est_year5_plus = 0
-      current_user.lawfirm.cases.where(practice_group: lf_pg).each do |ca|
+      current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
         ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected)) : next
         if ca.fee.first
           if current_date.year == conclusion_date.year
@@ -265,7 +265,7 @@ class GraphsController < ApplicationController
       rev_est_year3 = 0
       rev_est_year4 = 0
       rev_est_year5_plus = 0
-      current_user.lawfirm.cases.where(practice_group: lf_pg).each do |ca|
+      current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
         ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected)) : next
         if ca.fee.first
           if current_date.year == conclusion_date.year
@@ -303,7 +303,7 @@ class GraphsController < ApplicationController
       rev_est_year3 = 0
       rev_est_year4 = 0
       rev_est_year5_plus = 0
-      current_user.lawfirm.cases.where(practice_group: lf_pg).each do |ca|
+      current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
         ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected)) : next
         if ca.fee.first
           if current_date.year == conclusion_date.year
@@ -396,12 +396,11 @@ class GraphsController < ApplicationController
   end
 
   def high_revenue_by_referral_source
-    open_cases = Graph.open_cases(current_user)
     all_referral_sources = Origination.all_referral_sources(current_user)
     array_of_fee_received = []
     all_referral_sources.each do |ref_source|
       sum_total = 0
-      open_cases.each do |ca|
+      current_user.lawfirm.cases.where(open: true).each do |ca|
         if ca.originations.order(:created_at).last
           if ca.originations.order(:created_at).last.referral_source == ref_source
             sum_total += ca.fees.order(:created_at).last.high_estimate
