@@ -3,7 +3,7 @@ class ClientsController < ApplicationController
   before_action :belongs_to_firm
 
   def index
-    clients = Client.search(params[:search], with: {user_id: current_user.id}).collect { |c| c.id }
+    clients = Client.search(params[:search], with: {user_id: current_user.id}, per_page: 1000).collect { |c| c.id }
     @client = Client.where(id: clients).paginate(per_page: 10, page: 1)
   end
 

@@ -43,12 +43,7 @@ class Case < ActiveRecord::Base
   end
 
   def self.client_id_list_of_lawfirm(user)
-    all_lawfirm_clients = []
-    userlist = user.lawfirm.users
-    userlist.each do |name|
-      all_lawfirm_clients << name.clients.ids
-    end
-    all_lawfirm_clients.flatten!
+    return user.lawfirm.client_ids
   end
 
 
