@@ -1,7 +1,7 @@
 <% provide(:title, 'Client List') %>
 <div class="row">
   <div class='title'>
-    <h1>Client List</h1>
+    <h1><%= current_user.name%>'s Client List</h1>
   </div>
   <% @search_path = clients_path %>
   <%= render 'shared/search_bar' %>
