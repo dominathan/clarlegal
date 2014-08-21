@@ -2,6 +2,9 @@
 <h1><%= "#{@current_user.name}'s Cases" %></h1>
 
 
+<% @search_path = user_cases_path %>
+<%= render 'shared/search_bar' %>
+
 <table class="table table-hover">
   <thead>
     <tr>

@@ -38,5 +38,16 @@ class Case < ActiveRecord::Base
     @lead_att
   end
 
+  def self.client_id_list(user)
+    return user.clients.ids
+  end
+
+  def self.client_id_list_of_lawfirm(user)
+    return user.lawfirm.client_ids
+  end
+
+
+
+
 
 end

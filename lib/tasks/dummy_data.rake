@@ -27,13 +27,13 @@ namespace :db do
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    User.create!(name: "Kingman",
-                 email: "kingman@test.com",
+    User.create!(name: "Widman",
+                 email: "widman@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    User.create!(name: "Widman",
-                 email: "widman@test.com",
+    User.create!(name: "kingman",
+                 email: "kingman@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)

@@ -52,6 +52,7 @@ h1 {
   letter-spacing: -2px;
   margin-bottom: 30px;
   text-align: center;
+  color: #33486f;
 }
 
 h2 {
@@ -262,3 +263,19 @@ fieldset[disabled] .btn.active {
   margin-top: 25px;
 }
 
+/* Search Bar */
+
+.search-bar {
+  margin-top: -60px;
+  float: right;
+  width: 225px;
+  #search-button {
+    margin-top: -12px;
+    float: right;
+  }
+}
+
+/* page title */
+.title {
+
+}
