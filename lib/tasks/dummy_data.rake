@@ -114,7 +114,7 @@ namespace :db do
                     type_of_matter: CaseType.find_by(id: Random.rand(1..24)).mat_ref,
                     court: 'Jefferson County Circuit Court - Civil',
                     judge: judge,
-                    case_number: (Random.rand(10..14) + " - " + Random.rand(10000..99999)).to_s,
+                    case_number: Random.rand(10..14).to_s + " - " + Random.rand(10000..99999).to_s,
                     opposing_attorney: opposing_attorney,
                     description: Faker::Lorem.paragraph,
                     open: true)
