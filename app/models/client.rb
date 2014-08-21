@@ -1,5 +1,6 @@
 class Client < ActiveRecord::Base
   belongs_to :user
+  belongs_to :lawfirm
   has_many :cases
   has_many :billings
 

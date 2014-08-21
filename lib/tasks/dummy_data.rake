@@ -127,7 +127,7 @@ namespace :db do
                     case_number: (Random.rand(10..14) + " - " + Random.rand(10000..99999)).to_s,
                     opposing_attorney: opposing_attorney,
                     description: Faker::Lorem.paragraph,
-                    open: true
+                    open: true)
     end
   end
 

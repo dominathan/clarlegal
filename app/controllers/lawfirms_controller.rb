@@ -32,8 +32,11 @@ class LawfirmsController < ApplicationController
   end
 
   def show_lawfirm_cases
-    @firm_name = current_user.lawfirm.firm_name
-    @lawfirm_cases = current_user.lawfirm.cases.paginate(:page => params[:page], per_page: 20)  #this is the paginate form
+    client_id_list = Case.client_id_list_of_lawfirm(current_user)
+    case_ids = Case.search(params[:search], with: {client_id: client_id_list}).collect { |c| c.id }
+    @lawfirm_cases = Case.where(:id => case_ids).paginate(:per_page => 10, :page => params[:page])
+    # @firm_name = current_user.lawfirm.firm_name
+    # @lawfirm_cases = current_user.lawfirm.cases.paginate(:page => params[:page], per_page: 20)  #this is the paginate form
   end
 
   private
