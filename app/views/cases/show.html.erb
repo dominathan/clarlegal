@@ -40,6 +40,15 @@
           <td><%= @case.type_of_matter %></td>
         </tr>
 
+        <tr>
+          <td>Open/Closed</td>
+          <% if @case.open == true %>
+            <td>Open</td>
+          <% else %>
+            <td>Closed</td>
+          <% end %>
+        </tr>
+
       </table>
 
 
