@@ -20,8 +20,7 @@
     </tr>
   </thead>
   <tbody>
-    <% if current_user.clients.find_by(id: @client.id).cases.find_by(id: @case.id).fee.present? %>
-      <% current_user.clients.find_by(id: @client.id).cases.find_by(id: @case.id).fee.order(:created_at).each do |fee| %>
+    <% @fee.each do |fee| %>
         <tr>
           <td><%= fee.fee_type%></td>
           <td><%= fee.low_estimate%></td>
@@ -35,7 +34,6 @@
           <td><%= link_to "Edit", edit_client_case_fee_path(@client,@case,fee.id)%></td>
         </tr>
       <% end %>
-    <% end %>
   </tbody>
 </table>
 

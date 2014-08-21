@@ -9,6 +9,7 @@ class FeesController < ApplicationController
   def index
     @case = Case.find(params[:case_id])
     @client = Client.find(params[:client_id])
+    @fee = @case.fees.order(:created_at)
   end
 
 
