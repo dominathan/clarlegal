@@ -83,7 +83,7 @@ class GraphDrilldownsController < ApplicationController
 
   def revenue_collection_by_year(collection_rate,collection_amount)
     set_yearly_rev
-    current_user.lawfirm.cases.each do |ca|
+    current_user.lawfirm.cases.where(open: true).each do |ca|
       conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
       if @current_date.year == conclusion_date.year
         @rev_est_year1 += collection_expectation(ca,collection_amount)
@@ -102,7 +102,7 @@ class GraphDrilldownsController < ApplicationController
   def cost_by_year(collection_rate,collection_amount)
     #change the -= to += for above the line grid, also works for line graph if positive
     set_yearly_rev
-    current_user.lawfirm.cases.each do |ca|
+    current_user.lawfirm.cases.where(open: true).each do |ca|
       conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
       if ca.fee.last
         if ca.fee.last.cost_estimate != nil
