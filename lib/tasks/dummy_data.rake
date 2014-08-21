@@ -107,7 +107,7 @@ namespace :db do
                       client_zip_code: Faker::Address.zip,
                       client_phone_number: Faker::PhoneNumber.phone_number,
                       client_email: Faker::Internet.email,
-                      user_id: Random.rand(1..5))
+                      user_id: Random.rand(1..7))
     end
   end
 
