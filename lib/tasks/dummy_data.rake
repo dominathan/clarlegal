@@ -138,18 +138,10 @@ namespace :db do
     50.times do |n|
       Fee.create!(case_id: n+1,
                   fee_type: fee_type[Random.rand(0..3)],
-                  high_estimate: Random.rand(1..4000)*1000,
+                  high_estimate: Random.rand(1000..4000)*1000,
                   #try to make it line up if fix fee but dont want to waste time on it now
-                  medium_estimate: if fee_type == 'Fixed Fee'
-                                      medium_estimate = high_estimate
-                                   else
-                                      Random.rand(500..(1000-1)*1000)
-                                    end,
-                  low_estimate: if fee_type != 'Fixed Fee'
-                                    Random.rand(0..499)*1000
-                                else
-                                    low_estimate = high_estimate
-                                end,
+                  medium_estimate: Random.rand(500..(1000-1))*1000,
+                  low_estimate: Random.rand(0..499)*1000,
                   payment_likelihood: payment_likelihood[Random.rand(0..2)],
                   retainer: Random.rand(0..100)*100,
                   cost_estimate: Random.rand(0..100)*1000,

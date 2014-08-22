@@ -83,6 +83,16 @@ class Graph < ActiveRecord::Base
     added_array
   end
 
+  def self.find_outliers(case_listing)
+    outliers = []
+    case_listing.each do |ca|
+      if ca.fee.last.high_estimate < ca.fee.last.medium_estimate ||
+         ca.fee.last.medium_estimate < ca.fee.last.low_estimate
+            outliers << ca
+      end
+    end
+    outliers
+  end
 
 
 end
