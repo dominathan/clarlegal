@@ -49,7 +49,7 @@ class CasesController < ApplicationController
   def index
     @client = current_user.clients.find(params[:client_id])
     if @client.cases.exists?
-      @case = @client.cases.all
+      @case = @client.cases.paginate(:page => params[:page], :per_page => 10 )
     end
   end
 
