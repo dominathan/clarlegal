@@ -15,11 +15,11 @@
     </tr>
   </thead>
   <tbody>
-    <td><%= @closeout.total_recovery %></td>
-    <td><%= @closeout.total_gross_fee_received %></td>
-    <td><%= @closeout.total_out_of_pocket_expenses %></td>
-    <td><%= @closeout.referring_fees_paid %></td>
-    <td><%= @closeout.total_fee_received %></td>
+    <td><%= number_to_currency @closeout.total_recovery, precision: 0 %></td>
+    <td><%= number_to_currency @closeout.total_gross_fee_received, precision: 0 %></td>
+    <td><%= number_to_currency @closeout.total_out_of_pocket_expenses, precision: 0 %></td>
+    <td><%= number_to_currency @closeout.referring_fees_paid, precision: 0 %></td>
+    <td><%= number_to_currency @closeout.total_fee_received, precision: 0 %></td>
     <td><%= @closeout.date_fee_received ? @closeout.date_fee_received.strftime("%b %Y") : "" %></td>
   </tbody>
 </table>

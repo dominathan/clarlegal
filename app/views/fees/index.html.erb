@@ -23,13 +23,13 @@
     <% @fee.each do |fee| %>
         <tr>
           <td><%= fee.fee_type%></td>
-          <td><%= fee.low_estimate%></td>
-          <td><%= fee.medium_estimate%></td>
-          <td><%= fee.high_estimate%></td>
-          <td><%= fee.cost_estimate%></td>
-          <td><%= fee.referral %></td>
+          <td><%= number_to_currency fee.low_estimate, precision: 0%></td>
+          <td><%= number_to_currency fee.medium_estimate, precision: 0%></td>
+          <td><%= number_to_currency fee.high_estimate, precision: 0%></td>
+          <td><%= number_to_currency fee.cost_estimate, precision: 0%></td>
+          <td><%= number_to_currency fee.referral, precision: 0 %></td>
           <td><%= fee.payment_likelihood%></td>
-          <td><%= fee.retainer%></td>
+          <td><%= number_to_currency fee.retainer, precision: 0%></td>
           <td><%= fee.updated_at.strftime("%b %d, %Y")%></td>
           <td><%= link_to "Edit", edit_client_case_fee_path(@client,@case,fee.id)%></td>
         </tr>
