@@ -37,6 +37,11 @@ namespace :db do
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
+    User.create!(name: "blair",
+                 email: "blair@test.com",
+                 password: "password",
+                 password_confirmation: "password",
+                 lawfirm_id: 1)
     3.times do |n|
       name  = Faker::Name.name
       email = Faker::Internet.email
@@ -86,9 +91,9 @@ namespace :db do
     end
   end
 
-  desc "add 30 staff to lawfirm 1"
+  desc "add 15 staff to lawfirm 1"
   task populate: :environment do
-    30.times do
+    15.times do
       position_list = ['Paralegal', 'Attorney','Accountant','Staff','Responsible Attorney']
       Staffing.create!(full_name: Faker::Name.name,
                         position: position_list[Random.rand(0..4)],
@@ -97,9 +102,9 @@ namespace :db do
     end
   end
 
-  desc "add 10 clients to data-set"
+  desc "add 20 clients to data-set"
   task populate: :environment do
-    15.times do
+    20.times do
       Client.create!(client_name: Faker::Name.name,
                       client_street_address: Faker::Address.street_address,
                       client_city_address: Faker::Address.city,
@@ -107,18 +112,18 @@ namespace :db do
                       client_zip_code: Faker::Address.zip,
                       client_phone_number: Faker::PhoneNumber.phone_number,
                       client_email: Faker::Internet.email,
-                      user_id: Random.rand(1..7))
+                      user_id: Random.rand(1..8))
     end
   end
 
-  desc "add 50 cases to data-set"
+  desc "add 100 cases to data-set"
   task populate: :environment do
-    50.times do
+    100.times do
       plaintiff = Faker::Name.name
       defendant = Faker::Name.name
       opposing_attorney = Faker::Name.name
       judge = Faker::Name.name
-      Case.create!(client_id: Random.rand(1..10),
+      Case.create!(client_id: Random.rand(1..20),
                     name: plaintiff+" V. "+defendant,
                     practice_group: Practicegroup.find_by(id: Random.rand(1..5)).group_name,
                     type_of_matter: CaseType.find_by(id: Random.rand(1..24)).mat_ref,
@@ -131,11 +136,11 @@ namespace :db do
     end
   end
 
-  desc "add 50 fees - 1 per case"
+  desc "add 100 fees - 1 per case"
   task populate: :environment do
     fee_type = ['Hourly','Fixed Fee', 'Contingency', 'Mixed']
     payment_likelihood = ['High', 'Medium', "Low"]
-    50.times do |n|
+    100.times do |n|
       Fee.create!(case_id: n+1,
                   fee_type: fee_type[Random.rand(0..3)],
                   high_estimate: Random.rand(1000..4000)*1000,
@@ -149,9 +154,9 @@ namespace :db do
     end
   end
 
-  desc "add 50 Timings - 1 per case"
+  desc "add 100 Timings - 1 per case"
   task populate: :environment do
-    50.times do |n|
+    100.times do |n|
       fast_conclusion = Random.rand(0..24)
       expected_conclusion = fast_conclusion+Random.rand(0..24)
       slow_conclusion = fast_conclusion+expected_conclusion+Random.rand(0..24)
@@ -168,7 +173,7 @@ namespace :db do
   task populate: :environment do
     head_atts = Staffing.where(position: "Responsible Attorney")
     head_atts_number = head_atts.length-1
-    50.times do |n|
+    100.times do |n|
       Staff.create!(case_id: n+1,
                     name: head_atts[Random.rand(0..head_atts_number)].full_name,
                     position: 'Responsible Attorney')
@@ -179,19 +184,19 @@ namespace :db do
   desc 'add 200 Staff - random amount per case'
   task populate: :environment do
     200.times do |n|
-      staff = Staffing.find_by(id: Random.rand(1..30))
+      staff = Staffing.find_by(id: Random.rand(1..15))
       name = staff.full_name
       position = staff.position
-      Staff.create!(case_id: Random.rand(1..50),
+      Staff.create!(case_id: Random.rand(1..100),
                     name: name,
                     position: position,
                     hours_expected: Random.rand(1..30)*10)
     end
   end
 
-  desc 'add 50 originations to cases'
+  desc 'add 100 originations to cases'
   task populate: :environment do
-    50.times do  |n|
+    100.times do  |n|
       referrals = ['Attorney','Client','Internet','Advertising','Reputation']
       Origination.create!(case_id: n+1,
                           referral_source: referrals[Random.rand(0..4)],
@@ -199,9 +204,9 @@ namespace :db do
     end
   end
 
-  desc 'add 50 conflicts and checks to cases'
+  desc 'add 100 conflicts and checks to cases'
   task populate: :environment do
-    50.times do |n|
+    100.times do |n|
       conflict_check = Random.rand(0..1)
       conflict_check_date = nil
       if conflict_check == 1
