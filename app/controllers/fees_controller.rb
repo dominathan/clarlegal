@@ -10,6 +10,10 @@ class FeesController < ApplicationController
     @case = Case.find(params[:case_id])
     @client = Client.find(params[:client_id])
     @fee = @case.fees.order(:created_at)
+    @fee_timeline = Fee.get_fee_dates(@case)
+    @fee_high_estimates = Fee.get_fee_high_estimate(@case)
+    @fee_medium_estimates = Fee.get_fee_medium_estimate(@case)
+    @fee_low_estimates = Fee.get_fee_low_estimate(@case)
   end
 
 

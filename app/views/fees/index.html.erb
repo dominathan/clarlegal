@@ -2,7 +2,7 @@
 
 <%= render 'shared/subheader' %>
 
-<h2>Fee Timeline </h2>
+<h2>Fee Timeline  </h2>
 
 <table class="table table-hover sortable">
   <thead>
@@ -30,7 +30,7 @@
           <td><%= fee.referral %></td>
           <td><%= fee.payment_likelihood%></td>
           <td><%= fee.retainer%></td>
-          <td><%= fee.updated_at%></td>
+          <td><%= fee.updated_at.strftime("%b %d, %Y")%></td>
           <td><%= link_to "Edit", edit_client_case_fee_path(@client,@case,fee.id)%></td>
         </tr>
       <% end %>
@@ -40,3 +40,59 @@
 <div class='center'>
    <p> <%= link_to 'Update Fee Timeline', new_client_case_fee_path(@client,@case) %></p>
 </div>
+
+<div id="feeTimeline" style="min-width: 310px; height: 400px; margin: 0 auto">
+</div>
+
+
+
+
+<script type="text/javascript">
+  var categories = <%= raw @fee_timeline %>;
+  var lowEstimate = <%= @fee_low_estimates %>;
+  var mediumEstimate = <%= @fee_medium_estimates %>;
+  var highEstimate = <%= @fee_high_estimates %>;
+
+  $(function () {
+    $('#feeTimeline').highcharts({
+        chart: {
+            type: 'line'
+        },
+        credits: {
+          enabled: false
+        },
+        title: {
+            text: 'Fee Timeline'
+        },
+        subtitle: {
+            text: 'Estimated Gross Fee over Time'
+        },
+        xAxis: {
+            categories: categories
+        },
+        yAxis: {
+            title: {
+                text: 'Amount ($)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [{
+            name: 'Low Gross Fee Estimate',
+            data: lowEstimate
+        }, {
+            name: 'Medium Gross Fee Estimate',
+            data: mediumEstimate
+        }, {
+            name: "High Gross Fee Estimate",
+            data: highEstimate
+        }]
+    });
+});
+</script>
