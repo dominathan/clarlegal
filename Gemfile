@@ -4,7 +4,7 @@ ruby '2.0.0'
 
 #==INITALLY ON RAILS NEW==#
 gem 'rails', '4.0.3'
-gem 'pg'
+gem 'pg', '0.17.1'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -17,13 +17,14 @@ group :doc do
 end
 #==EVERYTHING ELSE IS ADDED==#
 
-gem 'figaro'
+gem 'figaro', '0.7.0'
 gem 'faker', '1.1.2' #for database population
 gem 'highcharts-rails', '~> 4.0.1' #for highcharts.js
-gem 'will_paginate' #added to have clickiable page numbers at bottom of page
-gem 'will_paginate-bootstrap'
-gem 'cocoon'  #nested forms, javascript adds new form
-gem 'whenever', :require => false
+gem 'will_paginate', '3.0.7' #added to have clickiable page numbers at bottom of page
+gem 'will_paginate-bootstrap', '1.0.1'
+gem 'cocoon', '1.2.6'  #nested forms, javascript adds new form
+gem 'whenever', '0.9.2', :require => false
+gem 'timecop', '0.7.1'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
@@ -50,8 +51,8 @@ gem 'sprockets', '2.11.0'
 gem 'bcrypt-ruby', '3.1.2'
 
 #for easy database viewing
-gem 'hirb'
+gem 'hirb', '0.7.2'
 
 #for searching
-gem 'mysql2'
-gem 'thinking-sphinx'
+gem 'mysql2', '0.3.16'
+gem 'thinking-sphinx', '3.1.1'

@@ -140,6 +140,8 @@ namespace :db do
   task populate: :environment do
     fee_type = ['Hourly','Fixed Fee', 'Contingency', 'Mixed']
     payment_likelihood = ['High', 'Medium', "Low"]
+    new_time = Time.local(2008,1,1,12,0,0)
+    Timecop.freeze(new_time)
     100.times do |n|
       Fee.create!(case_id: n+1,
                   fee_type: fee_type[Random.rand(0..3)],
@@ -152,6 +154,7 @@ namespace :db do
                   cost_estimate: Random.rand(0..100)*1000,
                   referral: Random.rand(0..100)*1000)
     end
+    Timecop.return
   end
 
   desc "add 100 Timings - 1 per case"
@@ -249,6 +252,27 @@ namespace :db do
                                                 ca.fee.last.referral))
       Closeout.close_case(ca)
     end
+  end
+
+  desc 'randomly update Case Fees over Time (300)'
+  task populate: :environment do
+    fee_type = ['Hourly','Fixed Fee', 'Contingency', 'Mixed']
+    payment_likelihood = ['High', 'Medium', "Low"]
+    100.times do |n|
+      new_time = Time.local(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28),12,0,0)
+      Timecop.freeze(new_time)
+      Fee.create!(case_id: Random.rand(1..100),
+                  fee_type: fee_type[Random.rand(0..3)],
+                  high_estimate: Random.rand(1000..4000)*1000,
+                  #try to make it line up if fix fee but dont want to waste time on it now
+                  medium_estimate: Random.rand(500..(1000-1))*1000,
+                  low_estimate: Random.rand(0..499)*1000,
+                  payment_likelihood: payment_likelihood[Random.rand(0..2)],
+                  retainer: Random.rand(0..100)*100,
+                  cost_estimate: Random.rand(0..100)*1000,
+                  referral: Random.rand(0..100)*1000)
+    end
+    Timecop.return
   end
 
 

@@ -2,7 +2,7 @@
 
 <%= render 'shared/subheader' %>
 
-<h2>Case Fee</h2>
+<h2>Fee</h2>
 <table class='table table-hover'>
   <thead>
     <tr>
@@ -27,7 +27,7 @@
       <td><%= @fee.referral %></td>
       <td><%= @fee.payment_likelihood %></td>
       <td><%= @fee.retainer %></td>
-      <td><%= @fee.updated_at %></td>
+      <td><%= @fee.updated_at.strftime("%b %d, %Y") %></td>
     </tr>
   </tbody>
 </table>
