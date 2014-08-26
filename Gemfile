@@ -56,3 +56,4 @@ gem 'hirb', '0.7.2'
 #for searching
 gem 'mysql2', '0.3.16'
 gem 'thinking-sphinx', '3.1.1'
+gem 'flying-sphinx', '1.2.0'
