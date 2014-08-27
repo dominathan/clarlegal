@@ -91,6 +91,7 @@ class CasesController < ApplicationController
   end
 
   def user_cases
+    @user = current_user
     if params[:search] != nil
       client_id_list = Case.client_id_list(current_user)
       case_list = Case.search(params[:search], with: { client_id: client_id_list}, page: 1, per_page: 1000).collect {|c|c.id}

@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <tr>
-      <td> <%= @user.name%></td>
+      <td> <%= User.full_name(@user) %></td>
       <td> <%= @user.email%></td>
       <% if @user.lawfirm %>
         <td><%= @user.lawfirm.firm_name %></td>
@@ -23,5 +23,5 @@
 </table>
 
 <div class='center'>
-  <%= link_to "Edit #{@user.name} Profile and Settings", edit_user_path(@user) %>
+  <%= link_to "Edit #{User.full_name(@user)} Profile and Settings", edit_user_path(@user) %>
 </div>

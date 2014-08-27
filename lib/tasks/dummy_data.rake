@@ -2,51 +2,61 @@ namespace :db do
 
   task populate: :environment do
     desc "Fill database with User data"
-    User.create!(name: "Nathan",
+    User.create!(first_name: "Nathan",
+                 last_name: "Hall",
                  email: "test@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    User.create!(name: "Cathy",
+    User.create!(first_name: "Cathy",
+                  last_name: "Wright",
                  email: "cathy@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    User.create!(name: "Alice",
+    User.create!(first_name: "Alice",
+                  last_name: "Walther",
                  email: "alice@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    User.create!(name: "liz",
+    User.create!(first_name: "Liz",
+                  last_name: "Hall",
                  email: "liz@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    User.create!(name: "mike",
+    User.create!(first_name: "Mike",
+                 last_name: "Hall",
                  email: "mike@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    User.create!(name: "Widman",
+    User.create!(first_name: "Will",
+                  last_name: "Widman",
                  email: "widman@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    User.create!(name: "kingman",
+    User.create!(first_name: "Jim",
+                  last_name: "Kingman",
                  email: "kingman@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    User.create!(name: "blair",
+    User.create!(first_name: "Blair",
+                  last_name: "Marsteller",
                  email: "blair@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
     3.times do |n|
-      name  = Faker::Name.name
+      first_name  = Faker::Name.first_name
+      last_name  = Faker::Name.last_name
       email = Faker::Internet.email
       password  = "password"
-      User.create!(name: name,
+      User.create!(first_name: first_name,
+                  last_name: last_name,
                    email: email,
                    password: password,
                    password_confirmation: password,
@@ -95,9 +105,9 @@ namespace :db do
   task populate: :environment do
     15.times do
       position_list = ['Managing Member', 'Partner','Counsel','Contract Attorney',
-                        'Staff Attorney','Paralegal','Secretary']
+                        'Staff Attorney','Paralegal','Secretary', 'Responsible Attorney']
       Staffing.create!(full_name: Faker::Name.name,
-                        position: position_list[Random.rand(0..6)],
+                        position: position_list[Random.rand(0..7)],
                         hourly_rate: (Random.rand(10..45)*10),
                         lawfirm_id: 1)
     end

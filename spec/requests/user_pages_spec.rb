@@ -8,7 +8,7 @@ describe "User pages" do
     let(:user) { FactoryGirl.create(:user) }
     before { visit user_path(user) }
 
-    it { should have_content(user.name) }
+    it { should have_content(user.first_name) }
     xit { should have_title(user.name) }
   end
 
@@ -33,7 +33,8 @@ describe "User pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Name",         with: "Example User"
+        fill_in "First name",         with: "Example User"
+        fill_in "Last name",         with: "Nothing"
         fill_in "Email",        with: "user@example.com"
         fill_in "Password",     with: "password"
         fill_in "Confirmation", with: "password"
@@ -44,7 +45,7 @@ describe "User pages" do
         let(:user) { User.find_by(email: 'user@example.com') }
 
         it { should have_link('Sign out') }
-        xit { should have_title(user.name) }
+        xit { should have_title(user.first_name) }
         it { should have_selector('div.alert.alert-success', text: 'Welcome') }
       end
 
@@ -73,20 +74,20 @@ describe "User pages" do
     end
 
     describe "with valid information" do
-      let(:new_name)  { "New Name" }
+      let(:new_first_name)  { "New Name" }
       let(:new_email) { "new@example.com" }
       before do
-        fill_in "Name",             with: new_name
+        fill_in "First name",             with: new_first_name
         fill_in "Email",            with: new_email
         fill_in "Password",         with: user.password
         fill_in "Confirmation", with: user.password
         click_button "Save Changes"
       end
 
-      xit { should have_title(new_name) }
+      xit { should have_title(new_first_name) }
       it { should have_selector('div.alert.alert-success') }
       it { should have_link('Sign out', href: signout_path) }
-      specify { expect(user.reload.name).to  eq new_name }
+      specify { expect(user.reload.first_name).to  eq new_first_name }
       specify { expect(user.reload.email).to eq new_email }
     end
   end

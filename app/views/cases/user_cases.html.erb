@@ -1,5 +1,5 @@
 <% provide(:title, 'All Cases') %>
-<h1><%= "#{@current_user.name}'s Cases" %></h1>
+<h1><%= "#{User.full_name(@user)}'s Cases" %></h1>
 
   <% @search_path = user_cases_path %>
   <%= render 'shared/search_bar' %>

@@ -8,8 +8,12 @@
         <%= render 'shared/error_messages', object: f.object %>
         <table class="table">
           <tr>
-            <td>  <%= f.label :name %></td>
-            <td><%= f.text_field :name %></td>
+            <td>  <%= f.label :first_name %></td>
+            <td><%= f.text_field :first_name %></td>
+          </tr>
+          <tr>
+            <td>  <%= f.label :last_name %></td>
+            <td><%= f.text_field :last_name %></td>
           </tr>
           <tr>
             <td><%= f.label :email %></td>
