@@ -5,12 +5,16 @@
   <div class="span6 offset3">
     <%= form_for(:lawfirm, url: joinlawfirm_commit_path) do |f| %>
 
-      <%= f.label "Law Group" %>
-      <%= f.text_field :firm_name %>
-
-      <%= f.label "Password" %>
-      <%= f.password_field :password %>
-
+    <table class="table">
+      <tr>
+        <td><%= f.label "Law Group" %></td>
+        <td><%= f.text_field :firm_name %></td>
+      </tr>
+      <tr>
+        <td><%= f.label "Password" %></td>
+        <td><%= f.password_field :password %></td>
+      </tr>
+    </table>
       <%= f.submit "Join Group", class: "btn btn-large btn-primary" %>
     <% end %>
 

@@ -57,3 +57,11 @@ gem 'hirb', '0.7.2'
 gem 'mysql2', '0.3.16'
 gem 'thinking-sphinx', '3.1.1'
 gem 'flying-sphinx', '1.2.0'
+
+#test email being sent
+gem 'letter_opener', '1.2.0', :group => :development
+#actual email being sent
+gem 'mandrill_mailer', '0.4.6'
+gem 'mandrill-api', '1.0.52'
+
+
