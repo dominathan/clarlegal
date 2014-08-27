@@ -25,7 +25,7 @@
             <td><%= f.text_field :case_number %></td>
           </tr>
           <tr>
-            <td><%= f.label 'Opposing Attorney:' %></td>
+            <td><%= f.label 'Opposing Counsel:' %></td>
             <td><%= f.text_field :new_opposing_attorney %> </td>
             <td><%= f.select(:opposing_attorney, current_user.lawfirm.cases.order(:opposing_attorney).collect(&:opposing_attorney).uniq, :include_blank => "Or Select Existing") %> </td>
           </tr>

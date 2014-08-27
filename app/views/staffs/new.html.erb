@@ -17,7 +17,7 @@
           </tr>
           <tr>
             <td><%= f.label "Position:" %></td>
-            <td><%=f.select(:position, Staffing.all_positions, :include_blank => "Select") %></td>
+            <td><%=f.select(:position, Staffing.all_positions(current_user).sort, :include_blank => "Select") %></td>
           </tr>
           <tr>
             <td><%= f.label "Expected Total Hours:" %></td>

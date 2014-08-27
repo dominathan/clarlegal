@@ -94,9 +94,10 @@ namespace :db do
   desc "add 15 staff to lawfirm 1"
   task populate: :environment do
     15.times do
-      position_list = ['Paralegal', 'Attorney','Accountant','Staff','Responsible Attorney']
+      position_list = ['Managing Member', 'Partner','Counsel','Contract Attorney',
+                        'Staff Attorney','Paralegal','Secretary']
       Staffing.create!(full_name: Faker::Name.name,
-                        position: position_list[Random.rand(0..4)],
+                        position: position_list[Random.rand(0..6)],
                         hourly_rate: (Random.rand(10..45)*10),
                         lawfirm_id: 1)
     end
@@ -124,7 +125,7 @@ namespace :db do
       opposing_attorney = Faker::Name.name
       judge = Faker::Name.name
       Case.create!(client_id: Random.rand(1..20),
-                    name: plaintiff+" V. "+defendant,
+                    name: plaintiff+" v. "+defendant,
                     practice_group: Practicegroup.find_by(id: Random.rand(1..5)).group_name,
                     type_of_matter: CaseType.find_by(id: Random.rand(1..24)).mat_ref,
                     court: 'Jefferson County Circuit Court - Civil',

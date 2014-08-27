@@ -7,14 +7,20 @@
     <%= form_for(@staff, url: {action: "update"}) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label "Full Name:" %>
-      <%= f.text_field :full_name %>
-
-      <%= f.label "Position:" %>
-      <%= f.text_field :position %>
-
-      <%= f.label "Hourly Rate:" %>
-      <%= f.text_field :hourly_rate, :placeholder => "If Applicable" %>
+     <table class="table">
+        <tr>
+          <td><%= f.label "Full Name:" %></td>
+          <td><%= f.text_field :full_name %></td>
+        </tr>
+        <tr>
+          <td><%= f.label "Position:" %></td>
+          <td><%= f.text_field :position %></td>
+        </tr>
+        <tr>
+          <td><%= f.label "Hourly Rate:" %></td>
+          <td><%= f.text_field :hourly_rate, :placeholder => "If Applicable" %></td>
+        </tr>
+      </table>
 
        <%= f.submit "Update Staff", class: "btn btn-large btn-primary" %>
 
