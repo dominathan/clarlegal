@@ -17,14 +17,14 @@ group :doc do
 end
 #==EVERYTHING ELSE IS ADDED==#
 
-gem 'figaro', '0.7.0'
+gem 'figaro', '0.7.0' #application.yml file for safety
 gem 'faker', '1.1.2' #for database population
 gem 'highcharts-rails', '~> 4.0.1' #for highcharts.js
 gem 'will_paginate', '3.0.7' #added to have clickiable page numbers at bottom of page
 gem 'will_paginate-bootstrap', '1.0.1'
 gem 'cocoon', '1.2.6'  #nested forms, javascript adds new form
 gem 'whenever', '0.9.2', :require => false
-gem 'timecop', '0.7.1'
+gem 'timecop', '0.7.1' #remote time travel
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
