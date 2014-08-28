@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140827213327) do
+ActiveRecord::Schema.define(version: 20140828160320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,18 +71,19 @@ ActiveRecord::Schema.define(version: 20140827213327) do
   add_index "checks", ["case_id"], name: "index_checks_on_case_id", using: :btree
 
   create_table "clients", force: true do |t|
-    t.string   "client_name"
-    t.string   "client_street_address"
-    t.string   "client_city_address"
-    t.string   "client_state_address"
-    t.string   "client_zip_code"
-    t.string   "client_phone_number"
-    t.string   "client_fax_number"
-    t.string   "client_email"
+    t.string   "first_name"
+    t.string   "street_address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip_code"
+    t.string   "phone_number"
+    t.string   "fax_number"
+    t.string   "email"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "different_billing"
+    t.string   "last_name"
   end
 
   add_index "clients", ["user_id", "created_at"], name: "index_clients_on_user_id_and_created_at", using: :btree

@@ -15,5 +15,15 @@ FactoryGirl.define do
     password_confirmation "password"
   end
 
+  factory :client do
+    association           :user
+    first_name            "Jo"
+    last_name             "Bill"
+    email                 "jo@bill.com"
+    street_address        "222 Biilly Drive"
+    city                  "Aust"
+    state                 "AL"
+  end
+
 
 end

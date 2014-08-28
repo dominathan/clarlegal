@@ -3,14 +3,19 @@ require 'spec_helper'
 describe Client do
 
   let(:user) { FactoryGirl.create(:user) }
-  before { @client = user.clients.build(client_name: "fuckme",
-                     client_email: "fuck@fuck.com", client_zip_code: 63333, user_id: user.id) }
+  before { @client = user.clients.build(first_name: "jo", last_name: "jo",
+                     email: "jo@jo.com", zip_code: 63333, user_id: user.id,
+                     city: "Aust", state: 'AL') }
 
   subject { @client }
 
-  it { should respond_to(:client_name)}
-  it { should respond_to(:client_email)}
-  it { should respond_to(:client_zip_code)}
+  it { should respond_to(:first_name)}
+  it { should respond_to(:last_name)}
+  it { should respond_to(:email)}
+  it { should respond_to(:street_address)}
+  it { should respond_to(:city)}
+  it { should respond_to(:state)}
+  it { should respond_to(:zip_code)}
   it { should respond_to(:user_id)}
   its(:user) { should eq user}
 
