@@ -1,5 +1,5 @@
 <% provide(:title, 'Cases') %>
-<h2><%= "#{@client.client_name} Cases" %></h2>
+<h2><%= "#{User.full_name_last_first(Client.find_by(id: params[:client_id]))} Cases" %></h2>
 
   <!-- @search_path = client_cases_path(@client) -->
   <!-- render 'shared/search_bar' -->
@@ -18,7 +18,7 @@
        <tr>
         <td><%= link_to one_case.name, client_case_path(:client_id => @client.id, :id => one_case.id) %></td>
         <td><%= one_case.practice_group %></td>
-        <td><%= one_case.client.client_name %></td>
+        <td><%= User.full_name_last_first(one_case.client) %></td>
         <td><%= one_case.timing.order(:created_at).last.case_filed ? one_case.timing.order(:created_at).last.case_filed : "" %> </td>
       <% end %>
     <% else %>

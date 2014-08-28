@@ -10,36 +10,40 @@
 
         <table class="table">
           <tr>
-            <td><%= f.label "Name:" %></td>
-            <td><%= f.text_field :client_name %></td>
+            <td><%= f.label :first_name %></td>
+            <td><%= f.text_field :first_name %></td>
           </tr>
           <tr>
-            <td><%= f.label "Street Address:" %></td>
-            <td><%= f.text_field :client_street_address %></td>
+            <td><%= f.label :last_name %></td>
+            <td><%= f.text_field :last_name %></td>
           </tr>
           <tr>
-            <td><%= f.label "City:" %></td>
-            <td><%= f.text_field :client_city_address %></td>
+            <td><%= f.label :street_address %></td>
+            <td><%= f.text_field :street_address %></td>
           </tr>
           <tr>
-            <td><%= f.label "State:" %></td>
-            <td><%= f.text_field :client_state_address %></td>
+            <td><%= f.label :city %></td>
+            <td><%= f.text_field :city %></td>
           </tr>
           <tr>
-            <td><%= f.label "Zip Code:" %></td>
-            <td><%= f.text_field :client_zip_code %></td>
+            <td><%= f.label :state %></td>
+            <td><%= f.text_field :state %></td>
           </tr>
           <tr>
-            <td><%= f.label "Primary Phone Number:" %></td>
-            <td><%= f.text_field :client_phone_number %></td>
+            <td><%= f.label :zip_code %></td>
+            <td><%= f.text_field :zip_code %></td>
           </tr>
           <tr>
-            <td><%= f.label "Fax Number:" %></td>
-            <td><%= f.text_field :client_fax_number %></td>
+            <td><%= f.label :phone_number %></td>
+            <td><%= f.text_field :phone_number %></td>
           </tr>
           <tr>
-            <td><%= f.label "Email Address:" %></td>
-            <td><%= f.text_field :client_email %></td>
+            <td><%= f.label :fax_number %></td>
+            <td><%= f.text_field :fax_number %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :email %></td>
+            <td><%= f.text_field :email %></td>
           </tr>
           <tr>
             <td><%= f.label "Different Billing Address?" %> </td>

@@ -1,4 +1,4 @@
-<% provide(:title, @client.client_name) %>
+<% provide(:title, "#{User.full_name_last_first(@client)}") %>
 
 <h1>Client Information</h1>
 
@@ -10,21 +10,31 @@
       <th>Email</th>
       <th>Phone Number</th>
       <th>Address</th>
+      <% if @client.billings.any? %>
+        <th>Billing Addres</th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><%= @client.client_name %></td>
+      <td><%= User.full_name_last_first(@client) %></td>
       <% if current_user.clients.where(id: params[:id]) != [] %>
-        <td><%= link_to "Cases for #{@client.client_name}", client_cases_path(@client) %></td>
+        <td><%= link_to "Cases for #{User.full_name_last_first(@client)}", client_cases_path(@client) %></td>
       <% else %>
         <td>You Must Be the Client Owner to Access Cases</td>
       <% end %>
-      <td><%= @client.client_email %></td>
-      <td><%= @client.client_phone_number %></td>
-      <td><%= @client.client_street_address %><br>
-          <%= @client.client_city_address%>, <%=@client.client_state_address%>, <%=@client.client_zip_code %>
+      <td><%= @client.email %></td>
+      <td><%= @client.phone_number %></td>
+      <td><%= @client.street_address %><br>
+          <%= @client.city%>, <%=@client.state%>, <%=@client.zip_code %>
       </td>
+      <% if @client.billings.any? %>
+        <td><%= @client.billings.last.street_address ? @client.billings.last.street_address : ""%><br>
+          <%= @client.billings.last.city ? @client.billings.last.city : "" %> ,
+          <%=@client.billings.last.state ? @client.billings.last.state : ""%>,
+          <%=@client.billings.last.zip_code ? @client.billings.last.zip_code : "" %>
+        </td>
+      <% end %>
     </tr>
   </tbody>
 </table>

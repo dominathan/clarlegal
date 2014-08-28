@@ -20,7 +20,7 @@
        <tr>
         <td><%= link_to "#{one_case.name}", client_case_path(:client_id => one_case.client_id, :id => one_case.id) %></td>
         <td><%= one_case.practice_group %> </td>
-        <td><%= one_case.client.client_name %> </td>
+        <td><%= User.full_name_last_first(one_case.client) %> </td>
         <td><%= one_case.timing.order(:created_at).last.case_filed ? one_case.timing.order(:created_at).last.case_filed : "" %></td>
       <% end %>
     <% else %>

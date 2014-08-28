@@ -3,10 +3,12 @@ class ClientsController < ApplicationController
   before_action :belongs_to_firm
 
   def index
-    #disable search until heroku or deployed to production
-    clients = Client.search(params[:search], with: {user_id: current_user.id}, per_page: 1000).collect { |c| c.id }
-    @client = Client.where(id: clients).paginate(per_page: 10, page: 1)
-    #@client = current_user.clients.paginate(per_page: 10, page: 1)
+    if params[:search] != nil
+      clients = Client.search(params[:search], with: {user_id: current_user.id}, per_page: 1000).collect { |c| c.id }
+      @client = Client.where(id: clients).paginate(per_page: 10, page: 1)
+    else
+      @client = Client.where(user_id: current_user.id).paginate(per_page: 10, page: 1)
+    end
   end
 
   def new
@@ -16,6 +18,7 @@ class ClientsController < ApplicationController
 
   def edit
     @client = Client.find(params[:id])
+    @client.billings.build
   end
 
   def show
@@ -47,9 +50,9 @@ class ClientsController < ApplicationController
   private
 
     def client_params
-      params.require(:client).permit(:client_name, :client_street_address, :client_city_address,
-                                          :client_state_address, :client_zip_code, :client_email,
-                                          :client_phone_number, :client_fax_number, :different_billing,
+      params.require(:client).permit(:first_name, :last_name, :street_address, :city,
+                                      :state, :zip_code, :email,
+                                      :phone_number, :fax_number, :different_billing,
                                       :billings_attributes => [:name, :street_address, :city, :state, :zip_code])
     end
 

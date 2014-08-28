@@ -25,6 +25,10 @@ class User < ActiveRecord::Base
     [user.first_name, user.last_name].compact.join(" ")
   end
 
+  def self.full_name_last_first(user)
+    [user.last_name, user.first_name].compact.join(", ")
+  end
+
   private
 
     def create_remember_token

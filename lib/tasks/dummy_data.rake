@@ -103,6 +103,10 @@ namespace :db do
 
   desc "add 15 staff to lawfirm 1"
   task populate: :environment do
+    Staffing.create!(full_name: Faker::Name.name,
+                      position: 'Responsible Attorney',
+                      hourly_rate: (Random.rand(10..45)*10),
+                      lawfirm_id: 1)
     15.times do
       position_list = ['Managing Member', 'Partner','Counsel','Contract Attorney',
                         'Staff Attorney','Paralegal','Secretary', 'Responsible Attorney']
@@ -116,13 +120,14 @@ namespace :db do
   desc "add 20 clients to data-set"
   task populate: :environment do
     20.times do
-      Client.create!(client_name: Faker::Name.name,
-                      client_street_address: Faker::Address.street_address,
-                      client_city_address: Faker::Address.city,
-                      client_state_address: Faker::Address.state_abbr,
-                      client_zip_code: Faker::Address.zip,
-                      client_phone_number: Faker::PhoneNumber.phone_number,
-                      client_email: Faker::Internet.email,
+      Client.create!(first_name: Faker::Name.first_name,
+                      last_name: Faker::Name.last_name,
+                      street_address: Faker::Address.street_address,
+                      city: Faker::Address.city,
+                      state: Faker::Address.state_abbr,
+                      zip_code: Faker::Address.zip,
+                      phone_number: Faker::PhoneNumber.phone_number,
+                      email: Faker::Internet.email,
                       user_id: Random.rand(1..8))
     end
   end

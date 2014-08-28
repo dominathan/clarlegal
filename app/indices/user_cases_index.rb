@@ -6,7 +6,8 @@ ThinkingSphinx::Index.define :case, :with => :active_record do
   indexes opposing_attorney
   indexes judge
   indexes description
-  indexes client.client_name
+  indexes client.first_name
+  indexes client.last_name
 
   has client_id
 end
