@@ -12,4 +12,13 @@ class Client < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i || ""
   validates :email, format: { with: VALID_EMAIL_REGEX }
 
+  def self.all_full_name_last_first(user)
+    #used in _staff_fields for collection select of LastName, FirstName
+    final_name_list = []
+    user.lawfirm.clients.each do |name|
+      final_name_list << [name.last_name, name.first_name].compact.join(", ")
+    end
+    final_name_list.sort
+  end
+
 end

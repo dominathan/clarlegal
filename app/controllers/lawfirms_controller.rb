@@ -34,9 +34,9 @@ class LawfirmsController < ApplicationController
       @firm_name = current_user.lawfirm.firm_name
       user_id_list = current_user.lawfirm.user_ids
       clients = Client.search(params[:search], with: {user_id: user_id_list}, per_page: 1000).collect { |c| c.id }
-      @lawfirm_clients = Client.where(id: clients).paginate(per_page: 10, page: 1)
+      @lawfirm_clients = Client.where(id: clients).order(:last_name).paginate(per_page: 10, page: params[:page])
     else
-      @lawfirm_clients = current_user.lawfirm.clients.paginate(:page => params[:page], per_page: 10)
+      @lawfirm_clients = current_user.lawfirm.clients.order(:last_name).paginate(:page => params[:page], per_page: 10)
     end
   end
 

@@ -103,14 +103,16 @@ namespace :db do
 
   desc "add 15 staff to lawfirm 1"
   task populate: :environment do
-    Staffing.create!(full_name: Faker::Name.name,
+    Staffing.create!(first_name: Faker::Name.first_name,
+                      last_name: Faker::Name.last_name,
                       position: 'Responsible Attorney',
                       hourly_rate: (Random.rand(10..45)*10),
                       lawfirm_id: 1)
     15.times do
       position_list = ['Managing Member', 'Partner','Counsel','Contract Attorney',
                         'Staff Attorney','Paralegal','Secretary', 'Responsible Attorney']
-      Staffing.create!(full_name: Faker::Name.name,
+      Staffing.create!(first_name: Faker::Name.first_name,
+                        last_name: Faker::Name.last_name,
                         position: position_list[Random.rand(0..7)],
                         hourly_rate: (Random.rand(10..45)*10),
                         lawfirm_id: 1)
@@ -138,13 +140,13 @@ namespace :db do
       plaintiff = Faker::Name.name
       defendant = Faker::Name.name
       opposing_attorney = Faker::Name.name
-      judge = Faker::Name.name
+      judge_list = ["Houston L. Brown","Donald Blankenship","Joseph Boohaker","Elisabeth French", "Helen Shores Lee", "Robert Vance"]
       Case.create!(client_id: Random.rand(1..20),
                     name: plaintiff+" v. "+defendant,
                     practice_group: Practicegroup.find_by(id: Random.rand(1..5)).group_name,
                     type_of_matter: CaseType.find_by(id: Random.rand(1..24)).mat_ref,
                     court: 'Jefferson County Circuit Court - Civil',
-                    judge: judge,
+                    judge: judge_list[Random.rand(0..4)],
                     case_number: Random.rand(10..14).to_s + " - " + Random.rand(10000..99999).to_s,
                     opposing_attorney: opposing_attorney,
                     description: Faker::Lorem.paragraph,
@@ -193,8 +195,9 @@ namespace :db do
     head_atts = Staffing.where(position: "Responsible Attorney")
     head_atts_number = head_atts.length-1
     100.times do |n|
+      this_head_attorney = head_atts[Random.rand(0..head_atts_number)]
       Staff.create!(case_id: n+1,
-                    name: head_atts[Random.rand(0..head_atts_number)].full_name,
+                    name: User.full_name_last_first(this_head_attorney),
                     position: 'Responsible Attorney')
     end
   end
@@ -204,7 +207,7 @@ namespace :db do
   task populate: :environment do
     200.times do |n|
       staff = Staffing.find_by(id: Random.rand(1..15))
-      name = staff.full_name
+      name = User.full_name_last_first(staff)
       position = staff.position
       Staff.create!(case_id: Random.rand(1..100),
                     name: name,

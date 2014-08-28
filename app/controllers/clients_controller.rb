@@ -5,9 +5,9 @@ class ClientsController < ApplicationController
   def index
     if params[:search] != nil
       clients = Client.search(params[:search], with: {user_id: current_user.id}, per_page: 1000).collect { |c| c.id }
-      @client = Client.where(id: clients).paginate(per_page: 10, page: 1)
+      @client = Client.where(id: clients).paginate(per_page: 10, page: params[:page])
     else
-      @client = Client.where(user_id: current_user.id).paginate(per_page: 10, page: 1)
+      @client = Client.where(user_id: current_user.id).order(:last_name).paginate(per_page: 10, page: params[:page])
     end
   end
 

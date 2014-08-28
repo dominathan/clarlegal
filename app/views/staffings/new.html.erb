@@ -3,17 +3,22 @@
 <h1>Add Staff to <%= "#{@lawfirm.firm_name}" %> </h1>
 
 <div class="row">
-  <div class="span6 offset3">
+  <div class="col-lg-6 col-lg-offset-3">
     <%= form_for(@staffing, url: {action: "create"}) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
       <table class="table">
         <tr>
-          <td><%= f.label "Full Name:" %></td>
-          <td><%= f.text_field :full_name %></td>
+          <td><%= f.label "First Name:" %></td>
+          <td><%= f.text_field :first_name %></td>
+        </tr>
+        <tr>
+          <td><%= f.label "Last Name:" %></td>
+          <td><%= f.text_field :last_name %></td>
         </tr>
         <tr>
           <td><%= f.label "Position:" %></td>
-          <td><%= f.text_field :position %></td>
+          <td><%= f.select(:position, Staffing.all_positions(current_user).uniq.sort, :include_blank => "Select") %>
+          <td><%= f.text_field :new_position, :placeholder => "Or Create New Position" %></td>
         </tr>
         <tr>
           <td><%= f.label "Hourly Rate:" %></td>

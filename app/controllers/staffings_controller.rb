@@ -7,7 +7,7 @@ class StaffingsController < ApplicationController
   end
 
   def index
-    @staffing = Staffing.all
+    @staffing = Staffing.all.order(:last_name).paginate(page: params[:page], per_page: 15)
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
   end
 
@@ -15,6 +15,7 @@ class StaffingsController < ApplicationController
     @user = User.find(params[:user_id])
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
     @staff = @lawfirm.staffings.new(staffing_params)
+    @staff.position = params[:staffing][:new_position] unless params[:staffing][:new_position].empty?
     if @staff.save
       flash[:success] = "Staff Added Successfully."
       redirect_to user_lawfirm_staffings_path(@user, @lawfirm)
@@ -48,7 +49,7 @@ class StaffingsController < ApplicationController
   private
 
     def staffing_params
-      params.require(:staffing).permit(:full_name, :position, :hourly_rate)
+      params.require(:staffing).permit(:first_name, :last_name, :new_position, :position, :hourly_rate)
     end
 
 end
