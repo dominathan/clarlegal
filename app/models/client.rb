@@ -21,4 +21,8 @@ class Client < ActiveRecord::Base
     final_name_list.sort
   end
 
+  def self.full_name_last_first(first_name, last_name)
+    [last_name, first_name].compact.join(", ")
+  end
+
 end

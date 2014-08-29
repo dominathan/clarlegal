@@ -28,6 +28,8 @@ class ClientsController < ApplicationController
 
   def create
     @client = current_user.clients.build(client_params)
+    @client.full_name = Client.full_name_last_first(params[:client][:first_name],
+                                                    params[:client][:last_name])
     if @client.save
       flash[:success] = "Client added sucessfully"
       redirect_to clients_path

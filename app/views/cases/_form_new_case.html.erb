@@ -45,7 +45,7 @@
           </tr>
           <tr>
             <td><%= f.label 'Client Name:' %></td>
-            <td> <%= f.select(:client_id, Client.all_full_name_last_first(current_user), :include_blank => 'Select Client') %></td>
+            <td> <%= f.collection_select(:client_id, current_user.lawfirm.clients.order(:full_name).all, :id, :full_name, :include_blank => 'Select Client') %></td>
           </tr>
 
         </table>

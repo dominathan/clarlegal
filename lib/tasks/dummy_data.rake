@@ -103,16 +103,23 @@ namespace :db do
 
   desc "add 15 staff to lawfirm 1"
   task populate: :environment do
-    Staffing.create!(first_name: Faker::Name.first_name,
-                      last_name: Faker::Name.last_name,
-                      position: 'Responsible Attorney',
+    first_name = Faker::Name.first_name
+      last_name = Faker::Name.last_name
+    Staffing.create!(first_name: first_name,
+                      last_name: last_name,
+                      #Client.method used to put full_name in database
+                      full_name: Client.full_name_last_first(first_name, last_name),                   position: 'Responsible Attorney',
                       hourly_rate: (Random.rand(10..45)*10),
                       lawfirm_id: 1)
     15.times do
+      first_name = Faker::Name.first_name
+      last_name = Faker::Name.last_name
       position_list = ['Managing Member', 'Partner','Counsel','Contract Attorney',
                         'Staff Attorney','Paralegal','Secretary', 'Responsible Attorney']
-      Staffing.create!(first_name: Faker::Name.first_name,
-                        last_name: Faker::Name.last_name,
+      Staffing.create!(first_name: first_name,
+                        last_name: last_name,
+                        #Client.method used to put full_name in database
+                        full_name: Client.full_name_last_first(first_name, last_name),
                         position: position_list[Random.rand(0..7)],
                         hourly_rate: (Random.rand(10..45)*10),
                         lawfirm_id: 1)
@@ -122,8 +129,11 @@ namespace :db do
   desc "add 20 clients to data-set"
   task populate: :environment do
     20.times do
-      Client.create!(first_name: Faker::Name.first_name,
-                      last_name: Faker::Name.last_name,
+      first_name = Faker::Name.first_name
+      last_name = Faker::Name.last_name
+      Client.create!(first_name: first_name,
+                      last_name: last_name,
+                      full_name: Client.full_name_last_first(first_name, last_name),
                       street_address: Faker::Address.street_address,
                       city: Faker::Address.city,
                       state: Faker::Address.state_abbr,
