@@ -228,18 +228,18 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5_plus = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected)) : next
-        if ca.fee.first
+        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected)) : next
+        if ca.fee.order(:created_at).last
           if current_date.year == conclusion_date.year
-            rev_est_year1 += ca.fee.first.medium_estimate
+            rev_est_year1 += ca.fee.last.medium_estimate
           elsif current_date.year+1 == conclusion_date.year
-            rev_est_year2 += ca.fee.first.medium_estimate
+            rev_est_year2 += ca.fee.last.medium_estimate
           elsif current_date.year+2 == conclusion_date.year
-            rev_est_year3 += ca.fee.first.medium_estimate
+            rev_est_year3 += ca.fee.last.medium_estimate
           elsif current_date.year+3 == conclusion_date.year
-            rev_est_year4 += ca.fee.first.medium_estimate
+            rev_est_year4 += ca.fee.last.medium_estimate
           elsif current_date.year+4 >= conclusion_date.year
-            rev_est_year5_plus += ca.fee.first.medium_estimate
+            rev_est_year5_plus += ca.fee.last.medium_estimate
           end
         else
           next
@@ -253,7 +253,7 @@ class GraphsController < ApplicationController
     @hash_file = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
   end
 
-    def rev_by_year_by_pg_high
+  def rev_by_year_by_pg_high
     @lawfirm_pgs = Graph.user_practice_groups(current_user)
     current_date = DateTime.now
     @category_years = [current_date.year, current_date.year+1, current_date.year+2,
@@ -266,18 +266,18 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5_plus = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected)) : next
+        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected)) : next
         if ca.fee.first
           if current_date.year == conclusion_date.year
-            rev_est_year1 += ca.fee.first.high_estimate
+            rev_est_year1 += ca.fee.last.high_estimate
           elsif current_date.year+1 == conclusion_date.year
-            rev_est_year2 += ca.fee.first.high_estimate
+            rev_est_year2 += ca.fee.last.high_estimate
           elsif current_date.year+2 == conclusion_date.year
-            rev_est_year3 += ca.fee.first.high_estimate
+            rev_est_year3 += ca.fee.last.high_estimate
           elsif current_date.year+3 == conclusion_date.year
-            rev_est_year4 += ca.fee.first.high_estimate
+            rev_est_year4 += ca.fee.last.high_estimate
           elsif current_date.year+4 >= conclusion_date.year
-            rev_est_year5_plus += ca.fee.first.high_estimate
+            rev_est_year5_plus += ca.fee.last.high_estimate
           end
         else
           next
@@ -304,18 +304,18 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5_plus = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.first.estimated_conclusion_expected)) : next
-        if ca.fee.first
+        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected)) : next
+        if ca.fee.last
           if current_date.year == conclusion_date.year
-            rev_est_year1 += ca.fee.first.low_estimate
+            rev_est_year1 += ca.fee.last.low_estimate
           elsif current_date.year+1 == conclusion_date.year
-            rev_est_year2 += ca.fee.first.low_estimate
+            rev_est_year2 += ca.fee.last.low_estimate
           elsif current_date.year+2 == conclusion_date.year
-            rev_est_year3 += ca.fee.first.low_estimate
+            rev_est_year3 += ca.fee.last.low_estimate
           elsif current_date.year+3 == conclusion_date.year
-            rev_est_year4 += ca.fee.first.low_estimate
+            rev_est_year4 += ca.fee.last.low_estimate
           elsif current_date.year+4 >= conclusion_date.year
-            rev_est_year5_plus += ca.fee.first.low_estimate
+            rev_est_year5_plus += ca.fee.last.low_estimate
           end
         else
           next
@@ -328,6 +328,236 @@ class GraphsController < ApplicationController
     zipped_file = @lawfirm_pgs.zip(@final_tally)
     @hash_file_low = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
   end
+
+#-----------------Rev by PG at Accelerated Recovery---------------------#
+  def rev_by_year_by_pg_accelerated
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    final_tally =[]
+    lawfirm_pgs.each do |lf_pg|
+      rev_est_year1 = 0
+      rev_est_year2 = 0
+      rev_est_year3 = 0
+      rev_est_year4 = 0
+      rev_est_year5 = 0
+      current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
+        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast)) : next
+        if ca.fee.order(:created_at).last
+          if current_date.year == conclusion_date.year
+            rev_est_year1 += ca.fee.last.medium_estimate
+          elsif current_date.year+1 == conclusion_date.year
+            rev_est_year2 += ca.fee.last.medium_estimate
+          elsif current_date.year+2 == conclusion_date.year
+            rev_est_year3 += ca.fee.last.medium_estimate
+          elsif current_date.year+3 == conclusion_date.year
+            rev_est_year4 += ca.fee.last.medium_estimate
+          elsif current_date.year+4 >= conclusion_date.year
+            rev_est_year5_plus += ca.fee.last.medium_estimate
+          end
+        else
+          next
+        end
+        @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5_plus]
+      end
+      final_tally.push(@five_year_rev)
+    end
+    final_tally
+    zipped_file = lawfirm_pgs.zip(final_tally)
+    @hash_file_accelerated = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+  end
+
+  def rev_by_year_by_pg_accelerated_low
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    final_tally =[]
+    lawfirm_pgs.each do |lf_pg|
+      rev_est_year1 = 0
+      rev_est_year2 = 0
+      rev_est_year3 = 0
+      rev_est_year4 = 0
+      rev_est_year5 = 0
+      current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
+        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast)) : next
+        if ca.fee.order(:created_at).last
+          if current_date.year == conclusion_date.year
+            rev_est_year1 += ca.fee.last.low_estimate
+          elsif current_date.year+1 == conclusion_date.year
+            rev_est_year2 += ca.fee.last.low_estimate
+          elsif current_date.year+2 == conclusion_date.year
+            rev_est_year3 += ca.fee.last.low_estimate
+          elsif current_date.year+3 == conclusion_date.year
+            rev_est_year4 += ca.fee.last.low_estimate
+          elsif current_date.year+4 >= conclusion_date.year
+            rev_est_year5_plus += ca.fee.last.low_estimate
+          end
+        else
+          next
+        end
+        @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5_plus]
+      end
+      final_tally.push(@five_year_rev)
+    end
+    final_tally
+    zipped_file = lawfirm_pgs.zip(final_tally)
+    @hash_file_accelerated_low = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+  end
+
+  def rev_by_year_by_pg_accelerated_high
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    final_tally =[]
+    lawfirm_pgs.each do |lf_pg|
+      rev_est_year1 = 0
+      rev_est_year2 = 0
+      rev_est_year3 = 0
+      rev_est_year4 = 0
+      rev_est_year5 = 0
+      current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
+        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast)) : next
+        if ca.fee.order(:created_at).last
+          if current_date.year == conclusion_date.year
+            rev_est_year1 += ca.fee.last.high_estimate
+          elsif current_date.year+1 == conclusion_date.year
+            rev_est_year2 += ca.fee.last.high_estimate
+          elsif current_date.year+2 == conclusion_date.year
+            rev_est_year3 += ca.fee.last.high_estimate
+          elsif current_date.year+3 == conclusion_date.year
+            rev_est_year4 += ca.fee.last.high_estimate
+          elsif current_date.year+4 >= conclusion_date.year
+            rev_est_year5_plus += ca.fee.last.high_estimate
+          end
+        else
+          next
+        end
+        @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5_plus]
+      end
+      final_tally.push(@five_year_rev)
+    end
+    final_tally
+    zipped_file = lawfirm_pgs.zip(final_tally)
+    @hash_file_accelerated_high = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+  end
+
+  def rev_by_year_by_pg_slow_high
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    final_tally =[]
+    lawfirm_pgs.each do |lf_pg|
+      rev_est_year1 = 0
+      rev_est_year2 = 0
+      rev_est_year3 = 0
+      rev_est_year4 = 0
+      rev_est_year5 = 0
+      current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
+        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow)) : next
+        if ca.fee.order(:created_at).last
+          if current_date.year == conclusion_date.year
+            rev_est_year1 += ca.fee.last.high_estimate
+          elsif current_date.year+1 == conclusion_date.year
+            rev_est_year2 += ca.fee.last.high_estimate
+          elsif current_date.year+2 == conclusion_date.year
+            rev_est_year3 += ca.fee.last.high_estimate
+          elsif current_date.year+3 == conclusion_date.year
+            rev_est_year4 += ca.fee.last.high_estimate
+          elsif current_date.year+4 >= conclusion_date.year
+            rev_est_year5 += ca.fee.last.high_estimate
+          end
+        else
+          next
+        end
+        @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5]
+      end
+      final_tally.push(@five_year_rev)
+    end
+    final_tally
+    zipped_file = lawfirm_pgs.zip(final_tally)
+    @hash_file_slow_high = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+  end
+
+  def rev_by_year_by_pg_slow_low
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    final_tally =[]
+    lawfirm_pgs.each do |lf_pg|
+      rev_est_year1 = 0
+      rev_est_year2 = 0
+      rev_est_year3 = 0
+      rev_est_year4 = 0
+      rev_est_year5 = 0
+      current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
+        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow)) : next
+        if ca.fee.order(:created_at).last
+          if current_date.year == conclusion_date.year
+            rev_est_year1 += ca.fee.last.low_estimate
+          elsif current_date.year+1 == conclusion_date.year
+            rev_est_year2 += ca.fee.last.low_estimate
+          elsif current_date.year+2 == conclusion_date.year
+            rev_est_year3 += ca.fee.last.low_estimate
+          elsif current_date.year+3 == conclusion_date.year
+            rev_est_year4 += ca.fee.last.low_estimate
+          elsif current_date.year+4 >= conclusion_date.year
+            rev_est_year5 += ca.fee.last.low_estimate
+          end
+        else
+          next
+        end
+        @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5]
+      end
+      final_tally.push(@five_year_rev)
+    end
+    final_tally
+    zipped_file = lawfirm_pgs.zip(final_tally)
+    @hash_file_slow_low = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+  end
+
+  def rev_by_year_by_pg_slow
+    lawfirm_pgs = Graph.user_practice_groups(current_user)
+    current_date = DateTime.now
+    @category_years = [current_date.year, current_date.year+1, current_date.year+2,
+                      current_date.year+3, current_date.year+4]
+    final_tally =[]
+    lawfirm_pgs.each do |lf_pg|
+      rev_est_year1 = 0
+      rev_est_year2 = 0
+      rev_est_year3 = 0
+      rev_est_year4 = 0
+      rev_est_year5 = 0
+      current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
+        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow)) : next
+        if ca.fee.order(:created_at).last
+          if current_date.year == conclusion_date.year
+            rev_est_year1 += ca.fee.last.medium_estimate
+          elsif current_date.year+1 == conclusion_date.year
+            rev_est_year2 += ca.fee.last.medium_estimate
+          elsif current_date.year+2 == conclusion_date.year
+            rev_est_year3 += ca.fee.last.medium_estimate
+          elsif current_date.year+3 == conclusion_date.year
+            rev_est_year4 += ca.fee.last.medium_estimate
+          elsif current_date.year+4 >= conclusion_date.year
+            rev_est_year5 += ca.fee.last.medium_estimate
+          end
+        else
+          next
+        end
+        @five_year_rev = [rev_est_year1, rev_est_year2, rev_est_year3, rev_est_year4, rev_est_year5]
+      end
+      final_tally.push(@five_year_rev)
+    end
+    final_tally
+    zipped_file = lawfirm_pgs.zip(final_tally)
+    @hash_file_slow = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+  end
+
 #---------------End Estimated/Expected Revenue by Year by PracticeGroup---------
 
 

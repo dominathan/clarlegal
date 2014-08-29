@@ -19,8 +19,9 @@ class StaffsController < ApplicationController
     @client = Client.find(params[:client_id])
     @case = Case.find(params[:case_id])
     @staff = @case.staff.new(staff_params)
-    @staff.staffing_id = Staffing.find_by(:full_name => staff_params[:name]).id
-    #this will cause problems when multiple last names enter the picture
+    @staff.staffing_id = current_user.lawfirm.staffings.find_by(last_name: params[:staff][:name].split(",").first,
+                                          first_name: params[:staff][:name].split(",").last.lstrip).id
+    #@staff.staffing_id will cause problems when a lawfirm has people witht the same first and last name
     if @staff.save
       flash[:success] = "Staff added sucessfully"
       #where should we go from here?

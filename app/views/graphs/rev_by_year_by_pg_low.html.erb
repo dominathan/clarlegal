@@ -6,10 +6,8 @@
         <br>
 
 
-        <div class='center'>
-        <%= link_to "High Gross Fee", revenue_by_year_practice_group_high_path, class: "btn btn-default btn-md" %>
-        <%= link_to "Middle Gross Fee", revenue_by_year_practice_group_path, class: "btn btn-default btn-md" %>
-        <%= link_to "Low Gross Fee", revenue_by_year_practice_group_low_path, class: "btn btn-default btn-md" %>
+        <div class="center">
+        <%= render 'shared/rev_by_pg_button_paths' %>
         </div>
     </div>
 </div>

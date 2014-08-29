@@ -1,0 +1,36 @@
+<div id="practice-group-revenue-buttons">
+  <div class="">
+    <div class="row">
+      <div class='col-lg-3'>
+       <h5>Expected Recovery Rate:</h5>
+      </div>
+      <div class='col-lg-9 btn-group'>
+        <%= link_to "Low Gross Fee", revenue_by_year_practice_group_low_path, class: "btn btn-default btn-md" %>
+        <%= link_to "Middle Gross Fee", revenue_by_year_practice_group_path, class: "btn btn-default btn-md" %>
+        <%= link_to "High Gross Fee", revenue_by_year_practice_group_high_path, class: "btn btn-default btn-md" %>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class='col-lg-3'>
+        <h5>Accelerated Recovery Rate:</h5>
+      </div>
+      <div class='col-lg-9 btn-group'>
+        <%= link_to "Low Gross Fee", revenue_by_year_accelerated_practice_group_low_path, class: "btn btn-default btn-md" %>
+        <%= link_to "Middle Gross Fee", revenue_by_year_accelerated_practice_group_path, class: "btn btn-default btn-md" %>
+        <%= link_to "High Gross Fee", revenue_by_year_accelerated_practice_group_high_path, class: "btn btn-default btn-md" %>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class='col-lg-3'>
+        <h5>Slow Recovery Rate:</h5>
+      </div>
+      <div class='col-lg-9 btn-group'>
+        <%= link_to "Low Gross Fee", revenue_by_year_slow_practice_group_low_path, class: "btn btn-default btn-md" %>
+        <%= link_to "Middle Gross Fee", revenue_by_year_slow_practice_group_path, class: "btn btn-default btn-md" %>
+        <%= link_to "High Gross Fee", revenue_by_year_slow_practice_group_high_path, class: "btn btn-default btn-md" %>
+      </div>
+    </div>
+  </div>
+</div>

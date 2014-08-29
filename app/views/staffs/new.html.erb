@@ -13,7 +13,8 @@
         <table class="table">
           <tr>
             <td><%= f.label "Name:" %></td>
-            <td><%=f.select(:name, current_user.lawfirm.staffings.all.collect! {|case_staff| case_staff.full_name }, :include_blank => "Select") %></td>
+            <td><%=f.select(:name, Staffing.all_full_name_last_first(current_user), :include_blank => "Select") %></td>
+
           </tr>
           <tr>
             <td><%= f.label "Position:" %></td>

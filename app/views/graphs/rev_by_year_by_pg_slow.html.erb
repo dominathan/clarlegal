@@ -2,34 +2,33 @@
 
 <div class="chart container">
     <div class="col-lg-10 col-lg-offset-2">
-        <div id="revenueByYearByPGHigh" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <div id="revenueByYearByPGSlow" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
         <br>
 
 
-       <div class="center">
+        <div class="center">
         <%= render 'shared/rev_by_pg_button_paths' %>
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
 var categoryYear = <%= @category_years %>;
-var seriesData = <%= raw @hash_file_high %>;
+var seriesData = <%= raw @hash_file_slow %>;
 
 
   $(function () {
-        $('#revenueByYearByPGHigh').highcharts({
+        $('#revenueByYearByPGSlow').highcharts({
             chart: {
                 type: 'column'
-            },
-            title: {
-                text: 'Expected Revenue by Year by Practice Group'
             },
             credits: {
                 enabled: false
             },
+            title: {
+                text: 'Expected Revenue by Year by Practice Group'
+            },
             subtitle: {
-                text: '(assuming expected recovery rate and high fees)'
+                text: 'Slow Recovery / Expected Fees'
             },
             xAxis: {
                 categories: categoryYear,

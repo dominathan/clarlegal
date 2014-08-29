@@ -18,7 +18,7 @@ class Staffing < ActiveRecord::Base
     user.lawfirm.staffings.each do |name|
       final_name_list << [name.last_name, name.first_name].compact.join(", ")
     end
-    final_name_list
+    final_name_list.sort
   end
 
 
