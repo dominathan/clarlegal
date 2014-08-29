@@ -48,6 +48,10 @@
             <td> <%= f.collection_select(:client_id, current_user.lawfirm.clients.order(:full_name).all, :id, :full_name, :include_blank => 'Select Client') %></td>
           </tr>
 
+          <tr>
+            <td><%= f.label "Notes and Description" %></td>
+            <td><%= f.text_area :description %></td>
+
         </table>
         <h2><%= link_to "New Client? Click Here", new_client_path %></h2>
         <hr>
