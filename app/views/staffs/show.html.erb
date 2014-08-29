@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= @staff.name %></td>
+      <td><%= Staffing.find_by(id: @staff.staffing_id).full_name %></td>
       <td><%= @staff.position %></td>
     </tr>
   </tbody>

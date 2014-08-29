@@ -17,7 +17,7 @@
     <% if @case.staff.present? %>
       <% @staff.order(:name).each do |staf| %>
         <tr>
-          <td><%= staf.name %></td>
+          <td><%= Staffing.find_by(id: staf.staffing_id).full_name %></td>
           <td><%= staf.position %></td>
           <td><%= staf.hours_expected %></td>
         </tr>

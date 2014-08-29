@@ -110,7 +110,7 @@ class CasesController < ApplicationController
                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
                                                           :low_estimate, :payment_likelihood, :retainer,
                                                           :cost_estimate, :referral],
-                                    :staffs_attributes => [:name, :position, :percent_utilization, :hours_expected,
+                                    :staffs_attributes => [:name, :position, :hours_expected, :staffing_id,
                                                            :hours_actual],
                                     :originations_attributes => [:new_referral_source, :referral_source, :source_description],
                                     :checks_attributes => [:conflict_check, :conflict_date, :referring_engagement_letter,

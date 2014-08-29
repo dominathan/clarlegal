@@ -19,8 +19,6 @@ class StaffsController < ApplicationController
     @client = Client.find(params[:client_id])
     @case = Case.find(params[:case_id])
     @staff = @case.staff.new(staff_params)
-    @staff.staffing_id = current_user.lawfirm.staffings.find_by(last_name: params[:staff][:name].split(",").first,
-                                          first_name: params[:staff][:name].split(",").last.lstrip).id
     #@staff.staffing_id will cause problems when a lawfirm has people witht the same first and last name
     if @staff.save
       flash[:success] = "Staff added sucessfully"
@@ -60,7 +58,7 @@ class StaffsController < ApplicationController
   private
 
     def staff_params
-      params.require(:staff).permit(:name, :position, :percent_utilization, :hours_expected, :hours_actual)
+      params.require(:staff).permit(:name, :staffing_id, :position, :percent_utilization, :hours_expected, :hours_actual)
     end
 
 end

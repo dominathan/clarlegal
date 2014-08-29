@@ -36,7 +36,7 @@ class Case < ActiveRecord::Base
       if stf.position == "Responsible Attorney" || stf.position == "Lead Attorney" ||
       stf.position == "Billing Attorney" || stf.position == "Billing Partner" ||
       stf.position == "Responsible Partner" || stf.position == "Lead Partner"
-        @lead_att = stf.name
+        @lead_att = Staffing.find_by(id: stf.staffing_id).full_name
       end
     end
     @lead_att
