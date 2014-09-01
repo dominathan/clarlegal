@@ -22,7 +22,7 @@
         <div class='row'>
           <div class='col-lg-9-offset-3'>
             <% flash.each do |key, value| %>
-              <div class="alert alert-<%= key %>"><%= value %></div>
+              <%= content_tag(:div, value, class: "alert alert-#{key}") %>
             <% end %>
             <%= yield %>
             <% if signed_in? %>
