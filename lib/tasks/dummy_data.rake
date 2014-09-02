@@ -205,17 +205,19 @@ namespace :db do
     head_atts = Staffing.where(position: "Responsible Attorney")
     head_atts_number = head_atts.length-1
     new_time = Time.local(2008,1,1,12,0,0)
+    hours_expected = Random.rand(1..30)*10
     Timecop.freeze(new_time)
     100.times do |n|
       this_head_attorney = head_atts[Random.rand(0..head_atts_number)]
       Staff.create!(case_id: n+1,
                     name: User.full_name_last_first(this_head_attorney),
                     position: 'Responsible Attorney',
-                    staffing_id: Staffing.find_by(id: this_head_attorney.id).id
-                    hours_expected: Random.rand(1..30)*10)
+                    staffing_id: Staffing.find_by(id: this_head_attorney.id).id,
+                    hours_expected: hours_expected)
       StaffCase.create!(case_id: n+1,
-                    staffing_id: Staffing.find_by(id: this_head_attorney.id).id
-                    hours_expected: Random.rand(1..30)*10)
+                    staffing_id: Staffing.find_by(id: this_head_attorney.id).id,
+                    hours_expected: hours_expected,
+                    current_case: true)
     end
     Timecop.return
   end
@@ -230,14 +232,16 @@ namespace :db do
       name = User.full_name_last_first(staff)
       position = staff.position
       case_id = Random.rand(1..100)
+      hours_expected = Random.rand(1..30)*10
       Staff.create!(case_id: case_id,
                     name: name,
                     position: position,
-                    hours_expected: Random.rand(1..30)*10,
+                    hours_expected: hours_expected,
                     staffing_id: Staffing.find_by(id: staff.id).id)
       StaffCase.create!(case_id: case_id,
-                    hours_expected: Random.rand(1..30)*10,
-                    staffing_id: Staffing.find_by(id: staff.id).id)
+                    hours_expected: hours_expected,
+                    staffing_id: Staffing.find_by(id: staff.id).id,
+                    current_case: true)
     end
     Timecop.return
   end
@@ -320,9 +324,9 @@ namespace :db do
     Timecop.return
   end
 
-  desc 'randomly update Case Staff Hours(actual&&expected) over time'
+  desc 'randomly update Case Staff Hours(actual) over time (500 times)'
   task populate: :environment do
-     100.times do |n|
+     500.times do |n|
       new_time = Time.local(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28),12,0,0)
       Timecop.freeze(new_time)
       id = Random.rand(1..300)
@@ -330,9 +334,14 @@ namespace :db do
       Staff.find_by(id: id).update_attributes(hours_actual: hours_actual)
       StaffCase.create!(case_id: Staff.find_by(id: id).case_id,
                         hours_actual: hours_actual,
-                        staffing_id: Staff.find_by(id: id).staffing_id)
+                        staffing_id: Staff.find_by(id: id).staffing_id,
+                        current_case: true)
     end
     Timecop.return
+    Staff.all.each do |stf|
+      hours_actual = stf.hours_actual
+      stf.update_attributes(hours_actual: hours_actual)
+    end
   end
 
 

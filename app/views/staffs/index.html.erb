@@ -17,7 +17,7 @@
   </thead>
   <tbody>
     <% if @case.staff.present? %>
-      <% @staff.order(:name).each do |staf| %>
+      <% @staff.order(:name,:updated_at).each do |staf| %>
         <tr>
           <td><%= Staffing.find_by(id: staf.staffing_id).full_name %></td>
           <td><%= staf.position %></td>
@@ -36,3 +36,67 @@
 <div class='center'>
   <p><%= link_to "Add More Staff", new_client_case_staff_path(@client,@case) %></p>
 </div>
+
+<div id='actualVersusExpectedPie' style="min-width: 310px;
+                                      height: 600px; width: 600px;
+                                      max-width: 600px;
+                                       margin: 0 auto">
+</div>
+
+<script type="text/javascript">
+$(function () {
+
+  var actualHours = <%= raw ["Actual Hours", @actual_hours] %>
+  var expectedHours = <%= raw ["Expected Hours", @expected_hours ] %>
+  var actualViaPercentage = (actualHours * (actualHours + expectedHours)) / expectedHours
+  var expectedViaPercentage = actualHours + expectedHours
+
+    Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+            return {
+                radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+                stops: [
+                    [0, color],
+                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                ]
+            };
+        });
+
+    $('#actualVersusExpectedPie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: "Actual Hours vs. Expected Hours"
+        },
+        tooltip: {
+          pointFormat: 'Hours: <b>{point.y}</b>'
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}: {point.y}</b>',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    },
+                    connectorColor: 'silver'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: "Practice Group",
+            data: [actualHours, expectedHours]
+        }]
+    });
+});
+
+</script>
+

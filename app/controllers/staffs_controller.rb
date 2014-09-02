@@ -5,6 +5,10 @@ class StaffsController < ApplicationController
     @client = Client.find(params[:client_id])
     @case = Case.find(params[:case_id])
     @staff = @case.staff
+    #to create pie chart of actual vs expected
+    @actual_hours = StaffCase.case_total_hours_actual(@case.id)
+    @expected_hours = StaffCase.case_total_hours_expected(@case.id)
+
   end
 
 

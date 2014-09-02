@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     def belongs_to_firm
       unless current_user.lawfirm
         redirect_to new_user_lawfirm_path(current_user.id)
-        flash[:error] = "You must join or create a lawfirm."
+        flash[:danger] = "You must join or create a lawfirm."
       end
     end
 
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     def signed_in_user
       unless signed_in?
         store_location
-        redirect_to signin_url, :flash => { :error => "You must sign in."}
+        redirect_to signin_url, :flash => { :danger => "You must sign in."}
       end
     end
 

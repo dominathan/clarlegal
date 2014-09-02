@@ -27,7 +27,7 @@ class StaffCase < ActiveRecord::Base
     hours_actual
   end
 
-  #this is to collect hours actually worked for a specific case
+  #this is to collect hours expected to be worked for a specific case
   def self.case_total_hours_expected(case_id)
     hours_expected = 0
     staff_ids  = StaffCase.where(current_case: true, case_id: case_id).collect(&:staffing_id).uniq
@@ -41,6 +41,33 @@ class StaffCase < ActiveRecord::Base
       end
     end
     hours_expected
+  end
+
+  #collect datetimes of all updates to a particular case
+  def self.all_case_updates(case_id)
+    StaffCase.where(case_id: case_id).collect(&:updated_at).uniq.sort
+  end
+
+  #collect actual hours and expected hours based on self.all_case_updates
+  def self.actual_expected_hours_over_time(case_id)
+    actual_list = []
+    expected_list = []
+    update_list = StaffCase.all_case_updates(case_id)
+    for date_time in update_list
+      actual_hours = 0
+      expected_hours = 0
+      StaffCase.where(case_id: case_id, updated_at: date_time).each do |stf|
+        actual_hours += stf.actual_hours
+        expected_hours += stf.expected_hours
+      end
+      actual_list << actual_hours
+      expected_list << expected_hours
+    end
+    #--------------fix--------------------
+    actual_list = actual_list.prepend('Actual Hours')
+    expected_list = expected_list.prepend('Expected Hours')
+    @hash_file = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+    #--------------fix--------------------
   end
 
 end
