@@ -208,7 +208,8 @@ namespace :db do
       this_head_attorney = head_atts[Random.rand(0..head_atts_number)]
       Staff.create!(case_id: n+1,
                     name: User.full_name_last_first(this_head_attorney),
-                    position: 'Responsible Attorney')
+                    position: 'Responsible Attorney',
+                    staffing_id: Staffing.find_by(id: this_head_attorney.id).id)
     end
   end
 
@@ -222,7 +223,8 @@ namespace :db do
       Staff.create!(case_id: Random.rand(1..100),
                     name: name,
                     position: position,
-                    hours_expected: Random.rand(1..30)*10)
+                    hours_expected: Random.rand(1..30)*10,
+                    staffing_id: Staffing.find_by(id: staff.id).id)
     end
   end
 
