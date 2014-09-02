@@ -18,13 +18,18 @@ class CasesController < ApplicationController
 
   def create_case
     @case = Case.new(case_params)
+    #add a newcourt unless user selects from dropdown list
     @case.court = params[:case][:new_court] unless params[:case][:new_court].empty?
+    #add a new judge unless user selects from dropdown list
     @case.judge = params[:case][:new_judge] unless params[:case][:new_judge].empty?
+    #add a new attorney unless user selects from dropdown list
     @case.opposing_attorney = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
+    #add new type_of_matter to user lawfirm CaseType unless empty
     unless params[:case][:new_type_of_matter].empty?
       @case.type_of_matter = params[:case][:new_type_of_matter]
       @new_matref = CaseType.create!(mat_ref: params[:case][:new_type_of_matter], lawfirm_id: current_user.lawfirm.id)
     end
+    #add new practice group to user lawfirm practicegroups unless :new_practice_group is empty
     unless params[:case][:new_practice_group].empty?
       @case.practice_group = params[:case][:new_practice_group]
       @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id)
@@ -34,6 +39,12 @@ class CasesController < ApplicationController
     end
     if @case.save
       Closeout.open_case(@case)
+      #add all staff to StaffCase DB as Master List
+      @staff_list = params[:case][:staffs_attributes].values
+      case_id = @case.id
+      binding.pry
+      StaffCase.add_to_staff_master_list(@staff_list,case_id)
+      #add new_originations to originations db unless user did not input a new origination source
       unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
         @new_origination = Origination.create!(referral_source: params[:case][:originations_attributes]["0"][:new_referral_source],
                                               case_id: @case.id,

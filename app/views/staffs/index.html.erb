@@ -2,7 +2,7 @@
 
 <%= render 'shared/subheader' %>
 
-<h1>Case Staff</h1>
+<h2>Case Staff</h2>
 
 <table class="table table-hover sortable">
   <thead>
@@ -10,7 +10,9 @@
       <th>Name</th>
       <th>Position</th>
       <th>Expected Total Hours</th>
+      <th>Actual Total Hours</th>
       <th>Edit</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -19,7 +21,10 @@
         <tr>
           <td><%= Staffing.find_by(id: staf.staffing_id).full_name %></td>
           <td><%= staf.position %></td>
-          <td><%= staf.hours_expected %></td>
+          <td><%= staf.hours_expected ? staf.hours_expected : "" %></td>
+          <td><%= staf.hours_actual ? staf.hours_actual : "" %></td>
+          <td><%= link_to 'Update', edit_client_case_staff_path(@client,@case,staf) %></td>
+          <td><%= link_to 'Remove', client_case_staff_path(@client,@case,staf), method: :delete, data: { confirm: "Remove #{Staffing.find_by(id: staf.staffing_id).full_name}?" }%></td>
         </tr>
       <% end %>
     <% else %>
