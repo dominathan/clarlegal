@@ -42,7 +42,6 @@ class CasesController < ApplicationController
       #add all staff to StaffCase DB as Master List
       @staff_list = params[:case][:staffs_attributes].values
       case_id = @case.id
-      binding.pry
       StaffCase.add_to_staff_master_list(@staff_list,case_id)
       #add new_originations to originations db unless user did not input a new origination source
       unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
