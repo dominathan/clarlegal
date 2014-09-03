@@ -57,16 +57,22 @@ class StaffCase < ActiveRecord::Base
       actual_hours = 0
       expected_hours = 0
       StaffCase.where(case_id: case_id, updated_at: date_time).each do |stf|
-        actual_hours += stf.actual_hours
-        expected_hours += stf.expected_hours
+        if stf.hours_actual
+          actual_hours += stf.hours_actual
+        end
+        if stf.hours_expected
+          expected_hours += stf.hours_expected
+        end
       end
       actual_list << actual_hours
-      expected_list << expected_hours
+      #expected_list << expected_hours
+      binding.pry
     end
+    return [actual_list.prepend("Actual Hours"),expected_hours.prepend("Expected Hours")]
     #--------------fix--------------------
-    actual_list = actual_list.prepend('Actual Hours')
-    expected_list = expected_list.prepend('Expected Hours')
-    @hash_file = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
+    #actual_list = actual_list.prepend('Actual Hours')
+    #expected_list = expected_list.prepend('Expected Hours')
+    #@hash_file = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
     #--------------fix--------------------
   end
 
