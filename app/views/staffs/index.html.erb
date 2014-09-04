@@ -37,63 +37,70 @@
   <p><%= link_to "Add More Staff", new_client_case_staff_path(@client,@case) %></p>
 </div>
 
-<div id='actualVersusExpectedPie' style="min-width: 310px;
+<div id='actualVersusExpectedBar' style="min-width: 310px;
                                       height: 600px; width: 600px;
                                       max-width: 600px;
                                        margin: 0 auto">
 </div>
 
 <script type="text/javascript">
+
+  var expectedHours = <%= @expected_hours %>;
+  var actualHours = <%= @actual_hours %>;
+  var categories = "<%= "#{@last_update}" %>";
 $(function () {
-
-  var actualHours = <%= raw ["Actual Hours", @actual_hours] %>
-  var expectedHours = <%= raw ["Expected Hours", @expected_hours ] %>
-  var actualViaPercentage = (actualHours * (actualHours + expectedHours)) / expectedHours
-  var expectedViaPercentage = actualHours + expectedHours
-
-    Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
-            return {
-                radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
-                stops: [
-                    [0, color],
-                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-                ]
-            };
-        });
-
-    $('#actualVersusExpectedPie').highcharts({
+    $('#actualVersusExpectedBar').highcharts({
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false
+            type: 'column'
         },
         title: {
-            text: "Actual Hours vs. Expected Hours"
+            text: 'Actual vs Expected Hours'
+        },
+        subtitle: {
+            text: 'as of last update'
+        },
+        xAxis: {
+            categories: ['Last Updated: '+ categories]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Hours'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }
         },
         tooltip: {
-          pointFormat: 'Hours: <b>{point.y}</b>'
-        },
-        credits: {
-            enabled: false
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+            }
         },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
+            column: {
+                stacking: 'normal',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}: {point.y}</b>',
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
                     style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    },
-                    connectorColor: 'silver'
+                        textShadow: '0 0 3px black, 0 0 3px black'
+                    }
                 }
             }
         },
         series: [{
-            type: 'pie',
-            name: "Practice Group",
-            data: [actualHours, expectedHours]
+            name: 'Remaining',
+            data: [expectedHours-actualHours]
+        }, {
+            name: 'Actual Hours',
+            data: [actualHours]
+
         }]
     });
 });

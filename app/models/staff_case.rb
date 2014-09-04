@@ -43,6 +43,11 @@ class StaffCase < ActiveRecord::Base
     hours_expected
   end
 
+  #get the very last update of a specific case, used in staffs_controller#index
+  def self.case_last_update(case_id)
+    StaffCase.where(current_case: true, case_id: case_id).order(:updated_at).last.updated_at.strftime("%b %d, %y")
+  end
+
   #collect datetimes of all updates to a particular case
   def self.all_case_updates(case_id)
     StaffCase.where(case_id: case_id).collect(&:updated_at).uniq.sort

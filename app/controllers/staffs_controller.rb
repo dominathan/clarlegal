@@ -8,7 +8,7 @@ class StaffsController < ApplicationController
     #to create pie chart of actual vs expected
     @actual_hours = StaffCase.case_total_hours_actual(@case.id)
     @expected_hours = StaffCase.case_total_hours_expected(@case.id)
-
+    @last_update = StaffCase.case_last_update(@case.id)
   end
 
 
