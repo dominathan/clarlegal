@@ -59,6 +59,8 @@ class StaffCase < ActiveRecord::Base
     expected_list = []
     update_list = StaffCase.all_case_updates(case_id)
     for date_time in update_list
+      delta = 0
+      current_datetime_position = 0
       actual_hours = 0
       expected_hours = 0
       StaffCase.where(case_id: case_id, updated_at: date_time).each do |stf|
@@ -73,12 +75,6 @@ class StaffCase < ActiveRecord::Base
       #expected_list << expected_hours
       binding.pry
     end
-    return [actual_list.prepend("Actual Hours"),expected_hours.prepend("Expected Hours")]
-    #--------------fix--------------------
-    #actual_list = actual_list.prepend('Actual Hours')
-    #expected_list = expected_list.prepend('Expected Hours')
-    #@hash_file = zipped_file.map {|name,values| {'name' => name, 'data'  => values } }.to_json
-    #--------------fix--------------------
   end
 
 end
