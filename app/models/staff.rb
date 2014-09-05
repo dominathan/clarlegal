@@ -5,6 +5,7 @@ class Staff < ActiveRecord::Base
   # validates :case_id, presence: true
   # validates :staffing_id, presence: true
 
+  #this is to collect hours actually worked for a specific case
   def self.case_total_hours_actual(case_id)
     hours_actual = 0
     staff_ids  = Staff.where(case_id: case_id).collect(&:staffing_id).uniq

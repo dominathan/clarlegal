@@ -207,6 +207,7 @@ namespace :db do
     head_atts = Staffing.find_by(id: 1)
     new_time = Time.local(2008,1,1,12,0,0)
     hours_expected = Random.rand(1..30)*10
+    hours_actual = 0
     Timecop.freeze(new_time)
     100.times do |n|
       this_head_attorney = head_atts
@@ -214,10 +215,12 @@ namespace :db do
                     name: this_head_attorney.full_name,
                     position: this_head_attorney.position,
                     staffing_id: 1,
+                    hours_actual: hours_actual,
                     hours_expected: hours_expected)
       StaffCase.create!(case_id: n+1,
                     staffing_id: Staffing.find_by(id: this_head_attorney.id).id,
                     hours_expected: hours_expected,
+                    hours_actual: hours_actual,
                     current_case: true)
     end
     Timecop.return
@@ -233,16 +236,24 @@ namespace :db do
       name = User.full_name_last_first(staff)
       position = staff.position
       case_id = Random.rand(1..100)
+      hours_actual = 0
       hours_expected = Random.rand(1..30)*10
-      Staff.create!(case_id: case_id,
-                    name: name,
-                    position: position,
-                    hours_expected: hours_expected,
-                    staffing_id: Staffing.find_by(id: staff.id).id)
-      StaffCase.create!(case_id: case_id,
-                    hours_expected: hours_expected,
-                    staffing_id: Staffing.find_by(id: staff.id).id,
-                    current_case: true)
+      case_staff_list = Case.find_by(id: case_id).staff.collect(&:staffing_id)
+      if !case_staff_list.include?(staff.id)
+        Staff.create!(case_id: case_id,
+                      name: name,
+                      position: position,
+                      hours_expected: hours_expected,
+                      hours_actual: hours_actual,
+                      staffing_id: Staffing.find_by(id: staff.id).id)
+        StaffCase.create!(case_id: case_id,
+                      hours_actual: hours_actual,
+                      hours_expected: hours_expected,
+                      staffing_id: Staffing.find_by(id: staff.id).id,
+                      current_case: true)
+      else
+        next
+      end
     end
     Timecop.return
   end
@@ -327,16 +338,106 @@ namespace :db do
 
   desc 'randomly update Case Staff Hours(actual) over time (500 times)'
   task populate: :environment do
-     500.times do |n|
-      new_time = Time.local(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28),12,0,0)
+     50.times do |n|
+      new_time = Time.local(2008,1,1,12,0,0)
       Timecop.freeze(new_time)
-      id = Random.rand(1..300)
-      hours_actual = Random.rand(1..20)*10
+      id = Random.rand(1..200)
+      hours_actual = Random.rand(1..2)*10
       stf = Staff.find_by(id: id)
       hours_expected = stf.hours_expected
-      stf.update_attributes(hours_actual: hours_actual, hours_expected: hours_expected)
+      stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
       StaffCase.create!(case_id: Staff.find_by(id: id).case_id,
-                        hours_actual: hours_actual,
+                        hours_actual: stf.hours_actual,
+                        hours_expected: hours_expected,
+                        staffing_id: Staff.find_by(id: id).staffing_id,
+                        current_case: true)
+    end
+    Timecop.return
+    50.times do |n|
+      new_time = Time.local(2009,1,1,12,0,0)
+      Timecop.freeze(new_time)
+      id = Random.rand(1..200)
+      hours_actual = Random.rand(1..2)*10
+      stf = Staff.find_by(id: id)
+      hours_expected = stf.hours_expected
+      stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
+      StaffCase.create!(case_id: Staff.find_by(id: id).case_id,
+                        hours_actual: stf.hours_actual,
+                        hours_expected: hours_expected,
+                        staffing_id: Staff.find_by(id: id).staffing_id,
+                        current_case: true)
+    end
+    Timecop.return
+    50.times do |n|
+      new_time = Time.local(2010,1,1,12,0,0)
+      Timecop.freeze(new_time)
+      id = Random.rand(1..200)
+      hours_actual = Random.rand(1..2)*10
+      stf = Staff.find_by(id: id)
+      hours_expected = stf.hours_expected
+      stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
+      StaffCase.create!(case_id: Staff.find_by(id: id).case_id,
+                        hours_actual: stf.hours_actual,
+                        hours_expected: hours_expected,
+                        staffing_id: Staff.find_by(id: id).staffing_id,
+                        current_case: true)
+    end
+    Timecop.return
+    50.times do |n|
+      new_time = Time.local(2011,1,1,12,0,0)
+      Timecop.freeze(new_time)
+      id = Random.rand(1..200)
+      hours_actual = Random.rand(1..2)*10
+      stf = Staff.find_by(id: id)
+      hours_expected = stf.hours_expected
+      stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
+      StaffCase.create!(case_id: Staff.find_by(id: id).case_id,
+                        hours_actual: stf.hours_actual,
+                        hours_expected: hours_expected,
+                        staffing_id: Staff.find_by(id: id).staffing_id,
+                        current_case: true)
+    end
+    Timecop.return
+    50.times do |n|
+      new_time = Time.local(2012,1,1,12,0,0)
+      Timecop.freeze(new_time)
+      id = Random.rand(1..200)
+      hours_actual = Random.rand(1..2)*10
+      stf = Staff.find_by(id: id)
+      hours_expected = stf.hours_expected
+      stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
+      StaffCase.create!(case_id: Staff.find_by(id: id).case_id,
+                        hours_actual: stf.hours_actual,
+                        hours_expected: hours_expected,
+                        staffing_id: Staff.find_by(id: id).staffing_id,
+                        current_case: true)
+    end
+    Timecop.return
+    50.times do |n|
+      new_time = Time.local(2013,1,1,12,0,0)
+      Timecop.freeze(new_time)
+      id = Random.rand(1..200)
+      hours_actual = Random.rand(1..2)*10
+      stf = Staff.find_by(id: id)
+      hours_expected = stf.hours_expected
+      stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
+      StaffCase.create!(case_id: Staff.find_by(id: id).case_id,
+                        hours_actual: stf.hours_actual,
+                        hours_expected: hours_expected,
+                        staffing_id: Staff.find_by(id: id).staffing_id,
+                        current_case: true)
+    end
+    Timecop.return
+    50.times do |n|
+      new_time = Time.local(2014,1,1,12,0,0)
+      Timecop.freeze(new_time)
+      id = Random.rand(1..200)
+      hours_actual = Random.rand(1..2)*10
+      stf = Staff.find_by(id: id)
+      hours_expected = stf.hours_expected
+      stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
+      StaffCase.create!(case_id: Staff.find_by(id: id).case_id,
+                        hours_actual: stf.hours_actual,
                         hours_expected: hours_expected,
                         staffing_id: Staff.find_by(id: id).staffing_id,
                         current_case: true)

@@ -11,38 +11,6 @@ class StaffCase < ActiveRecord::Base
     end
   end
 
-  #this is to collect hours actually worked for a specific case
-  def self.case_total_hours_actual(case_id)
-    hours_actual = 0
-    staff_ids  = StaffCase.where(current_case: true, case_id: case_id).collect(&:staffing_id).uniq
-    for id in staff_ids
-      if StaffCase.where(current_case: true, case_id: case_id,
-                        staffing_id: id).order(:updated_at).last.hours_actual != nil
-        hours_actual += StaffCase.where(current_case: true, case_id: case_id,
-                                      staffing_id: id).order(:updated_at).last.hours_actual
-      else
-        next
-      end
-    end
-    hours_actual
-  end
-
-  #this is to collect hours expected to be worked for a specific case
-  def self.case_total_hours_expected(case_id)
-    hours_expected = 0
-    staff_ids  = StaffCase.where(current_case: true, case_id: case_id).collect(&:staffing_id).uniq
-    for id in staff_ids
-      if StaffCase.where(current_case: true, case_id: case_id,
-                        staffing_id: id).order(:updated_at).last.hours_expected != nil
-        hours_expected += StaffCase.where(current_case: true, case_id: case_id,
-                                      staffing_id: id).order(:updated_at).last.hours_expected
-      else
-        next
-      end
-    end
-    hours_expected
-  end
-
   #get the very last update of a specific case, used in staffs_controller#index
   def self.case_last_update(case_id)
     StaffCase.where(current_case: true, case_id: case_id).order(:updated_at).last.updated_at.strftime("%b %d, %y")
@@ -53,28 +21,45 @@ class StaffCase < ActiveRecord::Base
     StaffCase.where(case_id: case_id).collect(&:updated_at).uniq.sort
   end
 
+  def self.staffing_actual_hours_over_time(case_id)
+  end
+
   #collect actual hours and expected hours based on self.all_case_updates
   def self.actual_expected_hours_over_time(case_id)
     actual_list = []
     expected_list = []
     update_list = StaffCase.all_case_updates(case_id)
+    current_datetime_position = 0
     for date_time in update_list
       delta = 0
-      current_datetime_position = 0
       actual_hours = 0
       expected_hours = 0
       StaffCase.where(case_id: case_id, updated_at: date_time).each do |stf|
         if stf.hours_actual
           actual_hours += stf.hours_actual
         end
-        if stf.hours_expected
-          expected_hours += stf.hours_expected
-        end
+        # if stf.hours_expected
+        #   expected_hours += stf.hours_expected
+        # end
       end
       actual_list << actual_hours
-      #expected_list << expected_hours
       binding.pry
+      if current_datetime_position == 0
+        delta =  actual_list[0]
+      else
+        delta = actual_list[current_datetime_position] - actual_list[current_datetime_position - 1]
+        if delta > 0
+          actual_list[current_datetime_position] = actual_list[current_datetime_position - 1] + delta
+          binding.pry
+        end
+      #expected_list << expected_hours
+      end
+      binding.pry
+      current_datetime_position += 1
     end
+    actual_list
   end
+
+
 
 end
