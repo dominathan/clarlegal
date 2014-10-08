@@ -38,9 +38,9 @@ namespace :db do
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
-    User.create!(first_name: "Jim",
-                  last_name: "Kingman",
-                 email: "kingman@test.com",
+    User.create!(first_name: "Lauren",
+                  last_name: "Parkkkkkkkkey",
+                 email: "lauren@test.com",
                  password: "password",
                  password_confirmation: "password",
                  lawfirm_id: 1)
