@@ -18,7 +18,7 @@ describe "Authentication" do
       before { click_button "Sign in" }
 
       it { should have_title('Sign in') }
-      it { should have_selector('div.alert.alert-error') }
+      it { should have_selector('div.alert.alert-danger') }
 
       describe "after visiting another page" do
         before { click_link "Home" }
@@ -30,7 +30,7 @@ describe "Authentication" do
       before { click_button "Sign in" }
 
       it { should have_title('Sign in') }
-      it { should have_selector('div.alert.alert-error') }
+      it { should have_selector('div.alert.alert-danger') }
     end
 
     describe "with valid information" do
