@@ -1,0 +1,49 @@
+<% provide(:title, 'Overhead') %>
+
+<h2>Overhead Calculation</h2>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <%= form_for(@overhead, url: {action: "update"}) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+
+        <table class='table'>
+          <tr>
+            <td><%= f.label "Rent Expense:" %></td>
+            <td><%= f.text_field :rent %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Utiliy Cost:" %></td>
+            <td><%= f.text_field :utilities %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Guaranteed Salaries:" %></td>
+            <td><%= f.text_field :guaranteed_salaries %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Hard Costs:" %></td>
+            <td><%= f.text_field :hard_costs %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Other:" %></td>
+            <td><%= f.text_field :other %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Expected Billable Hours per Lawyer" %></td>
+            <td><%= f.text_field :billable_hours_per_lawyer %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "Number of Billable Staff" %></td>
+            <td><%= f.text_field :number_of_billable_staff %></td>
+          </tr>
+        </table>
+
+        <div class="center">
+          <%= f.submit "Update", class: "btn btn-large btn-primary" %>
+        </div>
+        <% end %>
+
+    </div>
+  </div>
+</div>

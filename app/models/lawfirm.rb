@@ -6,6 +6,7 @@ class Lawfirm < ActiveRecord::Base
   has_many :cases, through: :clients
   has_many :case_types
   has_many :originations, through: :cases
+  has_many :overheads
 
   validates :firm_name, presence: true, uniqueness: { case_sensitive: false }
   has_secure_password

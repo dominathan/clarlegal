@@ -31,6 +31,7 @@ group :development, :test do
   gem 'railroady'
   gem 'pry'
   gem 'jazz_hands'
+  gem 'hirb', '0.7.2'
 end
 
 group :test do
@@ -51,7 +52,6 @@ gem 'sprockets', '2.11.0'
 gem 'bcrypt-ruby', '3.1.2'
 
 #for easy database viewing
-gem 'hirb', '0.7.2'
 
 #for searching
 gem 'mysql2', '0.3.16'

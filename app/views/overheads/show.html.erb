@@ -1,0 +1,33 @@
+<% provide(:title, "Overhead") %>
+
+<h2>Overhead</h2>
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th>Rent</th>
+      <th>Utilities</th>
+      <th>Guaranteed Salary</th>
+      <th>Hard Costs</th>
+      <th>Other</th>
+      <th>Expected Billable Hours per Lawyer</th>
+      <th>Number of Billable Staff</th>
+      <th>Overhead Rate per Hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= number_to_currency(@overhead.rent,precision: 0)%></td>
+      <td><%= number_to_currency(@overhead.utilities,precision: 0)%></td>
+      <td><%= number_to_currency(@overhead.guaranteed_salaries,precision: 0)%></td>
+      <td><%= number_to_currency(@overhead.hard_costs,precision: 0)%></td>
+      <td><%= number_to_currency(@overhead.other,precision: 0)%></td>
+      <td><%= @overhead.billable_hours_per_lawyer%></td>
+      <td><%= @overhead.number_of_billable_staff || current_user.lawfirm.staffings.count %></td>
+      <td><%= number_to_currency(@overhead.rate_per_hour,precision: 2)%></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class='center'>
+   <p> <%= link_to 'Update Overhead', edit_user_lawfirm_overhead_path(current_user,current_user.lawfirm, @overhead), class: 'btn btn-md btn-primary' %></p>
+</div>

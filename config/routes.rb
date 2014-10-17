@@ -7,6 +7,7 @@ Claregal::Application.routes.draw do
       resources :practicegroups
       resources :staffings
       resources :case_types
+      resources :overheads
     end
   end
 
