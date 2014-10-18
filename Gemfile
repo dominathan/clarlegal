@@ -28,10 +28,11 @@ gem 'timecop', '0.7.1' #remote time travel
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
-  gem 'railroady'
-  gem 'pry'
-  gem 'jazz_hands'
-  gem 'hirb', '0.7.2'
+  gem 'railroady' #road map of
+  gem 'pry' #debugging
+  gem 'jazz_hands' #easy railsconsole viewing
+  gem 'hirb', '0.7.2' #easy railsconsole viewing
+  gem 'quiet_assets', '1.0.3' #removes all that logger shit about assets
 end
 
 group :test do
@@ -50,8 +51,6 @@ gem 'sprockets', '2.11.0'
 
 #for password validation
 gem 'bcrypt-ruby', '3.1.2'
-
-#for easy database viewing
 
 #for searching
 gem 'mysql2', '0.3.16'

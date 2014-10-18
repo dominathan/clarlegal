@@ -54,6 +54,8 @@
   var grossFee = <%= [@profitability[0], @avg_profitability[0]] %>;
   var directExpenses = <%= [@profitability[1]*-1, @avg_profitability[1]*-1] %>;
   var netFee = <%= [@profitability[2],@avg_profitability[2]] %>;
+  var indirectExpenses = <%= [@profitability[3]*-1, @avg_profitability[3]*-1] %>;
+  var netProfit = <%= [@profitability[4],@avg_profitability[4]] %>;
 
  $(function () {
   // Create the chart
@@ -95,6 +97,12 @@
       }, {
           name: 'Net Fee',
           data: netFee
+      }, {
+          name: 'Indirect Expenses',
+          data: indirectExpenses
+      }, {
+          name: 'Profit',
+          data: netProfit
       }],
   });
 });

@@ -33,14 +33,29 @@ class Client < ActiveRecord::Base
       profit[0] += ca.closeouts.last.total_gross_fee_received
       profit[1] += ca.closeouts.last.total_out_of_pocket_expenses
       profit[1] += ca.closeouts.last.referring_fees_paid
-      #return to calculated indirect expenses once overhead calculation is included
+      profit[3] += Client.actual_hours_worked_per_case(ca)
     end
     profit[2] = profit[0] - profit[1]
+    #client.user.lawfirm.overheads.last.rate_per_hour
+    #it will need to multiply the hours during the year inwhich the hours occurred by
+    #the overhead cost during that particular year
+    profit[3] = (profit[3] * client.user.lawfirm.overheads.last.rate_per_hour).round(0)
+    profit[4] = profit[2] - profit[3]
     return profit
   end
 
-  #return the average profitability of all clients for the lawfirm
-    #doing this because highcharts.js does not like a single array category
+  #calculate the overhead costs of the case using the overhead rate of a given year
+    #will need to add year functionality if we are going that route
+  def self.actual_hours_worked_per_case(casename)
+    sumtotal = 0
+    casename.staffs.each do |staff|
+      sumtotal += staff.hours_actual
+    end
+    return sumtotal
+  end
+
+  #return the average profitability of all clients for a user's lawfirm
+    #doing this because highcharts.js does not like a single array category for barcharts
   def self.all_client_profitability(user)
     all_client_profits = []
     client_list = user.lawfirm.clients
