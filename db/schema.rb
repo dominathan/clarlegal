@@ -16,22 +16,6 @@ ActiveRecord::Schema.define(version: 20141021185219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "analyze_settlements", force: true do |t|
-    t.string   "case_type"
-    t.float    "best_case_prob"
-    t.float    "likely_case_prob"
-    t.float    "worst_case_prob"
-    t.integer  "best_case_high"
-    t.integer  "best_case_low"
-    t.integer  "likely_case_high"
-    t.integer  "likely_case_low"
-    t.integer  "worst_case_high"
-    t.integer  "worst_case_low"
-    t.integer  "legal_fees"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "billings", force: true do |t|
     t.string   "name"
     t.string   "street_address"
