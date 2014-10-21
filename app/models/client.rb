@@ -36,22 +36,27 @@ class Client < ActiveRecord::Base
       profit[3] += Client.actual_hours_worked_per_case(ca)
     end
     profit[2] = profit[0] - profit[1]
-    #client.user.lawfirm.overheads.last.rate_per_hour
-    #it will need to multiply the hours during the year inwhich the hours occurred by
-    #the overhead cost during that particular year
-    profit[3] = (profit[3] * client.user.lawfirm.overheads.last.rate_per_hour).round(0)
     profit[4] = profit[2] - profit[3]
     return profit
   end
 
   #calculate the overhead costs of the case using the overhead rate of a given year
-    #will need to add year functionality if we are going that route
+  # if no overhead given by lawfirm for the year the hours were worked, then the average overhead rate for all years is used
   def self.actual_hours_worked_per_case(casename)
+    overhead_rates = casename.client.user.lawfirm.overheads.all.collect!(&:rate_per_hour)
+    overhead_years = casename.client.user.lawfirm.overheads.all.collect!(&:year)
+    avg_overhead_rate = overhead_rates.inject{|sum,el| sum+el}.to_f/overhead_rates.size
     sumtotal = 0
     casename.staffs.each do |staff|
-      sumtotal += staff.hours_actual
+      hours_actual = staff.hours_actual
+      year_worked = staff.updated_at.year
+      if overhead_years.include?(year_worked)
+        sumtotal += hours_actual * casename.client.user.lawfirm.overheads.where(year: year_worked).first.rate_per_hour
+      else
+        sumtotal += hours_actual * avg_overhead_rate
+      end
     end
-    return sumtotal
+    return sumtotal.round
   end
 
   #return the average profitability of all clients for a user's lawfirm
@@ -70,7 +75,6 @@ class Client < ActiveRecord::Base
         profit[3] += Client.actual_hours_worked_per_case(ca)
       end
       profit[2] = profit[0] - profit[1]
-      profit[3] = (profit[3] * cl.user.lawfirm.overheads.last.rate_per_hour).round(0)
       profit[4] = profit[2] - profit[3]
       all_client_profits << profit
     end
