@@ -445,6 +445,24 @@ namespace :db do
     Timecop.return
   end
 
+  desc 'add overhead to lawfirm 2008-2014'
+  task populate: :environment do
+    7.times do |n|
+      year = 2008 + n
+      rent = Random.rand(500000..1000000)
+      salaries = Random.rand(500000..2000000)
+      other = Random.rand(500000..2000000)
+      billable_hours = 2000
+      lawyers = 20
+      lawfirm_id = 1
+      technology = Random.rand(10000..50000)
+      rate_per_hour = ((rent + salaries + other + technology).to_f / (billable_hours * lawyers)).round(2)
+      Overhead.create!(rent: rent, utilities: 0, technology: technology, guaranteed_salaries: salaries,
+                        lawfirm_id: lawfirm_id, other: other, billable_hours_per_lawyer: billable_hours,
+                        year: year, number_of_billable_staff: lawyers, rate_per_hour: rate_per_hour,
+                        hard_costs: 0)
+    end
+  end
 
 
 

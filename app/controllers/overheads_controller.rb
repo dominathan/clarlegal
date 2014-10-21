@@ -1,7 +1,7 @@
 class OverheadsController < ApplicationController
 
   def index
-    @overheads = current_user.lawfirm.overheads.all
+    @overheads = current_user.lawfirm.overheads.order(:year).reverse
   end
 
   def new
@@ -33,6 +33,12 @@ class OverheadsController < ApplicationController
   def update
     @overhead = Overhead.find(params[:id])
     if @overhead.update_attributes(overhead_params)
+      total_billable_staff = @overhead.number_of_billable_staff || current_user.lawfirm.staffings.count
+      @overhead.rate_per_hour = ((@overhead.rent + @overhead.utilities + @overhead.hard_costs +
+                                @overhead.guaranteed_salaries + @overhead.other).to_f /
+                                (@overhead.billable_hours_per_lawyer * total_billable_staff)
+                                ).round(2)
+      @overhead.save
       flash[:success] = "Updated Overhead Successfully"
       redirect_to user_lawfirm_overheads_path(current_user.id, current_user.lawfirm.id)
     else
