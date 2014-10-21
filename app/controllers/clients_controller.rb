@@ -21,12 +21,12 @@ class ClientsController < ApplicationController
     @client.billings.build
   end
 
+  #added profitability metrics to view client as compared to average of all clients
   def show
     @client = Client.find(params[:id])
     @profitability = Client.client_profitability_actual(@client)
     all_client_profitability = Client.all_client_profitability(current_user)
     @avg_profitability = Client.avg_client_profitability(all_client_profitability)
-    binding.pry
   end
 
 

@@ -67,8 +67,11 @@ class Client < ActiveRecord::Base
         profit[1] += ca.closeouts.last.total_out_of_pocket_expenses
         profit[1] += ca.closeouts.last.referring_fees_paid
         #return to calculated indirect expenses once overhead calculation is included
+        profit[3] += Client.actual_hours_worked_per_case(ca)
       end
       profit[2] = profit[0] - profit[1]
+      profit[3] = (profit[3] * cl.user.lawfirm.overheads.last.rate_per_hour).round(0)
+      profit[4] = profit[2] - profit[3]
       all_client_profits << profit
     end
     return [all_client_profits, client_list.collect(&:full_name)]
