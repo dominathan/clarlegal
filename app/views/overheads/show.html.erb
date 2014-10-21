@@ -4,6 +4,7 @@
 <table class='table table-hover'>
   <thead>
     <tr>
+      <th>Year</th>
       <th>Rent</th>
       <th>Utilities</th>
       <th>Guaranteed Salary</th>
@@ -16,6 +17,7 @@
   </thead>
   <tbody>
     <tr>
+      <td><%= @overhead.year %></td>
       <td><%= number_to_currency(@overhead.rent,precision: 0)%></td>
       <td><%= number_to_currency(@overhead.utilities,precision: 0)%></td>
       <td><%= number_to_currency(@overhead.guaranteed_salaries,precision: 0)%></td>

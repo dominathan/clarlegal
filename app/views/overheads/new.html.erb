@@ -10,6 +10,10 @@
 
         <table class='table'>
           <tr>
+            <td><%= f.label "Year:" %></td>
+            <td><%= f.select :year, (Time.zone.now.year - 10)..(Time.zone.now.year + 1) %></td>
+          </tr>
+          <tr>
             <td><%= f.label "Rent Expense:" %></td>
             <td><%= f.text_field :rent %></td>
           </tr>

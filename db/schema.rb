@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141017172249) do
+ActiveRecord::Schema.define(version: 20141021185219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 20141017172249) do
     t.datetime "updated_at"
     t.integer  "lawfirm_id"
     t.float    "rate_per_hour"
+    t.integer  "year"
   end
 
   add_index "overheads", ["lawfirm_id"], name: "index_overheads_on_lawfirm_id", using: :btree

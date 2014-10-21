@@ -1,4 +1,9 @@
 class OverheadsController < ApplicationController
+
+  def index
+    @overheads = current_user.lawfirm.overheads.all
+  end
+
   def new
     @overhead = Overhead.new
   end
@@ -14,8 +19,8 @@ class OverheadsController < ApplicationController
                                 ).round(2)
     @overhead.lawfirm_id = current_user.lawfirm.id
     if @overhead.save
-      flash[:success] = "Overhead Expenditure Added Successfully"
-      redirect_to user_lawfirm_practicegroups_path(current_user, current_user.lawfirm)
+      flash[:success] = "Overhead Added Successfully"
+      redirect_to user_lawfirm_overheads_path(current_user, current_user.lawfirm)
     else
       render 'new'
     end
@@ -29,7 +34,7 @@ class OverheadsController < ApplicationController
     @overhead = Overhead.find(params[:id])
     if @overhead.update_attributes(overhead_params)
       flash[:success] = "Updated Overhead Successfully"
-      redirect_to user_cases_path(current_user.id)
+      redirect_to user_lawfirm_overheads_path(current_user.id, current_user.lawfirm.id)
     else
       render 'edit'
     end
@@ -44,7 +49,8 @@ class OverheadsController < ApplicationController
     def overhead_params
       params.require(:overhead).permit(:rent, :utilities, :technology,
                                        :hard_costs, :guaranteed_salaries, :other,
-                                       :billable_hours_per_lawyer, :number_of_billable_staff)
+                                       :billable_hours_per_lawyer, :number_of_billable_staff,
+                                       :year)
     end
 
 end
