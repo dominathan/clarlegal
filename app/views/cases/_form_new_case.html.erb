@@ -7,6 +7,11 @@
 
       <table class="table">
           <tr>
+            <td><%= f.label 'Client Name:' %></td>
+            <td> <%= f.collection_select(:client_id, current_user.lawfirm.clients.order(:full_name).all, :id, :full_name, :include_blank => 'Select Client') %></td>
+            <td><%= link_to "New Client? Click Here", new_client_path, class: 'btn btn-sm btn-primary' %></td>
+          </tr>
+          <tr>
             <td><%= f.label 'Case Name:' %></td>
             <td><%= f.text_field :name %></td>
           </tr>
@@ -44,17 +49,13 @@
             <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups.order(:group_name), :group_name, :group_name, :include_blank => "Select Existing") %></td>
             <td><%= f.text_field :new_practice_group, placeholder: "Add New" %></td>
           </tr>
-          <tr>
-            <td><%= f.label 'Client Name:' %></td>
-            <td> <%= f.collection_select(:client_id, current_user.lawfirm.clients.order(:full_name).all, :id, :full_name, :include_blank => 'Select Client') %></td>
-          </tr>
+
 
           <tr>
             <td><%= f.label "Notes and Description" %></td>
             <td><%= f.text_area :description %></td>
 
         </table>
-        <h2><%= link_to "New Client? Click Here", new_client_path %></h2>
         <hr>
 
 
