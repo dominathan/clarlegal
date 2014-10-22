@@ -22,15 +22,15 @@
       <td>
         <%= @timing.case_filed ? @timing.case_filed.strftime("%b %Y") : "" %>
       </td>
-      <% @current_date = DateTime.now %>
+
       <td>
-        <%=  @timing.estimated_conclusion_fast ? (@current_date.to_time.advance(:months => @timing.estimated_conclusion_fast)).strftime("%b %Y") : "" %>
+        <%=  @timing.estimated_conclusion_fast ? (@timing.estimated_conclusion_fast).strftime("%b %Y") : "" %>
       </td>
       <td>
-        <%= @timing.estimated_conclusion_expected ? (@current_date.to_time.advance(:months => @timing.estimated_conclusion_expected)).strftime("%b %Y") : "" %>
+        <%= @timing.estimated_conclusion_expected ? (@timing.estimated_conclusion_expected).strftime("%b %Y") : "" %>
       </td>
       <td>
-        <%= @timing.estimated_conclusion_slow ? (@current_date.to_time.advance(:months => @timing.estimated_conclusion_slow)).strftime("%b %Y") : "" %>
+        <%= @timing.estimated_conclusion_slow ? (@timing.estimated_conclusion_slow).strftime("%b %Y") : "" %>
       </td>
     </tr>
   </tbody>

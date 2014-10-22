@@ -21,22 +21,21 @@
       <% current_user.lawfirm.clients.find_by(id: @client.id).cases.find_by(id: @case.id).timing.order(:created_at).each do |timing| %>
         <tr>
           <td>
-            <%= timing.date_opened ? timing.date_opened.strftime("%b %Y") : "" %>
+            <%= timing.date_opened ? timing.date_opened.strftime("%b %d, %Y") : "" %>
           </td>
           <td>
-            <%= timing.case_filed ? timing.case_filed.strftime("%b %Y") : "" %>
-          </td>
-          <% @current_date = DateTime.now %>
-          <td>
-            <%=  @current_date.to_time.advance(:months => timing.estimated_conclusion_fast) ? (@current_date.to_time.advance(:months => timing.estimated_conclusion_fast)).strftime("%b %Y") : ""  %>
+            <%= timing.case_filed ? timing.case_filed.strftime("%b %d, %Y") : "" %>
           </td>
           <td>
-            <%= @current_date.to_time.advance(:months => timing.estimated_conclusion_expected) ? (@current_date.to_time.advance(:months => timing.estimated_conclusion_expected)).strftime("%b %Y") : "" %>
+            <%= timing.estimated_conclusion_fast ? (timing.estimated_conclusion_fast).strftime("%b %Y") : ""  %>
           </td>
           <td>
-            <%= @current_date.to_time.advance(:months => timing.estimated_conclusion_slow) ? (@current_date.to_time.advance(:months => timing.estimated_conclusion_slow)).strftime("%b %Y") : "" %>
+            <%= timing.estimated_conclusion_expected ? (timing.estimated_conclusion_expected).strftime("%b %Y") : "" %>
           </td>
-          <td><%= timing.updated_at %></td>
+          <td>
+            <%= timing.estimated_conclusion_slow ? (timing.estimated_conclusion_slow).strftime("%b %Y") : "" %>
+          </td>
+          <td><%= timing.updated_at.strftime("%b %d, %Y") %></td>
           <td><%= link_to "Edit", edit_client_case_timing_path(@client,@case,timing.id) %></td>
         </tr>
       <% end %>

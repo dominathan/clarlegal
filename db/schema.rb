@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141021185219) do
+ActiveRecord::Schema.define(version: 20141022175254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -217,9 +217,9 @@ ActiveRecord::Schema.define(version: 20141021185219) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "case_filed"
-    t.integer  "estimated_conclusion_fast"
-    t.integer  "estimated_conclusion_expected"
-    t.integer  "estimated_conclusion_slow"
+    t.date     "estimated_conclusion_fast"
+    t.date     "estimated_conclusion_expected"
+    t.date     "estimated_conclusion_slow"
   end
 
   add_index "timings", ["case_id"], name: "index_timings_on_case_id", using: :btree

@@ -196,9 +196,9 @@ namespace :db do
       Timing.create!(case_id: n+1,
                       date_opened: Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28)),
                       case_filed: Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28)),
-                      estimated_conclusion_fast: fast_conclusion,
-                      estimated_conclusion_expected: expected_conclusion,
-                      estimated_conclusion_slow: slow_conclusion)
+                      estimated_conclusion_fast: Date.today + fast_conclusion.month,
+                      estimated_conclusion_expected: Date.today + expected_conclusion.month,
+                      estimated_conclusion_slow: Date.today + slow_conclusion.month)
     end
   end
 
