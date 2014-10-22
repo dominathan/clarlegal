@@ -228,7 +228,7 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5_plus = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected)) : next
+        ca.timing.first ? conclusion_date = ca.timing.last.estimated_conclusion_expected : next
         if ca.fee.order(:created_at).last
           if current_date.year == conclusion_date.year
             rev_est_year1 += ca.fee.last.medium_estimate
@@ -266,7 +266,7 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5_plus = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected)) : next
+        ca.timing.first ? conclusion_date = ca.timing.last.estimated_conclusion_expected : next
         if ca.fee.first
           if current_date.year == conclusion_date.year
             rev_est_year1 += ca.fee.last.high_estimate
@@ -304,7 +304,7 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5_plus = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_expected)) : next
+        ca.timing.first ? conclusion_date = ca.timing.last.estimated_conclusion_expected : next
         if ca.fee.last
           if current_date.year == conclusion_date.year
             rev_est_year1 += ca.fee.last.low_estimate
@@ -343,7 +343,7 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5 = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast)) : next
+        ca.timing.first ? conclusion_date = ca.timing.last.estimated_conclusion_fast : next
         if ca.fee.order(:created_at).last
           if current_date.year == conclusion_date.year
             rev_est_year1 += ca.fee.last.medium_estimate
@@ -381,7 +381,7 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5 = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast)) : next
+        ca.timing.first ? conclusion_date = ca.timing.last.estimated_conclusion_fast : next
         if ca.fee.order(:created_at).last
           if current_date.year == conclusion_date.year
             rev_est_year1 += ca.fee.last.low_estimate
@@ -419,7 +419,7 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5 = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_fast)) : next
+        ca.timing.first ? conclusion_date = ca.timing.last.estimated_conclusion_fast : next
         if ca.fee.order(:created_at).last
           if current_date.year == conclusion_date.year
             rev_est_year1 += ca.fee.last.high_estimate
@@ -457,7 +457,7 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5 = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow)) : next
+        ca.timing.first ? conclusion_date = ca.timing.last.estimated_conclusion_slow : next
         if ca.fee.order(:created_at).last
           if current_date.year == conclusion_date.year
             rev_est_year1 += ca.fee.last.high_estimate
@@ -495,7 +495,7 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5 = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow)) : next
+        ca.timing.first ? conclusion_date = ca.timing.last.estimated_conclusion_slow : next
         if ca.fee.order(:created_at).last
           if current_date.year == conclusion_date.year
             rev_est_year1 += ca.fee.last.low_estimate
@@ -533,7 +533,7 @@ class GraphsController < ApplicationController
       rev_est_year4 = 0
       rev_est_year5 = 0
       current_user.lawfirm.cases.where(open: true, practice_group: lf_pg).each do |ca|
-        ca.timing.first ? conclusion_date = current_date.to_time.advance(:months => (ca.timing.last.estimated_conclusion_slow)) : next
+        ca.timing.first ? conclusion_date = ca.timing.last.estimated_conclusion_slow : next
         if ca.fee.order(:created_at).last
           if current_date.year == conclusion_date.year
             rev_est_year1 += ca.fee.last.medium_estimate

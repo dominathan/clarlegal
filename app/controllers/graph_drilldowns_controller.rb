@@ -57,7 +57,7 @@ class GraphDrilldownsController < ApplicationController
     set_yearly_rev
     open_cases = Graph.open_cases(current_user)
     open_cases.each do |ca|
-      conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
+      conclusion_date = time_to_collection(ca,collection_rate)
       if ca.fee.first
         if ca.fee.order(:created_at).last.fee_type == fee_structure
           if @current_date.year == conclusion_date.year
@@ -84,7 +84,7 @@ class GraphDrilldownsController < ApplicationController
   def revenue_collection_by_year(collection_rate,collection_amount)
     set_yearly_rev
     current_user.lawfirm.cases.where(open: true).each do |ca|
-      conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
+      conclusion_date = time_to_collection(ca,collection_rate)
       if @current_date.year == conclusion_date.year
         @rev_est_year1 += collection_expectation(ca,collection_amount)
       elsif @current_date.year+1 == conclusion_date.year
@@ -103,7 +103,7 @@ class GraphDrilldownsController < ApplicationController
     #change the -= to += for above the line grid, also works for line graph if positive
     set_yearly_rev
     current_user.lawfirm.cases.where(open: true).each do |ca|
-      conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
+      conclusion_date = time_to_collection(ca,collection_rate)
       if ca.fee.last
         if ca.fee.last.cost_estimate != nil
           if @current_date.year == conclusion_date.year
@@ -127,7 +127,7 @@ class GraphDrilldownsController < ApplicationController
   def referral_by_year(collection_rate, collection_amount)
     set_yearly_rev
     current_user.lawfirm.cases.where(open: true).each do |ca|
-      conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
+      conclusion_date = time_to_collection(ca,collection_rate)
       if ca.fee.last
         if ca.fee.last.referral
           if @current_date.year == conclusion_date.year
@@ -152,7 +152,7 @@ class GraphDrilldownsController < ApplicationController
   #collection_rate = [fast,expected,slow]-- year=(0..4)--collection_amount=[high,collection_amount,low]
     set_monthly_rev
     current_user.lawfirm.cases.where(open: true).each do |ca|
-      conclusion_date = @current_date.to_time.advance(:months => (time_to_collection(ca,collection_rate)))
+      conclusion_date = time_to_collection(ca,collection_rate)
       if @current_date.year+year_addition == conclusion_date.year
         if conclusion_date.month == 1
           @rev_jan += collection_expectation(ca,collection_amount)
