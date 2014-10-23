@@ -1,3 +1,5 @@
+#Staffing refers to actual Staff for the lawfirm
+#Staff refers to Case Staff... staff that work on a case
 class StaffingsController < ApplicationController
   before_action :signed_in_user
 
