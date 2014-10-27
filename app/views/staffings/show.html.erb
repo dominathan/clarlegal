@@ -1,19 +1,37 @@
-<h2>Case List for <%= @staff.full_name %></h2>
+<h1><%= @staff.full_name %></h1>
 
-<table class='table table-hover'>
-  <tr>
-    <th>Case Name</th>
-    <th>Estimates and Hours</th>
-  </tr>
-    <% Staff.where(staffing_id: @staff.id).each do |casename| %>
-  <tr>
-      <td><%= Case.find_by(id: casename.case_id).name %></td>
-      <td><%= link_to "Show", case_metrics_user_lawfirm_staffing_path(user_id: current_user.id, lawfirm_id: current_user.lawfirm.id, id: @staff.id, case_id: casename.case_id) %></td>
-
-  </tr>
-
-      <% end%>
-</table>
+<div class="row">
+  <div class="col-lg-6">
+    <h2>Open Cases</h2>
+    <table class='table table-hover'>
+      <tr>
+        <th>Case Name</th>
+        <th>Estimates and Hours</th>
+      </tr>
+        <% @open_cases.each do |casename| %>
+      <tr>
+          <td><%= casename.name %></td>
+          <td><%= link_to "Show", case_metrics_user_lawfirm_staffing_path(user_id: current_user.id, lawfirm_id: current_user.lawfirm.id, id: @staff.id, case_id: casename.id) %></td>
+      </tr>
+          <% end%>
+    </table>
+  </div>
+    <div class="col-lg-6">
+    <h2>Closed Cases</h2>
+    <table class='table table-hover'>
+      <tr>
+        <th>Case Name</th>
+        <th>Estimates and Hours</th>
+      </tr>
+      <% @closed_cases.each do |casename| %>
+      <tr>
+          <td><%= casename.name %></td>
+          <td><%= link_to "Show", case_metrics_user_lawfirm_staffing_path(user_id: current_user.id, lawfirm_id: current_user.lawfirm.id, id: @staff.id, case_id: casename.id) %></td>
+      </tr>
+          <% end%>
+    </table>
+  </div>
+</div>
 
 
 

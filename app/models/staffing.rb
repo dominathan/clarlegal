@@ -21,6 +21,17 @@ class Staffing < ActiveRecord::Base
     final_name_list.sort
   end
 
+  #return list of open cases by staffing_id
+  def self.open_cases_by_staffing(staffing_id)
+    caselist = Staff.where(staffing_id: staffing_id).collect(&:case_id)
+    return Case.where(id: caselist, open: true)
+  end
+
+    def self.closed_cases_by_staffing(staffing_id)
+    caselist = Staff.where(staffing_id: staffing_id).collect(&:case_id)
+    return Case.where(id: caselist, open: false)
+  end
+
 
 
 end

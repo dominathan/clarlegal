@@ -32,6 +32,8 @@ class StaffingsController < ApplicationController
   def show
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
     @staff = Staffing.find(params[:id])
+    @closed_cases = Staffing.closed_cases_by_staffing(@staff.id)
+    @open_cases = Staffing.open_cases_by_staffing(@staff.id)
   end
 
   def edit
