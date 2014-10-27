@@ -1,12 +1,31 @@
-<h2><%= "#{@case.name} for #{@staff.full_name}" %></h2>
+<h1><%= "#{@case.name} for #{@staff.full_name}" %></h1>
 
 <div class="center row">
   <div class='col-lg-6'>
     <div id="feeTimeline" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   </div>
   <div class="col-lg-6">
-    <div id='actualVersusExpectedBar' style="min-width: 310px; height: 600px; width: 600px; max-width: 600px; margin: 0 auto"></div>
+    <div id='actualVersusExpectedBar' style="min-width: 310px; height: 400px; width: 600px; max-width: 600px; margin: 0 auto"></div>
   </div>
+</div>
+<br>
+
+<h2> Estimated Conclusion Dates </h2>
+<div class="row">
+  <div class='col-lg-6 col-lg-offset-3'>
+      <table class='table table-hover sortable'>
+        <tr>
+          <th>Best</th>
+          <th>Expected</th>
+          <th>Worst</th>
+        </tr>
+        <tr>
+          <td><%= @case.timings.last.estimated_conclusion_fast.strftime("%b %Y") %></td>
+          <td><%= @case.timings.last.estimated_conclusion_expected.strftime("%b %Y") %> </td>
+          <td><%= @case.timings.last.estimated_conclusion_slow.strftime("%b %Y") %> </td>
+        </tr>
+      </table>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -76,6 +95,9 @@ $(function () {
         },
         subtitle: {
             text: 'as of last update'
+        },
+        credits: {
+          enabled: false
         },
         xAxis: {
             categories: ['Last Updated: '+ categories]

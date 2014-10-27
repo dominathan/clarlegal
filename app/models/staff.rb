@@ -37,11 +37,19 @@ class Staff < ActiveRecord::Base
   end
 
   def self.staff_total_hours_actual(case_id,staffing_id)
-    return Staff.where(:case_id => case_id, :staffing_id => staffing_id).last.hours_actual
+    if Staff.where(:case_id => case_id, :staffing_id => staffing_id).last.hours_actual
+      return Staff.where(:case_id => case_id, :staffing_id => staffing_id).last.hours_actual
+    else
+      return 0
+    end
   end
 
   def self.staff_total_hours_expected(case_id, staffing_id)
-    return Staff.where(:case_id => case_id, :staffing_id => staffing_id).last.hours_expected
+    if Staff.where(:case_id => case_id, :staffing_id => staffing_id).last.hours_expected
+      return Staff.where(:case_id => case_id, :staffing_id => staffing_id).last.hours_expected
+    else
+      return 0
+    end
   end
 
 end
