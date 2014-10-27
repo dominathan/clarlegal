@@ -18,7 +18,7 @@ class Staff < ActiveRecord::Base
         next
       end
     end
-    hours_actual
+    return hours_actual
   end
 
   #this is to collect hours expected to be worked for a specific case
@@ -33,7 +33,15 @@ class Staff < ActiveRecord::Base
         next
       end
     end
-    hours_expected
+    return hours_expected
+  end
+
+  def self.staff_total_hours_actual(case_id,staffing_id)
+    return Staff.where(:case_id => case_id, :staffing_id => staffing_id).last.hours_actual
+  end
+
+  def self.staff_total_hours_expected(case_id, staffing_id)
+    return Staff.where(:case_id => case_id, :staffing_id => staffing_id).last.hours_expected
   end
 
 end

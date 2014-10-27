@@ -1,0 +1,126 @@
+<h2><%= "#{@case.name} for #{@staff.full_name}" %></h2>
+
+<div class="center row">
+  <div class='col-lg-6'>
+    <div id="feeTimeline" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  </div>
+  <div class="col-lg-6">
+    <div id='actualVersusExpectedBar' style="min-width: 310px; height: 600px; width: 600px; max-width: 600px; margin: 0 auto"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+
+  $(function () {
+
+    var categories = <%= raw @fee_timeline %>;
+    var lowEstimate = <%= @fee_low_estimates %>;
+    var mediumEstimate = <%= @fee_medium_estimates %>;
+    var highEstimate = <%= @fee_high_estimates %>;
+
+    $('#feeTimeline').highcharts({
+        chart: {
+            type: 'line'
+        },
+        credits: {
+          enabled: false
+        },
+        title: {
+            text: 'Fee Timeline'
+        },
+        subtitle: {
+            text: 'Estimated Gross Fee over Time'
+        },
+        xAxis: {
+            categories: categories
+        },
+        yAxis: {
+            title: {
+                text: 'Amount ($)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [{
+            name: 'Low Gross Fee Estimate',
+            data: lowEstimate
+        }, {
+            name: 'Medium Gross Fee Estimate',
+            data: mediumEstimate
+        }, {
+            name: "High Gross Fee Estimate",
+            data: highEstimate
+        }]
+    });
+});
+
+$(function () {
+
+  var expectedHours = <%= @expected_hours %>;
+  var actualHours = <%= @actual_hours %>;
+  var categories = "<%= "#{@last_update}" %>";
+
+    $('#actualVersusExpectedBar').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Actual vs Expected Hours'
+        },
+        subtitle: {
+            text: 'as of last update'
+        },
+        xAxis: {
+            categories: ['Last Updated: '+ categories]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Hours'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 3px black, 0 0 3px black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Remaining',
+            data: [expectedHours-actualHours]
+        }, {
+            name: 'Actual Hours',
+            data: [actualHours]
+
+        }]
+    });
+});
+</script>
+
