@@ -53,21 +53,27 @@ class StaffingsController < ApplicationController
     end
   end
 
-  #to show a staff members revenue estimates, hours worked, timing estimates for each case
+  #to show a staff member's revenue estimates, hours worked, timing estimates for each case
   def individuals_and_cases
     @user = current_user.id
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
     @staff = Staffing.find(params[:id])
     @case = Case.find(params[:case_id])
     #for line graph of estimated fee over times
-    @fee_timeline = Fee.get_fee_dates(@case)
-    @fee_high_estimates = Fee.get_fee_high_estimate(@case)
-    @fee_medium_estimates = Fee.get_fee_medium_estimate(@case)
-    @fee_low_estimates = Fee.get_fee_low_estimate(@case)
-    #for bargraph of actual hours worked
+    if !@case.fees.empty?
+      @fee_timeline = Fee.get_fee_dates(@case)
+      @fee_high_estimates = Fee.get_fee_high_estimate(@case)
+      @fee_medium_estimates = Fee.get_fee_medium_estimate(@case)
+      @fee_low_estimates = Fee.get_fee_low_estimate(@case)
+    end
+    #for bargraph of hours worked
     @actual_hours = Staff.staff_total_hours_actual(@case.id,@staff.id)
     @expected_hours = Staff.staff_total_hours_expected(@case.id, @staff.id)
     @last_update = StaffCase.case_last_update(@case.id)
+    #if case is closed, return items for graph of actual return
+    if @case.open == false
+
+    end
   end
 
   private
