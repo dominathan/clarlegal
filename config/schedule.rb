@@ -1,14 +1,18 @@
-#look at http://asciicasts.com/episodes/164-cron-in-ruby
+#look at http://asciicasts.com/episodes/164-cron-in-ruby or http://railscasts.com/episodes/164-cron-in-ruby-revised?autoplay=true
 #this tells what to do with Capistrano when deployed to own cloud server
 set :environment, "development"
-set :output, {:error => 'log/cron_error_log.log', :standard => 'log/cron_log.log'}
+set :output, {:error => "#{path}/log/cron_error_log.log", :standard => "#{path}/log/cron_log.log"}
 
 
+# No longer need this for Timings as variable type changed to Date.
+# every 1.month, :at => "beginning of the month at 3am" do
+#   #subtract one month from inputs every month so Timings stay constant
+#   runner 'Timing.month_minus_one'
+#   runner 'print "I SUBTRACTED ONE"'
+# end
 
-every 1.month, :at => "beginning of the month at 3am" do
-  #subtract one month from inputs every month so Timings stay constant
-  runner 'Timing.month_minus_one'
-  runner 'print "I SUBTRACTED ONE"'
+every :reboot do
+  rake "ts:start" #might be different for heroku...fs:reboot ...and remove this if switch to datatables
 end
 
 
