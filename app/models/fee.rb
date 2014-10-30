@@ -41,4 +41,20 @@ class Fee < ActiveRecord::Base
     end
     low
   end
+
+  #Move expected revenue to actual revenue on a monthly basis for cases that are fixed fee or hourly
+  def self.fixed_and_hourly_estimates_to_actual
+    current_date = Date.today
+    Case.all.each do |ca|
+      if ca.fees.last.fee_type == "Fixed Fee"
+        fast_months_remaining = ((ca.timings.last.estimated_conclusion_fast - current_date).to_f / (365/12).to_f).round
+        expected_months_remaining = ((ca.timings.last.estimated_conclusion_expected - current_date).to_f / (365/12).to_f).round
+        slow_months_remaining = ((ca.timings.last.estimated_conclusion_slow - current_date).to_f / (365/12).to_f).round
+        move_expected_to_actual_fast = ca.fees.last.medium_estimate / fast_months_remaining
+        move_expected_to_actual_expected = ca.fees.last.medium_estimate / expected_months_remaining
+        move_expected_to_actual_slow = ca.fees.last.medium_estimate / slow_months_remaining
+      end
+    end
+  end
+
 end
