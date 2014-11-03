@@ -30,4 +30,13 @@ class FixedFee < ActiveRecord::Base
     end
   end
 
+  #do not double count FixedFee amounts when case is closed... 0 out database entries
+  def self.remove_expected_actual(case_name)
+    fixed_fee = FixedFee.create!(case_id: case_name.id,
+                      expected_remaining: 0,
+                      conversion_rate: 0,
+                      actual_earned: 0)
+    fixed_fee.save
+  end
+
 end

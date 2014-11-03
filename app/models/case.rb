@@ -21,6 +21,8 @@ class Case < ActiveRecord::Base
   accepts_nested_attributes_for :checks
   has_many :closeouts
 
+  has_many :fixed_fees
+
 
   validates :client_id, presence: true
 
