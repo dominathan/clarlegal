@@ -25,6 +25,7 @@ gem 'will_paginate-bootstrap', '1.0.1'
 gem 'cocoon', '1.2.6'  #nested forms, javascript adds new form
 gem 'whenever', '0.9.2', :require => false #handles cron tasks
 gem 'timecop', '0.7.1' #remote time travel
+gem 'thin', '1.6.3' #better webserver than webrick
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
