@@ -60,9 +60,13 @@ class CasesController < ApplicationController
       @case.fees.first.high_estimate = params[:case]['fees_attributes']['0']['medium_estimate']
       @case.fees.first.low_estimate = params[:case]['fees_attributes']['0']['medium_estimate']
     end
-    binding.pry
     if @case.save
+      #set case to open
       Closeout.open_case(@case)
+      #create Fixed Fee DB entry for montly conversion if fee_type == fixed fee
+      if @case.fees.first.fee_type == 'Fixed Fee'
+        FixedFee.initial_fixed_fee(@case)
+      end
       #add all staff to StaffCase DB as Master List unless no staff
       unless params[:case][:staffs_attributes] == nil
         @staff_list = params[:case][:staffs_attributes].values
