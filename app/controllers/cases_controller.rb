@@ -55,6 +55,12 @@ class CasesController < ApplicationController
         @case.timings.first.estimated_conclusion_slow = Date.today + (params[:case]['timings_attributes']['0']['estimated_conclusion_slow']).to_i.month
       end
     end
+    #if fee type is fixed fee... medium estimate == contract amount and high/low estimate = medium estimate
+    if params[:case]['fees_attributes']['0']['fee_type'] == "Fixed Fee"
+      @case.fees.first.high_estimate = params[:case]['fees_attributes']['0']['medium_estimate']
+      @case.fees.first.low_estimate = params[:case]['fees_attributes']['0']['medium_estimate']
+    end
+    binding.pry
     if @case.save
       Closeout.open_case(@case)
       #add all staff to StaffCase DB as Master List unless no staff

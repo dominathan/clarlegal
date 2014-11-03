@@ -70,37 +70,39 @@
           <table class='table'>
           <tr>
             <td><%= ff.label "Fee Type:" %></td>
-            <td><%= ff.select :fee_type, Fee::FEE_TYPE %></td>
+            <td><%= ff.select :fee_type, Fee::FEE_TYPE, include_blank: "Select Fee Type" %></td>
           </tr>
 
-          <tr>
-            <td><%= ff.label "High Value Estimate:" %></td>
-            <td><%= ff.text_field :high_estimate %></td>
-          </tr>
-          <tr>
-            <td><%= ff.label "Medium Value Estimate:" %></td>
-            <td><%= ff.text_field :medium_estimate %></td>
-          </tr>
-          <tr>
-            <td><%= ff.label "Low Value Estimate:" %></td>
-            <td><%= ff.text_field :low_estimate %></td>
-          </tr>
-          <tr>
-            <td><%= ff.label "Likelihood of Recovery:" %></td>
-            <td><%= ff.select :payment_likelihood, Fee::FEE_PAYMENT_LIKELIHOOD %></td>
-          </tr>
-          <tr>
-            <td><%= ff.label "Fee Owed to Referral Source:" %></td>
-            <td><%= ff.text_field :referral %></td>
-          </tr>
-          <tr>
-            <td><%= ff.label "Estimated Out-of-Pocket Expenses:" %></td>
-            <td><%= ff.text_field :cost_estimate %></td>
-          </tr>
-          <tr>
-            <td><%= ff.label "Retainer:" %></td>
-            <td><%= ff.text_field :retainer %></td>
-          </tr>
+            <tr class='contingency hide'>
+              <td><%= ff.label "High Value Estimate:" %></td>
+              <td><%= ff.text_field :high_estimate %></td>
+            </tr>
+            <tr class='contingency fixed hide'>
+              <!-- Change label name if fixedfee or hourly case -->
+              <td id="feeNameChange"><span><b>Medium Value Estimate:</b></span></td>
+              <td><%= ff.text_field :medium_estimate %></td>
+            </tr>
+            <tr class='contingency hide'>
+              <td><%= ff.label "Low Value Estimate:" %></td>
+              <td><%= ff.text_field :low_estimate %></td>
+            </tr>
+            <tr class='contingency fixed hide'>
+              <td><%= ff.label "Likelihood of Recovery:" %></td>
+              <td><%= ff.select :payment_likelihood, Fee::FEE_PAYMENT_LIKELIHOOD %></td>
+            </tr>
+            <tr class='contingency fixed hide'>
+              <td><%= ff.label "Fee Owed to Referral Source:" %></td>
+              <td><%= ff.text_field :referral %></td>
+            </tr>
+            <tr class='contingency fixed hide'>
+              <td><%= ff.label "Estimated Out-of-Pocket Expenses:" %></td>
+              <td><%= ff.text_field :cost_estimate %></td>
+            </tr>
+            <tr class='contingency fixed hide'>
+              <td><%= ff.label "Retainer:" %></td>
+              <td><%= ff.text_field :retainer %></td>
+            </tr>
+
         </table>
 
         <hr>
@@ -233,13 +235,22 @@
 
 <script type="text/javascript">
   $("#case_checks_attributes_0_conflict_check").click(function(){
-     $("#conflict-date").toggleClass('show')
+     $("#conflict-date").toggleClass('show');
    });
   $("#case_checks_attributes_0_referring_engagement_letter").click(function(){
-     $("#referring-date").toggleClass('show')
+     $("#referring-date").toggleClass('show');
    });
   $("#case_checks_attributes_0_client_engagement_letter").click(function(){
-     $("#client-engagement-date").toggleClass('show')
+     $("#client-engagement-date").toggleClass('show');
    });
+
+  $("#case_fees_attributes_0_fee_type").on('change', function () {
+    if(this.value == "Contingency") {
+        $(".contingency").toggleClass('hide');
+      } else if(this.value == "Fixed Fee") {
+        $(".fixed").toggleClass('hide');
+        $("#feeNameChange span").text('Contract Amount:');
+      };
+  });
 </script>
 
