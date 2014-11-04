@@ -26,6 +26,7 @@ class Case < ActiveRecord::Base
 
 
   validates :client_id, presence: true
+  validates :practice_group, presence: true
 
   attr_accessor :new_court, :new_judge, :new_opposing_attorney,
                 :new_type_of_matter, :new_practice_group, :new_referral_source

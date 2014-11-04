@@ -9,7 +9,6 @@
       <th>Case Name</th>
       <th>Practice Group</th>
       <th>Client Name</th>
-      <th>Date File</th>
     </tr>
   </thead>
   <tbody>
@@ -19,7 +18,6 @@
         <td><%= one_case.name %></td>
         <td><%= one_case.practice_group %> </td>
         <td><%= User.full_name_last_first(one_case.client) %> </td>
-        <td><%= one_case.timing.order(:created_at).last.case_filed ? one_case.timing.order(:created_at).last.case_filed : "" %> </td>
         <% end %>
     <% end %>
   </tbody>

@@ -5,7 +5,8 @@ class Staffing < ActiveRecord::Base
 
   attr_accessor :new_position #for user to enter new position if applicable
 
-  validates :lawfirm_id, presence: true
+  validates :lawfirm_id, :position, :first_name, :last_name, presence: true
+
   STARTING_LIST = ['Managing Member', 'Partner','Counsel','Contract Attorney',
                    'Staff Attorney','Paralegal','Secretary', 'Responsible Attorney']
   def self.all_positions(user)

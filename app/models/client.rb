@@ -7,10 +7,13 @@ class Client < ActiveRecord::Base
   #all attributes must be filled for billings or it will not save
 
   validates :user_id, presence: true
-  validates :first_name, presence: true
-  validates :last_name, presence: true
+  validates :first_name, :last_name, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i || ""
   validates :email, format: { with: VALID_EMAIL_REGEX }
+  validates :phone_number, presence: true
+  validates :street_address, :city, :zip_code, presence: true
+
+
 
   def self.all_full_name_last_first(user)
     #used in _staff_fields for collection select of LastName, FirstName
