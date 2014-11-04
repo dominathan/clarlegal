@@ -2,6 +2,8 @@ class Origination < ActiveRecord::Base
   belongs_to :case
   belongs_to :lawfirm
 
+  #validates :referral_source, uniqueness: {scope: :lawfirm_id} #needs lawfirm_id attributes
+
   attr_accessor :new_referral_source
   #validates :case_id, presence: true
 
