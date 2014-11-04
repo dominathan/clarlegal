@@ -1,7 +1,14 @@
 class Closeout < ActiveRecord::Base
-  belongs_to :case
+  belongs_to :case, inverse_of: :closeouts
 
-  validates :case_id, presence: true
+  validates_presence_of :case
+
+  validates :total_recovery, presence: true
+  validates :total_gross_fee_received, presence: true
+  validates :total_out_of_pocket_expenses, presence: true
+  validates :referring_fees_paid, presence: true
+  validates :total_fee_received, presence: true
+  validates :date_fee_received, presence: true
 
   def self.close_case(case_name)
     case_name.open = 0

@@ -1,0 +1,124 @@
+<div class='container'>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+
+    <%= form_for(@case, url: {action: "create_closed_case"})  do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <h2>Case Information</h2>
+
+      <table class="table">
+          <tr>
+            <td><%= f.label 'Client Name:' %></td>
+            <td> <%= f.collection_select(:client_id, current_user.lawfirm.clients.order(:full_name).all, :id, :full_name, :include_blank => 'Select Client') %></td>
+            <td><%= link_to "New Client? Click Here", new_client_path, class: 'btn btn-sm btn-primary' %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Case Name:' %></td>
+            <td><%= f.text_field :name %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Court:' %></td>
+            <td><%= f.select(:court, current_user.lawfirm.cases.order(:court).collect(&:court).uniq, :include_blank => "Select Existing") %></td>
+            <td><%= f.text_field :new_court, placeholder: "Add New" %></td>
+
+          </tr>
+          <tr>
+            <td><%= f.label 'Judge:' %></td>
+            <td><%= f.select(:judge, current_user.lawfirm.cases.order(:judge).collect(&:judge).uniq, :include_blank => "Select Existing")%></td>
+            <td><%= f.text_field :new_judge, placeholder: "Add New" %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Case Number:' %></td>
+            <td><%= f.text_field :case_number %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Opposing Counsel:' %></td>
+            <td><%= f.select(:opposing_attorney, current_user.lawfirm.cases.order(:opposing_attorney).collect(&:opposing_attorney).uniq, :include_blank => "Select Existing") %> </td>
+            <td><%= f.text_field :new_opposing_attorney, placeholder: "Add New" %> </td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Matter Type:' %></td>
+            <td><%= f.select(:type_of_matter, current_user.lawfirm.case_types.order(:mat_ref).collect(&:mat_ref).uniq, :include_blank => "Select Existing") %></td>
+            <td><%= f.text_field :new_type_of_matter, placeholder: "Add New" %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Related Cases:' %></td>
+            <td><%= f.select(:related_cases, current_user.lawfirm.cases.order(:name).all.map { |c| c.name }.prepend("N/A"), :include_blank => "Select Related Cases or N/A") %></td>
+          </tr>
+          <tr>
+            <td><%= f.label 'Practice Group:' %></td>
+            <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups.order(:group_name), :group_name, :group_name, :include_blank => "Select Existing") %></td>
+            <td><%= f.text_field :new_practice_group, placeholder: "Add New" %></td>
+          </tr>
+
+
+          <tr>
+            <td><%= f.label "Notes and Description" %></td>
+            <td><%= f.text_area :description %></td>
+
+        </table>
+        <hr>
+
+        <div class="closeout">
+          <div class="center"><h2>Closeout</h2></div>
+          <%= f.fields_for :closeouts do |ff| %>
+            <table class="table">
+              <tr>
+                <td><%= ff.label "Total Recovery:" %></td>
+                <td><%= ff.text_field :total_recovery %></td>
+              </tr>
+              <tr>
+                <td> <%= ff.label "Total Gross Fee Received:" %></td>
+                <td><%= ff.text_field :total_gross_fee_received %></td>
+              </tr>
+              <tr>
+                <td> <%= ff.label "Total Out-of-Pocket Expenses:" %></td>
+                <td> <%= ff.text_field :total_out_of_pocket_expenses %></td>
+              </tr>
+              <tr>
+                <td> <%= ff.label "Referring Fee Paid:" %></td>
+                <td>    <%= ff.text_field :referring_fees_paid %></td>
+              </tr>
+              <tr>
+                <td> <%= ff.label "Total Fee Received:" %></td>
+                <td> <%= ff.text_field :total_fee_received %></td>
+              </tr>
+              <tr>
+                <td><%= ff.label "Date Fee Received:" %></td>
+                <td> <%= ff.date_field :date_fee_received, id: 'datepicker' %></td>
+              </tr>
+            </table>
+          <% end %>
+        </div>
+        <hr>
+
+        <div class='center'>
+          <h2>Case Origination</h2>
+        </div>
+        <div class='origination'>
+          <%= f.fields_for :originations do |ff| %>
+
+            <table class='table'>
+              <tr>
+                <td><%= ff.label "Referral Source:" %></td>
+                <td><%= ff.select(:referral_source, Origination.all_referral_sources(current_user), :include_blank => "Select") %></td>
+                <td><%= ff.text_field :new_referral_source, placeholder: "Add New" %></td>
+              </tr>
+              <tr>
+                <td><%= ff.label "More Information:" %></td>
+                <td><%= ff.text_field :source_description %></td>
+              </tr>
+            </table>
+
+          <% end %>
+
+      <div class="center">
+        <%= f.submit "Create Case", class: "btn btn-large btn-primary" %>
+      </div>
+
+      <% end %>
+
+    </div>
+  </div>
+</div>

@@ -2,11 +2,7 @@ class CasesController < ApplicationController
   before_action :signed_in_user
   before_action :belongs_to_firm
 
-  def new
-    @case = Case.new
-    @client = Client.find(params[:client_id])
-  end
-
+  #currently open cases
   def new_case
     @case = Case.new
     @case.fees.build
@@ -16,6 +12,7 @@ class CasesController < ApplicationController
     @case.checks.build
   end
 
+  #Create open case to DB...Read comments for information about the purpose of individual lines
   def create_case
     @case = Case.new(case_params)
     #add a newcourt unless user selects from dropdown list
@@ -86,11 +83,64 @@ class CasesController < ApplicationController
     end
   end
 
+  #For cases that law firm has already received judgement, use new_closed_case
+  def new_closed_case
+    @case = Case.new
+    @case.closeouts.build
+    @case.originations.build
+    @case.staffs.build
+  end
+  #Logs closed cases to DB
+  def create_closed_case
+    @case = Case.new(case_params)
+    #add a newcourt unless user selects from dropdown list
+    @case.court = params[:case][:new_court] unless params[:case][:new_court].empty?
+    #add a new judge unless user selects from dropdown list
+    @case.judge = params[:case][:new_judge] unless params[:case][:new_judge].empty?
+    #add a new attorney unless user selects from dropdown list
+    @case.opposing_attorney = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
+    #add new type_of_matter to user lawfirm CaseType unless empty
+    unless params[:case][:new_type_of_matter].empty?
+      @case.type_of_matter = params[:case][:new_type_of_matter]
+      @new_matref = CaseType.create!(mat_ref: params[:case][:new_type_of_matter], lawfirm_id: current_user.lawfirm.id)
+    end
+    #add new practice group to user lawfirm practicegroups unless :new_practice_group is empty
+    unless params[:case][:new_practice_group].empty?
+      @case.practice_group = params[:case][:new_practice_group]
+      @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id)
+    end
+    #add new referral source to database if empty
+    unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
+      @case.originations.first.referral_source = params[:case][:originations_attributes]["0"][:new_referral_source]
+    end
+    if @case.save
+      #Mark case.open == false
+      Closeout.close_case(@case)
+      binding.pry
+      #add new_originations to originations db unless user did not input a new origination source
+      unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
+        @new_origination = Origination.create!(referral_source: params[:case][:originations_attributes]["0"][:new_referral_source],
+                                              case_id: @case.id,
+                                              source_description: params[:case][:originations_attributes]["0"][:source_description])
+      end
+      binding.pry
+      flash[:success] = "Case Added Successfully"
+      redirect_to client_case_path(@case.client_id,@case)
+    else
+      render 'new_closed_case'
+    end
+  end
+
   def index
     @client = current_user.clients.find(params[:client_id])
     if @client.cases.exists?
       @case = @client.cases.paginate(:page => params[:page], :per_page => 10 )
     end
+  end
+
+  def new
+    @case = Case.new
+    @client = Client.find(params[:client_id])
   end
 
   def create
@@ -158,7 +208,10 @@ class CasesController < ApplicationController
                                                             :client_engagement_letter_date],
                                     :timings_attributes => [:date_opened, :estimated_conclusion_fast,
                                                             :estimated_conclusion_expected,
-                                                            :estimated_conclusion_slow, :case_filed])
+                                                            :estimated_conclusion_slow, :case_filed],
+                                    :closeouts_attributes => [:total_recovery, :total_gross_fee_received,
+                                                              :total_out_of_pocket_expenses, :referring_fees_paid,
+                                                              :total_fee_received, :date_fee_received])
     end
 
 

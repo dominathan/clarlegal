@@ -19,7 +19,8 @@ class Case < ActiveRecord::Base
   accepts_nested_attributes_for :venues
   has_many :checks
   accepts_nested_attributes_for :checks
-  has_many :closeouts
+  has_many :closeouts, inverse_of: :case
+  accepts_nested_attributes_for :closeouts
 
   has_many :fixed_fees
 
