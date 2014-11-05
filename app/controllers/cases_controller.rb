@@ -107,7 +107,7 @@ class CasesController < ApplicationController
     #add new practice group to user lawfirm practicegroups unless :new_practice_group is empty
     unless params[:case][:new_practice_group].empty?
       @case.practice_group = params[:case][:new_practice_group]
-      @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id)
+      @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id) unless current_user.lawfirm.practicegroups.collect(&:group_name).include?(params[:case][:new_practice_group])
     end
     #add new referral source to database if empty
     unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
@@ -116,14 +116,14 @@ class CasesController < ApplicationController
     if @case.save
       #Mark case.open == false
       Closeout.close_case(@case)
-      binding.pry
       #add new_originations to originations db unless user did not input a new origination source
       unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
-        @new_origination = Origination.create!(referral_source: params[:case][:originations_attributes]["0"][:new_referral_source],
-                                              case_id: @case.id,
-                                              source_description: params[:case][:originations_attributes]["0"][:source_description])
+        source_description = params[:case][:originations_attributes]["0"][:source_description] unless nil
+        @new_origination = Origination.new(referral_source: params[:case][:originations_attributes]["0"][:new_referral_source],
+                                          case_id: @case.id,
+                                          source_description: source_description)
+        @new_origination.save
       end
-      binding.pry
       flash[:success] = "Case Added Successfully"
       redirect_to client_case_path(@case.client_id,@case)
     else
