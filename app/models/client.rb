@@ -71,9 +71,9 @@ class Client < ActiveRecord::Base
       profit = set_client_variables
       closed_cases = cl.cases.where(open: false)
       closed_cases.each do |ca|
-        profit[0] += ca.closeouts.last.total_gross_fee_received
-        profit[1] += ca.closeouts.last.total_out_of_pocket_expenses
-        profit[1] += ca.closeouts.last.referring_fees_paid
+        profit[0] += ca.closeouts.last.total_gross_fee_received unless ca.closeouts.last == nil
+        profit[1] += ca.closeouts.last.total_out_of_pocket_expenses unless ca.closeouts.last == nil
+        profit[1] += ca.closeouts.last.referring_fees_paid unless ca.closeouts.last == nil
         #return to calculated indirect expenses once overhead calculation is included
         profit[3] += Client.actual_hours_worked_per_case(ca)
       end
