@@ -7,7 +7,7 @@
 
       <h2>Case Information</h2>
 
-      <table class="table">
+        <table class="table">
           <tr>
             <td><%= f.label 'Client Name:' %></td>
             <td> <%= f.collection_select(:client_id, current_user.lawfirm.clients.order(:full_name).all, :id, :full_name, :include_blank => 'Select Client') %></td>
@@ -19,13 +19,13 @@
           </tr>
           <tr>
             <td><%= f.label 'Court:' %></td>
-            <td><%= f.select(:court, current_user.lawfirm.cases.order(:court).collect(&:court).uniq, :include_blank => "Select Existing") %></td>
+            <td><%= f.select(:court, current_user.lawfirm.cases.order(:court).collect(&:court).uniq - ["", nil], :include_blank => "Select Existing") %></td>
             <td><%= f.text_field :new_court, placeholder: "Add New" %></td>
 
           </tr>
           <tr>
             <td><%= f.label 'Judge:' %></td>
-            <td><%= f.select(:judge, current_user.lawfirm.cases.order(:judge).collect(&:judge).uniq, :include_blank => "Select Existing")%></td>
+            <td><%= f.select(:judge, current_user.lawfirm.cases.order(:judge).collect(&:judge).uniq - ["",nil], :include_blank => "Select Existing")%></td>
             <td><%= f.text_field :new_judge, placeholder: "Add New" %></td>
           </tr>
           <tr>
@@ -34,17 +34,17 @@
           </tr>
           <tr>
             <td><%= f.label 'Opposing Counsel:' %></td>
-            <td><%= f.select(:opposing_attorney, current_user.lawfirm.cases.order(:opposing_attorney).collect(&:opposing_attorney).uniq, :include_blank => "Select Existing") %> </td>
+            <td><%= f.select(:opposing_attorney, current_user.lawfirm.cases.order(:opposing_attorney).collect(&:opposing_attorney).uniq - ["",nil], :include_blank => "Select Existing") %> </td>
             <td><%= f.text_field :new_opposing_attorney, placeholder: "Add New" %> </td>
           </tr>
           <tr>
             <td><%= f.label 'Matter Type:' %></td>
-            <td><%= f.select(:type_of_matter, current_user.lawfirm.case_types.order(:mat_ref).collect(&:mat_ref).uniq, :include_blank => "Select Existing") %></td>
+            <td><%= f.select(:type_of_matter, current_user.lawfirm.case_types.order(:mat_ref).collect(&:mat_ref).uniq - ["", nil], :include_blank => "Select Existing") %></td>
             <td><%= f.text_field :new_type_of_matter, placeholder: "Add New" %></td>
           </tr>
           <tr>
             <td><%= f.label 'Related Cases:' %></td>
-            <td><%= f.select(:related_cases, current_user.lawfirm.cases.order(:name).all.map { |c| c.name }.prepend("N/A"), :include_blank => "Select Related Cases or N/A") %></td>
+            <td><%= f.select(:related_cases, current_user.lawfirm.cases.order(:name).all.map { |c| c.name }.prepend("N/A") - ["",nil], :include_blank => "Select Related Cases or N/A") %></td>
           </tr>
           <tr>
             <td><%= f.label 'Practice Group:' %></td>

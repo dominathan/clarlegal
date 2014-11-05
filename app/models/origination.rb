@@ -10,7 +10,7 @@ class Origination < ActiveRecord::Base
   REFERRALS = ['Attorney','Client','Internet','Advertising','Reputation']
 
   def self.all_referral_sources(user)
-    user_added_referrals =  user.lawfirm.originations.collect(&:referral_source).uniq
+    user_added_referrals =  user.lawfirm.originations.collect(&:referral_source).uniq - ["",nil]
     original_referrals = Origination::REFERRALS
     user_added_referrals.concat(original_referrals).sort.uniq
   end
