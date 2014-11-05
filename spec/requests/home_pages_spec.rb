@@ -7,7 +7,7 @@ describe "HomePages" do
     describe "Home page" do
 
       before { visit root_path }
-      it { should have_content('ClarLegal') }
+      it { should have_content('CLARLEGAL') }
       it { should have_title(full_title('Home')) }
     end
 
