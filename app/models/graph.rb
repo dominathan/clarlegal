@@ -2,12 +2,12 @@ class Graph < ActiveRecord::Base
 
   #open cases by lawfirm
   def self.open_cases(user)
-    user.lawfirm.cases.where(open: true)
+    user.lawfirm.cases.where(open: true).includes(:fees,:timings)
   end
 
   #closed cases by lawfirm
   def self.closed_cases(user)
-    user.lawfirm.cases.where(open: false)
+    user.lawfirm.cases.where(open: false).includes(:closeouts)
   end
 
   #practice_group names by lawfirm
@@ -38,9 +38,7 @@ class Graph < ActiveRecord::Base
 
   #start year should be five years prior to the most recent collection fee_received
   def self.closeout_years
-    all_dates = Closeout.all.order(:date_fee_received).collect { |cl| cl.date_fee_received }
-    start_year = all_dates.compact.sort.last.year-4
-    [start_year, start_year+1,start_year+2,start_year+3,start_year+4]
+    [Date.today.year - 4,Date.today.year - 3,Date.today.year - 2,Date.today.year - 1,Date.today.year]
   end
 
   def self.time_to_collection(case_name,speed)
@@ -94,5 +92,17 @@ class Graph < ActiveRecord::Base
     outliers
   end
 
+
+  #-----------------Speed up Actual------------------------#
+  def self.closeout_amount_by_year(user,closeout_amount)
+    year_of_collection = [Date.today - 4.years,Date.today - 3.years,Date.today - 2.years,Date.today - 1.years,Date.today]
+    amounts = [0,0,0,0,0]
+    amounts.length.times do |i|
+      amounts[i] = user.lawfirm.cases.where(open: false).joins(:closeouts).where(
+        'date_fee_received >= :start_date AND date_fee_received <= :end_date',
+        {start_date: year_of_collection[i].beginning_of_year, end_date: year_of_collection[i].end_of_year}).sum(closeout_amount)
+    end
+    return amounts
+  end
 
 end

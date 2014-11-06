@@ -1,4 +1,5 @@
 <% provide(:title, 'Actual Revenue by Year') %>
+<h2>Start: <%= @timetest %></h2>
 
 <div class="chart container">
   <div class='col-lg-10 col-lg-offset-2'>
@@ -11,8 +12,8 @@
  $(function () {
 
 var categoryByYear = <%= Graph.closeout_years %>;
-var totalRecovery = <%= @final_total_recovery %>;
-var totalGrossFeeReceived = <%= @final_total_gross_fee_received %>;
+var totalRecovery = <%= @total_recovery %>;
+var totalGrossFeeReceived = <%= @total_gross_fee_received %>;
 var totalOutOfPocketExpenses = <%= @total_out_of_pocket_expenses %>;
 var referringFeesPaid = <%= @referring_fees_paid %>;
 var totalFeeReceived = <%= @total_fee_received %>;

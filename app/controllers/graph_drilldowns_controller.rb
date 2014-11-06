@@ -3,6 +3,7 @@ class GraphDrilldownsController < ApplicationController
   before_action :belongs_to_firm
 
   def rev_by_fee_type
+    starttime = Time.now
     set_category_years
     @hourly_rev = []
     @contingency_rev = []
@@ -18,6 +19,8 @@ class GraphDrilldownsController < ApplicationController
     yearly_collection(@mixed_rev)
     rev_by_fee_type_low
     rev_by_fee_type_high
+    endtime=Time.now
+    @timetest = endtime-starttime
   end
 
   def rev_by_fee_type_low
@@ -83,7 +86,8 @@ class GraphDrilldownsController < ApplicationController
 
   def revenue_collection_by_year(collection_rate,collection_amount)
     set_yearly_rev
-    current_user.lawfirm.cases.where(open: true).each do |ca|
+    open_cases = current_user.lawfirm.cases.where(open: true).includes(:fees,:timings)
+    open_cases.each do |ca|
       conclusion_date = time_to_collection(ca,collection_rate)
       if @current_date.year == conclusion_date.year
         @rev_est_year1 += collection_expectation(ca,collection_amount)
@@ -102,7 +106,8 @@ class GraphDrilldownsController < ApplicationController
   def cost_by_year(collection_rate,collection_amount)
     #change the -= to += for above the line grid, also works for line graph if positive
     set_yearly_rev
-    current_user.lawfirm.cases.where(open: true).each do |ca|
+    open_cases = current_user.lawfirm.cases.where(open: true).includes(:fees,:timings)
+    open_cases.each do |ca|
       conclusion_date = time_to_collection(ca,collection_rate)
       if ca.fee.last
         if ca.fee.last.cost_estimate != nil
@@ -126,7 +131,8 @@ class GraphDrilldownsController < ApplicationController
 
   def referral_by_year(collection_rate, collection_amount)
     set_yearly_rev
-    current_user.lawfirm.cases.where(open: true).each do |ca|
+    open_cases = current_user.lawfirm.cases.where(open: true).includes(:fees,:timings)
+    open_cases.each do |ca|
       conclusion_date = time_to_collection(ca,collection_rate)
       if ca.fee.last
         if ca.fee.last.referral
@@ -282,6 +288,7 @@ class GraphDrilldownsController < ApplicationController
   end
 
   def rev_by_year_expected
+    starttime = Time.now
     set_category_years
     all_year_variables
     revenue_collection_by_year('expected','high')
@@ -297,6 +304,8 @@ class GraphDrilldownsController < ApplicationController
     @rev_by_year_high = Graph.add_arrays(@rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @rev_by_year_medium = Graph.add_arrays(@rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @rev_by_year_low = Graph.add_arrays(@rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    endtime = Time.now
+    @timetest = endtime-starttime
   end
 
   def rev_by_year_slow
