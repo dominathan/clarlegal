@@ -92,10 +92,15 @@ class Graph < ActiveRecord::Base
     outliers
   end
 
-  #Return closeout amount by user lawfirm, grouped by year over the last 5 years, by Closeout.attribute
+  #Return sum(closeout.attributee) by user lawfirm, grouped by year over the last 5 years
   def self.closeout_amount_by_year(user,closeout_amount)
+    #Starting with 5 year look back
     year_of_collection = [Date.today - 4.years,Date.today - 3.years,Date.today - 2.years,Date.today - 1.years,Date.today]
     amounts = [0,0,0,0,0]
+
+    #For the length of time being examined, check with Closeout.date_fee_received
+    #is within the start and end of the year.  If it is, sum it.  Then repeat for
+    #all 5 years.
     amounts.length.times do |i|
       amounts[i] = user.lawfirm.cases.where(open: false).joins(:closeouts).where(
         'date_fee_received >= :start_date AND date_fee_received <= :end_date',
