@@ -125,8 +125,9 @@ class GraphsController < ApplicationController
 #--------------End practice_group_revenue_pie_charts---------------------------
 
   #Get all Closeout values belonging to User Lawfirm.  Expenses are made negative.
-  #See Graph.closeamount_by_year for more information.
+  #See Graph.closeamount_by_year(user,closeout.attribute) for more information.
   def actual_revenue_by_year
+    #Using all 5 dollar amounts in Closeout Model for graph.
     @total_recovery = Graph.closeout_amount_by_year(current_user,"total_recovery")
     @total_gross_fee_received = Graph.closeout_amount_by_year(current_user,"total_gross_fee_received")
     @total_out_of_pocket_expenses =  Graph.closeout_amount_by_year(current_user,"total_out_of_pocket_expenses").map { |i| i *- 1}
@@ -495,13 +496,9 @@ class GraphsController < ApplicationController
     end
     @final_fee_by_referral_source = all_referral_sources.zip(amounts)
 
-    #Remove elements from the array that are less than or = to 0
-    #(do not want them cluttering the pie chart)
-    @final_fee_by_referral_source.each do |removal|
-      if removal[1] <= 0
-        @final_fee_by_referral_source.delete(removal)
-      end
-    end
+    #Remove elements from the array that are less than or = to amount us Graph.method(array, amount)
+    #Do not 0 amount items in array cluttering the pie chart
+    @final_fee_by_referral_source = Graph.remove_arrays_less_than_or_equal_to(@final_fee_by_referral_source,0)
 
     #All others are expected values and need to be reworked
     expected_revenue_by_referral_source

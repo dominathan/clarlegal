@@ -116,4 +116,22 @@ class Graph < ActiveRecord::Base
       'referral_source = ?', referral_source).sum(closeout_amount)
   end
 
+  #For Pie Charts, do not want values returned to JS template with <= 0
+  #because they do not show up in the graph except for the name, taking unnecessary space
+  def self.remove_arrays_less_than_or_equal_to(items,amount)
+    for remove_me in items
+
+      #Check the second element in the array, because the structure is
+      #[["item name","amount"],["item name2","amount2"]
+      if remove_me[1] <= amount
+        items.delete(remove_me)
+
+        #Recursive because if it finds one items less than, it deletes and ends the call
+        #Probably a better way to do this.
+        remove_arrays_less_than_or_equal_to(items,amount)
+      end
+    end
+    return items
+  end
+
 end
