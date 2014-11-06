@@ -98,7 +98,7 @@ class Graph < ActiveRecord::Base
     year_of_collection = [Date.today - 4.years,Date.today - 3.years,Date.today - 2.years,Date.today - 1.years,Date.today]
     amounts = [0,0,0,0,0]
 
-    #For the length of time being examined, check with Closeout.date_fee_received
+    #For the length of time being examined, check which Closeout.date_fee_received
     #is within the start and end of the year.  If it is, sum it.  Then repeat for
     #all 5 years.
     amounts.length.times do |i|
