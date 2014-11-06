@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       flash[:success] = "Welcome to ClarLegal"
       sign_in user
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-      redirect_to user_cases_path
+      redirect_back_or user_cases_path
     else
       flash.now[:danger] = 'Invalid email/password combination'
       render 'new'
