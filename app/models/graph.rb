@@ -92,17 +92,23 @@ class Graph < ActiveRecord::Base
     outliers
   end
 
-
-  #-----------------Speed up Actual------------------------#
+  #Return closeout amount by user lawfirm, grouped by year over the last 5 years, by Closeout.attribute
   def self.closeout_amount_by_year(user,closeout_amount)
     year_of_collection = [Date.today - 4.years,Date.today - 3.years,Date.today - 2.years,Date.today - 1.years,Date.today]
     amounts = [0,0,0,0,0]
     amounts.length.times do |i|
       amounts[i] = user.lawfirm.cases.where(open: false).joins(:closeouts).where(
         'date_fee_received >= :start_date AND date_fee_received <= :end_date',
-        {start_date: year_of_collection[i].beginning_of_year, end_date: year_of_collection[i].end_of_year}).sum(closeout_amount)
+        {start_date: year_of_collection[i].beginning_of_year,
+         end_date: year_of_collection[i].end_of_year}).sum(closeout_amount)
     end
     return amounts
+  end
+
+  #Return sum of closed cases, Closeout.closeout_amount by origination.referral_source
+  def self.closeout_amount_by_origination(user,referral_source,closeout_amount)
+    user.lawfirm.cases.where(open: false).joins(:originations, :closeouts).where(
+      'referral_source = ?', referral_source).sum(closeout_amount)
   end
 
 end

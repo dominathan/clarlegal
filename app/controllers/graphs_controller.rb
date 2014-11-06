@@ -124,18 +124,14 @@ class GraphsController < ApplicationController
 
 #--------------End practice_group_revenue_pie_charts---------------------------
 
-#--------------Actual_Revenue_By_Year -----------------------------------------
-
+  #Get all Closeout values belonging to User Lawfirm.  Expenses are made negative.
+  #See Graph.closeamount_by_year for more information.
   def actual_revenue_by_year
-    start_time = Time.now
-    #Get List of Closed Cases.  Set Variables
     @total_recovery = Graph.closeout_amount_by_year(current_user,"total_recovery")
     @total_gross_fee_received = Graph.closeout_amount_by_year(current_user,"total_gross_fee_received")
-    @total_out_of_pocket_expenses =  Graph.closeout_amount_by_year(current_user,"total_out_of_pocket_expenses")
-    @referring_fees_paid = Graph.closeout_amount_by_year(current_user,"referring_fees_paid")
+    @total_out_of_pocket_expenses =  Graph.closeout_amount_by_year(current_user,"total_out_of_pocket_expenses").map { |i| i *- 1}
+    @referring_fees_paid = Graph.closeout_amount_by_year(current_user,"referring_fees_paid").map {|i| i * -1}
     @total_fee_received = Graph.closeout_amount_by_year(current_user,"total_fee_received")
-    end_time = Time.now
-    @timetest = end_time-start_time
   end
 
 #--------------End Actual Revenue By Year--------------------------------------
@@ -489,23 +485,25 @@ class GraphsController < ApplicationController
 
 #---------------BEGIN Estimated/Actual Revenue by Referral Source -----------------------
   def actual_revenue_by_referral_source
-    closed_cases = Graph.closed_cases(current_user)
+    #Get list of all referral sources by lawfirm.
     all_referral_sources = Origination.all_referral_sources(current_user)
-    array_of_fee_received = []
-    all_referral_sources.each do |ref_source|
-      sum_total = 0
-      closed_cases.each do |ca|
-        if ca.originations.order(:created_at).last.referral_source
-          if ca.originations.order(:created_at).last.referral_source == ref_source
-            sum_total += ca.closeouts.order(:created_at).last.total_fee_received
-          end
-        else
-          next
-        end
-      end
-      array_of_fee_received << sum_total
+    amounts = []
+
+    #Sum the total_fee_received of all closed cases by referral source
+    all_referral_sources.each do |ref|
+      amounts << Graph.closeout_amount_by_origination(current_user, ref, 'total_fee_received')
     end
-    @final_fee_by_referral_source = all_referral_sources.zip(array_of_fee_received)
+    @final_fee_by_referral_source = all_referral_sources.zip(amounts)
+
+    #Remove elements from the array that are less than or = to 0
+    #(do not want them cluttering the pie chart)
+    @final_fee_by_referral_source.each do |removal|
+      if removal[1] <= 0
+        @final_fee_by_referral_source.delete(removal)
+      end
+    end
+
+    #All others are expected values and need to be reworked
     expected_revenue_by_referral_source
     low_revenue_by_referral_source
     high_revenue_by_referral_source
