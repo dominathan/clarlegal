@@ -8,13 +8,17 @@
           <table class="table">
             <tr>
               <td><%= f.label :email %></td>
-              <td><%= f.text_field :email %></td>
+              <td><%= f.text_field :email, class: 'form-control' %></td>
             </tr>
             <tr>
               <td><%= f.label :password %></td>
-              <td><%= f.password_field :password %></td>
+              <td><%= f.password_field :password, class: 'form-control' %></td>
             </tr>
           </table>
+          <%= f.label :remember_me, class: "checkbox inline" do %>
+            <%= f.check_box :remember_me %>
+            <span>Remember me on this computer</span>
+          <% end %>
             <div class="center">
               <%= f.submit "Sign in", class: "btn btn-large btn-primary" %>
             </div>

@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = User.find(params[:id])
   end
 
   def show
@@ -21,7 +22,7 @@ class UsersController < ApplicationController
       #UserMailer.signup_confirmation(@user).deliver
       sign_in @user
       flash[:success] = "Welcome"
-      redirect_to new_user_lawfirm_path(@user)
+      redirect_back_or new_user_lawfirm_path(@user)
     else
       render 'new'
     end

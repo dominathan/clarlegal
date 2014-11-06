@@ -29,9 +29,9 @@ describe User do
     it { should be_admin }
   end
 
-  describe "remember token" do
+  describe "if remember token is not selected" do
     before { @user.save }
-    its(:remember_token) { should_not be_blank }
+    its(:remember_token) { should be_blank }
   end
 
   describe "when name is not present" do
