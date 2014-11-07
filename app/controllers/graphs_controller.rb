@@ -18,8 +18,12 @@ class GraphsController < ApplicationController
     #Step 4. Combine the lawfirm practice group with the count..e.g.[['Med Mal', 5]]
               #practice_group_pie_actual takes the closed cases, with a number of previous year
               #look back limit
-    @final_case_closed = practice_group_pie_actual
-    @final_case_open = lawfirm_pgs.zip(open_cases_by_pg)
+              #Remove 0 Case totals Practicegroups with Graph.remove_arrays
+    final_case_closed = practice_group_pie_actual
+    @final_case_closed = Graph.remove_arrays_less_than_or_equal_to(final_case_closed,0)
+    final_case_open = lawfirm_pgs.zip(open_cases_by_pg)
+    @final_case_open = Graph.remove_arrays_less_than_or_equal_to(final_case_open,0)
+
   end
 
   def practice_group_pie_actual
