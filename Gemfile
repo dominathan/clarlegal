@@ -26,7 +26,6 @@ gem 'whenever', '0.9.2', :require => false #handles cron tasks
 
 group :development, :test do
   gem 'timecop', '0.7.1' #remote time travel
-  gem 'letter_opener', '1.2.0' #test email being sent
   gem 'faker', '1.1.2' #for database population
   gem 'thin', '1.6.3' #local server
   gem 'rspec-rails', '2.13.1'
@@ -59,6 +58,8 @@ gem 'bcrypt-ruby', '3.1.2'
 gem 'mysql2', '0.3.16'
 gem 'thinking-sphinx', '3.1.1'
 gem 'flying-sphinx', '1.2.0'
+
+gem 'letter_opener', '1.2.0', :group => :development #test email being sent
 
 #actual email being sent
 gem 'mandrill_mailer', '0.4.6'

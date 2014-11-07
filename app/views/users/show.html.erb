@@ -11,7 +11,7 @@
       </tr>
       <tr>
         <td>Lawfirm:</td>
-        <td><%= @user.lawfirm.firm_name%></td>
+        <td><%= @user.lawfirm ? @user.lawfirm.firm_name : ""%></td>
       </tr>
       <tr>
         <td>Practice Groups:</td>

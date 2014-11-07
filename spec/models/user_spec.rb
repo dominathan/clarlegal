@@ -108,4 +108,13 @@ describe User do
       specify { expect(user_for_invalid_password).to be_false }
     end
   end
+
+  describe "authenticated? for a user with a nil digest" do
+    before do
+      @user = User.new(first_name: "Example User", last_name: "Nothing", email: "user@example.com",
+                       password: " ", password_confirmation: " ")
+    end
+    specify { expect(@user.authenticated?(:remember, "").should be_false) }
+  end
+
 end
