@@ -1,0 +1,6 @@
+<%= @user.first_name%> <%@user.last_name %>--
+
+Thank you for signing up for CLARLEGAL. Click the link below to activate your account:
+
+<%= link_to "Activate My Account", edit_account_activation_url(@user.activation_token,
+                                                                email: @user.email) %>
