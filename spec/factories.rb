@@ -13,6 +13,8 @@ FactoryGirl.define do
     email                 "test@example.com"
     password              "password"
     password_confirmation "password"
+    activated             true
+    activated_at          Time.zone.now
   end
 
   factory :client do
