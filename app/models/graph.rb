@@ -127,6 +127,7 @@ class Graph < ActiveRecord::Base
         items.delete(remove_me)
 
         #Recursive because if it finds one items less than, it deletes and ends the call
+        #Not functional if there is more than one itemname with amount less<=amonut.
         #Probably a better way to do this.
         remove_arrays_less_than_or_equal_to(items,amount)
       end
