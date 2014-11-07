@@ -39,14 +39,36 @@ describe "User pages" do
         fill_in "Confirmation", with: "password"
       end
 
-      describe "after saving the user" do
-        before { click_button submit }
+      describe "after clicking submit button" do
+        ActionMailer::Base.deliveries.clear
+        it "should send an email" do
+          expect { click_button submit }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
+
+        describe 'should redirect to home page' do
+          subject { page }
+          it { should have_link('Sign in'); save_and_open_page }
+        end
+      end
+
+      describe "and not activating account with email" do
+        before do
+          visit signin_path
+          fill_in "Email",    with: "user@example.com"
+          fill_in "Password",    with: "password"
+          click_button "Sign in"
+        end
+
+        describe "should not be able to sign in" do
+          it { should have_link('Sign in') }
+          it { should have_content("Account not activated") }
+        end
+      end
+
         let(:user) { User.find_by(email: 'user@example.com') }
 
         it { should have_link('Sign out') }
-        xit { should have_title(user.first_name) }
         it { should have_selector('div.alert.alert-success', text: 'Welcome') }
-      end
 
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
