@@ -2,7 +2,7 @@
 <h1>Join Law Group</h1>
 
 <div class="row">
-  <div class="span6 offset3">
+  <div class="col-md-6 col-md-offset-3">
     <%= form_for(:lawfirm, url: joinlawfirm_commit_path) do |f| %>
 
     <table class="table">
@@ -15,7 +15,9 @@
         <td><%= f.password_field :password %></td>
       </tr>
     </table>
+    <div class="center">
       <%= f.submit "Join Group", class: "btn btn-large btn-primary" %>
+    </div>
     <% end %>
 
   </div>
