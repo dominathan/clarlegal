@@ -21,9 +21,6 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
 
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
@@ -43,6 +40,8 @@ RSpec.configure do |config|
 
   #added for capybara
   config.include Capybara::DSL
+  config.include(MailerMacros)
+  config.before(:each) { reset_email }
 
   #added it because it was causing failing tests
   def full_title(page_title)

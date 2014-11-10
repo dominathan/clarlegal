@@ -23,10 +23,10 @@ describe UserMailer do
     let(:user) { FactoryGirl.create(:user) }
     let(:mail) { UserMailer.password_reset(user) }
 
-    it "renders the headers" do
+    it "send user password reset url" do
       user.create_reset_digest
       mail.subject.should eq("Password Reset Instructions")
-      mail.to.should eq(["test@example.com"])
+      mail.to.should eq([user.email])
       mail.from.should eq(["noreply@example.com"])
     end
 

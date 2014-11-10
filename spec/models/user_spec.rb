@@ -117,4 +117,27 @@ describe User do
     specify { expect(@user.authenticated?(:remember, "").should be_false) }
   end
 
+  describe "#send_password_reset" do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:mail) { UserMailer.password_reset(user) }
+
+    it "generates a unique password_reset_token each time" do
+      user.create_reset_digest
+      last_token = user.reset_digest
+      user.send_password_reset_email
+      user.reset_digest.should_not eq(last_token)
+    end
+
+    it "saves the time the password reset was sent" do
+      user.create_reset_digest
+      user.reload.reset_sent_at.should be_present
+    end
+
+    it "delivers email to user" do
+      user.create_reset_digest
+      user.send_password_reset_email
+      last_email.to.should include(user.email)
+    end
+  end
+
 end
