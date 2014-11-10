@@ -58,9 +58,9 @@ namespace :db do
                  activated: true,
                  activated_at: Time.zone.now,
                  lawfirm_id: 1)
-    User.create!(first_name: "Blair",
-                  last_name: "Marsteller",
-                 email: "blair@test.com",
+    User.create!(first_name: "Liza",
+                  last_name: "Soydan",
+                 email: "liza@test.com",
                  password: "password",
                  password_confirmation: "password",
                  activated: true,
