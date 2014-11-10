@@ -87,7 +87,7 @@ Claregal::Application.configure do
     :address   => "smtp.mandrillapp.com",
     :port      => 587,
     :enable_starttls_auto => true,
-    :user_name => ENV['MANDRILL_HEROKU_USERNAME']
+    :user_name => ENV['MANDRILL_HEROKU_USERNAME'],
     :password  => ENV['MANDRILL_HEROKU_APIKEY'],
     :authentication => 'plain',
     :domain => 'heroku.com'
