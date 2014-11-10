@@ -81,14 +81,15 @@ Claregal::Application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-
+  @heroku_username = ENV["MANDRILL_HEROKU_USERNAME"]
+  @heroku_apikey = ENV["MANDRILL_HEROKU_APIKEY"]
 
    config.action_mailer.smtp_settings = {
     :address   => "smtp.mandrillapp.com",
     :port      => 587,
     :enable_starttls_auto => true,
-    :user_name => ENV["MANDRILL_HEROKU_USERNAME"],
-    :password  => ENV["MANDRILL_HEROKU_APIKEY"],
+    :user_name => @heroku_username,
+    :password  => @heroku_apikey,
     :authentication => 'plain',
     :domain => 'herokuapp.com'
   }
