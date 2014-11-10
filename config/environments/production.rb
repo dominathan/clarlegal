@@ -90,7 +90,7 @@ Claregal::Application.configure do
     :user_name => ENV["MANDRILL_HEROKU_USERNAME"],
     :password  => ENV["MANDRILL_HEROKU_APIKEY"],
     :authentication => 'plain',
-    :domain => 'heroku.com'
+    :domain => 'herokuapp.com'
   }
 
 end
