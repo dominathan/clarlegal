@@ -25,7 +25,6 @@ gem 'cocoon', '1.2.6'  #nested forms, javascript adds new form
 gem 'whenever', '0.9.2', :require => false #handles cron tasks
 
 group :development, :test do
-  gem 'timecop', '0.7.1' #remote time travel
   gem 'thin', '1.6.3' #local server
   gem 'rspec-rails', '2.13.1'
   gem 'railroady' #road map of
@@ -50,6 +49,7 @@ end
 gem 'bootstrap-sass', '3.1.1'
 gem 'sprockets', '2.11.0'
 
+gem 'timecop', '0.7.1' #remote time travel
 gem 'faker', '1.1.2' #for database population
 
 #for password validation
