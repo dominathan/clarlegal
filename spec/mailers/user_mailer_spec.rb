@@ -20,16 +20,21 @@ describe UserMailer do
   end
 
   describe "password_reset" do
-    let(:mail) { UserMailer.password_reset }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:mail) { UserMailer.password_reset(user) }
 
-    xit "renders the headers" do
-      mail.subject.should eq("Password reset")
-      mail.to.should eq(["to@example.org"])
-      mail.from.should eq(["from@example.com"])
+    it "renders the headers" do
+      user.create_reset_digest
+      mail.subject.should eq("Password Reset Instructions")
+      mail.to.should eq(["test@example.com"])
+      mail.from.should eq(["noreply@example.com"])
     end
 
-    xit "renders the body" do
-      mail.body.encoded.should match("Hi")
+    it "renders the body" do
+      user.create_reset_digest
+      mail.body.encoded.should match("To reset your password click the link below")
+      mail.body.encoded.should match(user.reset_token)
+      mail.body.encoded.should match(CGI::escape(user.email))
     end
   end
 
