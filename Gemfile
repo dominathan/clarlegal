@@ -26,7 +26,6 @@ gem 'whenever', '0.9.2', :require => false #handles cron tasks
 
 group :development, :test do
   gem 'timecop', '0.7.1' #remote time travel
-  gem 'faker', '1.1.2' #for database population
   gem 'thin', '1.6.3' #local server
   gem 'rspec-rails', '2.13.1'
   gem 'railroady' #road map of
@@ -50,6 +49,8 @@ end
 #for styling
 gem 'bootstrap-sass', '3.1.1'
 gem 'sprockets', '2.11.0'
+
+gem 'faker', '1.1.2' #for database population
 
 #for password validation
 gem 'bcrypt-ruby', '3.1.2'
