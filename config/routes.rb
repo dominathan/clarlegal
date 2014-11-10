@@ -1,5 +1,6 @@
 Claregal::Application.routes.draw do
 
+
   root 'home_pages#home'
 
   match '/about',              to: 'home_pages#about',        via: 'get'
@@ -26,6 +27,7 @@ Claregal::Application.routes.draw do
 
   resources :sessions,            only: [:new, :create, :destroy]
   resources :account_activations, only: [:edit]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
 
   resources :clients do
     resources :cases do #nested routes so it has to be clients/3/cases/4....etc for parameters
