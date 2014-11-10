@@ -63,7 +63,6 @@ Claregal::Application.configure do
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
@@ -78,9 +77,11 @@ Claregal::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  config.action_mailer.default_url_options = { :host => 'www.clarlegal.com' }
+  config.action_mailer.default_url_options = { :host => 'clarlegal.herokuapp.com' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
 
    config.action_mailer.smtp_settings = {
     :address   => "smtp.mandrillapp.com",
@@ -89,7 +90,7 @@ Claregal::Application.configure do
     :user_name => ENV["MANDRILL_HEROKU_USERNAME"],
     :password  => ENV["MANDRILL_HEROKU_APIKEY"],
     :authentication => 'plain',
-    :domain => 'clarlegal.com'
+    :domain => 'heroku.com'
   }
 
 end
