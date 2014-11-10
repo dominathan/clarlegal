@@ -7,11 +7,11 @@
       <%= form_for(:session, url: sessions_path) do |f| %>
           <table class="table">
             <tr>
-              <td><%= f.label :email %></td>
+              <td><%= f.label :email, "Email:" %></td>
               <td><%= f.text_field :email, class: 'form-control' %></td>
             </tr>
             <tr>
-              <td><%= f.label :password %></td>
+              <td><%= f.label :password, "Password:" %></td>
               <td><%= f.password_field :password, class: 'form-control' %></td>
             </tr>
           </table>

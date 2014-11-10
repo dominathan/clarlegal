@@ -66,6 +66,11 @@ class User < ActiveRecord::Base
     UserMailer.password_reset(self).deliver
   end
 
+  #Return true if passwor reset has expired
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
   def self.full_name(user)
     [user.first_name, user.last_name].compact.join(" ")
   end
