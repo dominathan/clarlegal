@@ -9,7 +9,7 @@ describe UserMailer do
     it "renders the headers" do
       mail.subject.should eq("Account Activation")
       mail.to.should eq(["test@example.com"])
-      mail.from.should eq(["noreply@example.com"])
+      mail.from.should eq(["noreply@clarlegal.com"])
     end
 
     it "renders the body" do
@@ -27,7 +27,7 @@ describe UserMailer do
       user.create_reset_digest
       mail.subject.should eq("Password Reset Instructions")
       mail.to.should eq([user.email])
-      mail.from.should eq(["noreply@example.com"])
+      mail.from.should eq(["noreply@clarlegal.com"])
     end
 
     it "renders the body" do
