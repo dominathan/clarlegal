@@ -7,10 +7,8 @@ class Staffing < ActiveRecord::Base
 
   validates :lawfirm_id, :position, :first_name, :last_name, presence: true
 
-  STARTING_LIST = ['Managing Member', 'Partner','Counsel','Contract Attorney',
-                   'Staff Attorney','Paralegal','Secretary', 'Responsible Attorney']
   def self.all_positions(user)
-    position_list = STARTING_LIST.concat(user.lawfirm.staffings.all.collect! { |person| person.position } ).uniq.sort!
+    position_list = StaticInformation::POSITION_LIST.concat(user.lawfirm.staffings.all.collect! { |person| person.position } ).uniq.sort!
   end
 
   def self.all_full_name_last_first(user)
