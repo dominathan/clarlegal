@@ -16,6 +16,7 @@
       <th>Phone Number</th>
       <th>Address</th>
       <th>Add Case</th>
+      <th>Edit Information</th>
     </tr>
   </thead>
   <tbody>
@@ -30,11 +31,12 @@
               <%= client.city %>, <%=client.state%>, <%=client.zip_code %>
           </td>
           <td><%= link_to "Add New Case", new_client_case_path(client.id)  %></td>
+          <td><%= link_to "Edit", edit_client_path(client)  %></td>
         </tr>
       <% end %>
       <% else %>
        <tr>
-         <td>You Must <%= link_to 'Add a Client', new_client_path %></td>
+         <td>You Must <%= link_to 'Add a Client', new_client_path, class: "btn btn-lg btn-primary" %></td>
        </tr>
     <% end %>
   </tbody>
@@ -43,6 +45,6 @@
 <%= will_paginate @client, renderer: BootstrapPagination::Rails %>
 
 <div class='center'>
-   <p> <%= link_to 'Add a Client', new_client_path %></p>
+   <p> <%= link_to 'Add a Client', new_client_path, class: "btn btn-lg btn-primary" %></p>
 </div>
 

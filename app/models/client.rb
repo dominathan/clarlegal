@@ -1,5 +1,6 @@
 class Client < ActiveRecord::Base
   belongs_to :user
+  belongs_to :lawfirm
   has_many :cases
   has_many :billings
 
@@ -12,8 +13,6 @@ class Client < ActiveRecord::Base
   validates :email, format: { with: VALID_EMAIL_REGEX }
   validates :phone_number, presence: true
   validates :street_address, :city, :zip_code, presence: true
-
-
 
   def self.all_full_name_last_first(user)
     #used in _staff_fields for collection select of LastName, FirstName
@@ -115,6 +114,5 @@ class Client < ActiveRecord::Base
   def self.set_client_variables
     [gross_fee=0,direct_expenses=0,net_fee=0,indirect_expenses=0,net_profit=0] #could also add total_hours_worked*applicable_rate
   end
-
 
 end
