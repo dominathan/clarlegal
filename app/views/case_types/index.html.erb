@@ -1,10 +1,10 @@
-<% provide(:title, 'Matter References') %>
-<h1> Matter References</h1>
+<% provide(:title, 'Matter Types') %>
+<h1> Matter Types</h1>
 
 <table class="table table-hover sortable">
   <thead>
     <tr>
-      <th>Matter References</th>
+      <th>Matter Types</th>
     </tr>
   </thead>
   <tbody>
@@ -18,5 +18,5 @@
 </table>
 
 <div class='center'>
-  <%= link_to 'Add Matter Reference', new_user_lawfirm_case_type_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %>
+  <%= link_to 'Add Matter Type', new_user_lawfirm_case_type_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %>
 </div>
