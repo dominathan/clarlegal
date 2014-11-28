@@ -66,23 +66,23 @@
             <table class="table">
               <tr>
                 <td><%= ff.label "Total Recovery:" %></td>
-                <td><%= ff.text_field :total_recovery %></td>
+                <td><%= ff.text_field :total_recovery, class: "monetary" %></td>
               </tr>
               <tr>
                 <td> <%= ff.label "Total Gross Fee Received:" %></td>
-                <td><%= ff.text_field :total_gross_fee_received %></td>
+                <td><%= ff.text_field :total_gross_fee_received, class: "monetary" %></td>
               </tr>
               <tr>
                 <td> <%= ff.label "Total Out-of-Pocket Expenses:" %></td>
-                <td> <%= ff.text_field :total_out_of_pocket_expenses %></td>
+                <td> <%= ff.text_field :total_out_of_pocket_expenses, class: "monetary" %></td>
               </tr>
               <tr>
                 <td> <%= ff.label "Referring Fee Paid:" %></td>
-                <td>    <%= ff.text_field :referring_fees_paid %></td>
+                <td>    <%= ff.text_field :referring_fees_paid, class: "monetary" %></td>
               </tr>
               <tr>
                 <td> <%= ff.label "Total Fee Received:" %></td>
-                <td> <%= ff.text_field :total_fee_received %></td>
+                <td> <%= ff.text_field :total_fee_received, class: "monetary" %></td>
               </tr>
               <tr>
                 <td><%= ff.label "Date Fee Received:" %></td>
