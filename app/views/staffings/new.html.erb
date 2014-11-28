@@ -22,11 +22,13 @@
         </tr>
         <tr>
           <td><%= f.label "Hourly Rate:" %></td>
-          <td><%= f.text_field :hourly_rate, :placeholder => "If Applicable" %></td>
+          <td><%= f.text_field :hourly_rate, :placeholder => "If Applicable",
+                    :class => "monetary" %></td>
         </tr>
       </table>
-      <%= f.submit "Add Staff", class: "btn btn-large btn-primary" %>
-
+      <div class="center">
+        <%= f.submit "Add Staff", class: "btn btn-large btn-primary center" %>
+      </div>
 
     <% end %>
   </div>

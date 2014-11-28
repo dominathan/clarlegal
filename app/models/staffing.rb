@@ -33,6 +33,4 @@ class Staffing < ActiveRecord::Base
     return Case.where(id: caselist, open: false)
   end
 
-
-
 end

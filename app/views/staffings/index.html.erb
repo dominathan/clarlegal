@@ -15,7 +15,7 @@
         <tr>
           <td><%= link_to "#{User.full_name_last_first(staff)}", user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => staff.id) %> </td>
           <td><%= staff.position %></td>
-          <td><%= staff.hourly_rate %></td>
+          <td><%= number_to_currency(staff.hourly_rate, precision: 0) %></td>
           <td><%= link_to "Edit", edit_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => staff.id) %></td>
         </tr>
       <% end %>
@@ -25,7 +25,7 @@
 
 <div class='center'>
 
-  <%= link_to 'Add Staff', new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %>
+  <%= link_to 'Add Staff', new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id), :class => 'btn btn-lg btn-primary' %>
 </div>
 
 
