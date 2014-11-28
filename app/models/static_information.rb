@@ -1,7 +1,12 @@
 #This model is for arrays of items that we expect to have minimal changes, e.g., US STATES lists
 class StaticInformation < ActiveRecord::Base
 
+#Fee arrangement... closeouts/views cases/views fee/views
+  FEE_PAYMENT_LIKELIHOOD = ['High','Medium','Low']
+  FEE_TYPE = ['Hourly', 'Fixed Fee', "Mixed", 'Contingency']
+
  #List of positions all Staff are eligible for...
+ #Used in staffings/views && staffs/views
   POSITION_LIST = ['Managing Member', 'Partner','Counsel','Contract Attorney',
                    'Staff Attorney','Paralegal','Secretary', 'Responsible Attorney']
 

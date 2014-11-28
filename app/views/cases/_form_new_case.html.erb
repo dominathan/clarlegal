@@ -70,7 +70,7 @@
           <table class='table'>
           <tr>
             <td><%= ff.label "Fee Type:" %></td>
-            <td><%= ff.select :fee_type, Fee::FEE_TYPE, include_blank: "Select Fee Type" %></td>
+            <td><%= ff.select :fee_type, StaticInformation::FEE_TYPE, include_blank: "Select Fee Type" %></td>
           </tr>
 
             <tr class='contingency hide'>
@@ -88,7 +88,7 @@
             </tr>
             <tr class='contingency fixed hide'>
               <td><%= ff.label "Likelihood of Recovery:" %></td>
-              <td><%= ff.select :payment_likelihood, Fee::FEE_PAYMENT_LIKELIHOOD %></td>
+              <td><%= ff.select :payment_likelihood, StaticInformation::FEE_PAYMENT_LIKELIHOOD %></td>
             </tr>
             <tr class='contingency fixed hide'>
               <td><%= ff.label "Fee Owed to Referral Source:" %></td>

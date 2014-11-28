@@ -6,10 +6,6 @@ class Fee < ActiveRecord::Base
   validates :medium_estimate, presence: true
   validates :low_estimate, presence: true
 
-
-  FEE_PAYMENT_LIKELIHOOD = ['High','Medium','Low']
-  FEE_TYPE = ['Hourly', 'Fixed Fee', "Mixed", 'Contingency']
-
   def self.get_fee_dates(user_case)
     updates = []
     for date in user_case.fee.order(:created_at)

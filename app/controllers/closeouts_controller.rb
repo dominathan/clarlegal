@@ -50,6 +50,6 @@ class CloseoutsController < ApplicationController
     def closeout_params
        params.require(:closeout).permit(:total_recovery, :total_gross_fee_received,
                                         :total_out_of_pocket_expenses, :referring_fees_paid,
-                                        :total_fee_received, :date_fee_received)
+                                        :total_fee_received, :date_fee_received, :fee_type)
     end
 end

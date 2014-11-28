@@ -65,6 +65,10 @@
           <%= f.fields_for :closeouts do |ff| %>
             <table class="table">
               <tr>
+                <td><%= ff.label :fee_type, "Fee Type:" %></td>
+                <td><%= ff.select :fee_type, StaticInformation::FEE_TYPE.sort %></td>
+              </tr>
+              <tr>
                 <td><%= ff.label "Total Recovery:" %></td>
                 <td><%= ff.text_field :total_recovery, class: "monetary" %></td>
               </tr>

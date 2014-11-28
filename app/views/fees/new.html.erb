@@ -13,7 +13,7 @@
         <table class='table'>
           <tr>
             <td><%= f.label "Fee Type:" %></td>
-            <td><%= f.select :fee_type, Fee::FEE_TYPE %></td>
+            <td><%= f.select :fee_type, StaticInformation::FEE_TYPE %></td>
           </tr>
 
           <tr>
@@ -30,7 +30,7 @@
           </tr>
           <tr>
             <td><%= f.label "Likelihood of Recovery:" %></td>
-            <td><%= f.select :payment_likelihood, Fee::FEE_PAYMENT_LIKELIHOOD %></td>
+            <td><%= f.select :payment_likelihood, StaticInformation::FEE_PAYMENT_LIKELIHOOD %></td>
           </tr>
           <tr>
             <td><%= f.label "Fee Owed to Referral Source:" %></td>
