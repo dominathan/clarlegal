@@ -9,8 +9,8 @@ class StaffingsController < ApplicationController
   end
 
   def index
-    @staffing = Staffing.all.order(:last_name).paginate(page: params[:page], per_page: 15)
-    @lawfirm = Lawfirm.find(params[:lawfirm_id])
+    @staffing = current_user.lawfirm.staffings.order(:last_name).paginate(page: params[:page], per_page: 15)
+    @lawfirm = current_user.lawfirm
   end
 
   def create
@@ -57,8 +57,8 @@ class StaffingsController < ApplicationController
   def individuals_and_cases
     @user = current_user.id
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
-    @staff = Staffing.find(params[:id])
-    @case = Case.find(params[:case_id])
+    @staff = current_user.lawfirm.staffings.load
+    @case = current_user.lawfirm.cases.load
     #for line graph of estimated fee over times
     if !@case.fees.empty?
       @fee_timeline = Fee.get_fee_dates(@case)
