@@ -211,7 +211,7 @@ class CasesController < ApplicationController
                                                             :estimated_conclusion_slow, :case_filed],
                                     :closeouts_attributes => [:total_recovery, :total_gross_fee_received,
                                                               :total_out_of_pocket_expenses, :referring_fees_paid,
-                                                              :total_fee_received, :date_fee_received])
+                                                              :total_fee_received, :date_fee_received, :fee_type])
     end
 
 

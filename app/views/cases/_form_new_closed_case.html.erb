@@ -10,7 +10,7 @@
         <table class="table">
           <tr>
             <td><%= f.label 'Client Name:' %></td>
-            <td> <%= f.collection_select(:client_id, current_user.lawfirm.clients.order(:full_name).all, :id, :full_name, :include_blank => 'Select Client') %></td>
+            <td> <%= f.select(:client_id, Client.company_and_full_names(current_user), :include_blank => 'Select Client') %></td>
             <td><%= link_to "New Client? Click Here", new_client_path, class: 'btn btn-sm btn-primary' %></td>
           </tr>
           <tr>
@@ -96,6 +96,21 @@
           <% end %>
         </div>
         <hr>
+
+      <div class='center'>
+        <h2>Staff</h2>
+      </div>
+      <div class='staff'>
+        <%= f.fields_for :staffs do |staff| %>
+          <% render 'staff_fields', :f => staff %>
+          <div class='center'>
+            <%= link_to_add_association "Click to Add More Staff", f, :staffs, :class => "addStaff" %> <br><br>
+            <%= link_to "New Staff? Click here", new_user_lawfirm_staffing_path(@current_user.id, @current_user.lawfirm.id) %>
+
+          </div>
+        <% end %>
+        <hr>
+      </div> <!-- STAFF DIV -->
 
         <div class='center'>
           <h2>Case Origination</h2>

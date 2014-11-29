@@ -14,6 +14,19 @@ class Client < ActiveRecord::Base
   validates :phone_number, presence: true
   validates :street_address, :city, :zip_code, presence: true
 
+  #For _form_new_cases, get list of company names. If company name not present, use full name instead
+  def self.company_and_full_names(user)
+    companies_and_ids = []
+    full_name_and_ids = []
+    user.lawfirm.clients.each do |cl|
+      cl.company ? companies_and_ids << [cl.company, cl.id] : next
+    end
+    user.lawfirm.clients.each do |cl|
+      !cl.company ? full_name_and_ids << [cl.full_name, cl.id] : next
+    end
+    return companies_and_ids.sort.concat(full_name_and_ids.sort)
+  end
+
   def self.all_full_name_last_first(user)
     #used in _staff_fields for collection select of LastName, FirstName
     final_name_list = []
