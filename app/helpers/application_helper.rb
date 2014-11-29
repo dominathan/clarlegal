@@ -18,7 +18,7 @@ module ApplicationHelper
                                     controller.action_name == action
       "active"
     else
-      false
+      ""
     end
   end
 
@@ -30,8 +30,6 @@ module ApplicationHelper
       ""
     end
   end
-
-
 
   def graph_sidebar?(page_controller)
     if controller.controller_name == page_controller

@@ -1,6 +1,5 @@
 Claregal::Application.routes.draw do
 
-
   root 'home_pages#home'
 
   match '/about',              to: 'home_pages#about',        via: 'get'
@@ -50,9 +49,18 @@ Claregal::Application.routes.draw do
 
   match '/lawfirm/cases',          to: 'lawfirms#show_lawfirm_cases', via: 'get' #to show current_user.lawfirm.cases
   match '/user/cases',             to:  'cases#user_cases',       via: 'get' #show all cases of current_user
+#--------------------------Actual GRAPH ROUTES----------------------------------------------------
+  resources :graph_actuals do
+    member do
+      get :revenue_by_year
+      get :revenue_by_pg
+      get :revenue_by_fee_type
+      get :revenue_by_origination
+      get :revenue_by_client
+    end
+  end
 
-
-  #--------------------------GRAPH ROUTES----------------------------------------------------
+  #--------------------------Expected GRAPH ROUTES----------------------------------------------------
   match '/practice_group/cases',                            to: "graphs#practice_group_pie", via: 'get'
   match '/practice_group/revenues',                         to: "graphs#practice_group_revenue_pie_low", via: 'get'
   match '/practice_group/:id/revenue',                      to: "graph_individual_prac_groups#expected_individual_pg_rev", via: 'get'

@@ -123,19 +123,6 @@ class GraphsController < ApplicationController
     @final_actual_rev_by_pg = lawfirm_pgs.zip(total_rev_per_pg_actual)
   end
 
-#--------------End practice_group_revenue_pie_charts---------------------------
-
-  #Get all Closeout values belonging to User Lawfirm.  Expenses are made negative.
-  #See Graph.closeamount_by_year(user,closeout.attribute) for more information.
-  def actual_revenue_by_year
-    #Using all 5 dollar amounts in Closeout Model for graph.
-    @total_recovery = Graph.closeout_amount_by_year(current_user,"total_recovery")
-    @total_gross_fee_received = Graph.closeout_amount_by_year(current_user,"total_gross_fee_received")
-    @total_out_of_pocket_expenses =  Graph.closeout_amount_by_year(current_user,"total_out_of_pocket_expenses").map { |i| i *- 1}
-    @referring_fees_paid = Graph.closeout_amount_by_year(current_user,"referring_fees_paid").map {|i| i * -1}
-    @total_fee_received = Graph.closeout_amount_by_year(current_user,"total_fee_received")
-  end
-
 #--------------End Actual Revenue By Year--------------------------------------
 #--------------Expected/Estimated Revenue By Year By Practice Group------------
 

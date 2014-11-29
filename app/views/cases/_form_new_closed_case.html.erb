@@ -10,6 +10,9 @@
         <table class="table">
           <tr>
             <td><%= f.label 'Client Name:' %></td>
+            <!-- Call Client.company_and_full_names(user)
+
+            This returns array with [[Company Name, client_id],[...],[Client.full_name,client_id] If Company is not found, it returns the (human) client's name-->
             <td> <%= f.select(:client_id, Client.company_and_full_names(current_user), :include_blank => 'Select Client') %></td>
             <td><%= link_to "New Client? Click Here", new_client_path, class: 'btn btn-sm btn-primary' %></td>
           </tr>

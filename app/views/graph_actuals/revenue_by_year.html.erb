@@ -1,0 +1,88 @@
+<% provide(:title, 'Actual Revenue by Year') %>
+
+<div class="chart container">
+  <div class='col-lg-10 col-lg-offset-2'>
+    <div id="revenueByYearActual" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+ $(function () {
+
+var categoryByYear = <%= Graph.closeout_years %>;
+var totalRecovery = <%= @total_recovery %>;
+var totalGrossFeeReceived = <%= @total_gross_fee_received %>;
+var totalOutOfPocketExpenses = <%= @total_out_of_pocket_expenses %>;
+var referringFeesPaid = <%= @referring_fees_paid %>;
+var totalFeeReceived = <%= @total_fee_received %>;
+
+  // Create the chart
+  $('#revenueByYearActual').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Net Fee Received by Year'
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+      },
+      yAxis: {
+          title: {
+              text: 'Dollar Recovery and Costs'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX - 40,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Total Recovery',
+          data: totalRecovery,
+      },
+      {
+          name: 'Gross Fee Received',
+          data: totalGrossFeeReceived
+      },
+      {
+          name: 'Out Of Pocket Expenses',
+          data: totalOutOfPocketExpenses
+      },
+      {
+          name: 'Referring Fees Paid',
+          data: referringFeesPaid,
+          color: 'red'
+      },
+      {
+          name: 'Net Fee Received',
+          data: totalFeeReceived
+      }],
+  })
+});
+
+</script>
+
+
