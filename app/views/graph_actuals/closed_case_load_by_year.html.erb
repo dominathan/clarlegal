@@ -1,0 +1,85 @@
+<% provide(:title, 'Case Load') %>
+<div class="chart container">
+
+    <div class="col-lg-10 col-lg-offset-2">
+
+        <div id="pieChartClosedCases" style="min-width: 310px;
+                                      height: 600px; width: 600px;
+                                      max-width: 600px;
+                                      margin: 0 auto">
+        </div>
+        <div class="col-lg-2 col-lg-offset-5">
+          <div class="select-year">
+            <%= form_tag closed_case_load_by_year_graph_actual_path(current_user.lawfirm_id),
+              method: :get do %>
+              <div class="row">
+                <%= select_tag :range, options_for_select([1,2,3,4,5,6,7,8,9,10]) %>
+                <%= submit_tag "Change Years", class: 'btn btn-md btn-primary center' %>
+              </div>
+            <%end%>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+        return {
+            radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+            stops: [
+                [0, color],
+                [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+            ]
+        };
+    });
+
+$(function () {
+
+    var pieDataClosedCases = [<% @final_closed_cases_by_pg.each do |d|%>
+                              <%= raw d %>,
+                              <% end %>]
+    var text = <%= params[:range] || 3 %>
+
+    $('#pieChartClosedCases').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: "Closed Cases by Practice Group"
+        },
+        subtitle: {
+            text: "Last " + text + " Years"
+        },
+        tooltip: {
+          pointFormat: 'Case Load: <b>{point.y}</b>'
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}: {point.y}</b>',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    },
+                    connectorColor: 'silver'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: "Practice Group",
+            data: pieDataClosedCases
+        }]
+    });
+});
+
+</script>

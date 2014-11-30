@@ -12,29 +12,12 @@ class Graph < ActiveRecord::Base
 
   #practice_group names by lawfirm
   def self.user_practice_groups(user)
-    user.lawfirm.practicegroups.order(:id).collect { |n| n.group_name }
+    user.lawfirm.practicegroups.collect(&:group_name)
   end
 
   def self.user_practice_group_ids(user)
-    prac_groups = user.lawfirm.practicegroups.order(:id).collect { |n| n.id }
+    user.lawfirm.practicegroups.collect(&:id)
   end
-
-  def self.closed_cases_after(user,this_year)
-    last_date_to_enter = DateTime.now - this_year.years
-    closed_cases = Graph.closed_cases(user)
-    final_case_list = []
-    closed_cases.each do |ca|
-      if ca.closeouts.order(:created_at).last
-        if ca.closeouts.order(:created_at).last.date_fee_received
-          if ca.closeouts.order(:created_at).last.date_fee_received > last_date_to_enter
-            final_case_list << ca
-          end
-        end
-      end
-    end
-    final_case_list
-  end
-
 
   #start year should be five years prior to the most recent collection fee_received
   def self.closeout_years
@@ -133,6 +116,24 @@ class Graph < ActiveRecord::Base
       end
     end
     return items
+  end
+
+  #Return a list of closed cases from beginning of number of years ago to today
+  def self.closed_cases_after(user,test_year=3)
+    #Start from Beginning of year, and if test_year is provided, then go back beginning_of_year - test_year
+    start_date = Date.today.beginning_of_year - test_year.years
+    final_case_count = []
+
+    #Loop through practicegroups, and collect count of cases that belong to each practice group
+    practice_groups = Graph.user_practice_groups(user)
+    practice_groups.each do |pg|
+      closed_case_count = user.lawfirm.cases.where(open: false).joins(:closeouts).
+                        where("date_fee_received > ?", start_date).
+                        where('practice_group = ?', pg).count
+      final_case_count.push(closed_case_count)
+    end
+    #Return the [[practicegroupname,case_count],[pg,cc]]..etc
+    return practice_groups.zip(final_case_count)
   end
 
 end

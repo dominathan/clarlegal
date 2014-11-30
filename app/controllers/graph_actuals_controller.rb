@@ -1,5 +1,15 @@
 class GraphActualsController < ApplicationController
 
+  #Using params[:years], sets number of years to collect closed cases
+  def closed_case_load_by_year
+    #If params[:years] not set, default => 3 year lookback
+    if params[:range] == nil
+      @final_closed_cases_by_pg = Graph.closed_cases_after(current_user)
+    else
+      @final_closed_cases_by_pg = Graph.closed_cases_after(current_user, params[:range].to_i)
+    end
+  end
+
   def revenue_by_year
   #Get all Closeout values belonging to User Lawfirm.  Expenses are made negative.
   #See Graph.closeamount_by_year(user,closeout.attribute) for more information.

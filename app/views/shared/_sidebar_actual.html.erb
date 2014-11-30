@@ -3,10 +3,20 @@
 <div class="sidebar">
   <div class="col-lg-12">
     <ul class="nav nav-pills nav-stacked">
-      <li class="<%=is_active_graph?("graph_actuals","revenue_by_year") %>">
-          <%= link_to "Revenue/Profit by Year", revenue_by_year_graph_actual_path %>
-        </li>
+      <li class='center'><h2><b>Actual</b></h2></li>
       <li role='presentation'class="divider"></li>
+
+      <li class="<%=is_active_graph?("graph_actuals","revenue_by_year") %>">
+          <%= link_to "Revenue/Profit by Year", revenue_by_year_graph_actual_path(current_user.lawfirm_id) %>
+      </li>
+      <li role='presentation'class="divider"></li>
+
+      <li class="<%=is_active_graph?("graph_actuals","closed_case_load_by_year") %>">
+          <%= link_to "Cases by Practice Group", closed_case_load_by_year_graph_actual_path(params[:range] || 3) %>
+      </li>
+      <li role='presentation'class="divider"></li>
+
+
     </ul>
   </div>
 </div>

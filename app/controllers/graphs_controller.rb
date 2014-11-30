@@ -19,25 +19,7 @@ class GraphsController < ApplicationController
               #practice_group_pie_actual takes the closed cases, with a number of previous year
               #look back limit
               #Remove 0 Case totals Practicegroups with Graph.remove_arrays
-    @final_case_closed = Graph.remove_arrays_less_than_or_equal_to(practice_group_pie_actual,0)
     @final_case_open = Graph.remove_arrays_less_than_or_equal_to(lawfirm_pgs.zip(open_cases_by_pg),0)
-  end
-
-  def practice_group_pie_actual
-    closed_cases = Graph.closed_cases_after(current_user,3)
-    closed_cases_by_pg = []
-    lawfirm_pgs = Graph.user_practice_groups(current_user)
-    lawfirm_pgs.each do |pg|
-      count = 0
-      closed_cases.each do |ca|
-        if ca.practice_group == pg
-          count += 1
-        end
-      end
-      closed_cases_by_pg << count
-      count=0
-    end
-    lawfirm_pgs.zip(closed_cases_by_pg)
   end
 
 #---------------------- These are for open cases, aka estimated revenue -----------
