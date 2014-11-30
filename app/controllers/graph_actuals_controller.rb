@@ -4,9 +4,9 @@ class GraphActualsController < ApplicationController
   def closed_case_load_by_year
     #If params[:range] not set, default => 3 year lookback
     if params[:range] == nil
-      @final_closed_cases_by_pg = Graph.closed_cases_after(current_user)
+      @final_closed_cases_by_pg = Graph.remove_arrays_less_than_or_equal_to(Graph.closed_cases_after(current_user),0)
     else
-      @final_closed_cases_by_pg = Graph.closed_cases_after(current_user, params[:range].to_i)
+      @final_closed_cases_by_pg = Graph.remove_arrays_less_than_or_equal_to(Graph.closed_cases_after(current_user, params[:range].to_i),0)
     end
   end
 

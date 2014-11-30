@@ -121,7 +121,7 @@ class Graph < ActiveRecord::Base
   #Return a list of closed cases from beginning of number of years ago to today
   def self.closed_cases_after(user,test_year=3)
     #Start from Beginning of year, and if test_year is provided, then go back beginning_of_year - test_year
-    start_date = Date.today.beginning_of_year - test_year.years
+    start_date = Date.today.beginning_of_year - (test_year -1 ).years
     final_case_count = []
 
     #Loop through practicegroups, and collect count of cases that belong to each practice group
