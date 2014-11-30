@@ -14,7 +14,8 @@
 <div id="wrapper">
   <div id="sidebar-wrapper">
     <!-- if controller is graphs related, show graphs sidebar -->
-    <%= graph_sidebar?("graphs") || graph_sidebar?("graph_drilldowns") || graph_sidebar?("graph_individual_prac_groups") %>
+    <%= graph_sidebar_projected?("graphs") || graph_sidebar_projected?("graph_drilldowns") || graph_sidebar_projected?("graph_individual_prac_groups") %>
+    <%= graph_sidebar_actual?("graph_actuals") %>
   </div>
   <div id="page-content-wrapper">
     <div class="page-content">

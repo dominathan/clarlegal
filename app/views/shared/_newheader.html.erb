@@ -16,12 +16,21 @@
 
         <% if current_user.lawfirm_id != nil %>
 
-          <li>
-            <%= link_to "Dashboard", revenue_by_year_expected_path %>
-          </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dashboard<b class='caret'></b>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to "Actual", revenue_by_year_graph_actual_path %>
+            </li>
+            <li>
+              <%= link_to "Expected", revenue_by_year_expected_path %>
+            </li>
+          </ul>
+        </li>
 
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Firm <b class='caret'></b>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Firm <b class='caret'>
+                                                                               </b>
             <ul class="dropdown-menu">
               <li>
                 <%= link_to "Clients", user_lawfirms_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id) %>

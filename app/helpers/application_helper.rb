@@ -31,11 +31,19 @@ module ApplicationHelper
     end
   end
 
-  def graph_sidebar?(page_controller)
+  #Render the shared/sidebar_actual if the page_controller is
+  # graph/graph_drilldowns/graph_individual_prac_groups
+  def graph_sidebar_projected?(page_controller)
     if controller.controller_name == page_controller
-      render 'shared/sidebar'
+      render 'shared/sidebar_projected'
     end
   end
 
+  #Render the shared/sidebar_actual if the page_controller is graph_actuals
+  def graph_sidebar_actual?(page_controller)
+    if controller.controller_name == page_controller
+      render 'shared/sidebar_actual'
+    end
+  end
 
 end
