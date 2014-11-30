@@ -1,8 +1,8 @@
 class GraphActualsController < ApplicationController
 
-  #Using params[:years], sets number of years to collect closed cases
+  #Using params[:range], sets number of years to collect closed cases
   def closed_case_load_by_year
-    #If params[:years] not set, default => 3 year lookback
+    #If params[:range] not set, default => 3 year lookback
     if params[:range] == nil
       @final_closed_cases_by_pg = Graph.closed_cases_after(current_user)
     else
