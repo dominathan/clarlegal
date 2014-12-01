@@ -171,7 +171,7 @@ namespace :db do
       judge_list = ["Houston L. Brown","Donald Blankenship","Joseph Boohaker","Elisabeth French", "Helen Shores Lee", "Robert Vance"]
       Case.create!(client_id: Random.rand(1..20),
                     name: plaintiff+" v. "+defendant,
-                    practice_group: Practicegroup.find_by(id: Random.rand(1..5)).group_name,
+                    practicegroup_id: Practicegroup.find_by(id: Random.rand(1..5)).id,
                     type_of_matter: CaseType.find_by(id: Random.rand(1..24)).mat_ref,
                     court: 'Jefferson County Circuit Court - Civil',
                     judge: judge_list[Random.rand(0..4)],

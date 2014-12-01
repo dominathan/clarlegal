@@ -121,19 +121,20 @@ class Graph < ActiveRecord::Base
   #Return a list of closed cases from beginning of number of years ago to today
   def self.closed_cases_after(user,test_year=3)
     #Start from Beginning of year, and if test_year is provided, then go back beginning_of_year - test_year
-    start_date = Date.today.beginning_of_year - (test_year -1 ).years
+    start_date = Date.today.beginning_of_year - (test_year).years
     final_case_count = []
 
     #Loop through practicegroups, and collect count of cases that belong to each practice group
-    practice_groups = Graph.user_practice_groups(user)
+    practice_groups = Graph.user_practice_group_ids(user)
     practice_groups.each do |pg|
       closed_case_count = user.lawfirm.cases.where(open: false).joins(:closeouts).
                         where("date_fee_received > ?", start_date).
-                        where('practice_group = ?', pg).count
+                        where('practicegroup_id = ?', pg).count
       final_case_count.push(closed_case_count)
     end
     #Return the [[practicegroupname,case_count],[pg,cc]]..etc
-    return practice_groups.zip(final_case_count)
+    practice_group_names = user.lawfirm.practicegroups.where(id: practice_groups).collect(&:group_name)
+    return test = practice_group_names.zip(final_case_count)
   end
 
 end

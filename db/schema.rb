@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141128224055) do
+ActiveRecord::Schema.define(version: 20141130225129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,9 +52,11 @@ ActiveRecord::Schema.define(version: 20141128224055) do
     t.string   "opposing_attorney"
     t.string   "judge"
     t.text     "description"
+    t.integer  "practicegroup_id"
   end
 
   add_index "cases", ["client_id"], name: "index_cases_on_client_id", using: :btree
+  add_index "cases", ["practicegroup_id"], name: "index_cases_on_practicegroup_id", using: :btree
 
   create_table "checks", force: true do |t|
     t.integer  "case_id"
@@ -119,8 +121,6 @@ ActiveRecord::Schema.define(version: 20141128224055) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "referral"
-    t.float    "amount_earned_to_date"
-    t.float    "monthly_conversion_rate"
   end
 
   add_index "fees", ["case_id"], name: "index_fees_on_case_id", using: :btree
@@ -132,10 +132,6 @@ ActiveRecord::Schema.define(version: 20141128224055) do
     t.float    "actual_earned"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "contract_amount"
-    t.float    "cost_estimate"
-    t.float    "referral"
-    t.float    "retainer"
   end
 
   add_index "fixed_fees", ["case_id"], name: "index_fixed_fees_on_case_id", using: :btree
@@ -144,22 +140,6 @@ ActiveRecord::Schema.define(version: 20141128224055) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "hourly_fees", force: true do |t|
-    t.integer  "case_id"
-    t.integer  "high_estimate"
-    t.integer  "medium_estimate"
-    t.integer  "low_estimate"
-    t.integer  "retainer"
-    t.integer  "referral"
-    t.integer  "cost_estimate"
-    t.integer  "amount_earned_to_date"
-    t.float    "monthly_conversion_rate"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "hourly_fees", ["case_id"], name: "index_hourly_fees_on_case_id", using: :btree
 
   create_table "lawfirms", force: true do |t|
     t.string   "firm_name"
