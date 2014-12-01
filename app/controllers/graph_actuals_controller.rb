@@ -23,6 +23,7 @@ class GraphActualsController < ApplicationController
   end
 
   def revenue_by_pg
+    @pgs_total_fee_received = Graph.revenue_by_practice_group(current_user,'total_fee_received')
   end
 
   def revenue_by_fee_type

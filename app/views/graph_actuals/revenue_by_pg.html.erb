@@ -1,2 +1,68 @@
-<h1>GraphActuals#revenue_by_pg</h1>
-<p>Find me in app/views/graph_actuals/revenue_by_pg.html.erb</p>
+<% provide(:title, 'Revenue by Year by PG') %>
+
+<div class="chart container">
+    <div class="col-lg-10 col-lg-offset-2">
+        <div id="revenueByYearByPG"
+             style="min-width: 310px; height: 400px; margin: 0 auto">
+        </div>
+        <br>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+  $(function () {
+    var categoryYear = <%= raw Graph.closeout_year_only %>;
+    var seriesData = <%= raw @pgs_total_fee_received %>;
+    $('#revenueByYearByPG').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Expected Revenue by Year by Practice Group'
+        },
+        credits: {
+            enabled: false
+        },
+        subtitle: {
+            text: '(assuming expected recovery rate and middle fees)'
+        },
+        xAxis: {
+            categories: categoryYear,
+            gridLineWidth: 1
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Revenue'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>${point.y}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true,
+            positioner: function(boxWidth, boxHeight, point) {
+                return {
+                    x: point.plotX - 40,
+                    y: point.plotY - 20
+                 };
+            } //this moves the box out of the way of the category links
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: seriesData
+    });
+  });
+
+
+
+</script>
