@@ -3,7 +3,6 @@ class GraphDrilldownsController < ApplicationController
   before_action :belongs_to_firm
 
   def rev_by_fee_type
-    starttime = Time.now
     set_category_years
     @hourly_rev = []
     @contingency_rev = []
@@ -19,8 +18,6 @@ class GraphDrilldownsController < ApplicationController
     yearly_collection(@mixed_rev)
     rev_by_fee_type_low
     rev_by_fee_type_high
-    endtime=Time.now
-    @timetest = endtime-starttime
   end
 
   def rev_by_fee_type_low

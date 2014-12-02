@@ -23,15 +23,26 @@ class GraphActualsController < ApplicationController
   end
 
   def revenue_by_pg
-    @pgs_total_fee_received = Graph.revenue_by_practice_group(current_user,'total_fee_received')
+    @pgs_total_fee_received = Graph.revenue_by_practice_group_actual(current_user,'total_fee_received')
   end
 
   def revenue_by_fee_type
+    @hourly = Graph.revenue_by_fee_type_actual(User.first,"Hourly","total_fee_received")
+    @contingency = Graph.revenue_by_fee_type_actual(User.first,"Contingency","total_fee_received")
+    @mixed = Graph.revenue_by_fee_type_actual(User.first,"Fixed Fee","total_fee_received")
+    @fixed = Graph.revenue_by_fee_type_actual(User.first,"Mixed","total_fee_received")
   end
 
   def revenue_by_origination
   end
 
   def revenue_by_client
+    #Returns array to be used in options_for_select on page.
+    @clients = Client.company_and_full_names(current_user)
+    #Either the params[:client] on submit, or the first client belonging to user.
+    @client = Client.find_by(id: params[:client]) || current_user.lawfirm.clients.first
+    @profitability = Client.client_profitability_actual(@client)
+    #Average Profitability takes way too long
+    @avg_profitability = Client.avg_client_profitability(Client.all_client_profitability(current_user))
   end
 end

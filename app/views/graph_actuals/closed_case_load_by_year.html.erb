@@ -8,13 +8,17 @@
                                       max-width: 600px;
                                       margin: 0 auto">
         </div>
-        <div class="col-lg-2 col-lg-offset-5">
+        <div class="col-lg-4 col-lg-offset-4">
           <div class="select-year">
-            <%= form_tag closed_case_load_by_year_graph_actual_path(current_user.lawfirm_id),
-              method: :get do %>
-              <div class="row">
-                <%= select_tag :range, options_for_select([1,2,3,4,5,6,7,8,9,10]) %>
-                <%= submit_tag "Change Years", class: 'btn btn-md btn-primary center' %>
+                <h2>Change Number of Years</h2>
+
+            <div class="col-lg-6 col-lg-offset-3">
+                <%= form_tag closed_case_load_by_year_graph_actual_path(current_user.lawfirm_id),
+                  method: :get do %>
+                  <div class="row">
+                    <%= select_tag :range, options_for_select([1,2,3,4,5,6,7,8,9,10]) %>
+                    <%= submit_tag "Change Years", class: 'btn btn-md btn-primary center' %>
+                  </div>
               </div>
             <%end%>
         </div>

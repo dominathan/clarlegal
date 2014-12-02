@@ -468,11 +468,14 @@ class GraphIndividualPracGroupsController < ApplicationController
     [rev_est_year1 = 0, rev_est_year2 = 0, rev_est_year3 = 0, rev_est_year4 = 0, rev_est_year5_plus = 0]
   end
 
+  def
+
   def set_yearly_category_variables
     current_date = DateTime.now
     [current_date.year, current_date.year+1, current_date.year+2,
                         current_date.year+3, current_date.year+4]
   end
+
 
   #------------------END --------------------------------
 

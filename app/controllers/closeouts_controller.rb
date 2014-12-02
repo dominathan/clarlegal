@@ -10,6 +10,7 @@ class CloseoutsController < ApplicationController
     @case = Case.find(params[:case_id])
     @client = Client.find(params[:client_id])
     @closeout = @case.closeouts.new(closeout_params)
+    @closeout.fee_type = @case.fees.last.fee_type
     if @closeout.save
       Closeout.close_case(@case)
       flash[:success] = "Case Closed Successfully"

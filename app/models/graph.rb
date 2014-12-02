@@ -26,6 +26,7 @@ class Graph < ActiveRecord::Base
       Date.today]
   end
 
+  #To be used in html.erb for year categories on charts
   def self.closeout_year_only
     [Date.today.year - 4,Date.today.year - 3,
       Date.today.year - 2,Date.today.year - 1,
@@ -70,17 +71,6 @@ class Graph < ActiveRecord::Base
   def self.add_arrays(array1,array2)
     added_array = array1.zip(array2).map { |x,y| x+y }
     added_array
-  end
-
-  def self.find_outliers(case_listing)
-    outliers = []
-    case_listing.each do |ca|
-      if ca.fee.last.high_estimate < ca.fee.last.medium_estimate ||
-         ca.fee.last.medium_estimate < ca.fee.last.low_estimate
-            outliers << ca
-      end
-    end
-    outliers
   end
 
   #Return sum(closeout.attributee) by user lawfirm, grouped by year over the last 5 years
@@ -146,7 +136,7 @@ class Graph < ActiveRecord::Base
   end
 
   #Return a Hash of all Practice Groups with revenue by year for past five years
-  def self.revenue_by_practice_group(user,closeout_amount)
+  def self.revenue_by_practice_group_actual(user,closeout_amount)
     #Set variables, past 5 years, amounts earned in those years, and Practicegroups
     year_of_collection = Graph.closeout_years
     amounts = [0,0,0,0,0]
@@ -158,10 +148,11 @@ class Graph < ActiveRecord::Base
     #Add [practicegroup_id, [amounts]] to final_tally, and reset amounts to 0 for the next PG.
     practice_groups.each do |pg|
       amounts.length.times do |i|
-        amounts[i] = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:closeouts).where(
-          'date_fee_received >= :start_date AND date_fee_received <= :end_date',
-          {start_date: year_of_collection[i].beginning_of_year,
-           end_date: year_of_collection[i].end_of_year}).sum(closeout_amount)
+        amounts[i] = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:closeouts).
+                    where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
+                          {start_date: year_of_collection[i].beginning_of_year,
+                           end_date: year_of_collection[i].end_of_year}).
+                    sum(closeout_amount)
       end
       final_tally << [pg,amounts]
       amounts = [0,0,0,0,0]
@@ -174,6 +165,28 @@ class Graph < ActiveRecord::Base
       #{name: PG.group_name, data: [amounts]}
     final_tally_to_hash = final_tally.map { |name,values|  { 'name' => name, 'data' => values } }.to_json
     return final_tally_to_hash
+  end
+
+  #Return the summed closeout_amount for a user's lawfirm by fee_type
+  def self.revenue_by_fee_type_actual(user,fee_type,closeout_amount)
+    #Get the previous 4 years and this year, with corresponding amounts by year
+    year_of_collection = Graph.closeout_years
+    amounts = [0,0,0,0,0]
+
+    amounts.length.times do |i|
+      #Join closeouts with cases, match fee_type and match year[i]. Sum closeout amount
+      amounts[i] = user.lawfirm.cases.where(open: false).joins(:closeouts).
+                    where('fee_type = ?', fee_type).
+                    where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
+                          {start_date: year_of_collection[i].beginning_of_year,
+                           end_date: year_of_collection[i].end_of_year}).
+                    sum(closeout_amount)
+    end
+    amounts
+  end
+
+  def self.revenue_by_client(user,client,closeout_amount)
+
   end
 
 end
