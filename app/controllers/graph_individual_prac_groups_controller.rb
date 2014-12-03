@@ -5,7 +5,7 @@ class GraphIndividualPracGroupsController < ApplicationController
     prac_group = Practicegroup.find(params[:id]).group_name
     open_cases = Graph.open_cases(current_user)
     current_date = DateTime.now
-    @category_years = set_yearly_category_variables
+    @category_year = Graph.expected_year_only
     @lawfirm_pg_rev = []
     rev_est = set_yearly_rev_array
     open_cases.where(practice_group: prac_group).each do |ca|
@@ -124,7 +124,7 @@ class GraphIndividualPracGroupsController < ApplicationController
     prac_group = Practicegroup.find(params[:id]).group_name
     open_cases = Graph.open_cases(current_user)
     current_date = DateTime.now
-    @category_years = @category_years
+    @category_years = Graph.expected_year_only
     @lawfirm_pg_rev_accelerated = []
     rev_est = set_yearly_rev_array
     open_cases.where(practice_group: prac_group).each do |ca|
@@ -240,7 +240,7 @@ class GraphIndividualPracGroupsController < ApplicationController
     prac_group = Practicegroup.find(params[:id]).group_name
     open_cases = Graph.open_cases(current_user)
     current_date = DateTime.now
-    @category_years = @category_years
+    @category_years = Graph.expected_year_only
     @lawfirm_pg_rev_slow = []
     rev_est = set_yearly_rev_array
     open_cases.where(practice_group: prac_group).each do |ca|
@@ -358,7 +358,7 @@ class GraphIndividualPracGroupsController < ApplicationController
     prac_group = Practicegroup.find(params[:id]).group_name
     closed_cases = Graph.closed_cases(current_user)
     set_yearly_revenue_variables
-    @category_years_backwards = Graph.closeout_years
+    @category_years_backwards = Graph.closeout_year_only
     @lawfirm_pg_rev_actual = []
     rev_est = set_yearly_rev_array
     if closed_cases.where(practice_group: prac_group).any?
@@ -467,15 +467,6 @@ class GraphIndividualPracGroupsController < ApplicationController
   def set_yearly_rev_array
     [rev_est_year1 = 0, rev_est_year2 = 0, rev_est_year3 = 0, rev_est_year4 = 0, rev_est_year5_plus = 0]
   end
-
-  def
-
-  def set_yearly_category_variables
-    current_date = DateTime.now
-    [current_date.year, current_date.year+1, current_date.year+2,
-                        current_date.year+3, current_date.year+4]
-  end
-
 
   #------------------END --------------------------------
 

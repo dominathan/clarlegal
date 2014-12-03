@@ -20,6 +20,8 @@ class GraphActualsController < ApplicationController
     @referring_fees_paid = Graph.closeout_amount_by_year(current_user,"referring_fees_paid").map {|i| i * -1}
     @total_fee_received = Graph.closeout_amount_by_year(current_user,"total_fee_received")
     #Consider adding Hours Worked * Overhead as a cost as well to get Profit
+    @total_indirect_cost = Graph.total_overhead_per_year(current_user).map {|i| i * -1 }
+    @net_profit = Graph.add_arrays(@total_fee_received,@total_indirect_cost)
   end
 
   def revenue_by_pg
@@ -34,6 +36,19 @@ class GraphActualsController < ApplicationController
   end
 
   def revenue_by_origination
+    #Get list of all referral sources by lawfirm.
+    all_referral_sources = Origination.all_referral_sources(current_user)
+    amounts = []
+
+    #Sum the total_fee_received of all closed cases by referral source
+    all_referral_sources.each do |ref|
+      amounts << Graph.closeout_amount_by_origination(current_user, ref, 'total_fee_received')
+    end
+    final_fee_by_origination_source = all_referral_sources.zip(amounts)
+
+    #Remove elements from the array that are less than or = to amount us Graph.method(array, amount)
+    #Do not 0 amount items in array cluttering the pie chart
+    @final_fee_by_origination_source = Graph.remove_arrays_less_than_or_equal_to(final_fee_by_origination_source,0)
   end
 
   def revenue_by_client

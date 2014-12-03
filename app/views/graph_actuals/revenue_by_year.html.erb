@@ -16,6 +16,8 @@ var totalGrossFeeReceived = <%= @total_gross_fee_received %>;
 var totalOutOfPocketExpenses = <%= @total_out_of_pocket_expenses %>;
 var referringFeesPaid = <%= @referring_fees_paid %>;
 var totalFeeReceived = <%= @total_fee_received %>;
+var totalIndirectCost = <%= @total_indirect_cost %>;
+var netProfit = <%= @net_profit %>;
 
   // Create the chart
   $('#revenueByYearActual').highcharts({
@@ -79,6 +81,12 @@ var totalFeeReceived = <%= @total_fee_received %>;
       {
           name: 'Net Fee Received',
           data: totalFeeReceived
+      },{
+          name: 'Indirect Costs',
+          data: totalIndirectCost
+      },{
+          name: 'Net Profit',
+          data: netProfit
       }],
   })
 });

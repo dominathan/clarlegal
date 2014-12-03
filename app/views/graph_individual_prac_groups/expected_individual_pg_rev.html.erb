@@ -42,7 +42,7 @@
 
  $(function () {
 
-var categoryByYear = <%= @category_year %>;
+var categoryByYear = <%= raw @category_year %>;
 var costByYear = <%= @lawfirm_pg_rev[3] %>;
 var referralFee = <%= @lawfirm_pg_rev[4] %>;
 var revByYearHigh = <%= @lawfirm_pg_rev[2] %>;
@@ -121,7 +121,7 @@ var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
 
 $(function () {
 
-var categoryByYear = <%= @category_years %>;
+var categoryByYear = <%= raw @category_years %>;
 var costByYear = <%= @lawfirm_pg_rev_accelerated[3] %>;
 var referralFee = <%= @lawfirm_pg_rev_accelerated[4] %>;
 var revByYearHigh = <%= @lawfirm_pg_rev_accelerated[2] %>;
@@ -200,7 +200,7 @@ var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
 
  $(function () {
 
-var categoryByYear = <%= @category_years %>;
+var categoryByYear = <%= raw @category_years %>;
 var costByYear = <%= @lawfirm_pg_rev_slow[3] %>;
 var referralFee = <%= @lawfirm_pg_rev_slow[4] %>;
 var revByYearHigh = <%= @lawfirm_pg_rev_slow[2] %>;

@@ -26,11 +26,18 @@ class Graph < ActiveRecord::Base
       Date.today]
   end
 
-  #To be used in html.erb for year categories on charts
+  #To be used in html.erb for backward looking year categories on charts
   def self.closeout_year_only
     [Date.today.year - 4,Date.today.year - 3,
       Date.today.year - 2,Date.today.year - 1,
       Date.today.year]
+  end
+
+  #To be used in html.erb for forward looking year categories on charts
+  def self.expected_year_only
+    [Date.today.year, Date.today.year + 1,
+    Date.today.year + 2,Date.today.year + 3,
+    Date.today.year + 4]
   end
 
   def self.time_to_collection(case_name,speed)
@@ -91,6 +98,28 @@ class Graph < ActiveRecord::Base
     return amounts
   end
 
+  def self.total_overhead_per_year(user)
+    #Set the last five years dates, and Sum all of the expenses per year to arrive at overhead costs
+    years_of_collection = Graph.closeout_year_only
+    amounts = [0,0,0,0,0]
+
+    #Take the overhead for the lawfirm, and if ovh.year matches the years_of_collection[year]
+    #Sum all the amounts fo that year
+    user.lawfirm.overheads.each do |ovh|
+      amounts.length.times do |i|
+        if ovh.year == years_of_collection[i]
+          amounts[i] += ovh.rent
+          amounts[i] += ovh.utilities
+          amounts[i] += ovh.technology
+          amounts[i] += ovh.hard_costs
+          amounts[i] += ovh.guaranteed_salaries
+          amounts[i] += ovh.other
+        end
+      end
+    end
+    return amounts
+  end
+
   #Return sum of closed cases, Closeout.closeout_amount by origination.referral_source
   def self.closeout_amount_by_origination(user,referral_source,closeout_amount)
     user.lawfirm.cases.where(open: false).joins(:originations, :closeouts).where(
@@ -101,11 +130,10 @@ class Graph < ActiveRecord::Base
   #because they do not show up in the graph except for the name, taking unnecessary space
   def self.remove_arrays_less_than_or_equal_to(items,amount)
     for remove_me in items
-
       #Check the second element in the array, because the structure is
       #[["item name","amount"],["item name2","amount2"]
       if remove_me[1] <= amount
-        items.delete(remove_me)
+        items.delete!(remove_me)
 
         #Recursive because if it finds one items less than, it deletes and ends the call
         #Not functional if there is more than one itemname with amount less<=amonut.
