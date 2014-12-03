@@ -36,15 +36,13 @@
       </li>
       <li role='presentation'class="divider"></li>
 
-      <li class="<%= is_active_graph?("graph_individual_prac_groups","expected_individual_pg_rev") %> dropdown">
+      <li class="<%= is_active_graph?("graph_actuals","individual_practice_group") %> dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Practice Groups <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" role="menu" id="individualPracticeGroups">
 
           </ul>
       <li>
-
-
 
     </ul>
   </div>
@@ -62,7 +60,7 @@
         var a = document.createElement('a');
         var textForAElement = document.createTextNode(allPracticeGroups[i])
         a.appendChild(textForAElement)
-        a.href =  "/practice_group/"+pracgroupID+"/revenue"
+        a.href =  "/graph_actuals/"+pracgroupID+"/individual_practice_group"
         li.appendChild(a);
         ulToAddTo.appendChild(li);
       };

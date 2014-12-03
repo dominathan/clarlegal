@@ -1,0 +1,219 @@
+<% provide(:title, @prac_group) %>
+
+<div class='col-lg-10 col-lg-offset-2'>
+  <h2><%= @prac_group %></h2>
+
+    <div id="revenueByPracticeGroupByYearActual" style="min-width: 310px;
+                                                  height: 400px;
+                                                  margin: 0 auto">
+    </div>
+    <br>
+    <br>
+    <div id='revByPracticeGroupByOriginationSourceActual' style="min-width: 310px;
+                                                          height: 600px; width: 600px;
+                                                          max-width: 600px;
+                                                           margin: 0 auto">
+    </div>
+    <br>
+    <br>
+    <div id="revenueByPracticeGroupByFeeType" style="min-width: 310px;
+                                                height: 400px;
+                                                margin: 0 auto">
+    </div>
+
+</div>
+
+<script type="text/javascript">
+  $(function () {
+
+    var categoryByYear = <%= Graph.closeout_year_only %>;
+    var totalRecovery = <%= @total_recovery %>;
+    var totalGrossFeeReceived = <%= @gross_fee_received %>;
+    var totalOutOfPocketExpenses = <%= @out_of_pocket %>;
+    var referringFeesPaid = <%= @referring_fees %>;
+    var totalFeeReceived = <%= @total_fee_received %>;
+
+
+  // Create the chart
+  $('#revenueByPracticeGroupByYearActual').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Net Fee Received by Year'
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+      },
+      yAxis: {
+          title: {
+              text: 'Dollar Recovery and Costs'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX - 40,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Total Recovery',
+          data: totalRecovery,
+      },
+      {
+          name: 'Gross Fee Received',
+          data: totalGrossFeeReceived
+      },
+      {
+          name: 'Out Of Pocket Expenses',
+          data: totalOutOfPocketExpenses
+      },
+      {
+          name: 'Referring Fees Paid',
+          data: referringFeesPaid,
+          color: 'red'
+      },
+      {
+          name: 'Net Fee Received',
+          data: totalFeeReceived
+      }],
+  })
+});
+
+$(function () {
+
+
+  var pieData = [<% @origination_sources.each do |d|%>
+                  <%= raw d %>,
+                <% end %>]
+
+  Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+            return {
+                radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+                stops: [
+                    [0, color],
+                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                ]
+            };
+        });
+
+    $('#revByPracticeGroupByOriginationSourceActual').highcharts({
+        chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            credits: {
+                    enabled: false
+            },
+            title: {
+                text: 'Total Fee Received by Origination Source'
+            },
+            tooltip: {
+              pointFormat: '<b>${point.y}</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: "Practice Group",
+                data: pieData
+            }]
+        });
+     });
+
+$(function () {
+    var categoryByYear = <%= raw Graph.closeout_year_only %>;
+    var seriesData = <%= raw @fee_types %>;
+      $('#revenueByPracticeGroupByFeeType').highcharts({
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'Total Fee Received By Fee Type'
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
+              categories: categoryByYear
+          },
+          yAxis: {
+              min: 0,
+              title: {
+                  text: 'Revenue'
+              },
+              stackLabels: {
+                  enabled: false,
+                  style: {
+                      fontWeight: 'bold',
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                  }
+              }
+          },
+          legend: {
+              align: 'right',
+              x: -70,
+              verticalAlign: 'top',
+              y: 20,
+              floating: true,
+              backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+              borderColor: '#CCC',
+              borderWidth: 1,
+              shadow: false
+          },
+          tooltip: {
+              formatter: function() {
+                  return '<b>'+ this.x +'</b><br/>'+
+                      this.series.name +': $'+ (this.y).formatMoney(0,'.',',') +'<br/>'+
+                      'Total: $'+ (this.point.stackTotal).formatMoney(0,'.',',');
+              }
+          },
+          plotOptions: {
+              column: {
+                  stacking: 'normal',
+                  dataLabels: {
+                      enabled: true,
+                      color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                      style: {
+                          textShadow: '0 0 3px black, 0 0 3px black'
+                      }
+                  }
+              }
+          },
+        series: seriesData
+    });
+
+});
+</script>

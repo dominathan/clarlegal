@@ -58,6 +58,7 @@ Claregal::Application.routes.draw do
       get :revenue_by_origination
       get :revenue_by_client
       get :closed_case_load_by_year
+      get :individual_practice_group
     end
   end
 

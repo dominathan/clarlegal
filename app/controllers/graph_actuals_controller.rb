@@ -62,4 +62,23 @@ class GraphActualsController < ApplicationController
     #Average Profitability takes way too long
     @avg_profitability = Client.avg_client_profitability(Client.all_client_profitability(current_user))
   end
+
+  def individual_practice_group
+    @prac_group = Practicegroup.find(params[:id]).group_name
+
+    #First Chart
+    @total_recovery = Graph.closeout_by_year_pg(current_user,params[:id],'total_recovery')
+    @gross_fee_received = Graph.closeout_by_year_pg(current_user,params[:id],'total_gross_fee_received')
+    @out_of_pocket = Graph.closeout_by_year_pg(current_user,params[:id],'total_out_of_pocket_expenses').map {|i| i * -1}
+    @referring_fees = Graph.closeout_by_year_pg(current_user,params[:id],'referring_fees_paid').map {|i| i * -1}
+    @total_fee_received = Graph.closeout_by_year_pg(current_user,params[:id],'total_fee_received')
+
+    #Second Chart
+    @origination_sources = Graph.remove_arrays_less_than_or_equal_to(
+                                Graph.all_origination_source_rev_pg(current_user,params[:id],'total_fee_received'),0)
+
+    #Third Chart
+    @fee_types = Graph.rev_by_fee_type_pg(current_user,params[:id],'total_fee_received')
+  end
+
 end

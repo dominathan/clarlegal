@@ -164,19 +164,25 @@ class Graph < ActiveRecord::Base
     return practice_group_names.zip(final_case_count)
   end
 
-
+  #Sums the #{closeout_amount} by practicegroup looking back the number of years selected
   def self.closed_cases_by_pg_and_closeout_type(user,closeout_amount,test_year=3)
+    #Get practice group by IDs, and array the length of practice groups to store amounts,
+    #and the start_date as a base.
     practice_groups = Graph.user_practice_group_ids(user)
     amounts = Array.new(practice_groups.length)
     start_date = Date.today.beginning_of_year - (test_year).years
     all_pg_closeout_amounts = []
 
+    #Loop through practice groups with closed cases
     practice_groups.each do |pg|
       pg_closeout_amount = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:closeouts).
+                                #if the date_fee_received is after the specified start_date
                                 where("date_fee_received > ?", start_date).
+                                #Return the specified closeout_amount
                                 sum(closeout_amount)
       all_pg_closeout_amounts << pg_closeout_amount
     end
+    #Collect all user practicegroup names and combine them with the amounts from above
     practice_group_names = user.lawfirm.practicegroups.where(id: practice_groups).collect(&:group_name)
     practice_group_names.zip(all_pg_closeout_amounts)
   end
@@ -233,6 +239,58 @@ class Graph < ActiveRecord::Base
 
   def self.revenue_by_client(user,client,closeout_amount)
     #need to remove Client.methods that handle this
+  end
+
+#----------------Individual Practice Groups --- Actual ---------------------------
+
+  #Calculate closeoutamounts by specified practicegroup
+  def self.closeout_by_year_pg(user,pg,closeout_amount)
+    year_of_collection = Graph.closeout_years
+    amounts = Array.new(year_of_collection.length)
+
+    amounts.length.times do |i|
+      amounts[i] = user.lawfirm.cases.where(practicegroup_id: pg, open: false).joins(:closeouts).
+                        where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
+                          { start_date: year_of_collection[i].beginning_of_year,
+                            end_date: year_of_collection[i].end_of_year}).
+                        sum(closeout_amount)
+    end
+    amounts
+  end
+
+  def self.all_origination_source_rev_pg(user,pg,closeout_amount)
+    all_referral_sources = Origination.all_referral_sources(user)
+    amounts = Array.new(all_referral_sources.length)
+
+    amounts.length.times do |i|
+      amounts[i] = Graph.revenue_by_origination_pg(user,pg,all_referral_sources[i],closeout_amount)
+    end
+    all_referral_sources.zip(amounts)
+  end
+
+  def self.revenue_by_origination_pg(user,pg,referral_source,closeout_amount)
+    user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:originations, :closeouts).
+          where('referral_source = ?', referral_source).sum(closeout_amount)
+  end
+
+  def self.rev_by_fee_type_pg(user,pg,closeout_amount)
+    year_of_collection = Graph.closeout_years
+    all_fee_types = Fee.all.collect(&:fee_type).uniq
+    final = []
+
+    all_fee_types.each do |type|
+      amounts = Array.new(year_of_collection)
+      amounts.length.times do |i|
+        amounts[i] = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:closeouts).
+                          where('fee_type = ?', type).
+                          where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
+                            { start_date: year_of_collection[i].beginning_of_year,
+                              end_date: year_of_collection[i].end_of_year }).
+                          sum(closeout_amount)
+      end
+      final << amounts
+    end
+    all_fee_types.zip(final).map { |name,values|  { 'name' => name, 'data' => values } }.to_json
   end
 
 end
