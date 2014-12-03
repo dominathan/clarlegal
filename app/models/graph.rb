@@ -133,7 +133,7 @@ class Graph < ActiveRecord::Base
       #Check the second element in the array, because the structure is
       #[["item name","amount"],["item name2","amount2"]
       if remove_me[1] <= amount
-        items.delete!(remove_me)
+        items.delete(remove_me)
 
         #Recursive because if it finds one items less than, it deletes and ends the call
         #Not functional if there is more than one itemname with amount less<=amonut.
@@ -245,9 +245,12 @@ class Graph < ActiveRecord::Base
 
   #Calculate closeoutamounts by specified practicegroup
   def self.closeout_by_year_pg(user,pg,closeout_amount)
+    #Set variables, collect amounts based of length of years
     year_of_collection = Graph.closeout_years
     amounts = Array.new(year_of_collection.length)
 
+    #Loop through closed cases with practicegroup_id
+    #Sum #{closeout_amount} if date_fee_received between start_date and end_date
     amounts.length.times do |i|
       amounts[i] = user.lawfirm.cases.where(practicegroup_id: pg, open: false).joins(:closeouts).
                         where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
@@ -259,9 +262,11 @@ class Graph < ActiveRecord::Base
   end
 
   def self.all_origination_source_rev_pg(user,pg,closeout_amount)
+    #Gather all referral sources and make amounts based off length of sources
     all_referral_sources = Origination.all_referral_sources(user)
     amounts = Array.new(all_referral_sources.length)
 
+    #Loop through amounts, call method to sum #{closeout_amount}
     amounts.length.times do |i|
       amounts[i] = Graph.revenue_by_origination_pg(user,pg,all_referral_sources[i],closeout_amount)
     end
@@ -269,15 +274,20 @@ class Graph < ActiveRecord::Base
   end
 
   def self.revenue_by_origination_pg(user,pg,referral_source,closeout_amount)
+    #Sum #{closeout_amount} by practicegroup and referral_source
     user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:originations, :closeouts).
           where('referral_source = ?', referral_source).sum(closeout_amount)
   end
 
   def self.rev_by_fee_type_pg(user,pg,closeout_amount)
+    #Gather all fee_types and years
     year_of_collection = Graph.closeout_years
     all_fee_types = Fee.all.collect(&:fee_type).uniq
     final = []
 
+    #Loop through all fee_types, create amounts_array that is length of years
+    #Loop amount.length(years); casse (closed, practicegroup) and date_fee_received between start
+    #and end_dates, sum #{closeout_amounts}
     all_fee_types.each do |type|
       amounts = Array.new(year_of_collection)
       amounts.length.times do |i|
