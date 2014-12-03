@@ -145,6 +145,7 @@ class Graph < ActiveRecord::Base
   end
 
   #Return a list of closed cases from beginning of number of years ago to today
+  #For us in graphs_actuals_controller.closed_case_load_by_year
   def self.closed_cases_after(user,test_year=3)
     #Start from Beginning of year, and if test_year is provided, then go back beginning_of_year - test_year
     start_date = Date.today.beginning_of_year - (test_year).years
@@ -160,7 +161,24 @@ class Graph < ActiveRecord::Base
     end
     #Return the [[practicegroupname,case_count],[pg,cc]]..etc
     practice_group_names = user.lawfirm.practicegroups.where(id: practice_groups).collect(&:group_name)
-    return test = practice_group_names.zip(final_case_count)
+    return practice_group_names.zip(final_case_count)
+  end
+
+
+  def self.closed_cases_by_pg_and_closeout_type(user,closeout_amount,test_year=3)
+    practice_groups = Graph.user_practice_group_ids(user)
+    amounts = Array.new(practice_groups.length)
+    start_date = Date.today.beginning_of_year - (test_year).years
+    all_pg_closeout_amounts = []
+
+    practice_groups.each do |pg|
+      pg_closeout_amount = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:closeouts).
+                                where("date_fee_received > ?", start_date).
+                                sum(closeout_amount)
+      all_pg_closeout_amounts << pg_closeout_amount
+    end
+    practice_group_names = user.lawfirm.practicegroups.where(id: practice_groups).collect(&:group_name)
+    practice_group_names.zip(all_pg_closeout_amounts)
   end
 
   #Return a Hash of all Practice Groups with revenue by year for past five years
@@ -214,7 +232,7 @@ class Graph < ActiveRecord::Base
   end
 
   def self.revenue_by_client(user,client,closeout_amount)
-
+    #need to remove Client.methods that handle this
   end
 
 end

@@ -3,33 +3,45 @@
 
     <div class="col-lg-10 col-lg-offset-2">
 
+        <div class="col-lg-4 col-lg-offset-4">
+          <div class="select-year">
+                <h5>Change Number of Years</h5>
+
+            <div class="col-lg-6">
+                <%= form_tag closed_case_load_by_year_graph_actual_path(current_user.lawfirm_id),
+                  method: :get do %>
+                  <div class="row" style='margin-left: -50px'>
+                    <div class='col-lg-6'>
+                        <%= select_tag :range, options_for_select([1,2,3,4,5,6,7,8,9,10]) %>
+                    </div>
+                    <div class='col-lg-6'>
+                        <%= submit_tag "Change Years", class: 'btn btn-xs btn-primary' %>
+                    </div>
+                  </div>
+                <%end%>
+            </div>
+          </div>
+        </div>
         <div id="pieChartClosedCases" style="min-width: 310px;
                                       height: 600px; width: 600px;
                                       max-width: 600px;
                                       margin: 0 auto">
         </div>
-        <div class="col-lg-4 col-lg-offset-4">
-          <div class="select-year">
-                <h2>Change Number of Years</h2>
 
-            <div class="col-lg-6 col-lg-offset-3">
-                <%= form_tag closed_case_load_by_year_graph_actual_path(current_user.lawfirm_id),
-                  method: :get do %>
-                  <div class="row">
-                    <%= select_tag :range, options_for_select([1,2,3,4,5,6,7,8,9,10]) %>
-                    <%= submit_tag "Change Years", class: 'btn btn-md btn-primary center' %>
-                  </div>
-              </div>
-            <%end%>
+        <div id='revenueByPracticeGroupActual' style="min-width: 310px;
+                                              height: 600px; width: 600px;
+                                              max-width: 600px;
+                                               margin: 0 auto">
         </div>
-      </div>
+
+
     </div>
 </div>
 
 
 <script type="text/javascript">
 
-Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+    Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
         return {
             radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
             stops: [
@@ -84,6 +96,66 @@ $(function () {
             data: pieDataClosedCases
         }]
     });
+});
+
+$(function () {
+
+
+    var pieData = [<% @closed_cases_by_pg_rev.each do |d|%>
+                     <%= raw d %>,
+                  <% end %>]
+
+    var text = <%= params[:range] || 3 %>
+
+    $('#revenueByPracticeGroupActual').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: "Revenue by Practice Group"
+        },
+        subtitle: {
+            text: "Last " + text + " Years"
+        },
+        tooltip: {
+          pointFormat: 'Total Fee Received: <b>{point.y}</b>'
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    },
+                    connectorColor: 'silver'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: "Practice Group",
+            data: pieData
+        }]
+    });
+
+    Number.prototype.formatMoney = function(c, d, t){
+        var n = this,
+            c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d == undefined ? "." : d,
+            t = t == undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+            j = (j = i.length) > 3 ? j % 3 : 0;
+           return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+    };
 });
 
 </script>

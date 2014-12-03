@@ -5,8 +5,10 @@ class GraphActualsController < ApplicationController
     #If params[:range] not set, default => 3 year lookback
     if params[:range] == nil
       @final_closed_cases_by_pg = Graph.remove_arrays_less_than_or_equal_to(Graph.closed_cases_after(current_user),0)
+      @closed_cases_by_pg_rev = Graph.closed_cases_by_pg_and_closeout_type(current_user,'total_fee_received')
     else
       @final_closed_cases_by_pg = Graph.remove_arrays_less_than_or_equal_to(Graph.closed_cases_after(current_user, params[:range].to_i),0)
+      @closed_cases_by_pg_rev = Graph.closed_cases_by_pg_and_closeout_type(current_user,'total_fee_received', params[:range].to_i)
     end
   end
 
