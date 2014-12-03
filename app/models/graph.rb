@@ -286,7 +286,7 @@ class Graph < ActiveRecord::Base
     final = []
 
     #Loop through all fee_types, create amounts_array that is length of years
-    #Loop amount.length(years); casse (closed, practicegroup) and date_fee_received between start
+    #Loop amount.length(years); case (closed, practicegroup) and date_fee_received between start
     #and end_dates, sum #{closeout_amounts}
     all_fee_types.each do |type|
       amounts = Array.new(year_of_collection)
