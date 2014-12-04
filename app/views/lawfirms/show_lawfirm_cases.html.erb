@@ -28,7 +28,8 @@
 
 <% else %>
 
-<%= link_to "Add Open Case", new_case_path, class: 'btn btn-md btn-primary' %>
-<%= link_to "Add Closed Case", new_closed_case_path, class: 'btn btn-md btn-primary' %>
-
+<div class="center">
+  <%= link_to "Add Open Case", new_case_path, class: 'btn btn-md btn-primary' %>
+  <%= link_to "Add Closed Case", new_closed_case_path, class: 'btn btn-md btn-primary' %>
+</div>
 <%= will_paginate @lawfirm_cases, renderer: BootstrapPagination::Rails %>
