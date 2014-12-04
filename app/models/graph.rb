@@ -1,25 +1,25 @@
 class Graph < ActiveRecord::Base
 
-  #open cases by lawfirm
+  #Open cases by lawfirm
   def self.open_cases(user)
-    user.lawfirm.cases.where(open: true).includes(:fees,:timings)
+    return user.lawfirm.cases.where(open: true).includes(:fees,:timings)
   end
 
-  #closed cases by lawfirm
+  #Closed cases by lawfirm
   def self.closed_cases(user)
-    user.lawfirm.cases.where(open: false).includes(:closeouts)
+    return user.lawfirm.cases.where(open: false).includes(:closeouts)
   end
 
-  #practice_group names by lawfirm
+  #Practice_group names by lawfirm
   def self.user_practice_groups(user)
-    user.lawfirm.practicegroups.collect(&:group_name)
+    return user.lawfirm.practicegroups.collect(&:group_name)
   end
 
   def self.user_practice_group_ids(user)
-    user.lawfirm.practicegroups.collect(&:id)
+    return user.lawfirm.practicegroups.collect(&:id)
   end
 
-  #start year should be five years prior to the most recent collection fee_received
+  #Start year should be five years prior to the most recent collection fee_received
   def self.closeout_years
     [Date.today - 4.years,Date.today - 3.years,
       Date.today - 2.years,Date.today - 1.years,
@@ -71,13 +71,11 @@ class Graph < ActiveRecord::Base
   end
 
   def self.subtract_arrays(array1,array2)
-    subtracted_array = array1.zip(array2).map { |x,y| x-y }
-    subtracted_array
+    return array1.zip(array2).map { |x,y| x-y }
   end
 
   def self.add_arrays(array1,array2)
-    added_array = array1.zip(array2).map { |x,y| x+y }
-    added_array
+    return array1.zip(array2).map { |x,y| x+y }
   end
 
   #Return sum(closeout.attributee) by user lawfirm, grouped by year over the last 5 years
@@ -90,10 +88,12 @@ class Graph < ActiveRecord::Base
     #is within the start and end of the year.  If it is, sum it.  Then repeat for
     #all 5 years.
     amounts.length.times do |i|
-      amounts[i] = user.lawfirm.cases.where(open: false).joins(:closeouts).where(
-        'date_fee_received >= :start_date AND date_fee_received <= :end_date',
-        {start_date: year_of_collection[i].beginning_of_year,
-         end_date: year_of_collection[i].end_of_year}).sum(closeout_amount)
+      amounts[i] = user.lawfirm.cases.where(open: false).joins(:closeouts).
+                                where('date_fee_received >= :start_date AND
+                                        date_fee_received <= :end_date',
+                                    {start_date: year_of_collection[i].beginning_of_year,
+                                     end_date: year_of_collection[i].end_of_year}).
+                                sum(closeout_amount)
     end
     return amounts
   end
@@ -101,7 +101,7 @@ class Graph < ActiveRecord::Base
   def self.total_overhead_per_year(user)
     #Set the last five years dates, and Sum all of the expenses per year to arrive at overhead costs
     years_of_collection = Graph.closeout_year_only
-    amounts = [0,0,0,0,0]
+    amounts = Array.new(years_of_collection.length,0)
 
     #Take the overhead for the lawfirm, and if ovh.year matches the years_of_collection[year]
     #Sum all the amounts fo that year
@@ -176,10 +176,10 @@ class Graph < ActiveRecord::Base
     start_date = Date.today - (test_year).years
     all_pg_closeout_amounts = []
 
-    #Loop through practice groups with closed cases
+    #Loop through practice groups with closed cases and inner join closeouts.
     practice_groups.each do |pg|
       pg_closeout_amount = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:closeouts).
-                                #if the date_fee_received is after the specified start_date
+                                #If the date_fee_received is after the specified start_date
                                 where("date_fee_received > ?", start_date).
                                 #Return the specified closeout_amount
                                 sum(closeout_amount)
@@ -187,14 +187,13 @@ class Graph < ActiveRecord::Base
     end
     #Collect all user practicegroup names and combine them with the amounts from above
     practice_group_names = user.lawfirm.practicegroups.where(id: practice_groups).collect(&:group_name)
-    practice_group_names.zip(all_pg_closeout_amounts)
+    return practice_group_names.zip(all_pg_closeout_amounts)
   end
 
   #Return a Hash of all Practice Groups with revenue by year for past five years
   def self.revenue_by_practice_group_actual(user,closeout_amount)
     #Set variables, past 5 years, amounts earned in those years, and Practicegroups
     year_of_collection = Graph.closeout_years
-    amounts = [0,0,0,0,0]
     final_tally = []
     practice_groups = Graph.user_practice_group_ids(user)
 
@@ -202,6 +201,7 @@ class Graph < ActiveRecord::Base
     #summing the #{closeout amount} for that year.
     #Add [practicegroup_id, [amounts]] to final_tally, and reset amounts to 0 for the next PG.
     practice_groups.each do |pg|
+      amounts = Array.new(year_of_collection.length,0)
       amounts.length.times do |i|
         amounts[i] = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:closeouts).
                     where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
@@ -210,7 +210,6 @@ class Graph < ActiveRecord::Base
                     sum(closeout_amount)
       end
       final_tally << [pg,amounts]
-      amounts = [0,0,0,0,0]
     end
 
     #Change the practicegroup_ids to the actual practice_group_names
@@ -237,17 +236,19 @@ class Graph < ActiveRecord::Base
                            end_date: year_of_collection[i].end_of_year}).
                     sum(closeout_amount)
     end
-    amounts
+    return amounts
   end
 
+  #Need to remove Client.methods that handle this. Client.method is unbearably slow
   def self.revenue_by_client(user,client,closeout_amount)
-    #need to remove Client.methods that handle this
+
   end
 
+  #Return array of closeout_amounts for past 5 years by client
   def self.client_profitability_actual_by_year(client, closeout_amount)
     year_of_collection = Graph.closeout_years
     amounts = Array.new(year_of_collection.length)
-
+    #Join closeout amounts with client.cases, and sum amounts for the year in question
     amounts.length.times do |i|
         amounts[i] = client.cases.where(open: false).joins(:closeouts).
                           where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
@@ -255,8 +256,7 @@ class Graph < ActiveRecord::Base
                                  end_date: year_of_collection[i].end_of_year}).
                           sum(closeout_amount)
     end
-    amounts
-
+    return amounts
   end
 
   def all_closeout_attributes
@@ -284,7 +284,7 @@ class Graph < ActiveRecord::Base
                             end_date: year_of_collection[i].end_of_year}).
                         sum(closeout_amount)
     end
-    amounts
+    return amounts
   end
 
   def self.all_origination_source_rev_pg(user,pg,closeout_amount)
@@ -296,12 +296,12 @@ class Graph < ActiveRecord::Base
     amounts.length.times do |i|
       amounts[i] = Graph.revenue_by_origination_pg(user,pg,all_referral_sources[i],closeout_amount)
     end
-    all_referral_sources.zip(amounts)
+    return all_referral_sources.zip(amounts)
   end
 
   def self.revenue_by_origination_pg(user,pg,referral_source,closeout_amount)
     #Sum #{closeout_amount} by practicegroup and referral_source
-    user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:originations, :closeouts).
+    return user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:originations, :closeouts).
           where('referral_source = ?', referral_source).sum(closeout_amount)
   end
 
@@ -326,7 +326,7 @@ class Graph < ActiveRecord::Base
       end
       final << amounts
     end
-    all_fee_types.zip(final).map { |name,values|  { 'name' => name, 'data' => values } }.to_json
+    return all_fee_types.zip(final).map { |name,values|  { 'name' => name, 'data' => values } }.to_json
   end
 
 end

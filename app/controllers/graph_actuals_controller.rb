@@ -1,5 +1,6 @@
 class GraphActualsController < ApplicationController
   before_action :signed_in_user, :belongs_to_firm, :has_closed_cases
+  before_action :has_overhead_last_5_years
   #Using params[:range], sets number of years to collect closed cases
   def closed_case_load_by_year
     #If params[:range] not set, default => 3 year lookback
@@ -38,12 +39,12 @@ class GraphActualsController < ApplicationController
   end
 
   def revenue_by_origination
-
     #Get list of all referral sources by lawfirm.
     all_referral_sources = Origination.all_referral_sources(current_user)
     amounts = []
 
-    #Sum the total_fee_received of all closed cases by referral source
+    #Sum the total_fee_received of all closed cases by referral source,
+      # => using params[:range] if provided, 3 otherwise
     all_referral_sources.each do |ref|
       amounts << Graph.closeout_amount_by_origination(current_user, ref, 'total_fee_received', params[:range] ? params[:range].to_i : 3)
     end

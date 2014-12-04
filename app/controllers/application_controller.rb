@@ -46,6 +46,20 @@ class ApplicationController < ActionController::Base
       end
     end
 
-
+    #If a controller method uses overhead in calculating something, we need to be sure overhead is set
+    def has_overhead_last_5_years
+      if current_user.lawfirm.overheads
+        ovh = current_user.lawfirm.overheads.collect(&:year)
+        if ovh.include?(Date.today.year) and ovh.include?(Date.today.year - 1) and ovh.include?(Date.today.year - 2) and ovh.include?(Date.today.year - 3) and ovh.include?(Date.today.year - 4)
+           return true
+         else
+          redirect_to new_user_lawfirm_overhead_path(current_user, current_user.lawfirm_id),
+            :flash => {:danger => "You must calculate overhead for each of the past 5 years to view this page."}
+        end
+      else
+        redirect_to new_user_lawfirm_overhead_path(current_user, current_user.lawfirm_id),
+          :flash => {:danger => "You must calculate overhead for each of the past 5 years to view this page."}
+      end
+    end
 
 end
