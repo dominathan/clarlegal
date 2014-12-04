@@ -36,12 +36,11 @@
         <% end %>
     </tbody>
   </table>
-
-<% else %>
-  <div class="center">
-    <%= link_to 'Add a Client', new_client_path, class: "btn btn-md btn-primary" %>
-  </div>
 <% end %>
+
+<div class="center">
+  <%= link_to 'Add a Client', new_client_path, class: "btn btn-md btn-primary" %>
+</div>
 
 
 <%= will_paginate @client, renderer: BootstrapPagination::Rails %>
