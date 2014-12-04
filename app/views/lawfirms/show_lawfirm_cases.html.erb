@@ -3,6 +3,10 @@
 <h1><%= "#{@firm_name} Case List" %></h1>
   <% @search_path = lawfirm_cases_path %>
   <%= render 'shared/search_bar' %>
+
+<% if @lawfirm_cases.any? %> <!-- does the lawfirm have cases?  If show then show them-->
+
+
 <table class="table table-hover sortable">
   <thead>
     <tr>
@@ -12,15 +16,19 @@
     </tr>
   </thead>
   <tbody>
-    <% if @lawfirm_cases.any? %> <!-- does the lawfirm have cases?  If show then show them-->
       <% @lawfirm_cases.each do |one_case| %>
        <tr>
         <td><%= one_case.name %></td>
         <td><%= one_case.practice_group %> </td>
         <td><%= User.full_name_last_first(one_case.client) %> </td>
-        <% end %>
-    <% end %>
+       </tr>
+      <% end %>
   </tbody>
 </table>
+
+<% else %>
+
+<%= link_to "Add Open Case", new_case_path, class: 'btn btn-md btn-primary' %>
+<%= link_to "Add Closed Case", new_closed_case_path, class: 'btn btn-md btn-primary' %>
 
 <%= will_paginate @lawfirm_cases, renderer: BootstrapPagination::Rails %>

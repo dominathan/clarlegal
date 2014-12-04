@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
     def has_open_cases
       unless current_user.lawfirm.cases.where(open: true).exists?
         redirect_to new_case_path,
-          :flash => {:danger => "You must fill out or upload information of a closed case to view."}
+          :flash => {:danger => "You must fill out or upload information of an open case to view."}
       end
     end
 
