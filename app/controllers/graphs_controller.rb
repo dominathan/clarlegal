@@ -1,6 +1,5 @@
 class GraphsController < ApplicationController
-  before_action :signed_in_user
-  before_action :belongs_to_firm
+  before_action :signed_in_user, :belongs_to_firm, :has_open_cases
 
   def practice_group_pie
     #Step 1. Get list of all cases that are open.

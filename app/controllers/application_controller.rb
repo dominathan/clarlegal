@@ -29,4 +29,23 @@ class ApplicationController < ActionController::Base
       redirect_to(root_url) unless current_user?(@user)
     end
 
+    #To be used on graph_actuals controller to prevent people from viewing information with no closed cases.
+    def has_closed_cases
+      unless current_user.lawfirm.cases.where(open: false).exists?
+        redirect_to new_closed_case_path,
+          :flash => {:danger => "You must fill out or upload information of a closed case to view."}
+      end
+    end
+
+    #To be used on graph, graph_drilldowns, and graph_individual_prac_groups controller
+    # to prevent people from viewing information with no open cases.
+    def has_open_cases
+      unless current_user.lawfirm.cases.where(open: true).exists?
+        redirect_to new_case_path,
+          :flash => {:danger => "You must fill out or upload information of a closed case to view."}
+      end
+    end
+
+
+
 end

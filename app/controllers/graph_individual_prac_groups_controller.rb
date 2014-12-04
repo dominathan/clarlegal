@@ -1,5 +1,5 @@
 class GraphIndividualPracGroupsController < ApplicationController
-
+  before_action :signed_in_user, :belongs_to_firm, :has_open_cases
 
   def expected_individual_pg_rev
     prac_group = Practicegroup.find(params[:id]).group_name

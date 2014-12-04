@@ -4,7 +4,7 @@
 # These can be shown with timestamps for a graphical representation of the data.
 
 class FeesController < ApplicationController
-  before_action :signed_in_user
+  before_action :signed_in_user, :belongs_to_firm
 
   def index
     @case = Case.find(params[:case_id])

@@ -1,5 +1,5 @@
 class TimingsController < ApplicationController
-  before_action :signed_in_user
+  before_action :signed_in_user, :belongs_to_firm
 
   def index
     @case = Case.find(params[:case_id])

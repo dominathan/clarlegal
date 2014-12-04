@@ -1,6 +1,5 @@
 class GraphDrilldownsController < ApplicationController
-  before_action :signed_in_user
-  before_action :belongs_to_firm
+  before_action :signed_in_user, :belongs_to_firm, :has_open_cases
 
   def rev_by_fee_type
     set_category_years

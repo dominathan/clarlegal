@@ -1,7 +1,7 @@
 #Staffing refers to actual Staff for the lawfirm
 #Staff refers to Case Staff... staff that work on a case
 class StaffsController < ApplicationController
-  before_action :signed_in_user
+  before_action :signed_in_user, :belongs_to_firm
 
   def index
     @client = Client.find(params[:client_id])

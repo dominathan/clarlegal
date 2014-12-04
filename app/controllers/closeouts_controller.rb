@@ -1,4 +1,5 @@
 class CloseoutsController < ApplicationController
+    before_action :signed_in_user, :belongs_to_firm
 
   def new
     @case = Case.find(params[:case_id])

@@ -1,5 +1,5 @@
 class PracticegroupsController < ApplicationController
-  before_action :signed_in_user
+  before_action :signed_in_user, :belongs_to_firm
 
   def new
     @prac_group = Practicegroup.new

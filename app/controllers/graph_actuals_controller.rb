@@ -1,5 +1,5 @@
 class GraphActualsController < ApplicationController
-
+  before_action :signed_in_user, :belongs_to_firm, :has_closed_cases
   #Using params[:range], sets number of years to collect closed cases
   def closed_case_load_by_year
     #If params[:range] not set, default => 3 year lookback
