@@ -120,10 +120,13 @@ class Graph < ActiveRecord::Base
     return amounts
   end
 
-  #Return sum of closed cases, Closeout.closeout_amount by origination.referral_source
-  def self.closeout_amount_by_origination(user,referral_source,closeout_amount)
-    user.lawfirm.cases.where(open: false).joins(:originations, :closeouts).where(
-      'referral_source = ?', referral_source).sum(closeout_amount)
+  #Return sum of closed cases, Closeout.closeout_amount by origination.referral_source by year lookback
+  def self.closeout_amount_by_origination(user,referral_source,closeout_amount,test_year=3)
+    start_date = Date.today.beginning_of_year - (test_year).years
+    user.lawfirm.cases.where(open: false).joins(:originations, :closeouts).
+          where('referral_source = ?', referral_source).
+          where('date_fee_received > ?', start_date).
+          sum(closeout_amount)
   end
 
   #For Pie Charts, do not want values returned to JS template with <= 0
@@ -148,7 +151,7 @@ class Graph < ActiveRecord::Base
   #For us in graphs_actuals_controller.closed_case_load_by_year
   def self.closed_cases_after(user,test_year=3)
     #Start from Beginning of year, and if test_year is provided, then go back beginning_of_year - test_year
-    start_date = Date.today.beginning_of_year - (test_year).years
+    start_date = Date.today - (test_year).years
     final_case_count = []
 
     #Loop through practicegroups, and collect count of cases that belong to each practice group
@@ -170,7 +173,7 @@ class Graph < ActiveRecord::Base
     #and the start_date as a base.
     practice_groups = Graph.user_practice_group_ids(user)
     amounts = Array.new(practice_groups.length)
-    start_date = Date.today.beginning_of_year - (test_year).years
+    start_date = Date.today - (test_year).years
     all_pg_closeout_amounts = []
 
     #Loop through practice groups with closed cases
@@ -239,6 +242,29 @@ class Graph < ActiveRecord::Base
 
   def self.revenue_by_client(user,client,closeout_amount)
     #need to remove Client.methods that handle this
+  end
+
+  def self.client_profitability_actual_by_year(client, closeout_amount)
+    year_of_collection = Graph.closeout_years
+    amounts = Array.new(year_of_collection.length)
+
+    amounts.length.times do |i|
+        amounts[i] = client.cases.where(open: false).joins(:closeouts).
+                          where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
+                                {start_date: year_of_collection[i].beginning_of_year,
+                                 end_date: year_of_collection[i].end_of_year}).
+                          sum(closeout_amount)
+    end
+    amounts
+
+  end
+
+  def all_closeout_attributes
+    ["total_recovery",
+    "total_gross_fee_received",
+    "total_out_of_pocket_expenses",
+    "referring_fees_paid",
+    "total_fee_received"]
   end
 
 #----------------Individual Practice Groups --- Actual ---------------------------

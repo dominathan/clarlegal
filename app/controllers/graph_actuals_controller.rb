@@ -38,13 +38,14 @@ class GraphActualsController < ApplicationController
   end
 
   def revenue_by_origination
+
     #Get list of all referral sources by lawfirm.
     all_referral_sources = Origination.all_referral_sources(current_user)
     amounts = []
 
     #Sum the total_fee_received of all closed cases by referral source
     all_referral_sources.each do |ref|
-      amounts << Graph.closeout_amount_by_origination(current_user, ref, 'total_fee_received')
+      amounts << Graph.closeout_amount_by_origination(current_user, ref, 'total_fee_received', params[:range] ? params[:range].to_i : 3)
     end
     final_fee_by_origination_source = all_referral_sources.zip(amounts)
 
@@ -61,6 +62,14 @@ class GraphActualsController < ApplicationController
     @profitability = Client.client_profitability_actual(@client)
     #Average Profitability takes way too long
     @avg_profitability = Client.avg_client_profitability(Client.all_client_profitability(current_user))
+
+
+    #For Client Profitability by Year
+    @gross_fee_received = Graph.client_profitability_actual_by_year(@client, 'total_gross_fee_received')
+    @total_recovery = Graph.client_profitability_actual_by_year(@client, 'total_recovery')
+    @out_of_pocket = Graph.client_profitability_actual_by_year(@client, 'total_out_of_pocket_expenses')
+    @referring_fees = Graph.client_profitability_actual_by_year(@client, 'referring_fees_paid')
+    @total_fee_received = Graph.client_profitability_actual_by_year(@client, 'total_gross_fee_received')
   end
 
   def individual_practice_group
