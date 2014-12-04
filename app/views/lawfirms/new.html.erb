@@ -7,7 +7,8 @@
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <div class="center">
-        <%= link_to "Already Belong to a Law Firm? Click Here", joinlawfirm_path %>
+        <p>Does your law firm already have an account with ClarLegal?</p>
+        <%= link_to "Click Here", joinlawfirm_path, class: 'btn btn-sm btn-primary' %>
       </div>
     <br>
     <br>
@@ -24,7 +25,7 @@
         </tr>
         <tr>
           <td><%= f.label :password_confirmation, "Password Confirmation" %></td>
-          <td><%= f.password_field :password_confirmation, :placeholder => "And keep separate form your user password." %></td>
+          <td><%= f.password_field :password_confirmation, :placeholder => "And keep separate from your user password." %></td>
         </tr>
       </table>
       <div class="center">

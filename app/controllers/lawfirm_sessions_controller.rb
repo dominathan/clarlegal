@@ -13,7 +13,7 @@ class LawfirmSessionsController < ApplicationController
         redirect_to clients_path
       end
     else
-      flash.now[:error] = 'Invalid Password'
+      flash.now[:danger] = 'Invalid Law Firm or Password'
       render 'new'
     end
   end
