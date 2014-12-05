@@ -15,27 +15,27 @@
           </tr>
           <tr>
             <td><%= f.label "Rent Expense:" %></td>
-            <td><%= f.text_field :rent %></td>
+            <td><%= f.text_field :rent, class: "monetary" %></td>
           </tr>
           <tr>
             <td><%= f.label "Utiliy Cost:" %></td>
-            <td><%= f.text_field :utilities %></td>
+            <td><%= f.text_field :utilities, class: "monetary" %></td>
           </tr>
           <tr>
             <td><%= f.label "Guaranteed Salaries:" %></td>
-            <td><%= f.text_field :guaranteed_salaries %></td>
+            <td><%= f.text_field :guaranteed_salaries, class: "monetary" %></td>
           </tr>
           <tr>
             <td><%= f.label "Hard Costs:" %></td>
-            <td><%= f.text_field :hard_costs %></td>
+            <td><%= f.text_field :hard_costs, class: "monetary" %></td>
           </tr>
           <tr>
             <td><%= f.label "Other:" %></td>
-            <td><%= f.text_field :other %></td>
+            <td><%= f.text_field :other, class: "monetary" %></td>
           </tr>
           <tr>
             <td><%= f.label "Expected Billable Hours per Lawyer" %></td>
-            <td><%= f.text_field :billable_hours_per_lawyer %></td>
+            <td><%= f.text_field :billable_hours_per_lawyer, class: "monetary" %></td>
           </tr>
           <tr>
             <td><%= f.label "Number of Billable Staff" %></td>
