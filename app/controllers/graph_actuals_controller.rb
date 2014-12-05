@@ -70,7 +70,7 @@ class GraphActualsController < ApplicationController
     @total_recovery = Graph.client_profitability_actual_by_year(@client, 'total_recovery')
     @out_of_pocket = Graph.client_profitability_actual_by_year(@client, 'total_out_of_pocket_expenses')
     @referring_fees = Graph.client_profitability_actual_by_year(@client, 'referring_fees_paid')
-    @total_fee_received = Graph.client_profitability_actual_by_year(@client, 'total_gross_fee_received')
+    @total_fee_received = Graph.client_profitability_actual_by_year(@client, 'total_fee_received')
   end
 
   def individual_practice_group
