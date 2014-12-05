@@ -119,7 +119,6 @@ class CasesController < ApplicationController
     unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
       @case.originations.first.referral_source = params[:case][:originations_attributes]["0"][:new_referral_source]
     end
-    binding.pry
     if @case.save
       #Mark case.open == false
       Closeout.close_case(@case)
