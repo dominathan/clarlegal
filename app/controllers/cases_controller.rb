@@ -30,6 +30,9 @@ class CasesController < ApplicationController
     unless params[:case][:new_practice_group].empty?
       @case.practice_group = params[:case][:new_practice_group]
       @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id)
+      @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:new_practice_group]).id
+    else
+      @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:practice_group]).id
     end
     #add new referral source to database if empty
     unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
@@ -108,11 +111,15 @@ class CasesController < ApplicationController
     unless params[:case][:new_practice_group].empty?
       @case.practice_group = params[:case][:new_practice_group]
       @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id) unless current_user.lawfirm.practicegroups.collect(&:group_name).include?(params[:case][:new_practice_group])
+      @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:new_practice_group]).id
+    else
+      @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:practice_group]).id
     end
     #add new referral source to database if empty
     unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
       @case.originations.first.referral_source = params[:case][:originations_attributes]["0"][:new_referral_source]
     end
+    binding.pry
     if @case.save
       #Mark case.open == false
       Closeout.close_case(@case)
