@@ -28,3 +28,7 @@ doc/
 .DS_Store
 .idea
 .secret
+
+server.csr
+server.key
+server.pass.key
