@@ -2,26 +2,35 @@
 
 <h1>Practice Groups for <%= "#{@lawfirm.firm_name}" %></h1>
 
-<table class="table table-hover sortable">
+<% if current_user.lawfirm.practicegroups.present? %>
+
+<table id="lawfirmPracticeGroups" class="display">
   <thead>
     <tr>
       <th>Practice Group Name</th>
+      <th>Case Listing</th>
+      <th>Actual Profit</th>
+      <th>Expected Profit</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <% if current_user.lawfirm.practicegroups.present? %>
-      <% current_user.lawfirm.practicegroups.order(:group_name).each do |group| %>
+      <% @practice_groups.each do |group| %>
         <tr>
           <td><%= group.group_name %></td>
-          <td><%= link_to "Edit", edit_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => group.id), :class => "btn btn-xs btn-primary"  %></td>
+          <td><%= link_to "Cases", group_case_list_user_lawfirm_practicegroup_path(current_user.id, current_user.lawfirm_id, group.id) %></td>
+          <td><%= link_to "Actual Profit", individual_practice_group_graph_actual_path(group.id) %></td>
+          <td><%= link_to "Expected Profit", "#" %></td>
+          <td><%= link_to "Edit", edit_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => group.id) %></td>
         </tr>
       <% end %>
-    <% end %>
   </tbody>
 </table>
 
-      <div class='center'>
-        <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id), class: 'btn btn-lg btn-primary' %>
-      </div>
+<% end %>
+
+
+<div class='center'>
+  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id), class: 'btn btn-lg btn-primary' %>
+</div>
 

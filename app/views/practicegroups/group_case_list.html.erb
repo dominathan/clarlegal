@@ -1,0 +1,30 @@
+<% provide(:title, "Practice Groups Case list") %>
+
+<h1>Case List for <%= "#{@practice_group.group_name}" %></h1>
+
+<% if @cases.present? %>
+
+<table id="practiceGroupCaseList" class="display">
+  <thead>
+    <tr>
+      <th>Case Name</th>
+      <th>Open?</th>
+      <th>Responsible Attorney</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+      <% @cases.each do |ca| %>
+        <tr>
+          <td><%= link_to ca.name, client_case_path(ca.client_id,ca.id) %></td>
+          <td><%= ca.open == true ? "Open" : "False" %></td>
+          <td><%= Case.lead_attorney(ca) %></td>
+          <td><%=  %></td>
+          <td><%=  %></td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+
+<% end %>

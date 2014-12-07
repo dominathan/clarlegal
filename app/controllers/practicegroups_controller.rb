@@ -8,12 +8,16 @@ class PracticegroupsController < ApplicationController
 
   def index
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
-    @prac_group = Practicegroup.all
+    @practice_groups = current_user.lawfirm.practicegroups.load
+  end
+
+  def group_case_list
+    @practice_group = Practicegroup.find(params[:id])
+    @cases = Case.where(practicegroup_id: @practice_group.id)
   end
 
   def create
-    @user = User.find(params[:user_id])
-    @lawfirm = Lawfirm.find(params[:lawfirm_id])
+    @lawfirm = current_user.lawfirm
     @prac_group = @lawfirm.practicegroups.new(practicegroup_params)
     if @prac_group.save
       flash[:success] = "Practice Group Added Succesfully."

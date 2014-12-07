@@ -13,14 +13,22 @@ Claregal::Application.routes.draw do
 
   resources :users do
     resources :lawfirms do
-      resources :practicegroups
+
+      resources :practicegroups do
+        member do
+          get :group_case_list
+        end
+      end
+
       resources :staffings do
         member do
           match '/case_metrics/:case_id/', to: 'staffings#individuals_and_cases', via: 'get', as: :case_metrics
         end
       end
+
       resources :case_types
       resources :overheads
+
     end
   end
 
