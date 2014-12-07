@@ -1,5 +1,8 @@
+<% provide(:title, "Overhead") %>
+
+
 <h2>Overhead</h2>
-<table class='table table-hover'>
+<table id="lawfirmOverhead" class='display'>
   <thead>
     <tr>
       <th>Year</th>
@@ -26,7 +29,7 @@
       <td><%= overhead.billable_hours_per_lawyer%></td>
       <td><%= overhead.number_of_billable_staff || current_user.lawfirm.staffings.count %></td>
       <td><%= number_to_currency(overhead.rate_per_hour,precision: 2)%></td>
-      <td><%=link_to 'Update', edit_user_lawfirm_overhead_path(current_user,current_user.lawfirm, overhead), class: 'btn btn-md btn-primary' %></td>
+      <td><%=link_to 'Edit', edit_user_lawfirm_overhead_path(current_user,current_user.lawfirm, overhead) %></td>
     </tr>
   <% end %>
   </tbody>
@@ -34,5 +37,5 @@
 </table>
 
   <div class="center">
-    <%= link_to "Add New Overhead", new_user_lawfirm_overhead_path(current_user,current_user.lawfirm), class: "btn btn-lg btn-sm  " %>
+    <%= link_to "Add New Overhead", new_user_lawfirm_overhead_path(current_user,current_user.lawfirm), class: "btn btn-lg btn-primary  " %>
   </div>

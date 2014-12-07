@@ -4,3 +4,10 @@ $(document).on('submit', function(){
     $(this).val(Number(currency.replace(/[\$,]/g,"")))
   });
 });
+
+
+$(document).ready(function() {
+  $('#lawfirmOverhead').dataTable({
+    order: [[0,'desc']]
+  });
+});

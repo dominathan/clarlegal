@@ -1,33 +1,38 @@
 <% provide(:title, 'All Cases') %>
-<h1><%= "#{User.full_name(@user)}'s Cases" %></h1>
+<h1><%= "#{User.full_name(current_user)}'s Cases" %></h1>
 
-  <% @search_path = user_cases_path %>
-  <%= render 'shared/search_bar' %>
+<% if @cases.any? %> <!-- does the client have cases?  If show then show them-->
 
-<table class="table table-hover">
+<table id="userCases" class="display">
   <thead>
     <tr>
       <th>Case Name<br>
         (click to view)</th>
       <th>Practice Group</th>
       <th>Client Name</th>
-      <th>Date Filed</th>
+      <th>Responsible Attorney</th>
+      <th>Judge</th>
+      <th>Opposing Counsel</th>
+      <th>Matter Type</th>
+      <th>Case Number</th>
     </tr>
   </thead>
   <tbody>
-    <% if @case %> <!-- does the client have cases?  If show then show them-->
-      <% @case.each do |one_case| %>
+      <% @cases.each do |one_case| %>
        <tr>
-        <td><%= link_to "#{one_case.name}", client_case_path(:client_id => one_case.client_id, :id => one_case.id) %></td>
-        <td><%= one_case.practice_group %> </td>
+        <td><%= link_to one_case.name != nil && one_case.name != "" ? one_case.name : "Add Name", client_case_path(:client_id => one_case.client_id, :id => one_case.id) %></td>
+        <td><%= Practicegroup.find_by(id: one_case.practicegroup_id).group_name %> </td>
         <td><%= User.full_name_last_first(one_case.client) %> </td>
-        <td><%= one_case.timing.order(:created_at).last.case_filed ? one_case.timing.order(:created_at).last.case_filed : "" %></td>
+        <td><%= Case.lead_attorney(one_case) %> </td>
+        <td><%= one_case.judge ? one_case.judge : "" %></td>
+        <td><%= one_case.opposing_attorney ? one_case.opposing_attorney : ""%></td>
+        <td><%= one_case.type_of_matter ? one_case.type_of_matter : "" %></td>
+        <td><%= one_case.case_number ? one_case.case_number : "" %></td>
       <% end %>
-    <% else %>
-
-    <% end %>
   </tbody>
 </table>
+
+<% end %>
 
 <div class="center">
     <%= link_to "Add Open Case", new_case_path, class: 'btn btn-md btn-primary' %>
@@ -35,4 +40,3 @@
 </div>
 
 
-<%= will_paginate @case, renderer: BootstrapPagination::Rails %>
