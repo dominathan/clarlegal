@@ -1,32 +1,30 @@
 <h1>Staff for <%= "#{@lawfirm.firm_name}" %></h1>
 
-<table class="table table-hover sortable">
-  <thead>
-    <tr>
-      <td><b>Name</td>
-      <td><b>Position</td>
-      <td><b>Hourly Rate</td>
-      <td><b>Edit</b></td>
-    </tr>
-  </thead>
-  <tbody>
-    <% if @staffing.present? %>
-      <% @staffing.each do |staff| %>
-        <tr>
-          <td><%= link_to "#{User.full_name_last_first(staff)}", user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => staff.id) %> </td>
-          <td><%= staff.position %></td>
-          <td><%= number_to_currency(staff.hourly_rate, precision: 0) %></td>
-          <td><%= link_to "Edit", edit_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => staff.id) %></td>
-        </tr>
-      <% end %>
-    <% end %>
-  </tbody>
-</table>
+<% if @staffing.present? %>
+
+  <table id="lawStaff" class="display">
+    <thead>
+      <tr>
+        <td><b>Name</td>
+        <td><b>Position</td>
+        <td><b>Edit</b></td>
+      </tr>
+    </thead>
+    <tbody>
+        <% @staffing.each do |staff| %>
+          <tr>
+            <td><%= link_to "#{User.full_name_last_first(staff)}", user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => staff.id) %> </td>
+            <td><%= staff.position %></td>
+            <td><%= link_to "Edit", edit_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => staff.id) %></td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+
+<% end %>
 
 <div class='center'>
-
   <%= link_to 'Add Staff', new_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id), :class => 'btn btn-lg btn-primary' %>
 </div>
 
 
-<%= will_paginate @staffing, renderer: BootstrapPagination::Rails %>

@@ -9,7 +9,7 @@ class StaffingsController < ApplicationController
   end
 
   def index
-    @staffing = current_user.lawfirm.staffings.order(:last_name).paginate(page: params[:page], per_page: 15)
+    @staffing = current_user.lawfirm.staffings.order(:last_name).load
     @lawfirm = current_user.lawfirm
   end
 

@@ -25,9 +25,7 @@ class LawfirmsController < ApplicationController
   def show
     @lawfirm = Lawfirm.find(params[:id])
   end
-  #temporary disabled .search method for thinking sphinx until enabled in either:
-    #Heroku with fliyng-sphinx purchase or
-    #deployed to productino
+
   def index
     @firm_name = current_user.lawfirm.firm_name
     @lawfirm_clients = current_user.lawfirm.clients.order(:last_name).load

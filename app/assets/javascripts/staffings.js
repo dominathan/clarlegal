@@ -4,3 +4,9 @@ $(document).on('submit', function(){
     $(this).val(Number(currency.replace(/[\$,]/g,"")))
   });
 });
+
+$(document).ready(function() {
+  $('#lawStaff').dataTable({
+  });
+});
+
