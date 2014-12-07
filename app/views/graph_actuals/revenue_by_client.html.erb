@@ -31,7 +31,8 @@ var totalGrossFeeReceived = <%= @gross_fee_received %>;
 var totalOutOfPocketExpenses = <%= @out_of_pocket %>;
 var referringFeesPaid = <%= @referring_fees %>;
 var totalFeeReceived = <%= @total_fee_received %>;
-
+var totalFeeReceived = <%= @total_fee_received %>;
+var clientName = "<%= @client.company || @client.full_name %>"
 
   // Create the chart
   $('#revenueByClientByYearActual').highcharts({
@@ -39,7 +40,7 @@ var totalFeeReceived = <%= @total_fee_received %>;
           type: 'column'
       },
       title: {
-          text: 'Net Fee Received by Year'
+          text: 'Net Fee Received by Year - ' + clientName
       },
       credits: {
         enabled: false

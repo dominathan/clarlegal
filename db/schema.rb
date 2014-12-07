@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141207182115) do
+ActiveRecord::Schema.define(version: 20141207183415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,11 +98,11 @@ ActiveRecord::Schema.define(version: 20141207182115) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "case_id"
-    t.integer  "total_recovery"
-    t.integer  "total_gross_fee_received"
-    t.integer  "total_out_of_pocket_expenses"
-    t.integer  "referring_fees_paid"
-    t.integer  "total_fee_received"
+    t.integer  "total_recovery",               default: 0
+    t.integer  "total_gross_fee_received",     default: 0
+    t.integer  "total_out_of_pocket_expenses", default: 0
+    t.integer  "referring_fees_paid",          default: 0
+    t.integer  "total_fee_received",           default: 0
     t.date     "date_fee_received"
     t.string   "fee_type"
   end
@@ -112,15 +112,15 @@ ActiveRecord::Schema.define(version: 20141207182115) do
   create_table "fees", force: true do |t|
     t.integer  "case_id"
     t.string   "fee_type"
-    t.integer  "high_estimate"
-    t.integer  "medium_estimate"
-    t.integer  "low_estimate"
+    t.integer  "high_estimate",      default: 0
+    t.integer  "medium_estimate",    default: 0
+    t.integer  "low_estimate",       default: 0
     t.string   "payment_likelihood"
-    t.string   "retainer"
-    t.integer  "cost_estimate"
+    t.string   "retainer",           default: "0"
+    t.integer  "cost_estimate",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "referral"
+    t.integer  "referral",           default: 0
   end
 
   add_index "fees", ["case_id"], name: "index_fees_on_case_id", using: :btree

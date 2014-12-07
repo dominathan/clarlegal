@@ -68,8 +68,8 @@ class GraphActualsController < ApplicationController
     #For Client Profitability by Year
     @gross_fee_received = Graph.client_profitability_actual_by_year(@client, 'total_gross_fee_received')
     @total_recovery = Graph.client_profitability_actual_by_year(@client, 'total_recovery')
-    @out_of_pocket = Graph.client_profitability_actual_by_year(@client, 'total_out_of_pocket_expenses')
-    @referring_fees = Graph.client_profitability_actual_by_year(@client, 'referring_fees_paid')
+    @out_of_pocket = Graph.client_profitability_actual_by_year(@client, 'total_out_of_pocket_expenses').map {|i| i * -1}
+    @referring_fees = Graph.client_profitability_actual_by_year(@client, 'referring_fees_paid').map {|i| i * -1}
     @total_fee_received = Graph.client_profitability_actual_by_year(@client, 'total_fee_received')
   end
 
