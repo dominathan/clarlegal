@@ -5,16 +5,16 @@ class CaseTypesController < ApplicationController
   end
 
   def edit
-    @case_type = Casetype.find(params[:id])
+    @case_type = CaseType.find(params[:id])
   end
 
   def show
-    @case_type = Casetype.find(params[:id])
+    @case_type = CaseType.find(params[:id])
   end
 
 
   def index
-    @case_type = CaseType.all
+    @case_types = current_user.lawfirm.case_types.load
   end
 
   def create

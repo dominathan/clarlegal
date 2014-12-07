@@ -1,21 +1,28 @@
 <% provide(:title, 'Matter Types') %>
 <h1> Matter Types</h1>
 
-<table class="table table-hover sortable">
+<% if current_user.lawfirm.case_types %> <!-- does the client have cases?  If show then show them-->
+
+<table id="matterTypes" class="display">
   <thead>
     <tr>
       <th>Matter Types</th>
+      <th>Case Count</th>
+      <th>Edit</th>
     </tr>
   </thead>
   <tbody>
-    <% if current_user.lawfirm.case_types %> <!-- does the client have cases?  If show then show them-->
-      <% current_user.lawfirm.case_types.order(:mat_ref).each do |matter_reference| %>
+      <% @case_types.each do |matter_reference| %>
        <tr>
         <td><%= matter_reference.mat_ref %></td>
+        <td><%= current_user.lawfirm.cases.where(type_of_matter: matter_reference.mat_ref).count %></td>
+        <td><%= link_to "Edit", edit_user_lawfirm_case_type_path(current_user.id,current_user.lawfirm_id,matter_reference.id) %></td>
       <% end %>
-    <% end %>
   </tbody>
 </table>
+
+<% end %>
+
 
 <div class='center'>
   <%= link_to 'Add Matter Type', new_user_lawfirm_case_type_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id), class: 'btn btn-lg btn-primary' %>
