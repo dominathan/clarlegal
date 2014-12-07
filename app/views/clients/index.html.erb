@@ -8,7 +8,7 @@
 </div>
 <% if @client %>
 
-  <table class="table table-hover sortable">
+  <table id="userClients" class="display">
     <thead>
       <tr>
         <th>Name</th>
@@ -44,6 +44,14 @@
 
 
 <%= will_paginate @client, renderer: BootstrapPagination::Rails %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#userClients').dataTable({
+      order: [[0,'desc']]
+    });
+  });
+</script>
 
 
 

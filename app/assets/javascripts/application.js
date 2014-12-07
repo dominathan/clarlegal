@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require cocoon
+//= require dataTables/jquery.dataTables
 //= require highcharts
 //= require highcharts/modules/exporting
 //= require bootstrap.min

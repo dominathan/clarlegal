@@ -60,10 +60,15 @@ gem 'mysql2', '0.3.16'
 gem 'thinking-sphinx', '3.1.1'
 gem 'flying-sphinx', '1.2.0'
 
+#to replace flying-sphinx
+gem 'jquery-datatables-rails', '2.2.3'
+gem 'jquery-ui-rails', '5.0.3'
+
 gem 'letter_opener', '1.2.0', :group => :development #test email being sent
 
 #actual email being sent
 gem 'mandrill_mailer', '0.4.6'
 gem 'mandrill-api', '1.0.52'
+
 
 
