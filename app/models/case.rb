@@ -31,9 +31,6 @@ class Case < ActiveRecord::Base
   attr_accessor :new_court, :new_judge, :new_opposing_attorney,
                 :new_type_of_matter, :new_practice_group, :new_referral_source
 
-
-
-
   def self.lead_attorney(case_name)
     @lead_att = nil
     case_name.staff.each do |stf|

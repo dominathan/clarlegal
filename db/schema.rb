@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130225129) do
+ActiveRecord::Schema.define(version: 20141207182115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,12 +160,12 @@ ActiveRecord::Schema.define(version: 20141130225129) do
   add_index "originations", ["case_id"], name: "index_originations_on_case_id", using: :btree
 
   create_table "overheads", force: true do |t|
-    t.integer  "rent"
-    t.integer  "utilities"
-    t.integer  "technology"
-    t.integer  "hard_costs"
-    t.integer  "guaranteed_salaries"
-    t.integer  "other"
+    t.integer  "rent",                      default: 0
+    t.integer  "utilities",                 default: 0
+    t.integer  "technology",                default: 0
+    t.integer  "hard_costs",                default: 0
+    t.integer  "guaranteed_salaries",       default: 0
+    t.integer  "other",                     default: 0
     t.integer  "billable_hours_per_lawyer"
     t.integer  "number_of_billable_staff"
     t.datetime "created_at"
