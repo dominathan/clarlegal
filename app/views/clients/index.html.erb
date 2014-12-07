@@ -3,8 +3,6 @@
   <div class='title'>
     <h1><%= User.full_name(current_user)%>'s Client List</h1>
   </div>
-  <% @search_path = clients_path %>
-  <%= render 'shared/search_bar' %>
 </div>
 <% if @client %>
 
@@ -22,8 +20,16 @@
     </thead>
     <tbody>
         <% @client.each do |client| %>
+              <!-- Use Client.company first, otherwise use client.full_name -->
+              <% if client.company == nil %>
+                <% name = User.full_name_last_first(client) %>
+              <% else %>
+                <% name = client.company %>
+              <% end %>
+            <!-- End name set -->
+
           <tr>
-            <td><%= link_to "#{User.full_name_last_first(client)}", client_path(client) %></td>
+            <td><%= link_to name, client_path(client) %></td>
             <td><%= link_to "Cases", client_cases_path(client) %></td>
             <td><%= client.email %></td>
             <td><%= client.phone_number %></td>
@@ -42,15 +48,8 @@
   <%= link_to 'Add a Client', new_client_path, class: "btn btn-md btn-primary" %>
 </div>
 
-
-<%= will_paginate @client, renderer: BootstrapPagination::Rails %>
-
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#userClients').dataTable({
-      order: [[0,'desc']]
-    });
-  });
+
 </script>
 
 

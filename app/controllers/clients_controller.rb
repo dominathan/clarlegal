@@ -3,12 +3,7 @@ class ClientsController < ApplicationController
   before_action :belongs_to_firm
 
   def index
-    if params[:search] != nil
-      clients = Client.search(params[:search], with: {user_id: current_user.id}, per_page: 1000).collect { |c| c.id }
-      @client = Client.where(id: clients).paginate(per_page: 10, page: params[:page])
-    else
-      @client = Client.where(user_id: current_user.id).order(:last_name).paginate(per_page: 10, page: params[:page])
-    end
+    @client = Client.where(user_id: current_user.id).order(:last_name).load
   end
 
   def new

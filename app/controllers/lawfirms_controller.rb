@@ -30,25 +30,12 @@ class LawfirmsController < ApplicationController
     #deployed to productino
   def index
     @firm_name = current_user.lawfirm.firm_name
-    if params[:search] != nil
-      @firm_name = current_user.lawfirm.firm_name
-      user_id_list = current_user.lawfirm.user_ids
-      clients = Client.search(params[:search], with: {user_id: user_id_list}, per_page: 1000).collect { |c| c.id }
-      @lawfirm_clients = Client.where(id: clients).order(:last_name).paginate(per_page: 10, page: params[:page])
-    else
-      @lawfirm_clients = current_user.lawfirm.clients.order(:last_name).paginate(:page => params[:page], per_page: 10)
-    end
+    @lawfirm_clients = current_user.lawfirm.clients.order(:last_name).load
   end
 
   def show_lawfirm_cases
-    @firm_name = current_user.lawfirm.firm_name
-    if params[:search] != nil
-      client_id_list = Case.client_id_list_of_lawfirm(current_user)
-      lawfirm_cases_ids = Case.search(params[:search], with: {client_id: client_id_list}, page: 1, per_page: 1000).collect{ |c| c.id }
-      @lawfirm_cases = Case.where(:id => lawfirm_cases_ids).paginate(:per_page => 15, :page => params[:page])
-    else
-      @lawfirm_cases = current_user.lawfirm.cases.paginate(:page => params[:page], per_page: 15)  #this is the paginate form
-    end
+    @firm_Name = current_user.lawfirm.firm_name
+    @lawfirm_cases = current_user.lawfirm.cases.load  #this is the paginate form
   end
 
   private

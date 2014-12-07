@@ -1,12 +1,10 @@
 <% provide(:title, 'Firm Clients') %>
 
 <h1><%= "Clients of #{@firm_name}" %></h1>
-<% @search_path = user_lawfirms_path(current_user.id) %>
-<%= render 'shared/search_bar' %>
 
 <% if current_user.lawfirm.clients.present? %>
 
-<table class="table table-hover sortable">
+<table id="lawfirmClients" class="display">
   <thead>
     <tr>
       <th>Name</th>
@@ -17,8 +15,17 @@
   </thead>
   <tbody>
       <% @lawfirm_clients.each do |client| %>
+
+      <!-- Use Client.company first, otherwise use client.full_name -->
+        <% if client.company == nil %>
+          <% name = User.full_name_last_first(client) %>
+        <% else %>
+          <% name = client.company %>
+        <% end %>
+      <!-- End name set -->
+
         <tr>
-          <td><%= link_to "#{User.full_name_last_first(client)}", client_path(client) %></td>
+          <td><%= link_to name, client_path(client) %></td>
           <td><%= client.email %></td>
           <td><%= client.phone_number %></td>
           <td><%= client.street_address %><br>
@@ -26,16 +33,14 @@
           </td>
         </tr>
       <% end %>
-
   </tbody>
 </table>
 
 <% else %>
-<div class="center">
- <%= link_to 'Add a Client', new_client_path, class: 'btn btn-md btn-primary' %>
-</div>
+  <div class="center">
+   <%= link_to 'Add a Client', new_client_path, class: 'btn btn-md btn-primary' %>
+  </div>
 <% end %>
 
 
-<%= will_paginate @lawfirm_clients, renderer: BootstrapPagination::Rails %>
 

@@ -1,13 +1,12 @@
 <% provide(:title, 'Cases') %>
 
 <h1><%= "#{@firm_name} Case List" %></h1>
-  <% @search_path = lawfirm_cases_path %>
-  <%= render 'shared/search_bar' %>
+
 
 <% if @lawfirm_cases.any? %> <!-- does the lawfirm have cases?  If show then show them-->
 
 
-<table class="table table-hover sortable">
+<table id="lawfirmCases" class="display">
   <thead>
     <tr>
       <th>Case Name</th>
@@ -19,7 +18,7 @@
       <% @lawfirm_cases.each do |one_case| %>
        <tr>
         <td><%= one_case.name %></td>
-        <td><%= one_case.practice_group %> </td>
+        <td><%= Practicegroup.find_by(id: one_case.practicegroup_id).group_name %> </td>
         <td><%= User.full_name_last_first(one_case.client) %> </td>
        </tr>
       <% end %>
@@ -35,4 +34,4 @@
 
 <% end %>
 
-<%= will_paginate @lawfirm_cases, renderer: BootstrapPagination::Rails %>
+
