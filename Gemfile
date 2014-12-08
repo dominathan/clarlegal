@@ -55,7 +55,7 @@ gem 'faker', '1.1.2' #for database population
 #for password validation
 gem 'bcrypt-ruby', '3.1.2'
 
-#to replace flying-sphinx
+#to replace flying-sphinx, for datatables and searching datatables
 gem 'jquery-datatables-rails', '2.2.3'
 gem 'jquery-ui-rails', '5.0.3'
 
