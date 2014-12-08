@@ -21,23 +21,23 @@ $(document).ready(function() {
   });
 
     $('#clientCases').dataTable({
-    "columnDefs": [
-      {
-        "targets": [5],
-        "visible": false
-      },
-      {
-        "targets": [6],
-        "visible": false
-      },
-      {
-        "targets": [7],
-        "visible": false
-      },
-      {
-        "targets": [8],
-        "visible": false
-      }
-    ]
+    // "columnDefs": [
+    //   {
+    //     "targets": [4],
+    //     "visible": false
+    //   },
+    //   {
+    //     "targets": [5],
+    //     "visible": false
+    //   },
+    //   {
+    //     "targets": [6],
+    //     "visible": false
+    //   },
+    //   {
+    //     "targets": [7],
+    //     "visible": false
+    //   }
+    // ]
   });
 });

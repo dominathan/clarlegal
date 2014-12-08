@@ -14,7 +14,6 @@
         <th>Email</th>
         <th>Phone Number</th>
         <th>Address</th>
-        <th>Add Case</th>
         <th>Edit Information</th>
       </tr>
     </thead>
@@ -36,7 +35,6 @@
             <td><%= client.street_address %><br>
                 <%= client.city %>, <%=client.state%>, <%=client.zip_code %>
             </td>
-            <td><%= link_to "Add New Case", new_client_case_path(client.id)  %></td>
             <td><%= link_to "Edit", edit_client_path(client)  %></td>
           </tr>
         <% end %>
