@@ -29,6 +29,8 @@ doc/
 .idea
 .secret
 
+server.crt
 server.csr
 server.key
 server.pass.key
+bundle.pem
