@@ -1,6 +1,3 @@
-This is the working version of Clarus Legal Tracker.  Will update the README to document steps taken.
-
-For initial access, will initially be following Michael Hartl tutorial with Bootstrap for styling.
-Models will be developed separately, as well as installing mailchimp(or alternatives).
+This is the working version of ClarLegal.  Will update the README to document steps taken.
 
 More to follow.
