@@ -124,7 +124,6 @@ class CasesController < ApplicationController
     end
     #case.user_id can differ from case.client_id.user_id
     @case.user_id = current_user.id
-    binding.pry
     if @case.save
       #Mark case.open == false
       Closeout.close_case(@case)
