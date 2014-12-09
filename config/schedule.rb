@@ -9,16 +9,6 @@ every 1.month do
   runner 'print "FixedFee Adjustment Ran"'
 end
 
-every :reboot do
-  rake "ts:start" #might be different for heroku...fs:reboot ...and remove this if switch to datatables
-  runner 'print "Restarted Sphinx"'
-end
-
-
-
-
-
-
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
