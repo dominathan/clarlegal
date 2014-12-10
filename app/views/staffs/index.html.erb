@@ -4,7 +4,7 @@
 
 <h2>Case Staff</h2>
 
-<table class="table table-hover sortable">
+<table id="caseStaff" class="display">
   <thead>
     <tr>
       <th>Name</th>
@@ -28,13 +28,13 @@
         </tr>
       <% end %>
     <% else %>
-        <td>You must <%= link_to "Add Staff", new_client_case_staff_path(@client,@case) %></td>
+        <td>You must <%= link_to "Add Staff", new_client_case_staff_path(@client,@case), class: 'btn btn-md btn-primary' %></td>
     <% end %>
   </tbody>
 </table>
 
 <div class='center'>
-  <p><%= link_to "Add More Staff", new_client_case_staff_path(@client,@case) %></p>
+  <p><%= link_to "Add More Staff", new_client_case_staff_path(@client,@case), class: 'btn btn-md btn-primary' %></p>
 </div>
 
 <div id='actualVersusExpectedBar' style="min-width: 310px;
