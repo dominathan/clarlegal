@@ -46,7 +46,7 @@
           </tr>
           <tr>
             <td><%= f.label 'Practice Group:' %></td>
-            <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups.order(:group_name), :group_name, :group_name, :include_blank => "Select Existing") %></td>
+            <td><%= f.collection_select(:practicegroup_id, current_user.lawfirm.practicegroups.order(:group_name), :id, :group_name, :include_blank => "Select Existing") %></td>
             <td><%= f.text_field :new_practice_group, placeholder: "Add New" %></td>
           </tr>
 

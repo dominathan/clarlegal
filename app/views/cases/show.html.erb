@@ -37,7 +37,11 @@
 
         <tr>
           <td>Matter Type</td>
-          <td><%= @case.type_of_matter %></td>
+          <% unless @case.matters.empty? %>
+            <%  @case.matters.each do |mat| %>
+              <td><%= CaseType.find_by(:key => "value", id => mat.case_type_id).mat_ref %></td>
+            <%end%>
+          <% end %>
         </tr>
 
         <tr>

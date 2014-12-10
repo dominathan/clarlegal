@@ -51,7 +51,7 @@
           </tr>
           <tr>
             <td><%= f.label 'Practice Group:' %></td>
-            <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups.order(:group_name), :group_name, :group_name, :include_blank => "Select Existing") %></td>
+            <td><%= f.collection_select(:practicegroup_id, current_user.lawfirm.practicegroups.order(:group_name), :id, :group_name, :include_blank => "Select Existing") %></td>
             <td><%= f.text_field :new_practice_group, placeholder: "Add New" %></td>
           </tr>
 
@@ -61,6 +61,19 @@
             <td><%= f.text_area :description %></td>
 
         </table>
+        <hr>
+
+        <div class="caseTypes">
+          <div class='center'><h2>Matter Types and Sub-Matter</h2></div>
+
+          <%= f.fields_for :matters do |matter| %>
+            <% render 'matter_fields', :f => matter %>
+
+            <div class='center'>
+              <%= link_to_add_association "Click to Add Matter Types", f, :matters %>
+            </div>
+          <% end %>
+        </div>
         <hr>
 
         <div class="closeout">

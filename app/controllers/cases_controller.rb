@@ -95,6 +95,7 @@ class CasesController < ApplicationController
     @case.closeouts.build
     @case.originations.build
     @case.staffs.build
+    @case.matters.build
   end
   #Logs closed cases to DB
   def create_closed_case
@@ -105,18 +106,11 @@ class CasesController < ApplicationController
     @case.judge = params[:case][:new_judge] unless params[:case][:new_judge].empty?
     #add a new attorney unless user selects from dropdown list
     @case.opposing_attorney = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
-    #add new type_of_matter to user lawfirm CaseType unless empty
-    unless params[:case][:new_type_of_matter].empty?
-      @case.type_of_matter = params[:case][:new_type_of_matter]
-      @new_matref = CaseType.create!(mat_ref: params[:case][:new_type_of_matter], lawfirm_id: current_user.lawfirm.id)
-    end
     #add new practice group to user lawfirm practicegroups unless :new_practice_group is empty
     unless params[:case][:new_practice_group].empty?
       @case.practice_group = params[:case][:new_practice_group]
       @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id) unless current_user.lawfirm.practicegroups.collect(&:group_name).include?(params[:case][:new_practice_group])
       @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:new_practice_group]).id
-    else
-      @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:practice_group]).id
     end
     #add new referral source to database if empty
     unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
@@ -124,6 +118,7 @@ class CasesController < ApplicationController
     end
     #case.user_id can differ from case.client_id.user_id
     @case.user_id = current_user.id
+    binding.pry
     if @case.save
       #Mark case.open == false
       Closeout.close_case(@case)
@@ -196,9 +191,10 @@ class CasesController < ApplicationController
   private
 
     def case_params
-        params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :type_of_matter, :new_practice_group,
-                                              :practice_group, :name, :open, :client_id, :case_number, :new_opposing_attorney,
+        params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :new_practice_group,
+                                              :name, :open, :client_id, :case_number, :new_opposing_attorney,
                                               :opposing_attorney, :new_judge, :judge, :related_cases, :description, :user_id,
+                                              :practicegroup_id,
                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
                                                           :low_estimate, :payment_likelihood, :retainer,
                                                           :cost_estimate, :referral],
@@ -213,7 +209,9 @@ class CasesController < ApplicationController
                                                             :estimated_conclusion_slow, :case_filed],
                                     :closeouts_attributes => [:total_recovery, :total_gross_fee_received,
                                                               :total_out_of_pocket_expenses, :referring_fees_paid,
-                                                              :total_fee_received, :date_fee_received, :fee_type])
+                                                              :total_fee_received, :date_fee_received, :fee_type],
+                                    :matters_attributes => [:case_type_id])
+
     end
 
 
