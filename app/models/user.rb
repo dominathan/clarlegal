@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   belongs_to :lawfirm
   has_many   :clients
-  has_many   :cases
   has_many   :cases, through: :clients
 
   attr_accessor :remember_token, :activation_token, :reset_token

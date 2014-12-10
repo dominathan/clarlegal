@@ -9,14 +9,14 @@
          <ul class="dropdown-menu">
             <% if @case  %>
                <li>
-                  <%= link_to "Show Case Info", client_case_path(@client,@case) %>
+                  <%= link_to "Show Case Info", client_case_path(@case.client_id,@case) %>
                </li>
                <li>
-                  <%= link_to "Update Case Info", edit_client_case_path(@client,@case) %>
+                  <%= link_to "Update Case Info", edit_client_case_path(@case.client_id,@case) %>
                </li>
             <% else %>
                <li>
-                  <%= link_to "Add Case Info", new_client_case_path(@client) %>
+                  <%= link_to "Add Case Info", new_client_case_path(@case.client_id) %>
                </li>
             <%end%>
          </ul>
@@ -26,17 +26,17 @@
          <ul class="dropdown-menu">
             <% if @case.fees.any?  %>
                <li>
-                  <%= link_to "Current Fee", client_case_fee_path(@client,@case,@case.fees.last) %>
+                  <%= link_to "Current Fee", client_case_fee_path(@case.client_id,@case,@case.fees.last) %>
                </li>
                <li>
-                  <%= link_to "Fee Timeline", client_case_fees_path(@client,@case) %>
+                  <%= link_to "Fee Timeline", client_case_fees_path(@case.client_id,@case) %>
                </li>
                <li>
-                  <%= link_to "Update Fee", new_client_case_fee_path(@client,@case) %>
+                  <%= link_to "Update Fee", new_client_case_fee_path(@case.client_id,@case) %>
                </li>
             <% else %>
                <li>
-                  <%= link_to "Add Case Fee", new_client_case_fee_path(@client,@case) %>
+                  <%= link_to "Add Case Fee", new_client_case_fee_path(@case.client_id,@case) %>
                </li>
             <%end%>
          </ul>
@@ -46,14 +46,14 @@
          <ul class="dropdown-menu">
             <% if @case.staffs.any?  %>
                <li>
-                  <%= link_to "Show Staff", client_case_staffs_path(@client,@case) %>
+                  <%= link_to "Show Staff", client_case_staffs_path(@case.client_id,@case) %>
                </li>
                <li>
-                  <%= link_to "Add Staff", new_client_case_staff_path(@client,@case) %>
+                  <%= link_to "Add Staff", new_client_case_staff_path(@case.client_id,@case) %>
                </li>
             <% else %>
                <li>
-                  <%= link_to "Add Staff", new_client_case_staff_path(@client,@case) %>
+                  <%= link_to "Add Staff", new_client_case_staff_path(@case.client_id,@case) %>
                </li>
             <%end%>
          </ul>
@@ -63,16 +63,16 @@
          <ul class="dropdown-menu">
             <% if @case.timings.any?  %>
                <li>
-                  <%= link_to "Current Timing", client_case_timing_path(@client,@case,@case.timings.last.id) %>
+                  <%= link_to "Current Timing", client_case_timing_path(@case.client_id,@case,@case.timings.last.id) %>
                </li> <li>
-                  <%= link_to "Timing Timeline", client_case_timings_path(@client,@case) %>
+                  <%= link_to "Timing Timeline", client_case_timings_path(@case.client_id,@case) %>
                </li>
                <li>
-                  <%= link_to "Update Timing", new_client_case_timing_path(@client,@case) %>
+                  <%= link_to "Update Timing", new_client_case_timing_path(@case.client_id,@case) %>
                </li>
             <% else %>
                <li>
-                  <%= link_to "Add Case Timing", new_client_case_timing_path(@client,@case) %>
+                  <%= link_to "Add Case Timing", new_client_case_timing_path(@case.client_id,@case) %>
                </li>
             <%end%>
          </ul>
@@ -82,25 +82,25 @@
          <ul class="dropdown-menu">
             <% if @case.originations.any?  %>
                <li>
-                  <%= link_to "Show Origination", client_case_origination_path(@client,@case,@case.originations.first.id) %>
+                  <%= link_to "Show Origination", client_case_origination_path(@case.client_id,@case,@case.originations.first.id) %>
                </li>
                <li>
-                  <%= link_to "Update Origination", edit_client_case_origination_path(@client,@case,@case.originations.first.id) %>
+                  <%= link_to "Update Origination", edit_client_case_origination_path(@case.client_id,@case,@case.originations.first.id) %>
                </li>
             <% else %>
                <li>
-                  <%= link_to "Add Case Origination", new_client_case_origination_path(@client,@case) %>
+                  <%= link_to "Add Case Origination", new_client_case_origination_path(@case.client_id,@case) %>
                </li>
             <%end%>
          </ul>
       </li>
 
       <li class="<%= is_active?('matters') %> dropdown">
-         <%= link_to "Matter Types", client_case_matters_path(@client.id,@case.id) %>
+         <%= link_to "Matter Types", client_case_matters_path(@case.client_id,@case.id) %>
       </li>
 
       <li class="<%= is_active?('related_cases') %> dropdown">
-         <%= link_to "Related Cases", client_case_related_cases_path(@client.id,@case.id) %>
+         <%= link_to "Related Cases", client_case_related_cases_path(@case.client_id,@case.id) %>
       </li>
 
       <li id="fat-menu" class="<%= is_active?('checks') %> dropdown">
@@ -108,14 +108,14 @@
          <ul class="dropdown-menu">
             <% if @case.checks.any?  %>
                <li>
-                  <%= link_to "Show Conflicts & Letters", client_case_check_path(@client,@case,@case.checks.first.id) %>
+                  <%= link_to "Show Conflicts & Letters", client_case_check_path(@case.client_id,@case,@case.checks.first.id) %>
                </li>
                <li>
-                  <%= link_to "Update Conflicts & Letters", edit_client_case_check_path(@client,@case,@case.checks.first.id) %>
+                  <%= link_to "Update Conflicts & Letters", edit_client_case_check_path(@case.client_id,@case,@case.checks.first.id) %>
                </li>
             <% else %>
                <li>
-                  <%= link_to "Add Conflicts & Letters", new_client_case_check_path(@client,@case) %>
+                  <%= link_to "Add Conflicts & Letters", new_client_case_check_path(@case.client_id,@case) %>
                </li>
             <%end%>
          </ul>
@@ -124,11 +124,11 @@
 
       <% if !@case.closeouts.any? %>
          <li class="<%= is_active?('closeouts') %> dropdown">
-            <%= link_to "Closeout", new_client_case_closeout_path(@client,@case) %>
+            <%= link_to "Closeout", new_client_case_closeout_path(@case.client_id,@case) %>
          </li>
       <% else %>
          <li class="<%= is_active?('closeouts') %> dropdown">
-            <%= link_to "Closeout", client_case_closeout_path(@client,@case,@case.closeouts.first.id) %>
+            <%= link_to "Closeout", client_case_closeout_path(@case.client_id,@case,@case.closeouts.first.id) %>
          </li>
       <% end %>
 

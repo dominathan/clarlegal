@@ -12,7 +12,7 @@
     <tbody>
         <% @related_cases.each do |rel_case| %>
           <tr>
-            <td><%= Case.find_by(id: rel_case.related_case_id).name %></td>
+            <td><%= link_to "#{Case.find_by(id: rel_case.related_case_id).name}", client_case_path(Case.find_by(id: rel_case.related_case_id).client_id, rel_case.related_case_id) %></td>
             <td><%= link_to "Edit", edit_client_case_related_case_path(@client.id,@case.id,rel_case.id)  %></td>
             <td><%= link_to "Remove", client_case_related_case_path(@client.id,@case.id,rel_case.id), method: :delete, data: { confirm: "Are you sure?" }  %></td>
           </tr>

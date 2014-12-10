@@ -160,7 +160,7 @@ class CasesController < ApplicationController
 
   def update
     @client = Client.find(params[:client_id])
-    @case = @client.cases.find(params[:id])
+    @case = Case.find(params[:id])
     if @case.update_attributes(case_params)
       flash[:success] = "Updated case matter information"
       redirect_to client_case_path(@client,@case)
@@ -171,12 +171,11 @@ class CasesController < ApplicationController
 
   def edit
     @client = Client.find(params[:client_id])
-    @case = @client.cases.find(params[:id])
+    @case = Case.find(params[:id])
   end
 
   def show
-    @client = Client.find(params[:client_id])
-    @case = @client.cases.find(params[:id])
+    @case = Case.find(params[:id])
   end
 
 
