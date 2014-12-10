@@ -1,0 +1,2 @@
+module RelatedCasesHelper
+end

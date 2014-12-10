@@ -1,0 +1,9 @@
+<div class='nested-fields'>
+
+  <table class="table">
+    <tr>
+      <td><%= f.label :related_case_id, "Related Cases:" %></td>
+      <td><%= f.collection_select(:related_case_id, current_user.lawfirm.cases.all, :id, :name, :include_blank => "Select") %></td>
+    </tr>
+  </table>
+</div>

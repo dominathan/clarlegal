@@ -1,0 +1,27 @@
+<% provide(:title, 'Related Cases') %>
+<%= render 'shared/subheader' %>
+<h2> Edit Related Case </h2>
+
+<div class='container'>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <%= form_for(@related_case, url: {action: "update"}) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+
+        <table class='table'>
+          <tr>
+            <td><%= f.label :related_case_id, "Related Case:" %></td>
+            <td>
+             <%=  f.collection_select(:related_case_id, current_user.lawfirm.cases.all, :id, :name, :include_blank => "Select") %>
+            </td>
+          </tr>
+        </table>
+
+        <div class="center">
+          <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

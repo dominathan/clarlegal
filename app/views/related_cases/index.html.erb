@@ -1,0 +1,25 @@
+<% provide(:title, 'Related Cases') %>
+<%= render 'shared/subheader' %>
+
+<table id="relatedCases" class="display">
+    <thead>
+      <tr>
+        <th>Case Name</th>
+        <th>Edit Information</th>
+        <th>Remove Case</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% @related_cases.each do |rel_case| %>
+          <tr>
+            <td><%= Case.find_by(id: rel_case.related_case_id).name %></td>
+            <td><%= link_to "Edit", edit_client_case_related_case_path(@client.id,@case.id,rel_case.id)  %></td>
+            <td><%= link_to "Remove", client_case_related_case_path(@client.id,@case.id,rel_case.id), method: :delete, data: { confirm: "Are you sure?" }  %></td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+
+<div class="center">
+  <%= link_to 'Add Related Cases', new_client_case_related_case_path(@client.id, @case.id), class: "btn btn-md btn-primary" %>
+</div>

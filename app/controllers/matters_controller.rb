@@ -2,7 +2,7 @@ class MattersController < ApplicationController
   before_action :signed_in_user, :belongs_to_firm, :set_client, :set_case
 
   def index
-    !@case.matters.empty? ? @matter = @case.matters : @matter = 'Add Matter Types'
+    @matter = @case.matters
   end
 
   def new

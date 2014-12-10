@@ -1,6 +1,5 @@
 class CasesController < ApplicationController
-  before_action :signed_in_user
-  before_action :belongs_to_firm
+    before_action :signed_in_user, :belongs_to_firm
 
   #currently open cases
   def new_case
@@ -96,6 +95,7 @@ class CasesController < ApplicationController
     @case.originations.build
     @case.staffs.build
     @case.matters.build
+    @case.related_cases.build
   end
   #Logs closed cases to DB
   def create_closed_case
@@ -118,7 +118,6 @@ class CasesController < ApplicationController
     end
     #case.user_id can differ from case.client_id.user_id
     @case.user_id = current_user.id
-    binding.pry
     if @case.save
       #Mark case.open == false
       Closeout.close_case(@case)
@@ -210,7 +209,8 @@ class CasesController < ApplicationController
                                     :closeouts_attributes => [:total_recovery, :total_gross_fee_received,
                                                               :total_out_of_pocket_expenses, :referring_fees_paid,
                                                               :total_fee_received, :date_fee_received, :fee_type],
-                                    :matters_attributes => [:case_type_id])
+                                    :matters_attributes => [:case_type_id],
+                                    :related_cases_attributes => [:related_case_id])
 
     end
 

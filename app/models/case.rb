@@ -23,6 +23,8 @@ class Case < ActiveRecord::Base
   accepts_nested_attributes_for :closeouts
   has_many :matters
   accepts_nested_attributes_for :matters, :reject_if => :all_blank
+  has_many :related_cases
+  accepts_nested_attributes_for :related_cases, :reject_if => :all_blank
 
   has_many :fixed_fees
 

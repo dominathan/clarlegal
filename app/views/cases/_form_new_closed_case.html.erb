@@ -41,21 +41,10 @@
             <td><%= f.text_field :new_opposing_attorney, placeholder: "Add New" %> </td>
           </tr>
           <tr>
-            <td><%= f.label 'Matter Type:' %></td>
-            <td><%= f.select(:type_of_matter, current_user.lawfirm.case_types.order(:mat_ref).collect(&:mat_ref).uniq - ["", nil], :include_blank => "Select Existing") %></td>
-            <td><%= f.text_field :new_type_of_matter, placeholder: "Add New" %></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Related Cases:' %></td>
-            <td><%= f.select(:related_cases, current_user.lawfirm.cases.order(:name).all.map { |c| c.name }.prepend("N/A") - ["",nil], :include_blank => "Select Related Cases or N/A") %></td>
-          </tr>
-          <tr>
             <td><%= f.label 'Practice Group:' %></td>
             <td><%= f.collection_select(:practicegroup_id, current_user.lawfirm.practicegroups.order(:group_name), :id, :group_name, :include_blank => "Select Existing") %></td>
             <td><%= f.text_field :new_practice_group, placeholder: "Add New" %></td>
           </tr>
-
-
           <tr>
             <td><%= f.label "Notes and Description" %></td>
             <td><%= f.text_area :description %></td>
@@ -63,8 +52,8 @@
         </table>
         <hr>
 
-        <div class="caseTypes">
-          <div class='center'><h2>Matter Types and Sub-Matter</h2></div>
+        <div class="matterTypes">
+          <div class='center'><h2>Matter Types</h2></div>
 
           <%= f.fields_for :matters do |matter| %>
             <% render 'matter_fields', :f => matter %>
@@ -75,6 +64,18 @@
           <% end %>
         </div>
         <hr>
+
+        <div class="relatedCases">
+          <div class='center'><h2>Related Cases</h2></div>
+
+          <%= f.fields_for :related_cases do |rel_case| %>
+            <% render 'related_case_fields', :f => rel_case%>
+
+            <div class='center'>
+              <%= link_to_add_association "Click to add Related Cases", f, :related_cases %>
+            </div>
+          <% end %>
+        </div>
 
         <div class="closeout">
           <div class="center"><h2>Closeout</h2></div>

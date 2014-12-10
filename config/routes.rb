@@ -1,5 +1,8 @@
 Claregal::Application.routes.draw do
 
+  get "related_cases/new"
+  get "related_cases/edit"
+  get "related_cases/index"
   get "matters/show"
   get "matters/edit"
   root 'home_pages#home'
@@ -48,6 +51,7 @@ Claregal::Application.routes.draw do
       resources :checks
       resources :closeouts
       resources :matters
+      resources :related_cases
     end
   end
 
