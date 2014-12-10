@@ -1,0 +1,27 @@
+<% provide(:title, 'Case Matter Types') %>
+<%= render 'shared/subheader' %>
+<h2> Add Matter </h2>
+
+<div class='container'>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <%= form_for(@matter, url: {action: "create"}) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+
+        <table class='table'>
+          <tr>
+            <td><%= f.label :case_type_id, "Matter Type:" %></td>
+            <td>
+             <%= f.collection_select(:case_type_id, current_user.lawfirm.case_types.order(:mat_ref).all.reject(&:blank?), :id, :mat_ref, :include_blank => "Select") %>
+            </td>
+          </tr>
+        </table>
+
+        <div class="center">
+          <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

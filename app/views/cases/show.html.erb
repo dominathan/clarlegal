@@ -32,16 +32,7 @@
 
         <tr>
           <td>Practice Group</td>
-          <td><%= @case.practice_group %></td>
-        </tr>
-
-        <tr>
-          <td>Matter Type</td>
-          <% unless @case.matters.empty? %>
-            <%  @case.matters.each do |mat| %>
-              <td><%= CaseType.find_by(:key => "value", id => mat.case_type_id).mat_ref %></td>
-            <%end%>
-          <% end %>
+          <td><%= Practicegroup.find_by(id: @case.practicegroup_id).group_name %></td>
         </tr>
 
         <tr>

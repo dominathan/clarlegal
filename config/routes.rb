@@ -1,5 +1,7 @@
 Claregal::Application.routes.draw do
 
+  get "matters/show"
+  get "matters/edit"
   root 'home_pages#home'
 
   match '/about',              to: 'home_pages#about',        via: 'get'
@@ -45,6 +47,7 @@ Claregal::Application.routes.draw do
       resources :venues
       resources :checks
       resources :closeouts
+      resources :matters
     end
   end
 

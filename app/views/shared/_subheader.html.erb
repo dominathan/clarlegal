@@ -94,6 +94,11 @@
             <%end%>
          </ul>
       </li>
+
+      <li class="<%= is_active?('matters') %> dropdown">
+         <%= link_to "Matter Types", client_case_matters_path(@client.id,@case.id) %>
+      </li>
+
       <li id="fat-menu" class="<%= is_active?('checks') %> dropdown">
          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Conflicts</a>
          <ul class="dropdown-menu">

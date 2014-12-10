@@ -1,0 +1,25 @@
+<% provide(:title, 'Case Matter Types') %>
+<%= render 'shared/subheader' %>
+
+<table id="caseMatterTypes" class="display">
+    <thead>
+      <tr>
+        <th>Matter Type</th>
+        <th>Edit Information</th>
+        <th>Remove Matter</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% @matter.each do |matter| %>
+          <tr>
+            <td><%= CaseType.find_by(id: matter.case_type_id).mat_ref %></td>
+            <td><%= link_to "Edit", edit_client_case_matter_path(@client.id,@case.id,matter.id)  %></td>
+            <td><%= link_to "Remove", client_case_matter_path(@client.id,@case.id,matter.id), method: :delete, data: { confirm: "Are you sure?" }  %></td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+
+<div class="center">
+  <%= link_to 'Add Matter to Case', new_client_case_matter_path(@client.id, @case.id), class: "btn btn-md btn-primary" %>
+</div>
