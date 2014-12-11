@@ -1,6 +1,6 @@
 <% provide(:title, "New Practice Group") %>
 
-<h1>Add Practice Group to <%= "#{@lawfirm.firm_name}" %> </h1>
+<h2>Add Practice Group to <%= "#{@lawfirm.firm_name}" %> </h2>
 
 <div class="row">
   <div class="col-lg-6 col-lg-offset-3">
@@ -13,7 +13,7 @@
           </tr>
         </table>
         <div class="center">
-         <%= f.submit "Add Practice Group", class: "btn btn-large btn-primary" %>
+         <%= f.submit "Add Practice Group", class: "btn btn-md btn-primary" %>
         </div>
     <% end %>
   </div>

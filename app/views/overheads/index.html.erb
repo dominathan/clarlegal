@@ -15,6 +15,7 @@
       <th>Number of Billable Staff</th>
       <th>Overhead Rate per Hour</th>
       <th>Edit</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -30,6 +31,7 @@
       <td><%= overhead.number_of_billable_staff || current_user.lawfirm.staffings.count %></td>
       <td><%= number_to_currency(overhead.rate_per_hour,precision: 2)%></td>
       <td><%=link_to 'Edit', edit_user_lawfirm_overhead_path(current_user,current_user.lawfirm, overhead) %></td>
+      <td><%=link_to 'Delete', user_lawfirm_overhead_path(current_user,current_user.lawfirm, overhead), method: :delete, data: { confirm: "Are you sure?"} %></td>
     </tr>
   <% end %>
   </tbody>
@@ -37,5 +39,5 @@
 </table>
 
   <div class="center">
-    <%= link_to "Add New Overhead", new_user_lawfirm_overhead_path(current_user,current_user.lawfirm), class: "btn btn-lg btn-primary  " %>
+    <%= link_to "Add New Overhead", new_user_lawfirm_overhead_path(current_user,current_user.lawfirm), class: "btn btn-md btn-primary  " %>
   </div>

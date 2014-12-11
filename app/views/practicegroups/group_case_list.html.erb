@@ -1,8 +1,7 @@
 <% provide(:title, "Practice Groups Case list") %>
 
-<h1>Case List for <%= "#{@practice_group.group_name}" %></h1>
+<h2>Case List for <%= "#{@practice_group.group_name}" %></h2>
 
-<% if @cases.present? %>
 
 <table id="practiceGroupCaseList" class="display">
   <thead>
@@ -26,5 +25,3 @@
       <% end %>
   </tbody>
 </table>
-
-<% end %>

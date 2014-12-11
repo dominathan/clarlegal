@@ -1,8 +1,7 @@
 <% provide(:title, 'Firm Clients') %>
 
-<h1><%= "Clients of #{@firm_name}" %></h1>
+<h2><%= "Clients of #{@firm_name}" %></h2>
 
-<% if current_user.lawfirm.clients.present? %>
 
 <table id="lawfirmClients" class="display">
   <thead>
@@ -36,11 +35,9 @@
   </tbody>
 </table>
 
-<% else %>
   <div class="center">
    <%= link_to 'Add a Client', new_client_path, class: 'btn btn-md btn-primary' %>
   </div>
-<% end %>
 
 
 

@@ -21,7 +21,7 @@ class PracticegroupsController < ApplicationController
     @prac_group = @lawfirm.practicegroups.new(practicegroup_params)
     if @prac_group.save
       flash[:success] = "Practice Group Added Succesfully."
-      redirect_to user_lawfirm_practicegroups_path(@user,@lawfirm)
+      redirect_to user_lawfirm_practicegroups_path(current_user,@lawfirm)
     else
       render 'new'
     end
@@ -39,12 +39,11 @@ class PracticegroupsController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:user_id])
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
     @prac_group = @lawfirm.practicegroups.find(params[:id])
     if @prac_group.update_attributes(practicegroup_params)
       flash[:success] = "Updated Group Name Successfully"
-      redirect_to user_lawfirm_practicegroups_path(@user,@lawfirm)
+      redirect_to user_lawfirm_practicegroups_path(current_user,@lawfirm)
     else
       render 'edit'
     end

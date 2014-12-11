@@ -1,8 +1,6 @@
 <% provide(:title, 'All Cases') %>
 <h1><%= "#{User.full_name(current_user)}'s Cases" %></h1>
 
-<% if @cases.any? %> <!-- does the client have cases?  If show then show them-->
-
 <table id="userCases" class="display">
   <thead>
     <tr>
@@ -32,7 +30,6 @@
   </tbody>
 </table>
 
-<% end %>
 
 <div class="center">
     <%= link_to "Add Open Case", new_case_path, class: 'btn btn-md btn-primary' %>

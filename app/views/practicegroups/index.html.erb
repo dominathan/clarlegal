@@ -1,8 +1,7 @@
 <% provide(:title, "Practice Groups") %>
 
-<h1>Practice Groups for <%= "#{@lawfirm.firm_name}" %></h1>
+<h2>Practice Groups for <%= "#{@lawfirm.firm_name}" %></h2>
 
-<% if current_user.lawfirm.practicegroups.present? %>
 
 <table id="lawfirmPracticeGroups" class="display">
   <thead>
@@ -27,10 +26,9 @@
   </tbody>
 </table>
 
-<% end %>
 
 
 <div class='center'>
-  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id), class: 'btn btn-lg btn-primary' %>
+  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id), class: 'btn btn-md btn-primary' %>
 </div>
 

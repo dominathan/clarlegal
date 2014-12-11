@@ -51,6 +51,13 @@ class OverheadsController < ApplicationController
     @overhead = Overhead.find_by(id: current_user.lawfirm.overheads.order(:created_at).last)
   end
 
+  def destroy
+    @overhead = Overhead.find(params[:id])
+    @overhead.destroy
+    flash[:success] = "Removed Overhead."
+    redirect_to user_lawfirm_overheads_path(current_user.id, current_user.lawfirm.id)
+  end
+
   private
 
     def overhead_params

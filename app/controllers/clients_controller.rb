@@ -30,7 +30,7 @@ class ClientsController < ApplicationController
     @client.full_name = Client.full_name_last_first(params[:client][:first_name],
                                                     params[:client][:last_name])
     if @client.save
-      flash[:success] = "Client added sucessfully"
+      flash[:success] = "Client Added Successfully"
       redirect_to clients_path
     else
       render 'new'
@@ -40,7 +40,7 @@ class ClientsController < ApplicationController
   def update
     @client = Client.find(params[:id])
     if @client.update_attributes(client_params)
-      flash[:success] = "Updated client information"
+      flash[:success] = "Updated Client Information"
       redirect_to clients_path
     else
       render 'edit'

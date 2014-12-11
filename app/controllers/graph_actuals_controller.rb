@@ -32,10 +32,10 @@ class GraphActualsController < ApplicationController
   end
 
   def revenue_by_fee_type
-    @hourly = Graph.revenue_by_fee_type_actual(User.first,"Hourly","total_fee_received")
-    @contingency = Graph.revenue_by_fee_type_actual(User.first,"Contingency","total_fee_received")
-    @mixed = Graph.revenue_by_fee_type_actual(User.first,"Fixed Fee","total_fee_received")
-    @fixed = Graph.revenue_by_fee_type_actual(User.first,"Mixed","total_fee_received")
+    @hourly = Graph.revenue_by_fee_type_actual(current_user,"Hourly","total_fee_received")
+    @contingency = Graph.revenue_by_fee_type_actual(current_user,"Contingency","total_fee_received")
+    @mixed = Graph.revenue_by_fee_type_actual(current_user,"Fixed Fee","total_fee_received")
+    @fixed = Graph.revenue_by_fee_type_actual(current_user,"Mixed","total_fee_received")
   end
 
   def revenue_by_origination

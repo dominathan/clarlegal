@@ -53,11 +53,11 @@ class ApplicationController < ActionController::Base
         if ovh.include?(Date.today.year) and ovh.include?(Date.today.year - 1) and ovh.include?(Date.today.year - 2) and ovh.include?(Date.today.year - 3) and ovh.include?(Date.today.year - 4)
            return true
          else
-          redirect_to new_user_lawfirm_overhead_path(current_user, current_user.lawfirm_id),
+          redirect_to user_lawfirm_overheads_path(current_user, current_user.lawfirm_id),
             :flash => {:danger => "You must calculate overhead for each of the past 5 years to view this page."}
         end
       else
-        redirect_to new_user_lawfirm_overhead_path(current_user, current_user.lawfirm_id),
+        redirect_to user_lawfirm_overheads_path(current_user, current_user.lawfirm_id),
           :flash => {:danger => "You must calculate overhead for each of the past 5 years to view this page."}
       end
     end

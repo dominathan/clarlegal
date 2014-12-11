@@ -4,7 +4,6 @@
     <h1><%= User.full_name(current_user)%>'s Client List</h1>
   </div>
 </div>
-<% if @client %>
 
   <table id="userClients" class="display">
     <thead>
@@ -40,7 +39,6 @@
         <% end %>
     </tbody>
   </table>
-<% end %>
 
 <div class="center">
   <%= link_to 'Add a Client', new_client_path, class: "btn btn-md btn-primary" %>
