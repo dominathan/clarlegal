@@ -1,6 +1,6 @@
 class GraphActualsController < ApplicationController
   before_action :signed_in_user, :belongs_to_firm, :has_closed_cases
-  before_action :has_overhead_last_5_years
+  before_action :has_overhead_last_5_years, only: [:revene_by_year, :revenue_by_client]
   #Using params[:range], sets number of years to collect closed cases
   def closed_case_load_by_year
     #If params[:range] not set, default => 3 year lookback
