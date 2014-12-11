@@ -3,7 +3,7 @@
 <%= render 'shared/subheader' %>
 
 <h2>Case Origination</h2>
-<table class="table table-hover">
+<table id="caseOriginations" class="display">
   <thead>
     <tr>
       <th>Referral Source</th>
@@ -21,4 +21,4 @@
 <br>
 <br>
 
-<h2><%= link_to "Update Case Origination", edit_client_case_origination_path(@client,@case,@origination) %></h2>
+<h2><%= link_to "Update Case Origination", edit_client_case_origination_path(@client,@case,@origination), class: 'btn btn-md btn-primary' %></h2>

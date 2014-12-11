@@ -4,7 +4,7 @@
 
 <h2>Current Timing</h2>
 
-<table class='table table-hover'>
+<table id="currentTimings" class='display'>
   <thead>
     <tr>
       <th>File Opened</th>
@@ -12,6 +12,7 @@
       <th>Accelerated Estimated Conclusion</th>
       <th>Expected Estimated Conclusion</th>
       <th>Slow Estimated Conclusion</th>
+      <th>Last Update</th>
     </tr>
   </thead>
   <tbody>
@@ -32,8 +33,11 @@
       <td>
         <%= @timing.estimated_conclusion_slow ? (@timing.estimated_conclusion_slow).strftime("%b %Y") : "" %>
       </td>
+      <td>
+        <%= @timing.updated_at.strftime("%b %d, %Y") %>
+      </td>
     </tr>
   </tbody>
 </table>
 
-<h2> <%= link_to "Edit Current Timing", edit_client_case_timing_path(@client, @case, @timing) %></h2>
+<h2> <%= link_to "Edit Current Timing", edit_client_case_timing_path(@client, @case, @timing), class: 'btn btn-md btn-primary' %></h2>

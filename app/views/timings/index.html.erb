@@ -4,7 +4,7 @@
 
 <h2>Timing Timeline </h2>
 
-<table class="table table-hover sortable">
+<table id="timingTimeline" class="display">
   <thead>
     <tr>
       <th>File Opened</th>
@@ -44,5 +44,5 @@
 </table>
 
 <div class='center'>
-   <p> <%= link_to 'Update Timing Timeline', new_client_case_timing_path(@client,@case) %></p>
+   <p> <%= link_to 'New Timing Estimate', new_client_case_timing_path(@client,@case), class: 'btn btn-md btn-primary' %></p>
 </div>

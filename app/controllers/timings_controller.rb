@@ -35,7 +35,7 @@ class TimingsController < ApplicationController
     end
     if @timing.save
       flash[:success] = "Important Dates Added Successfully"
-      redirect_to client_case_path(@client, @case)
+      redirect_to client_case_timings_path(@client, @case)
     else
       render 'new'
     end
@@ -62,7 +62,7 @@ class TimingsController < ApplicationController
     @timing.estimated_conclusion_slow = Date.today + (timing_params['estimated_conclusion_slow']).to_i.month
     if @timing.update_attributes(timing_params)
       flash[:success] = "Dates Updated"
-      redirect_to client_case_path(@client, @case)
+      redirect_to client_case_timings_path(@client, @case)
     else
       render 'edit'
     end

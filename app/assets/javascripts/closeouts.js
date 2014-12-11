@@ -3,4 +3,12 @@ $(document).on('submit', function(){
     currency = $(this).val();
     $(this).val(Number(currency.replace(/[\$,]/g,"")))
   });
+
+});
+
+
+$(document).ready(function() {
+  $('#caseCloseouts').dataTable({
+
+  });
 });

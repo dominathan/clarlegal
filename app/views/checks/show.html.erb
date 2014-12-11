@@ -1,9 +1,9 @@
-<% provide(:title, "Check Dates") %>
+<% provide(:title, "Conflict Dates") %>
 
 <%= render 'shared/subheader' %>
 
 <h2>Conflicts</h2>
-<table class='table table-hover'>
+<table id="caseChecks" class='display'>
   <thead>
     <tr>
       <th>Conflict Check Date</th>
@@ -20,4 +20,4 @@
 <br>
 <br>
 
-<h2> <%= link_to "Edit Check Dates", edit_client_case_check_path(@client, @case, @check) %></h2>
+<h2> <%= link_to "Edit Check Dates", edit_client_case_check_path(@client, @case, @check), class: 'btn btn-md btn-primary' %></h2>

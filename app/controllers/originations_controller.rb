@@ -13,7 +13,7 @@ class OriginationsController < ApplicationController
     @origination = @case.origination.new(origination_params)
     if @origination.save
       flash[:success] = "Origination Added to Case"
-      redirect_to client_case_path(@client, @case)
+      redirect_to client_case_originations_path(@client, @case)
     else
       render 'new'
     end
@@ -37,7 +37,7 @@ class OriginationsController < ApplicationController
     @origination = Origination.find(params[:id])
     if @origination.update_attributes(origination_params)
       flash[:success] = "Updated Origination Successfully"
-      redirect_to client_case_path(@client, @case)
+      redirect_to client_case_origination_path(@client, @case, @origination)
     else
       render 'edit'
     end

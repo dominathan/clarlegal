@@ -29,7 +29,7 @@ class FeesController < ApplicationController
     @fee = @case.fee.new(fee_params)
     if @fee.save
       flash[:success] = "Fee Added Successfully"
-      redirect_to client_case_path(@client, @case)
+      redirect_to client_case_fees_path(@client, @case)
     else
       render 'new'
     end
@@ -54,7 +54,7 @@ class FeesController < ApplicationController
     @fee = Fee.find(params[:id])
     if @fee.update_attributes(fee_params)
       flash[:success] = "Updated Fee Successfully"
-      redirect_to client_case_path(@client, @case)
+      redirect_to client_case_fees_path(@client, @case)
     else
       render 'edit'
     end

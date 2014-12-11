@@ -17,32 +17,32 @@
           </tr>
 
           <tr>
-            <td><%= f.label "High Value Estimate:" %></td>
-            <td><%= f.text_field :high_estimate %></td>
+            <td><%= f.label :high_estimate, "High Value Estimate:" %></td>
+            <td><%= f.text_field :high_estimate, class: 'monetary' %></td>
           </tr>
           <tr>
-            <td><%= f.label "Medium Value Estimate:" %></td>
-            <td><%= f.text_field :medium_estimate %></td>
+            <td><%= f.label :medium_estimate, "Medium Value Estimate:" %></td>
+            <td><%= f.text_field :medium_estimate, class: 'monetary' %></td>
           </tr>
           <tr>
-            <td><%= f.label "Low Value Estimate:" %></td>
-            <td><%= f.text_field :low_estimate %></td>
+            <td><%= f.label :low_estimate, "Low Value Estimate:" %></td>
+            <td><%= f.text_field :low_estimate, class: 'monetary' %></td>
           </tr>
           <tr>
-            <td><%= f.label "Likelihood of Recovery:" %></td>
+            <td><%= f.label :payment_likelihoo, "Likelihood of Recovery:" %></td>
             <td><%= f.select :payment_likelihood, StaticInformation::FEE_PAYMENT_LIKELIHOOD %></td>
           </tr>
           <tr>
-            <td><%= f.label "Fee Owed to Referral Source:" %></td>
-            <td><%= f.text_field :referral %></td>
+            <td><%= f.label :referral, "Fee Owed to Referral Source:" %></td>
+            <td><%= f.text_field :referral, class: 'monetary' %></td>
           </tr>
           <tr>
-            <td><%= f.label "Estimated Out-of-Pocket Expenses:" %></td>
-            <td><%= f.text_field :cost_estimate %></td>
+            <td><%= f.label :cost_estimate, "Estimated Out-of-Pocket Expenses:" %></td>
+            <td><%= f.text_field :cost_estimate, class: 'monetary' %></td>
           </tr>
           <tr>
-            <td><%= f.label "Retainer:" %></td>
-            <td><%= f.text_field :retainer %></td>
+            <td><%= f.label :retainer, "Retainer:" %></td>
+            <td><%= f.text_field :retainer, class: 'monetary' %></td>
           </tr>
         </table>
 

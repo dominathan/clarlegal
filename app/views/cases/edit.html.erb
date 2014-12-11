@@ -48,12 +48,9 @@
 
           <%= f.label 'Notes and Description' %>
           <%= f.text_area :description %>
-        <!-- do not select all practice groups...only practice groups that belong to user's lawfirm -->
-            <h2>
-              Note:  <%= link_to "Add Practice Group", new_user_lawfirm_practicegroup_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm_id) %> if missing.
-            </h2>
 
-        <%= f.submit "Update Case", class: "btn btn-large btn-primary" %>
+
+        <%= f.submit "Update Case", class: "btn btn-md btn-primary" %>
         </div>
       <% end %>
     </div>

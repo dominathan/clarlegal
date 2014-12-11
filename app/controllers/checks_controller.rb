@@ -13,7 +13,7 @@ class ChecksController < ApplicationController
     @check = @case.checks.new(check_params)
     if @check.save
       flash[:success] = "Check Dates Added Successfully."
-      redirect_to client_case_path(@client, @case)
+      redirect_to client_case_check_path(@client, @case, @check)
     else
       render 'new'
     end
@@ -37,7 +37,7 @@ class ChecksController < ApplicationController
     @check = Check.find(params[:id])
     if @check.update_attributes(check_params)
       flash[:success] = "Updated Check Dates Successfully"
-      redirect_to client_case_path(@client, @case)
+      redirect_to client_case_check_path(@client, @case, @check)
     else
       render 'edit'
     end
