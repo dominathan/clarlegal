@@ -104,32 +104,32 @@
             <td><%= ff.select :fee_type, StaticInformation::FEE_TYPE, include_blank: "Select Fee Type" %></td>
           </tr>
 
-            <tr class='contingency'>
+            <tr class='fees hourly mixed contingency hide'>
               <td><%= ff.label "High Value Estimate:" %></td>
               <td><%= ff.text_field :high_estimate, class: 'monetary' %></td>
             </tr>
-            <tr class='contingency fixed'>
+            <tr class='fees hourly mixed contingency fixed hide'>
               <!-- Change label name if fixedfee or hourly case -->
               <td id="feeNameChange"><span><b>Medium Value Estimate:</b></span></td>
               <td><%= ff.text_field :medium_estimate, class: 'monetary' %></td>
             </tr>
-            <tr class='contingency'>
+            <tr class='fees hourly mixed contingency hide'>
               <td><%= ff.label "Low Value Estimate:" %></td>
               <td><%= ff.text_field :low_estimate, class: 'monetary' %></td>
             </tr>
-            <tr class='contingency fixed'>
+            <tr class='fees hourly mixed contingency fixed hide'>
               <td><%= ff.label "Likelihood of Recovery:" %></td>
               <td><%= ff.select :payment_likelihood, StaticInformation::FEE_PAYMENT_LIKELIHOOD %></td>
             </tr>
-            <tr class='contingency fixed'>
+            <tr class='fees hourly mixed contingency fixed hide'>
               <td><%= ff.label "Fee Owed to Referral Source:" %></td>
               <td><%= ff.text_field :referral, class: 'monetary' %></td>
             </tr>
-            <tr class='contingency fixed'>
+            <tr class='fees hourly mixed contingency fixed hide'>
               <td><%= ff.label "Estimated Out-of-Pocket Expenses:" %></td>
               <td><%= ff.text_field :cost_estimate, class: 'monetary' %></td>
             </tr>
-            <tr class='contingency fixed'>
+            <tr class='fees hourly mixed contingency fixed hide'>
               <td><%= ff.label "Retainer:" %></td>
               <td><%= ff.text_field :retainer, class: 'monetary' %></td>
             </tr>
@@ -304,10 +304,21 @@
 
   $("#case_fees_attributes_0_fee_type").on('change', function () {
     if(this.value == "Contingency") {
+        $(".fees").addClass('hide');
         $(".contingency").toggleClass('hide');
+        $("#feeNameChange span").text('Medium Estimate:');
       } else if(this.value == "Fixed Fee") {
+        $('.fees').addClass('hide');
         $(".fixed").toggleClass('hide');
         $("#feeNameChange span").text('Contract Amount:');
+      } else if (this.value == "Hourly") {
+        $('.fees').addClass('hide');
+        $("#feeNameChange span").text('Medium Estimate:');
+        $('.hourly').toggleClass('hide');
+      } else if (this.value == "Mixed") {
+        $('.fees').addClass('hide');
+        $("#feeNameChange span").text('Contract Amount:');
+        $('.mixed').toggleClass('hide');
       };
   });
 
