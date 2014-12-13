@@ -302,6 +302,15 @@
      $("#client-engagement-date").toggleClass('show');
    });
 
+  $("#case_fees_attributes_0_fee_type").on('change', function () {
+    if(this.value == "Contingency") {
+        $(".contingency").toggleClass('hide');
+      } else if(this.value == "Fixed Fee") {
+        $(".fixed").toggleClass('hide');
+        $("#feeNameChange span").text('Contract Amount:');
+      };
+  });
+
 
   $(document).on('submit', function(){
 
