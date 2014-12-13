@@ -316,5 +316,39 @@ class Graph < ActiveRecord::Base
     return Graph.expected_overhead_next_year(user) / 12
   end
 
+  def self.open_cases_by_pg(user)
+    final_case_count = []
+    #Loop through practicegroups, and collect count of OPEN==true cases that belong to each practice group
+    practice_groups = Graph.user_practice_group_ids(user)
+    practice_groups.each do |pg|
+      open_case_count = user.lawfirm.cases.where(open: true).
+                        where('practicegroup_id = ?', pg).count
+      final_case_count.push(open_case_count)
+    end
+    #Return the [[practicegroupname,case_count],[pg,cc]]..etc
+    practice_group_names = user.lawfirm.practicegroups.where(id: practice_groups).collect(&:group_name)
+    return practice_group_names.zip(final_case_count)
+  end
+
+  #Sums the #{fee_estimate} by practicegroup
+  def self.open_cases_by_pg_and_fee_estimate(user,fee_estimate)
+    #Get practice group by IDs, and array the length of practice groups to store amounts,
+    #and the start_date as a base.
+    practice_groups_ids = Graph.user_practice_group_ids(user)
+    amounts = Array.new(practice_groups_ids.length)
+    all_pg_fees = []
+
+    #Loop through practice groups with open cases and inner join closeouts.
+    practice_groups_ids.each do |pg|
+      pg_fee_estimate = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:fees).
+                                #Return the specified fee_estimate
+                                sum(fee_estimate)
+      all_pg_fees << pg_fee_estimate
+    end
+    #Collect all user practicegroup names and combine them with the amounts from above
+    practice_group_names = user.lawfirm.practicegroups.where(id: practice_groups_ids).collect(&:group_name)
+    return practice_group_names.zip(all_pg_fees)
+  end
+
 
 end

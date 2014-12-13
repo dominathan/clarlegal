@@ -2,109 +2,16 @@ class GraphsController < ApplicationController
   before_action :signed_in_user, :belongs_to_firm, :has_open_cases
 
   def practice_group_pie
-    #Step 1. Get list of all cases that are open.
-            # Create arrays to hold practicegroup totals
-    open_cases = Graph.open_cases(current_user)
-    open_cases_by_pg = []
-    #Step 2. Get list of practice groups in current user lawfirm
-    lawfirm_pgs = Graph.user_practice_groups(current_user)
-    pg_count = lawfirm_pgs.length
-     #Step 3.  For every practice group in a lawfirm, total the number of cases that belong
-              # to that practice group and is open
-    0.upto(pg_count-1) do |n|
-      open_cases_by_pg.push(open_cases.where(practice_group: lawfirm_pgs[n]).count)
-    end
-    #Step 4. Combine the lawfirm practice group with the count..e.g.[['Med Mal', 5]]
-              #practice_group_pie_actual takes the closed cases, with a number of previous year
-              #look back limit
-              #Remove 0 Case totals Practicegroups with Graph.remove_arrays
-    @final_case_open = Graph.remove_arrays_less_than_or_equal_to(lawfirm_pgs.zip(open_cases_by_pg),0)
+    open_cases_by_pg = Graph.open_cases_by_pg(current_user)
+    @final_case_open = Graph.remove_arrays_less_than_or_equal_to(open_cases_by_pg,0)
   end
-
-#---------------------- These are for open cases, aka estimated revenue -----------
 
   def practice_group_revenue_pie_low
-    # Step 1. Get list of all cases that are either open or closed.
-    #         Create arrays to hold practicegroup totals
-    #         Get list of practice groups in current user lawfirm
-    lawfirm_pgs = Graph.user_practice_groups(current_user)
-    open_cases = Graph.open_cases(current_user)
-    total_rev_per_pg_low = []
-    #Step 2.  For each case in a lawfirm, sum_total ca.fee.low_estimate by practice group
-    lawfirm_pgs.each do |pg|
-      sum_total = 0
-      open_cases.where(practice_group: pg).each do |ca|
-        ca.fee.order(:created_at).last.low_estimate ?
-          sum_total += ca.fee.order(:created_at).last.low_estimate : next
-      end
-    #Step 3.  Put each sum_total in an array [0,1,2,3,4]
-      total_rev_per_pg_low << sum_total
-    end
-    #Step 4. Combine the sum_totals with the lawfirm names e.g. [[Med Mal, $302,032]]
-    @final_low_rev = lawfirm_pgs.zip(total_rev_per_pg_low)
-    #Step 5. Repeat these for medium, high, and actual estimates
-    practice_group_revenue_pie_medium
-    practice_group_revenue_pie_high
-    practice_group_revenue_pie_actual
+    @final_low_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"low_estimate")
+    @final_medium_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"medium_estimate")
+    @final_high_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"high_estimate")
   end
 
-  def practice_group_revenue_pie_medium
-    lawfirm_pgs = Graph.user_practice_groups(current_user)
-    open_cases = Graph.open_cases(current_user)
-    total_rev_per_pg_medium = []
-    lawfirm_pgs.each do |pg|
-      sum_total = 0
-      open_cases.where(practice_group: pg).each do |ca|
-        ca.fee.order(:created_at).last.medium_estimate ?
-            sum_total += ca.fee.order(:created_at).last.medium_estimate : next
-      end
-      total_rev_per_pg_medium << sum_total
-    end
-    @final_medium_rev = lawfirm_pgs.zip(total_rev_per_pg_medium)
-  end
-
-  def practice_group_revenue_pie_high
-    lawfirm_pgs = Graph.user_practice_groups(current_user)
-    open_cases = Graph.open_cases(current_user)
-    total_rev_per_pg_high = []
-    lawfirm_pgs.each do |pg|
-      sum_total = 0
-      open_cases.where(practice_group: pg).each do |ca|
-        ca.fee.order(:created_at).last.high_estimate ?
-            sum_total += ca.fee.order(:created_at).last.high_estimate : next
-      end
-      total_rev_per_pg_high << sum_total
-    end
-    @final_high_rev = lawfirm_pgs.zip(total_rev_per_pg_high)
-  end
-
-#----------------------End Open Cases-----------------------------------------
-
-#---------------------Closed Cases by Practice Group Pie-- AKA Actual Revenue-
-
-  def practice_group_revenue_pie_actual
-    lawfirm_pgs = Graph.user_practice_groups(current_user)
-    closed_cases = Graph.closed_cases_after(current_user,3)
-    total_rev_per_pg_actual = []
-    lawfirm_pgs.each do |pg|
-      sum_total = 0
-      closed_cases.each do |ca|
-        if ca.practice_group == pg
-          if ca.closeouts.order(:created_at).last.total_fee_received
-            sum_total += ca.closeouts.order(:created_at).last.total_fee_received
-          else
-            next
-          end
-        else
-          next
-        end
-      end
-      total_rev_per_pg_actual << sum_total
-    end
-    @final_actual_rev_by_pg = lawfirm_pgs.zip(total_rev_per_pg_actual)
-  end
-
-#--------------End Actual Revenue By Year--------------------------------------
 #--------------Expected/Estimated Revenue By Year By Practice Group------------
 
   def rev_by_year_by_pg

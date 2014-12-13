@@ -1,8 +1,8 @@
 
   <div class="sidebar">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
       <ul class="nav nav-pills nav-stacked">
-
+        <li class='center'><h2><b>Estimated</b></h2></li>
         <li class="<%=is_active_for_drilldowns?("graph_drilldowns","rev_by_fee_type")%>">
           <%= link_to "Revenue/Profit by Year", revenue_by_year_expected_path %>
         </li>
@@ -21,7 +21,7 @@
         <li class="<%=is_active_graph?("graphs","rev_by_year_by_pg") ||
                       is_active_graph?("graphs","rev_by_year_by_pg_high") ||
                       is_active_graph?("graphs","rev_by_year_by_pg_low")%>">
-          <%= link_to "Estimated Gross Fee by Practice Group by Year", revenue_by_year_practice_group_path %>
+          <%= link_to "Fee Received by Practice Group by Year", revenue_by_year_practice_group_path %>
         </li>
          <li class="divider"></li>
 
