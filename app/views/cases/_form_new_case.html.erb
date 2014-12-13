@@ -205,7 +205,7 @@
           <% render 'staff_fields', :f => staff %>
           <div class='center'>
             <%= link_to_add_association "Click to Add More Staff", f, :staffs %> <br><br>
-            <%= link_to "New Staff? Click here", new_user_lawfirm_staffing_path(current_user.id, current_user.lawfirm.id), class: 'btn btn-primary btn-md'  %>
+            <%= link_to "New Staff? Click here", new_user_lawfirm_staffing_path(current_user.id, current_user.lawfirm.id), class: 'btn btn-primary btn-sm'  %>
 
           </div>
         <% end %>

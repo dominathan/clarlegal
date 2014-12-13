@@ -19,6 +19,7 @@
           <tr>
             <td><%= f.label 'Case Name:' %></td>
             <td><%= f.text_field :name %></td>
+            <td></td>
           </tr>
           <tr>
             <td><%= f.label 'Court:' %></td>
@@ -34,6 +35,7 @@
           <tr>
             <td><%= f.label 'Case Number:' %></td>
             <td><%= f.text_field :case_number %></td>
+            <td></td>
           </tr>
           <tr>
             <td><%= f.label 'Opposing Counsel:' %></td>
@@ -48,7 +50,7 @@
           <tr>
             <td><%= f.label "Notes and Description" %></td>
             <td><%= f.text_area :description %></td>
-
+            <td></td>
         </table>
         <hr>
 
@@ -56,6 +58,12 @@
           <div class='center'><h2>Matter Types</h2></div>
 
           <%= f.fields_for :matters do |matter| %>
+            <table class="table">
+              <tr>
+                <td><%= matter.label "Matter Type:" %></td>
+                <td><%= matter.collection_select(:case_type_id, current_user.lawfirm.case_types.all, :id, :mat_ref, :include_blank => "Select") %></td>
+              </tr>
+            </table>
             <% render 'matter_fields', :f => matter %>
 
             <div class='center'>
@@ -69,6 +77,12 @@
           <div class='center'><h2>Related Cases</h2></div>
 
           <%= f.fields_for :related_cases do |rel_case| %>
+            <table class="table">
+              <tr>
+                <td><%= rel_case.label :related_case_id, "Related Cases:" %></td>
+                <td><%= rel_case.collection_select(:related_case_id, current_user.lawfirm.cases.all, :id, :name, :include_blank => "Select") %></td>
+              </tr>
+            </table>
             <% render 'related_case_fields', :f => rel_case%>
 
             <div class='center'>
@@ -119,10 +133,28 @@
       </div>
       <div class='staff'>
         <%= f.fields_for :staffs do |staff| %>
+          <table class="table">
+            <tr>
+              <td><%= staff.label "Name:" %></td>
+              <td><%= staff.collection_select(:staffing_id, current_user.lawfirm.staffings.order(:full_name).all, :id, :full_name, :include_blank => "Select") %></td>
+              <td class='hidden'>
+            </tr>
+            <tr>
+              <td><%= staff.label "Position:" %></td>
+              <td><%= staff.select(:position, Staffing.all_positions(current_user).uniq.sort, :include_blank => "Select") %></td>
+            </tr>
+            <tr class="expectedTotalHours">
+              <td><%= staff.label :hours_expected, "Expected Total Hours:" %></td>
+              <td><%= staff.text_field :hours_expected, :placeholder => "Leave blank if case is closed." %></td>
+            <tr>
+              <td><%= staff.label :hours_actual, "Actual Hours Worked:" %></td>
+              <td><%= staff.text_field :hours_actual, :placeholder => 'Leave blank if none.' %></td>
+            </tr>
+          </table>
           <% render 'staff_fields', :f => staff %>
           <div class='center'>
             <%= link_to_add_association "Click to Add More Staff", f, :staffs, :class => "addStaff" %> <br><br>
-            <%= link_to "New Staff? Click here", new_user_lawfirm_staffing_path(@current_user.id, @current_user.lawfirm.id) %>
+            <%= link_to "New Staff? Click here", new_user_lawfirm_staffing_path(@current_user.id, @current_user.lawfirm.id), class: 'btn btn-primary btn-sm' %>
 
           </div>
         <% end %>
@@ -144,6 +176,7 @@
               <tr>
                 <td><%= ff.label "More Information:" %></td>
                 <td><%= ff.text_field :source_description %></td>
+                <td></td>
               </tr>
             </table>
 
