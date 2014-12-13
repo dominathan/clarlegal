@@ -23,6 +23,7 @@ var referralFee = <%= @referral_by_year %>;
 var revByYearHigh = <%= @rev_by_year_high %>;
 var revByYearMedium = <%= @rev_by_year_medium %>;
 var revByYearLow = <%= @rev_by_year_low %>;
+var estimatedOverhead = <%= @overhead_by_year %>;
 var categoryLinks = {
    "<%=@category_years[0] %>" : "<%=revenue_year_1_accelerated_url.to_str %>",
    "<%=@category_years[1] %>" : "<%=revenue_year_2_accelerated_url.to_str %>",
@@ -103,6 +104,9 @@ var categoryLinks = {
       {
           name: 'Referral Fee',
           data: referralFee
+      }, {
+          name: 'Expected Overhead',
+          data: estimatedOverhead
       }],
   })
 });

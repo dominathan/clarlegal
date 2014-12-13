@@ -18,13 +18,11 @@ var categoryByMonths = <%= raw @category_months %>;
 var revByMonthHigh = <%= @year_3_by_month_high %>;
 var revByMonthMedium = <%= @year_3_by_month_medium %>;
 var revByMonthLow = <%= @year_3_by_month_low %>;
+var estimatedOverhead = <%= @overhead_by_month %>;
 
 
   // Create the chart
   $('#revenueYear3Slow').highcharts({
-      chart: {
-          type: 'column'
-      },
       title: {
           text: 'Gross Fee <%= @category_years[2]%>'
       },
@@ -60,16 +58,23 @@ var revByMonthLow = <%= @year_3_by_month_low %>;
           }
       },
       series: [{
+          type: "column",
           name: 'Low Net Fee',
           data: revByMonthLow,
       },
       {
+          type: "column",
           name: 'Medium Net Fee',
           data: revByMonthMedium
       },
       {
+          type: "column",
           name: 'High Net Fee',
           data: revByMonthHigh
+      },{
+          type: "spline",
+          name: "Estimated Overhead",
+          data: estimatedOverhead
       }],
   })
 });

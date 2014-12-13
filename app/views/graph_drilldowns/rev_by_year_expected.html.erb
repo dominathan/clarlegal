@@ -20,6 +20,7 @@ var referralFee = <%= @referral_by_year %>;
 var revByYearHigh = <%= @rev_by_year_high %>;
 var revByYearMedium = <%= @rev_by_year_medium %>;
 var revByYearLow = <%= @rev_by_year_low %>;
+var estimatedOverhead = <%= @overhead_by_year %>;
 var categoryLinks = {
    "<%=@category_years[0] %>" : "<%=revenue_year_1_expected_url.to_str %>",
    "<%=@category_years[1] %>" : "<%=revenue_year_2_expected_url.to_str %>",
@@ -31,9 +32,6 @@ var categoryLinks = {
 
   // Create the chart
   $('#revenueByYearExpected').highcharts({
-      chart: {
-          type: 'column'
-      },
       title: {
           text: 'Estimated Net Fee By Year'
       },
@@ -81,25 +79,38 @@ var categoryLinks = {
           }
       },
       series: [{
+          type: 'column',
           name: 'Low Net Fee',
           data: revByYearLow,
       },
       {
+          type: 'column',
           name: 'Medium Net Fee',
           data: revByYearMedium
       },
       {
+          type: 'column',
           name: 'High Net Fee',
           data: revByYearHigh
       },
       {
+          type: 'column',
           name: 'Estimated Case Expenses',
           color: 'red',
           data: costByYear
       },
       {
+          type: 'column',
           name: 'Referral Fee',
           data: referralFee
+      },{
+          type: 'column',
+          name: 'Estimated Overhead',
+          data: estimatedOverhead,
+          marker: {
+            lineWidth: 2,
+            fillColor: 'black'
+          }
       }],
   })
 });

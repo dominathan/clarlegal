@@ -284,7 +284,6 @@ class GraphDrilldownsController < ApplicationController
   end
 
   def rev_by_year_expected
-    starttime = Time.now
     set_category_years
     all_year_variables
     revenue_collection_by_year('expected','high')
@@ -300,8 +299,7 @@ class GraphDrilldownsController < ApplicationController
     @rev_by_year_high = Graph.add_arrays(@rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @rev_by_year_medium = Graph.add_arrays(@rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @rev_by_year_low = Graph.add_arrays(@rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
-    endtime = Time.now
-    @timetest = endtime-starttime
+    @overhead_by_year = Array.new(@rev_by_year_low.length, Graph.expected_overhead_next_year(current_user)).map { |x| x*-1 }
   end
 
   def rev_by_year_slow
@@ -320,6 +318,7 @@ class GraphDrilldownsController < ApplicationController
     @rev_by_year_high = Graph.add_arrays(@rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @rev_by_year_medium = Graph.add_arrays(@rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @rev_by_year_low = Graph.add_arrays(@rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @overhead_by_year = Array.new(@rev_by_year_low.length, Graph.expected_overhead_next_year(current_user)).map { |x| x*-1 }
   end
 
   def rev_by_year
@@ -339,6 +338,7 @@ class GraphDrilldownsController < ApplicationController
     @rev_by_year_high = Graph.add_arrays(@rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @rev_by_year_medium = Graph.add_arrays(@rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @rev_by_year_low = Graph.add_arrays(@rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @overhead_by_year = Array.new(@rev_by_year_low.length, Graph.expected_overhead_next_year(current_user)).map { |x| x*-1 }
   end
 
   def rev_year_1_slow
@@ -351,6 +351,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_1_by_month_medium)
     revenue_collection_by_month(0,'slow','low')
     monthly_collection(@year_1_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_1_expected
@@ -363,6 +364,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_1_by_month_medium)
     revenue_collection_by_month(0,'expected','low')
     monthly_collection(@year_1_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_1_accelerated
@@ -375,6 +377,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_1_by_month_medium)
     revenue_collection_by_month(0,'fast','low')
     monthly_collection(@year_1_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_2_slow
@@ -387,6 +390,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_2_by_month_medium)
     revenue_collection_by_month(1,'slow','low')
     monthly_collection(@year_2_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_2_expected
@@ -399,6 +403,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_2_by_month_medium)
     revenue_collection_by_month(1,'expected','low')
     monthly_collection(@year_2_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_2_accelerated
@@ -411,6 +416,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_2_by_month_medium)
     revenue_collection_by_month(1,'fast','low')
     monthly_collection(@year_2_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_3_slow
@@ -423,6 +429,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_3_by_month_medium)
     revenue_collection_by_month(2,'slow','low')
     monthly_collection(@year_3_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_3_expected
@@ -435,6 +442,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_3_by_month_medium)
     revenue_collection_by_month(2,'expected','low')
     monthly_collection(@year_3_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_3_accelerated
@@ -447,6 +455,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_3_by_month_medium)
     revenue_collection_by_month(2,'fast','low')
     monthly_collection(@year_3_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_4_slow
@@ -459,6 +468,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_4_by_month_medium)
     revenue_collection_by_month(3,'slow','low')
     monthly_collection(@year_4_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_4_expected
@@ -471,6 +481,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_4_by_month_medium)
     revenue_collection_by_month(3,'expected','low')
     monthly_collection(@year_4_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_4_accelerated
@@ -483,6 +494,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_4_by_month_medium)
     revenue_collection_by_month(3,'fast','low')
     monthly_collection(@year_4_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_5_slow
@@ -495,6 +507,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_5_by_month_medium)
     revenue_collection_by_month(4,'slow','low')
     monthly_collection(@year_5_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_5_expected
@@ -507,6 +520,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_5_by_month_medium)
     revenue_collection_by_month(4,'expected','low')
     monthly_collection(@year_5_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_5_accelerated
@@ -519,6 +533,7 @@ class GraphDrilldownsController < ApplicationController
     monthly_collection(@year_5_by_month_medium)
     revenue_collection_by_month(4,'fast','low')
     monthly_collection(@year_5_by_month_low)
+    @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
 end

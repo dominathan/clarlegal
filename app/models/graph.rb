@@ -299,4 +299,22 @@ class Graph < ActiveRecord::Base
     return all_fee_types.zip(final).map { |name,values|  { 'name' => name, 'data' => values } }.to_json
   end
 
+  #------------------------------------STARTING EXPECTED-------------------------------#
+  def self.expected_overhead_next_year(user)
+    amount = 0
+    ovh = user.lawfirm.overheads.where(year: Date.today.year).last
+    amount += ovh.rent
+    amount += ovh.utilities
+    amount += ovh.technology
+    amount += ovh.hard_costs
+    amount += ovh.guaranteed_salaries
+    amount += ovh.other
+    return amount
+  end
+
+  def self.overhead_by_month(user)
+    return Graph.expected_overhead_next_year(user) / 12
+  end
+
+
 end
