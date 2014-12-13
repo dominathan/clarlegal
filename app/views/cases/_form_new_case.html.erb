@@ -8,12 +8,13 @@
       <table class="table">
           <tr>
             <td><%= f.label 'Client Name:' %></td>
-            <td> <%= f.collection_select(:client_id, current_user.lawfirm.clients.order(:full_name).all, :id, :full_name, :include_blank => 'Select Client') %></td>
+            <td> <%= f.select(:client_id, Client.company_and_full_names(current_user), :include_blank => 'Select Client') %></td>
             <td><%= link_to "New Client? Click Here", new_client_path, class: 'btn btn-sm btn-primary' %></td>
           </tr>
           <tr>
             <td><%= f.label 'Case Name:' %></td>
             <td><%= f.text_field :name %></td>
+            <td></td>
           </tr>
           <tr>
             <td><%= f.label 'Court:' %></td>
@@ -29,6 +30,7 @@
           <tr>
             <td><%= f.label 'Case Number:' %></td>
             <td><%= f.text_field :case_number %></td>
+            <td></td>
           </tr>
           <tr>
             <td><%= f.label 'Opposing Counsel:' %></td>
@@ -36,32 +38,61 @@
             <td><%= f.text_field :new_opposing_attorney, placeholder: "Add New" %> </td>
           </tr>
           <tr>
-            <td><%= f.label 'Matter Type:' %></td>
-            <td><%= f.select(:type_of_matter, current_user.lawfirm.case_types.order(:mat_ref).collect(&:mat_ref).uniq - ["", nil], :include_blank => "Select Existing") %></td>
-            <td><%= f.text_field :new_type_of_matter, placeholder: "Add New" %></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Related Cases:' %></td>
-            <td><%= f.select(:related_cases, current_user.lawfirm.cases.order(:name).all.map { |c| c.name }.prepend("N/A") - ["",nil], :include_blank => "Select Related Cases or N/A") %></td>
-          </tr>
-          <tr>
             <td><%= f.label 'Practice Group:' %></td>
             <td><%= f.collection_select(:practicegroup_id, current_user.lawfirm.practicegroups.order(:group_name), :id, :group_name, :include_blank => "Select Existing") %></td>
             <td><%= f.text_field :new_practice_group, placeholder: "Add New" %></td>
           </tr>
 
-
           <tr>
             <td><%= f.label "Notes and Description" %></td>
             <td><%= f.text_area :description %></td>
-
+            <td></td>
+          </tr>
         </table>
         <hr>
+
+        <div class="matterTypes">
+          <div class='center'><h2>Matter Types</h2></div>
+
+          <%= f.fields_for :matters do |matter| %>
+            <table class="table">
+              <tr>
+                <td><%= matter.label "Matter Type:" %></td>
+                <td><%= matter.collection_select(:case_type_id, current_user.lawfirm.case_types.all, :id, :mat_ref, :include_blank => "Select") %></td>
+              </tr>
+            </table>
+            <% render 'matter_fields', :f => matter %>
+
+            <div class='center'>
+              <%= link_to_add_association "Click to Add Matter Types", f, :matters %>
+            </div>
+          <% end %>
+        </div>
+        <hr>
+
+        <div class="relatedCases">
+          <div class='center'><h2>Related Cases</h2></div>
+
+          <%= f.fields_for :related_cases do |rel_case| %>
+              <table class="table">
+                <tr>
+                  <td><%= rel_case.label :related_case_id, "Related Cases:" %></td>
+                  <td><%= rel_case.collection_select(:related_case_id, current_user.lawfirm.cases.all, :id, :name, :include_blank => "Select") %></td>
+                </tr>
+              </table>
+            <% render 'related_case_fields', :f => rel_case%>
+
+            <div class='center'>
+              <%= link_to_add_association "Click to add Related Cases", f, :related_cases %>
+            </div>
+          <% end %>
+        </div>
+
 
 
       <br>
       <div class='center'>
-        <h4>Fees</h4>
+        <h2>Fees</h2>
       </div>
       <br>
       <div class="fee">
@@ -73,34 +104,34 @@
             <td><%= ff.select :fee_type, StaticInformation::FEE_TYPE, include_blank: "Select Fee Type" %></td>
           </tr>
 
-            <tr class='contingency hide'>
+            <tr class='contingency'>
               <td><%= ff.label "High Value Estimate:" %></td>
-              <td><%= ff.text_field :high_estimate %></td>
+              <td><%= ff.text_field :high_estimate, class: 'monetary' %></td>
             </tr>
-            <tr class='contingency fixed hide'>
+            <tr class='contingency fixed'>
               <!-- Change label name if fixedfee or hourly case -->
               <td id="feeNameChange"><span><b>Medium Value Estimate:</b></span></td>
-              <td><%= ff.text_field :medium_estimate %></td>
+              <td><%= ff.text_field :medium_estimate, class: 'monetary' %></td>
             </tr>
-            <tr class='contingency hide'>
+            <tr class='contingency'>
               <td><%= ff.label "Low Value Estimate:" %></td>
-              <td><%= ff.text_field :low_estimate %></td>
+              <td><%= ff.text_field :low_estimate, class: 'monetary' %></td>
             </tr>
-            <tr class='contingency fixed hide'>
+            <tr class='contingency fixed'>
               <td><%= ff.label "Likelihood of Recovery:" %></td>
               <td><%= ff.select :payment_likelihood, StaticInformation::FEE_PAYMENT_LIKELIHOOD %></td>
             </tr>
-            <tr class='contingency fixed hide'>
+            <tr class='contingency fixed'>
               <td><%= ff.label "Fee Owed to Referral Source:" %></td>
-              <td><%= ff.text_field :referral %></td>
+              <td><%= ff.text_field :referral, class: 'monetary' %></td>
             </tr>
-            <tr class='contingency fixed hide'>
+            <tr class='contingency fixed'>
               <td><%= ff.label "Estimated Out-of-Pocket Expenses:" %></td>
-              <td><%= ff.text_field :cost_estimate %></td>
+              <td><%= ff.text_field :cost_estimate, class: 'monetary' %></td>
             </tr>
-            <tr class='contingency fixed hide'>
+            <tr class='contingency fixed'>
               <td><%= ff.label "Retainer:" %></td>
-              <td><%= ff.text_field :retainer %></td>
+              <td><%= ff.text_field :retainer, class: 'monetary' %></td>
             </tr>
 
         </table>
@@ -112,7 +143,7 @@
       <br>
       <br>
        <div class='center'>
-        <h4>Timing</h4>
+        <h2>Timing</h2>
       </div>
       <div class='timing'>
         <%= f.fields_for :timings do |ff| %>
@@ -146,26 +177,49 @@
       <br>
       <br>
       <br>
+
+
       <div class='center'>
-        <h4>Staff</h4>
+        <h2>Staff</h2>
       </div>
       <div class='staff'>
         <%= f.fields_for :staffs do |staff| %>
+            <table class="table">
+              <tr>
+                <td><%= staff.label "Name:" %></td>
+                <td><%= staff.collection_select(:staffing_id, current_user.lawfirm.staffings.order(:full_name).all, :id, :full_name, :include_blank => "Select") %></td>
+                <td class='hidden'>
+              </tr>
+              <tr>
+                <td><%= staff.label "Position:" %></td>
+                <td><%= staff.select(:position, Staffing.all_positions(current_user).uniq.sort, :include_blank => "Select") %></td>
+              </tr>
+              <tr class="expectedTotalHours">
+                <td><%= staff.label :hours_expected, "Expected Total Hours:" %></td>
+                <td><%= staff.text_field :hours_expected, :placeholder => "Leave blank if case is closed." %></td>
+              <tr>
+                <td><%= staff.label :hours_actual, "Actual Hours Worked:" %></td>
+                <td><%= staff.text_field :hours_actual, :placeholder => 'Leave blank if none.' %></td>
+              </tr>
+            </table>
           <% render 'staff_fields', :f => staff %>
           <div class='center'>
             <%= link_to_add_association "Click to Add More Staff", f, :staffs %> <br><br>
-            <%= link_to "New Staff? Click here", new_user_lawfirm_staffing_path(@current_user.id, @current_user.lawfirm.id) %>
+            <%= link_to "New Staff? Click here", new_user_lawfirm_staffing_path(current_user.id, current_user.lawfirm.id), class: 'btn btn-primary btn-md'  %>
 
           </div>
         <% end %>
         <hr>
       </div> <!-- STAFF DIV -->
+
+
+
       <br>
       <br>
       <br>
 
       <div class='center'>
-        <h4>Origination</h4>
+        <h2>Origination</h2>
       </div>
       <div class='origination'>
         <%= f.fields_for :originations do |ff| %>
@@ -179,17 +233,21 @@
             <tr>
               <td><%= ff.label "More Information:" %></td>
               <td><%= ff.text_field :source_description %></td>
+              <td></td>
             </tr>
           </table>
 
         <% end %>
         <hr>
       </div> <!-- Originations DIV -->
+
+
+
       <br>
       <br>
       <br>
       <div class='center'>
-        <h4>Conflicts</h4>
+        <h2>Conflicts</h2>
       </div>
       <div class='checks'>
         <%= f.fields_for :checks do |ff| %>
@@ -244,13 +302,14 @@
      $("#client-engagement-date").toggleClass('show');
    });
 
-  $("#case_fees_attributes_0_fee_type").on('change', function () {
-    if(this.value == "Contingency") {
-        $(".contingency").toggleClass('hide');
-      } else if(this.value == "Fixed Fee") {
-        $(".fixed").toggleClass('hide');
-        $("#feeNameChange span").text('Contract Amount:');
-      };
+
+  $(document).on('submit', function(){
+
+    $('.monetary').each(function(i,obj) {
+      currency = $(this).val();
+      $(this).val(Number(currency.replace(/[\$,]/g,"")))
+    });
+
   });
 </script>
 

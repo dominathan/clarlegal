@@ -285,7 +285,7 @@ class Graph < ActiveRecord::Base
     #Loop amount.length(years); case (closed, practicegroup) and date_fee_received between start
     #and end_dates, sum #{closeout_amounts}
     all_fee_types.each do |type|
-      amounts = Array.new(year_of_collection)
+      amounts = Array.new(year_of_collection.length, 0)
       amounts.length.times do |i|
         amounts[i] = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:closeouts).
                           where('fee_type = ?', type).

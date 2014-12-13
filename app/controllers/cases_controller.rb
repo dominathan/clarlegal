@@ -4,6 +4,8 @@ class CasesController < ApplicationController
   #currently open cases
   def new_case
     @case = Case.new
+    @case.matters.build
+    @case.related_cases.build
     @case.fees.build
     @case.staffs.build
     @case.timings.build
@@ -20,18 +22,11 @@ class CasesController < ApplicationController
     @case.judge = params[:case][:new_judge] unless params[:case][:new_judge].empty?
     #add a new attorney unless user selects from dropdown list
     @case.opposing_attorney = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
-    #add new type_of_matter to user lawfirm CaseType unless empty
-    unless params[:case][:new_type_of_matter].empty?
-      @case.type_of_matter = params[:case][:new_type_of_matter]
-      @new_matref = CaseType.create!(mat_ref: params[:case][:new_type_of_matter], lawfirm_id: current_user.lawfirm.id)
-    end
     #add new practice group to user lawfirm practicegroups unless :new_practice_group is empty
     unless params[:case][:new_practice_group].empty?
       @case.practice_group = params[:case][:new_practice_group]
       @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id)
       @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:new_practice_group]).id
-    else
-      @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:practice_group]).id
     end
     #add new referral source to database if empty
     unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
