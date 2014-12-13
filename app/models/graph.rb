@@ -33,6 +33,13 @@ class Graph < ActiveRecord::Base
       Date.today.year]
   end
 
+  #Calculating date today..date.today+4.years
+  def self.expected_years
+    [Date.today, Date.today + 1.years,
+    Date.today + 2.years ,Date.today + 3.years,
+    Date.today + 4.years]
+  end
+
   #To be used in html.erb for forward looking year categories on charts
   def self.expected_year_only
     [Date.today.year, Date.today.year + 1,
@@ -348,6 +355,38 @@ class Graph < ActiveRecord::Base
     #Collect all user practicegroup names and combine them with the amounts from above
     practice_group_names = user.lawfirm.practicegroups.where(id: practice_groups_ids).collect(&:group_name)
     return practice_group_names.zip(all_pg_fees)
+  end
+
+  #Estimated revenue by practicegroup by fee_type next 5 years
+  def self.revenue_by_practice_group_estimated(user,fee_estimate,timing_estimate)
+    #Set variables, next 5 years (including current year),
+    #fee_estimates in those years, and Practicegroups
+    year_of_collection = Graph.expected_years
+    final_tally = []
+    practice_groups_ids = Graph.user_practice_group_ids(user)
+
+    #Loop through practicegroups, and then loop through amounts,
+    #summing the #{closeout amount} for that year.
+    #Add [practicegroup_id, [amounts]] to final_tally, and reset amounts to 0 for the next PG.
+    practice_groups_ids.each do |pg|
+      amounts = Array.new(year_of_collection.length,0)
+      amounts.length.times do |i|
+        amounts[i] = user.lawfirm.cases.where(open: true, practicegroup_id: pg).joins(:timings, :fees).
+                    where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                          {start_date: year_of_collection[i].beginning_of_year,
+                           end_date: year_of_collection[i].end_of_year}).
+                    sum(fee_estimate)
+      end
+      final_tally << [pg,amounts]
+    end
+
+    #Change the practicegroup_ids to the actual practice_group_names
+    final_tally.each { |x| x[0] = user.lawfirm.practicegroups.find_by(id: x[0]).group_name }
+
+    #Return a hash for each practicegroup that is
+      #{name: PG.group_name, data: [amounts]}
+    final_tally_to_hash = final_tally.map { |name,values|  { 'name' => name, 'data' => values } }.to_json
+    return final_tally_to_hash
   end
 
 

@@ -18,9 +18,7 @@
         </li>
          <li role='presentation' class="divider"></li>
 
-        <li class="<%=is_active_graph?("graphs","rev_by_year_by_pg") ||
-                      is_active_graph?("graphs","rev_by_year_by_pg_high") ||
-                      is_active_graph?("graphs","rev_by_year_by_pg_low")%>">
+        <li class="<%=is_active_graph?('graphs','rev_by_year_by_pg')%> or <%=is_active_graph?('graphs','rev_by_year_by_pg_high')%> or <%=is_active_graph?('graphs','rev_by_year_by_pg_low')%>">
           <%= link_to "Fee Received by Practice Group by Year", revenue_by_year_practice_group_path %>
         </li>
          <li class="divider"></li>
