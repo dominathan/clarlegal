@@ -1,9 +1,6 @@
 class GraphDrilldownsController < ApplicationController
   before_action :signed_in_user, :belongs_to_firm, :has_open_cases
 
-
-
-
   #---------------------BEGIN expected revenue by year and month --------------------
 
   def revenue_collection_by_year(collection_rate,collection_amount)

@@ -2,122 +2,38 @@ class GraphIndividualPracGroupsController < ApplicationController
   before_action :signed_in_user, :belongs_to_firm, :has_open_cases
 
   def expected_individual_pg_rev
-    prac_group = Practicegroup.find(params[:id]).group_name
-    open_cases = Graph.open_cases(current_user)
-    current_date = DateTime.now
-    @category_year = Graph.expected_year_only
-    @lawfirm_pg_rev = []
-    rev_est = set_yearly_rev_array
-    open_cases.where(practice_group: prac_group).each do |ca|
-      ca.timing.order(:created_at).last ? conclusion_date = Graph.time_to_collection(ca,'expected') : next
-      if ca.fee.order(:created_at).last
-        if current_date.year == conclusion_date.year
-          rev_est[0] += Graph.collection_expectation(ca,"low")
-        elsif current_date.year+1 == conclusion_date.year
-          rev_est[1] += Graph.collection_expectation(ca,"low")
-        elsif current_date.year+2 == conclusion_date.year
-          rev_est[2] += Graph.collection_expectation(ca,"low")
-        elsif current_date.year+3 == conclusion_date.year
-          rev_est[3] += Graph.collection_expectation(ca,"low")
-        elsif current_date.year+4 >= conclusion_date.year
-          rev_est[4] += Graph.collection_expectation(ca,"low")
-        end
-      else
-        next
-      end
-    end
-    @lawfirm_pg_rev << rev_est
-    rev_est = set_yearly_rev_array
-    open_cases.where(practice_group: prac_group).each do |ca|
-      ca.timing.order(:created_at).last ? conclusion_date = Graph.time_to_collection(ca,'expected') : next
-      if ca.fee.order(:created_at).last
-        if current_date.year == conclusion_date.year
-          rev_est[0] += Graph.collection_expectation(ca,"medium")
-        elsif current_date.year+1 == conclusion_date.year
-          rev_est[1] += Graph.collection_expectation(ca,"medium")
-        elsif current_date.year+2 == conclusion_date.year
-          rev_est[2] += Graph.collection_expectation(ca,"medium")
-        elsif current_date.year+3 == conclusion_date.year
-          rev_est[3] += Graph.collection_expectation(ca,"medium")
-        elsif current_date.year+4 >= conclusion_date.year
-          rev_est[4] += Graph.collection_expectation(ca,"medium")
-        end
-      else
-        next
-      end
-    end
-    @lawfirm_pg_rev << rev_est
-    rev_est = set_yearly_rev_array
-    open_cases.where(practice_group: prac_group).each do |ca|
-      ca.timing.order(:created_at).last ? conclusion_date = Graph.time_to_collection(ca,'expected') : next
-      if ca.fee.order(:created_at).last
-        if current_date.year == conclusion_date.year
-          rev_est[0] += Graph.collection_expectation(ca,"high")
-        elsif current_date.year+1 == conclusion_date.year
-          rev_est[1] += Graph.collection_expectation(ca,"high")
-        elsif current_date.year+2 == conclusion_date.year
-          rev_est[2] += Graph.collection_expectation(ca,"high")
-        elsif current_date.year+3 == conclusion_date.year
-          rev_est[3] += Graph.collection_expectation(ca,"high")
-        elsif current_date.year+4 >= conclusion_date.year
-          rev_est[4] += Graph.collection_expectation(ca,"high")
-        end
-      else
-        next
-      end
-    end
-    @lawfirm_pg_rev << rev_est
-    rev_est = set_yearly_rev_array
-    open_cases.where(practice_group: prac_group).each do |ca|
-      ca.timing.order(:created_at).last ? conclusion_date = Graph.time_to_collection(ca,'expected') : next
-      if ca.fee.order(:created_at).last
-        if current_date.year == conclusion_date.year
-          rev_est[0] += Graph.collection_expectation(ca,"cost")
-        elsif current_date.year+1 == conclusion_date.year
-          rev_est[1] += Graph.collection_expectation(ca,"cost")
-        elsif current_date.year+2 == conclusion_date.year
-          rev_est[2] += Graph.collection_expectation(ca,"cost")
-        elsif current_date.year+3 == conclusion_date.year
-          rev_est[3] += Graph.collection_expectation(ca,"cost")
-        elsif current_date.year+4 >= conclusion_date.year
-          rev_est[4] += Graph.collection_expectation(ca,"cost")
-        end
-      else
-        next
-      end
-    end
-    @lawfirm_pg_rev << rev_est.collect {|amount| amount*-1}
-    rev_est = set_yearly_rev_array
-    open_cases.where(practice_group: prac_group).each do |ca|
-      ca.timing.order(:created_at).last ? conclusion_date = Graph.time_to_collection(ca,'expected') : next
-      if ca.fee.order(:created_at).last
-        if current_date.year == conclusion_date.year
-          rev_est[0] += Graph.collection_expectation(ca,"referral")
-        elsif current_date.year+1 == conclusion_date.year
-          rev_est[1] += Graph.collection_expectation(ca,"referral")
-        elsif current_date.year+2 == conclusion_date.year
-          rev_est[2] += Graph.collection_expectation(ca,"referral")
-        elsif current_date.year+3 == conclusion_date.year
-          rev_est[3] += Graph.collection_expectation(ca,"referral")
-        elsif current_date.year+4 >= conclusion_date.year
-          rev_est[4] += Graph.collection_expectation(ca,"referral")
-        end
-      else
-        next
-      end
-    end
-    @lawfirm_pg_rev << rev_est.collect {|amount| amount*-1}
-    #the following 5 lines are to make the first 3 positions in the array subtract the last two
-    #this is to make it net fee instead of gross fee
-    a = @lawfirm_pg_rev
-    a[0] = Graph.add_arrays(a[0],Graph.add_arrays(a[3],a[4]))
-    a[1] = Graph.add_arrays(a[1],Graph.add_arrays(a[3],a[4]))
-    a[2] = Graph.add_arrays(a[2],Graph.add_arrays(a[3],a[4]))
-    @lawfirm_pg_rev = a
-    actual_indivual_pg_revenue
-    actual_indiv_pg_revenue_by_referral_source
-    accelerated_individual_pg_rev
-    slow_individual_pg_rev
+    @high_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','high_estimate')
+    @med_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','medium_estimate')
+    @low_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','low_estimate')
+    @cost_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','cost_estimate').map {|i| i * -1}
+    #@retainer_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','retainer')
+    @referral_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','referral').map {|i| i * -1}
+
+
+    @high_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','high_estimate')
+    @med_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','medium_estimate')
+    @low_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','low_estimate')
+    @cost_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','cost_estimate').map {|i| i * -1}
+    #@retainer_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','retainer')
+    @referral_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','referral').map {|i| i * -1}
+
+
+    @high_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','high_estimate')
+    @med_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','medium_estimate')
+    @low_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','low_estimate')
+    @cost_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','cost_estimate').map {|i| i * -1}
+    #@retainer_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','retainer')
+    @referral_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','referral').map {|i| i * -1}
+
+    @total_recovery = Graph.closeout_by_year_pg(current_user,params[:id],'total_recovery')
+    @gross_fee_received = Graph.closeout_by_year_pg(current_user,params[:id],'total_gross_fee_received')
+    @out_of_pocket = Graph.closeout_by_year_pg(current_user,params[:id],'total_out_of_pocket_expenses').map {|i| i * -1}
+    @referring_fees = Graph.closeout_by_year_pg(current_user,params[:id],'referring_fees_paid').map {|i| i * -1}
+    @total_fee_received = Graph.closeout_by_year_pg(current_user,params[:id],'total_fee_received')
+
+    @origination_source_med = Graph.all_origination_source_fee_estimate_pg(current_user,params[:id],"medium_estimate")
+
+    @fee_types_med = Graph.fee_estimate_by_fee_type_pg(current_user,params[:id],"medium_estimate","estimated_conclusion_expected")
   end
 #---------------------Begin Accelerated Revenue by PG---------------------------------
   def accelerated_individual_pg_rev

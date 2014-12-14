@@ -415,4 +415,65 @@ class Graph < ActiveRecord::Base
           sum(fee_estimate)
   end
 
+  #--------------------------For Estimated Individual Practice Groups--------------------
+    #Calculate fee_estimate by specified practicegroup
+  def self.fee_estimate_by_year_by_pg(user,pg,timing_estimate,fee_estimate)
+    #Set variables, collect amounts based of length of years
+    year_of_collection = Graph.expected_years
+    amounts = Array.new(year_of_collection.length,0)
+
+    #Loop through open cases with practicegroup_id
+    #Sum #{fee_estimate} if date_fee_received between start_date and end_date
+    amounts.length.times do |i|
+      amounts[i] = user.lawfirm.cases.where(practicegroup_id: pg, open: true).joins(:fees,:timings).
+                        where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                          { start_date: year_of_collection[i].beginning_of_year,
+                            end_date: year_of_collection[i].end_of_year}).
+                        sum(fee_estimate)
+    end
+    return amounts
+  end
+
+  def self.fee_estimate_by_origination_pg(user,pg,referral_source,fee_estimate)
+    #Sum #{fee_estimate} by practicegroup and referral_source
+    return user.lawfirm.cases.where(open: true, practicegroup_id: pg).joins(:originations, :fees).
+          where('referral_source = ?', referral_source).sum(fee_estimate)
+  end
+
+  def self.all_origination_source_fee_estimate_pg(user,pg,fee_estimate)
+    #Gather all referral sources and make amounts based off length of sources
+    all_referral_sources = Origination.all_referral_sources(user)
+    amounts = Array.new(all_referral_sources.length,0)
+
+    #Loop through amounts, call method to sum #{closeout_amount}
+    amounts.length.times do |i|
+      amounts[i] = Graph.fee_estimate_by_origination_pg(user,pg,all_referral_sources[i],fee_estimate)
+    end
+    return all_referral_sources.zip(amounts)
+  end
+
+  def self.fee_estimate_by_fee_type_pg(user,pg,fee_estimate,timing_estimate)
+    #Gather all fee_types and years
+    year_of_collection = Graph.expected_years
+    all_fee_types = Fee.all.collect(&:fee_type).uniq
+    final = []
+
+    #Loop through all fee_types, create amounts_array that is length of years
+    #Loop amount.length(years); case (closed, practicegroup) and date_fee_received between start
+    #and end_dates, sum #{closeout_amounts}
+    all_fee_types.each do |type|
+      amounts = Array.new(year_of_collection.length, 0)
+      amounts.length.times do |i|
+        amounts[i] = user.lawfirm.cases.where(open: true, practicegroup_id: pg).joins(:fees,:timings).
+                          where('fee_type = ?', type).
+                          where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                            { start_date: year_of_collection[i].beginning_of_year,
+                              end_date: year_of_collection[i].end_of_year }).
+                          sum(fee_estimate)
+      end
+      final << amounts
+    end
+    return all_fee_types.zip(final).map { |name,values|  { 'name' => name, 'data' => values } }.to_json
+  end
+
 end

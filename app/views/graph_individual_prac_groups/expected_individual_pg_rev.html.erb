@@ -28,10 +28,14 @@
     <br>
     <br>
 
-    <div id='actualRevByReferral' style="min-width: 310px;
+    <div id='expectedRevByReferralMedium' style="min-width: 310px;
                                       height: 600px; width: 600px;
                                       max-width: 600px;
                                        margin: 0 auto">
+    </div>
+      <div id="revenueByPracticeGroupByFeeType" style="min-width: 310px;
+                                                height: 400px;
+                                                margin: 0 auto">
     </div>
 
     <br>
@@ -42,12 +46,12 @@
 
  $(function () {
 
-var categoryByYear = <%= raw @category_year %>;
-var costByYear = <%= @lawfirm_pg_rev[3] %>;
-var referralFee = <%= @lawfirm_pg_rev[4] %>;
-var revByYearHigh = <%= @lawfirm_pg_rev[2] %>;
-var revByYearMedium = <%= @lawfirm_pg_rev[1] %>;
-var revByYearLow = <%= @lawfirm_pg_rev[0] %>;
+var categoryByYear = <%= raw Graph.expected_year_only %>;
+var costByYear = <%= @cost_expected %>;
+var referralFee = <%= @referral_expected %>;
+var revByYearHigh = <%= @high_expected %>;
+var revByYearMedium = <%= @med_expected %>;
+var revByYearLow = <%= @low_expected %>;
 var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
 
   // Create the chart
@@ -59,7 +63,7 @@ var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
           text: pracGroup+" Group"
       },
       subtitle: {
-          text: 'Estimated Net Fee'
+          text: 'Estimated Net Fee - Expected Collection Rate'
       },
       credits: {
         enabled: false
@@ -121,12 +125,12 @@ var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
 
 $(function () {
 
-var categoryByYear = <%= raw @category_years %>;
-var costByYear = <%= @lawfirm_pg_rev_accelerated[3] %>;
-var referralFee = <%= @lawfirm_pg_rev_accelerated[4] %>;
-var revByYearHigh = <%= @lawfirm_pg_rev_accelerated[2] %>;
-var revByYearMedium = <%= @lawfirm_pg_rev_accelerated[1] %>;
-var revByYearLow = <%= @lawfirm_pg_rev_accelerated[0] %>;
+var categoryByYear = <%= raw Graph.expected_year_only %>;
+var costByYear = <%= @cost_fast %>;
+var referralFee = <%= @referral_fast %>;
+var revByYearHigh = <%= @high_fast %>;
+var revByYearMedium = <%= @med_fast %>;
+var revByYearLow = <%= @low_fast %>;
 var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
 
   // Create the chart
@@ -200,12 +204,12 @@ var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
 
  $(function () {
 
-var categoryByYear = <%= raw @category_years %>;
-var costByYear = <%= @lawfirm_pg_rev_slow[3] %>;
-var referralFee = <%= @lawfirm_pg_rev_slow[4] %>;
-var revByYearHigh = <%= @lawfirm_pg_rev_slow[2] %>;
-var revByYearMedium = <%= @lawfirm_pg_rev_slow[1] %>;
-var revByYearLow = <%= @lawfirm_pg_rev_slow[0] %>;
+var categoryByYear = <%= raw Graph.expected_year_only %>;
+var costByYear = <%= @cost_slow %>;
+var referralFee = <%= @referral_slow %>;
+var revByYearHigh = <%= @high_slow %>;
+var revByYearMedium = <%= @med_slow %>;
+var revByYearLow = <%= @low_slow %>;
 var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
 
   // Create the chart
@@ -278,11 +282,11 @@ var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>"
 });
 $(function () {
 
-var categoryByYearBackwards = <%= @category_years_backwards %>;
+var categoryByYearBackwards = <%= raw Graph.closeout_year_only %>;
 var totalRecovery = <%= @total_recovery %>;
 var grossFeeReceived = <%= @gross_fee_received %>;
-var outOfPocketExpenses = <%= @out_of_pocket_expenses %>;
-var referringFeesPaid = <%= @referring_fees_paid %>;
+var outOfPocketExpenses = <%= @out_of_pocket %>;
+var referringFeesPaid = <%= @referring_fees %>;
 var totalFeeReceived = <%= @total_fee_received %>;
 var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>";
 
@@ -358,18 +362,18 @@ var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>";
 $(function () {
 
   var pracGroup = "<%= raw Practicegroup.find_by(id: params[:id]).group_name %>";
-  var pieDataActual = [<% @final_indiv_pg_fee_by_referral_source_actual.each do |d|%>
+  var pieDataOriginationMedium = [<% @origination_source_med.each do |d| %>
                       <%= raw d %>,
                     <% end %>];
 
-    $('#actualRevByReferral').highcharts({
+    $('#expectedRevByReferralMedium').highcharts({
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false
         },
         title: {
-            text: "Net Fee Received By Referral Source for "+ pracGroup
+            text: "Expected Fee Received By Referral Source for "+ pracGroup
         },
         tooltip: {
               pointFormat: '<b>${point.y}</b>'
@@ -394,9 +398,85 @@ $(function () {
         series: [{
             type: 'pie',
             name: "Practice Group",
-            data: pieDataActual
+            data: pieDataOriginationMedium
         }]
     });
+});
+
+$(function () {
+    var categoryByYear = <%= raw Graph.expected_year_only %>;
+    var seriesData = <%= raw @fee_types_med %>;
+      $('#revenueByPracticeGroupByFeeType').highcharts({
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'Expected Fee Received By Fee Type'
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
+              categories: categoryByYear
+          },
+          yAxis: {
+              min: 0,
+              title: {
+                  text: 'Revenue'
+              },
+              stackLabels: {
+                  enabled: false,
+                  style: {
+                      fontWeight: 'bold',
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                  }
+              }
+          },
+          legend: {
+              align: 'right',
+              x: -70,
+              verticalAlign: 'top',
+              y: 20,
+              floating: true,
+              backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+              borderColor: '#CCC',
+              borderWidth: 1,
+              shadow: false
+          },
+          tooltip: {
+              formatter: function() {
+                  return '<b>'+ this.x +'</b><br/>'+
+                      this.series.name +': $'+ (this.y).formatMoney(0,'.',',') +'<br/>'+
+                      'Total: $'+ (this.point.stackTotal).formatMoney(0,'.',',');
+              }
+          },
+          plotOptions: {
+              column: {
+                  stacking: 'normal',
+                  dataLabels: {
+                      enabled: true,
+                      color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                      style: {
+                          textShadow: '0 0 3px black, 0 0 3px black'
+                      }
+                  }
+              }
+          },
+        series: seriesData
+      });
+
+    Number.prototype.formatMoney = function(c, d, t){
+    var n = this,
+        c = isNaN(c = Math.abs(c)) ? 2 : c,
+        d = d == undefined ? "." : d,
+        t = t == undefined ? "," : t,
+        s = n < 0 ? "-" : "",
+        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+       return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+     }
+
+
 });
 
 </script>
