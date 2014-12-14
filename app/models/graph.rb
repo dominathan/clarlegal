@@ -47,6 +47,14 @@ class Graph < ActiveRecord::Base
     Date.today.year + 4]
   end
 
+  def self.set_months(year_to_add)
+    month = Date.today.beginning_of_year+year_to_add.years
+    [
+     month, month + 1.month, month + 2.months, month + 3.months, month + 4.months, month + 5.months,
+     month + 6.months, month + 7.months, month + 8.months, month + 9.months, month + 10.months, month + 11.months
+    ]
+  end
+
   def self.subtract_arrays(array1,array2)
     return array1.zip(array2).map { |x,y| x-y }
   end
@@ -245,6 +253,41 @@ class Graph < ActiveRecord::Base
   end
 
 #----------------Individual Practice Groups --- Actual ---------------------------
+
+  def self.fee_estimate_by_year(user,timing_estimate,fee_estimate)
+    #Get current year + 4 year prospective look forwrad
+    years_of_collection = Graph.expected_years
+    amounts = Array.new(years_of_collection.length,0)
+
+    #For the length of time being examined, check which timing estimate
+    #is within the start and end of the year.  If it is, sum it.  Then repeat for
+    #all 5 years.
+    amounts.length.times do |i|
+      amounts[i] = user.lawfirm.cases.where(open: true).joins(:timings, :fees).
+                                where("#{timing_estimate} >= :start_date AND
+                                        #{timing_estimate} <= :end_date",
+                                    {start_date: years_of_collection[i].beginning_of_year,
+                                     end_date: years_of_collection[i].end_of_year}).
+                                sum(fee_estimate)
+    end
+    return amounts
+  end
+
+  def self.fee_estimate_by_month(user,timing_estimate,fee_estimate,year_to_add)
+    months_of_collection = Graph.set_months(year_to_add)
+    amounts = Array.new(months_of_collection.length,0)
+
+    amounts.length.times do |i|
+      amounts[i] = user.lawfirm.cases.where(open: true).joins(:timings, :fees).
+                                where("#{timing_estimate} >= :start_date AND
+                                        #{timing_estimate} <= :end_date",
+                                        { start_date: months_of_collection[i].beginning_of_month,
+                                          end_date: months_of_collection[i].end_of_month}).
+                                sum(fee_estimate)
+    end
+    amounts
+  end
+
 
   #Calculate closeoutamounts by specified practicegroup
   def self.closeout_by_year_pg(user,pg,closeout_amount)

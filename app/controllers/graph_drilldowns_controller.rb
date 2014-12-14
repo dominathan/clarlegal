@@ -3,76 +3,6 @@ class GraphDrilldownsController < ApplicationController
 
   #---------------------BEGIN expected revenue by year and month --------------------
 
-  def revenue_collection_by_year(collection_rate,collection_amount)
-    set_yearly_rev
-    open_cases = current_user.lawfirm.cases.where(open: true).includes(:fees,:timings)
-    open_cases.each do |ca|
-      conclusion_date = time_to_collection(ca,collection_rate)
-      if @current_date.year == conclusion_date.year
-        @rev_est_year1 += collection_expectation(ca,collection_amount)
-      elsif @current_date.year+1 == conclusion_date.year
-        @rev_est_year2 += collection_expectation(ca,collection_amount)
-      elsif @current_date.year+2 == conclusion_date.year
-        @rev_est_year3 += collection_expectation(ca,collection_amount)
-      elsif @current_date.year+3 == conclusion_date.year
-        @rev_est_year4 += collection_expectation(ca,collection_amount)
-      elsif @current_date.year+4 >= conclusion_date.year
-        @rev_est_year5_plus += collection_expectation(ca,collection_amount)
-      end
-    end
-  end
-
-  def cost_by_year(collection_rate,collection_amount)
-    #change the -= to += for above the line grid, also works for line graph if positive
-    set_yearly_rev
-    open_cases = current_user.lawfirm.cases.where(open: true).includes(:fees,:timings)
-    open_cases.each do |ca|
-      conclusion_date = time_to_collection(ca,collection_rate)
-      if ca.fee.last
-        if ca.fee.last.cost_estimate != nil
-          if @current_date.year == conclusion_date.year
-            @rev_est_year1 -= collection_expectation(ca,collection_amount)
-          elsif @current_date.year+1 == conclusion_date.year
-            @rev_est_year2 -= collection_expectation(ca,collection_amount)
-          elsif @current_date.year+2 == conclusion_date.year
-            @rev_est_year3 -= collection_expectation(ca,collection_amount)
-          elsif @current_date.year+3 == conclusion_date.year
-            @rev_est_year4 -= collection_expectation(ca,collection_amount)
-          elsif @current_date.year+4 >= conclusion_date.year
-            @rev_est_year5_plus -= collection_expectation(ca,collection_amount)
-          end
-        else
-          next
-        end
-      end
-    end
-  end
-
-  def referral_by_year(collection_rate, collection_amount)
-    set_yearly_rev
-    open_cases = current_user.lawfirm.cases.where(open: true).includes(:fees,:timings)
-    open_cases.each do |ca|
-      conclusion_date = time_to_collection(ca,collection_rate)
-      if ca.fee.last
-        if ca.fee.last.referral
-          if @current_date.year == conclusion_date.year
-            @rev_est_year1 -= collection_expectation(ca,collection_amount)
-          elsif @current_date.year+1 == conclusion_date.year
-            @rev_est_year2 -= collection_expectation(ca,collection_amount)
-          elsif @current_date.year+2 == conclusion_date.year
-            @rev_est_year3 -= collection_expectation(ca,collection_amount)
-          elsif @current_date.year+3 == conclusion_date.year
-            @rev_est_year4 -= collection_expectation(ca,collection_amount)
-          elsif @current_date.year+4 >= conclusion_date.year
-            @rev_est_year5_plus -= collection_expectation(ca,collection_amount)
-          end
-        else
-          next
-        end
-      end
-    end
-  end
-
   def revenue_collection_by_month(year_addition,collection_rate,collection_amount)
   #collection_rate = [fast,expected,slow]-- year=(0..4)--collection_amount=[high,collection_amount,low]
     set_monthly_rev
@@ -150,10 +80,6 @@ class GraphDrilldownsController < ApplicationController
     bucket.push(@rev_jan, @rev_feb, @rev_mar, @rev_apr, @rev_may, @rev_jun, @rev_jul, @rev_aug, @rev_sept, @rev_oct, @rev_nov, @rev_dec)
   end
 
-  def yearly_collection(bucket)
-    bucket.push(@rev_est_year1, @rev_est_year2, @rev_est_year3, @rev_est_year4, @rev_est_year5_plus)
-  end
-
   def set_monthly_rev
     @rev_jan=0
     @rev_feb=0
@@ -169,22 +95,7 @@ class GraphDrilldownsController < ApplicationController
     @rev_dec=0
   end
 
-  def set_yearly_rev
-    @rev_est_year1 = 0
-    @rev_est_year2 = 0
-    @rev_est_year3 = 0
-    @rev_est_year4 = 0
-    @rev_est_year5_plus = 0
-  end
-
-  def set_category_years
-    @current_date = DateTime.now
-    @category_years = [@current_date.year, @current_date.year+1, @current_date.year+2,
-                      @current_date.year+3, @current_date.year+4]
-  end
-
   def set_category_months
-    @current_date = DateTime.now
     @category_months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
   end
 
@@ -207,255 +118,176 @@ class GraphDrilldownsController < ApplicationController
   end
 
   def rev_by_year_expected
-    set_category_years
-    all_year_variables
-    revenue_collection_by_year('expected','high')
-    yearly_collection(@rev_by_year_high)
-    revenue_collection_by_year('expected','medium')
-    yearly_collection(@rev_by_year_medium)
-    revenue_collection_by_year('expected','low')
-    yearly_collection(@rev_by_year_low)
-    cost_by_year('expected','cost')
-    yearly_collection(@cost_by_year)
-    referral_by_year('expected','referral')
-    yearly_collection(@referral_by_year)
-    @rev_by_year_high = Graph.add_arrays(@rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
-    @rev_by_year_medium = Graph.add_arrays(@rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
-    @rev_by_year_low = Graph.add_arrays(@rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    rev_by_year_high = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_expected','high_estimate')
+    rev_by_year_medium = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_expected','medium_estimate')
+    rev_by_year_low = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_expected','low_estimate')
+    @cost_by_year = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_expected','cost_estimate').map { |x| x*-1}
+    @referral_by_year = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_expected','referral').map { |x| x*-1}
+    @category_years = Graph.expected_year_only
+    @rev_by_year_high = Graph.add_arrays(rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_medium = Graph.add_arrays(rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_low = Graph.add_arrays(rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @overhead_by_year = Array.new(@rev_by_year_low.length, Graph.expected_overhead_next_year(current_user)).map { |x| x*-1 }
   end
 
   def rev_by_year_slow
-    set_category_years
-    all_year_variables
-    revenue_collection_by_year('slow','high')
-    yearly_collection(@rev_by_year_high)
-    revenue_collection_by_year('slow','medium')
-    yearly_collection(@rev_by_year_medium)
-    revenue_collection_by_year('slow','low')
-    yearly_collection(@rev_by_year_low)
-    cost_by_year('slow','cost')
-    yearly_collection(@cost_by_year)
-    referral_by_year('slow','referral')
-    yearly_collection(@referral_by_year)
-    @rev_by_year_high = Graph.add_arrays(@rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
-    @rev_by_year_medium = Graph.add_arrays(@rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
-    @rev_by_year_low = Graph.add_arrays(@rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @category_years = Graph.expected_year_only
+    rev_by_year_high = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_slow','high_estimate')
+    rev_by_year_medium = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_slow','medium_estimate')
+    rev_by_year_low = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_slow','low_estimate')
+    @cost_by_year = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_slow','cost_estimate').map { |x| x*-1}
+    @referral_by_year = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_slow','referral').map { |x| x*-1}
+    @rev_by_year_high = Graph.add_arrays(rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_medium = Graph.add_arrays(rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_low = Graph.add_arrays(rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @overhead_by_year = Array.new(@rev_by_year_low.length, Graph.expected_overhead_next_year(current_user)).map { |x| x*-1 }
   end
 
   def rev_by_year
-    set_category_years
-    years_broken_out_by_months
-    all_year_variables
-    revenue_collection_by_year('fast','high')
-    yearly_collection(@rev_by_year_high)
-    revenue_collection_by_year('fast','medium')
-    yearly_collection(@rev_by_year_medium)
-    revenue_collection_by_year('fast','low')
-    yearly_collection(@rev_by_year_low)
-    cost_by_year('fast','cost')
-    yearly_collection(@cost_by_year)
-    referral_by_year('fast','referral')
-    yearly_collection(@referral_by_year)
-    @rev_by_year_high = Graph.add_arrays(@rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
-    @rev_by_year_medium = Graph.add_arrays(@rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
-    @rev_by_year_low = Graph.add_arrays(@rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @category_years = Graph.expected_year_only
+    rev_by_year_high = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_fast','high_estimate')
+    rev_by_year_medium = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_fast','medium_estimate')
+    rev_by_year_low = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_fast','low_estimate')
+    @cost_by_year = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_fast','cost_estimate').map { |x| x*-1}
+    @referral_by_year = Graph.fee_estimate_by_year(current_user,'estimated_conclusion_fast','referral').map { |x| x*-1}
+    @rev_by_year_high = Graph.add_arrays(rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_medium = Graph.add_arrays(rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_low = Graph.add_arrays(rev_by_year_low, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @overhead_by_year = Array.new(@rev_by_year_low.length, Graph.expected_overhead_next_year(current_user)).map { |x| x*-1 }
   end
 
   def rev_year_1_slow
+    @category_years = Graph.expected_year_only
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(0,'slow','high')
-    monthly_collection(@year_1_by_month_high)
-    revenue_collection_by_month(0,'slow','medium')
-    monthly_collection(@year_1_by_month_medium)
-    revenue_collection_by_month(0,'slow','low')
-    monthly_collection(@year_1_by_month_low)
+    @year_1_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","low_estimate",0)
+    @year_1_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","medium_estimate",0)
+    @year_1_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","high_estimate",0)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_1_expected
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(0,'expected','high')
-    monthly_collection(@year_1_by_month_high)
-    revenue_collection_by_month(0,'expected','medium')
-    monthly_collection(@year_1_by_month_medium)
-    revenue_collection_by_month(0,'expected','low')
-    monthly_collection(@year_1_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_1_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","low_estimate",0)
+    @year_1_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","medium_estimate",0)
+    @year_1_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","high_estimate",0)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_1_accelerated
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(0,'fast','high')
-    monthly_collection(@year_1_by_month_high)
-    revenue_collection_by_month(0,'fast','medium')
-    monthly_collection(@year_1_by_month_medium)
-    revenue_collection_by_month(0,'fast','low')
-    monthly_collection(@year_1_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_1_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","low_estimate",0)
+    @year_1_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","medium_estimate",0)
+    @year_1_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","high_estimate",0)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_2_slow
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(1,'slow','high')
-    monthly_collection(@year_2_by_month_high)
-    revenue_collection_by_month(1,'slow','medium')
-    monthly_collection(@year_2_by_month_medium)
-    revenue_collection_by_month(1,'slow','low')
-    monthly_collection(@year_2_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_3_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","low_estimate",1)
+    @year_2_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","medium_estimate",1)
+    @year_2_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","high_estimate",1)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_2_expected
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(1,'expected','high')
-    monthly_collection(@year_2_by_month_high)
-    revenue_collection_by_month(1,'expected','medium')
-    monthly_collection(@year_2_by_month_medium)
-    revenue_collection_by_month(1,'expected','low')
-    monthly_collection(@year_2_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_2_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","low_estimate",1)
+    @year_2_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","medium_estimate",1)
+    @year_2_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","high_estimate",1)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_2_accelerated
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(1,'fast','high')
-    monthly_collection(@year_2_by_month_high)
-    revenue_collection_by_month(1,'fast','medium')
-    monthly_collection(@year_2_by_month_medium)
-    revenue_collection_by_month(1,'fast','low')
-    monthly_collection(@year_2_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_2_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","low_estimate",1)
+    @year_2_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","medium_estimate",1)
+    @year_2_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","high_estimate",1)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_3_slow
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(2,'slow','high')
-    monthly_collection(@year_3_by_month_high)
-    revenue_collection_by_month(2,'slow','medium')
-    monthly_collection(@year_3_by_month_medium)
-    revenue_collection_by_month(2,'slow','low')
-    monthly_collection(@year_3_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_3_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","low_estimate",2)
+    @year_3_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","medium_estimate",2)
+    @year_3_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","high_estimate",2)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_3_expected
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(2,'expected','high')
-    monthly_collection(@year_3_by_month_high)
-    revenue_collection_by_month(2,'expected','medium')
-    monthly_collection(@year_3_by_month_medium)
-    revenue_collection_by_month(2,'expected','low')
-    monthly_collection(@year_3_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_3_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","low_estimate",2)
+    @year_3_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","medium_estimate",2)
+    @year_3_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","high_estimate",2)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_3_accelerated
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(2,'fast','high')
-    monthly_collection(@year_3_by_month_high)
-    revenue_collection_by_month(2,'fast','medium')
-    monthly_collection(@year_3_by_month_medium)
-    revenue_collection_by_month(2,'fast','low')
-    monthly_collection(@year_3_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_3_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","low_estimate",2)
+    @year_3_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","medium_estimate",2)
+    @year_3_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","high_estimate",2)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_4_slow
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(3,'slow','high')
-    monthly_collection(@year_4_by_month_high)
-    revenue_collection_by_month(3,'slow','medium')
-    monthly_collection(@year_4_by_month_medium)
-    revenue_collection_by_month(3,'slow','low')
-    monthly_collection(@year_4_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_4_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","low_estimate",3)
+    @year_4_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","medium_estimate",3)
+    @year_4_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","high_estimate",3)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_4_expected
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(3,'expected','high')
-    monthly_collection(@year_4_by_month_high)
-    revenue_collection_by_month(3,'expected','medium')
-    monthly_collection(@year_4_by_month_medium)
-    revenue_collection_by_month(3,'expected','low')
-    monthly_collection(@year_4_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_4_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","low_estimate",3)
+    @year_4_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","medium_estimate",3)
+    @year_4_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","high_estimate",3)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_4_accelerated
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(3,'fast','high')
-    monthly_collection(@year_4_by_month_high)
-    revenue_collection_by_month(3,'fast','medium')
-    monthly_collection(@year_4_by_month_medium)
-    revenue_collection_by_month(3,'fast','low')
-    monthly_collection(@year_4_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_4_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","low_estimate",3)
+    @year_4_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","medium_estimate",3)
+    @year_4_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","high_estimate",3)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_5_slow
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(4,'slow','high')
-    monthly_collection(@year_5_by_month_high)
-    revenue_collection_by_month(4,'slow','medium')
-    monthly_collection(@year_5_by_month_medium)
-    revenue_collection_by_month(4,'slow','low')
-    monthly_collection(@year_5_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_5_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","low_estimate",4)
+    @year_5_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","medium_estimate",4)
+    @year_5_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_slow","high_estimate",4)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_5_expected
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(4,'expected','high')
-    monthly_collection(@year_5_by_month_high)
-    revenue_collection_by_month(4,'expected','medium')
-    monthly_collection(@year_5_by_month_medium)
-    revenue_collection_by_month(4,'expected','low')
-    monthly_collection(@year_5_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_5_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","low_estimate",4)
+    @year_5_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","medium_estimate",4)
+    @year_5_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_expected","high_estimate",4)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
   def rev_year_5_accelerated
     set_category_months
-    set_category_years
-    years_broken_out_by_months
-    revenue_collection_by_month(4,'fast','high')
-    monthly_collection(@year_5_by_month_high)
-    revenue_collection_by_month(4,'fast','medium')
-    monthly_collection(@year_5_by_month_medium)
-    revenue_collection_by_month(4,'fast','low')
-    monthly_collection(@year_5_by_month_low)
+    @category_years = Graph.expected_year_only
+    @year_5_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","low_estimate",4)
+    @year_5_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","medium_estimate",4)
+    @year_5_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_fast","high_estimate",4)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
   end
 
