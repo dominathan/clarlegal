@@ -1,23 +1,18 @@
-<% provide(:title, 'Net Fee by Referral Source') %>
+<% provide(:title, 'Gross Fee by Referral Source') %>
 
 <div class="chart container">
   <div class="col-lg-10 col-lg-offset-2">
-    <div id='referralSourceRevenueActual' style="min-width: 310px;
-                                  height: 600px; width: 600px;
-                                  max-width: 600px;
-                                   margin: 0 auto">
-    </div>
     <div id='referralSourceRevenueExpected' style="min-width: 310px;
                                   height: 600px; width: 600px;
                                   max-width: 600px;
                                    margin: 0 auto">
     </div>
-    <div id='referralSourceRevenueLow' style="min-width: 310px;
+    <div id='referralSourceRevenueHigh' style="min-width: 310px;
                                   height: 600px; width: 600px;
                                   max-width: 600px;
                                    margin: 0 auto">
     </div>
-    <div id='referralSourceRevenueHigh' style="min-width: 310px;
+    <div id='referralSourceRevenueLow' style="min-width: 310px;
                                   height: 600px; width: 600px;
                                   max-width: 600px;
                                    margin: 0 auto">
@@ -29,20 +24,15 @@
 
 $(function () {
 
-
-  var pieData = [<% @final_fee_by_referral_source.each do |d|%>
+  var pieDataExpected = [<% @fee_by_origination_source_medium.each do |d|%>
                   <%= raw d %>,
                 <% end %>]
 
-  var pieDataExpected = [<% @final_fee_by_referral_source_expected.each do |d|%>
+  var pieDataHigh = [<% @fee_by_origination_source_high.each do |d|%>
                   <%= raw d %>,
                 <% end %>]
 
-  var pieDataLow = [<% @final_fee_by_referral_source_low.each do |d|%>
-                  <%= raw d %>,
-                <% end %>]
-
-  var pieDataHigh = [<% @final_fee_by_referral_source_high.each do |d|%>
+  var pieDataLow = [<% @fee_by_origination_source_low.each do |d|%>
                   <%= raw d %>,
                 <% end %>]
 
@@ -54,41 +44,6 @@ $(function () {
                     [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
                 ]
             };
-        });
-
-    $('#referralSourceRevenueActual').highcharts({
-        chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: 1,//null,
-                plotShadow: false
-            },
-            credits: {
-                    enabled: false
-            },
-            title: {
-                text: 'Actual Net Fee Received by Referral Source'
-            },
-            tooltip: {
-              pointFormat: '<b>${point.y}</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
-                    }
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: "Practice Group",
-                data: pieData
-            }]
         });
 
     $('#referralSourceRevenueExpected').highcharts({
@@ -126,6 +81,41 @@ $(function () {
             }]
         });
 
+      $('#referralSourceRevenueHigh').highcharts({
+        chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            credits: {
+                    enabled: false
+            },
+            title: {
+                text: 'Expected Gross Fee by Referral Source (High Estimate)'
+            },
+            tooltip: {
+              pointFormat: '<b>${point.y}</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: "Low Revenue by Referral Source",
+                data: pieDataHigh
+            }]
+        });
+
       $('#referralSourceRevenueLow').highcharts({
         chart: {
                 plotBackgroundColor: null,
@@ -158,41 +148,6 @@ $(function () {
                 type: 'pie',
                 name: "Low Revenue by Referral Source",
                 data: pieDataLow
-            }]
-        });
-
-      $('#referralSourceRevenueHigh').highcharts({
-        chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: 1,//null,
-                plotShadow: false
-            },
-            credits: {
-                    enabled: false
-            },
-            title: {
-                text: 'Expected Gross Fee by Referral Source (High Estimate)'
-            },
-            tooltip: {
-              pointFormat: '<b>${point.y}</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
-                    }
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: "High Revenue by Referral Source",
-                data: pieDataHigh
             }]
         });
     });

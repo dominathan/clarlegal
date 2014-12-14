@@ -33,94 +33,92 @@ class GraphsController < ApplicationController
     @low_fee_slow_conclusion = Graph.revenue_by_practice_group_estimated(current_user,'low_estimate',"estimated_conclusion_slow")
   end
 
-#-----------------Rev by PG at Accelerated Recovery---------------------#
 
 #---------------End Estimated/Expected Revenue by Year by PracticeGroup---------
+  def rev_by_fee_type_medium
+    @contingency_expected = Graph.revenue_by_fee_type_estimated(current_user,"Contingency",'estimated_conclusion_expected','medium_estimate')
+    @mixed_expected = Graph.revenue_by_fee_type_estimated(current_user,"Mixed",'estimated_conclusion_expected','medium_estimate')
+    @fixed_fee_expected = Graph.revenue_by_fee_type_estimated(current_user,"Fixed Fee",'estimated_conclusion_expected','medium_estimate')
+    @hourly_expected = Graph.revenue_by_fee_type_estimated(current_user,"Hourly",'estimated_conclusion_expected','medium_estimate')
 
+    @contingency_fast = Graph.revenue_by_fee_type_estimated(current_user,"Contingency",'estimated_conclusion_fast','medium_estimate')
+    @mixed_fast = Graph.revenue_by_fee_type_estimated(current_user,"Mixed",'estimated_conclusion_fast','medium_estimate')
+    @fixed_fee_fast = Graph.revenue_by_fee_type_estimated(current_user,"Fixed Fee",'estimated_conclusion_fast','medium_estimate')
+    @hourly_fast = Graph.revenue_by_fee_type_estimated(current_user,"Hourly",'estimated_conclusion_fast','medium_estimate')
+
+    @contingency_slow = Graph.revenue_by_fee_type_estimated(current_user,"Contingency",'estimated_conclusion_slow','medium_estimate')
+    @mixed_slow = Graph.revenue_by_fee_type_estimated(current_user,"Mixed",'estimated_conclusion_slow','medium_estimate')
+    @fixed_fee_slow = Graph.revenue_by_fee_type_estimated(current_user,"Fixed Fee",'estimated_conclusion_slow','medium_estimate')
+    @hourly_slow = Graph.revenue_by_fee_type_estimated(current_user,"Hourly",'estimated_conclusion_slow','medium_estimate')
+  end
+
+  def rev_by_fee_type_low
+    @contingency_expected = Graph.revenue_by_fee_type_estimated(current_user,"Contingency",'estimated_conclusion_expected','low_estimate')
+    @mixed_expected = Graph.revenue_by_fee_type_estimated(current_user,"Mixed",'estimated_conclusion_expected','low_estimate')
+    @fixed_fee_expected = Graph.revenue_by_fee_type_estimated(current_user,"Fixed Fee",'estimated_conclusion_expected','low_estimate')
+    @hourly_expected = Graph.revenue_by_fee_type_estimated(current_user,"Hourly",'estimated_conclusion_expected','low_estimate')
+
+    @contingency_fast = Graph.revenue_by_fee_type_estimated(current_user,"Contingency",'estimated_conclusion_fast','low_estimate')
+    @mixed_fast = Graph.revenue_by_fee_type_estimated(current_user,"Mixed",'estimated_conclusion_fast','low_estimate')
+    @fixed_fee_fast = Graph.revenue_by_fee_type_estimated(current_user,"Fixed Fee",'estimated_conclusion_fast','low_estimate')
+    @hourly_fast = Graph.revenue_by_fee_type_estimated(current_user,"Hourly",'estimated_conclusion_fast','low_estimate')
+
+    @contingency_slow = Graph.revenue_by_fee_type_estimated(current_user,"Contingency",'estimated_conclusion_slow','low_estimate')
+    @mixed_slow = Graph.revenue_by_fee_type_estimated(current_user,"Mixed",'estimated_conclusion_slow','low_estimate')
+    @fixed_fee_slow = Graph.revenue_by_fee_type_estimated(current_user,"Fixed Fee",'estimated_conclusion_slow','low_estimate')
+    @hourly_slow = Graph.revenue_by_fee_type_estimated(current_user,"Hourly",'estimated_conclusion_slow','low_estimate')
+  end
+
+  def rev_by_fee_type_high
+    @contingency_expected = Graph.revenue_by_fee_type_estimated(current_user,"Contingency",'estimated_conclusion_expected','high_estimate')
+    @mixed_expected = Graph.revenue_by_fee_type_estimated(current_user,"Mixed",'estimated_conclusion_expected','high_estimate')
+    @fixed_fee_expected = Graph.revenue_by_fee_type_estimated(current_user,"Fixed Fee",'estimated_conclusion_expected','high_estimate')
+    @hourly_expected = Graph.revenue_by_fee_type_estimated(current_user,"Hourly",'estimated_conclusion_expected','high_estimate')
+
+    @contingency_fast = Graph.revenue_by_fee_type_estimated(current_user,"Contingency",'estimated_conclusion_fast','high_estimate')
+    @mixed_fast = Graph.revenue_by_fee_type_estimated(current_user,"Mixed",'estimated_conclusion_fast','high_estimate')
+    @fixed_fee_fast = Graph.revenue_by_fee_type_estimated(current_user,"Fixed Fee",'estimated_conclusion_fast','high_estimate')
+    @hourly_fast = Graph.revenue_by_fee_type_estimated(current_user,"Hourly",'estimated_conclusion_fast','high_estimate')
+
+    @contingency_slow = Graph.revenue_by_fee_type_estimated(current_user,"Contingency",'estimated_conclusion_slow','high_estimate')
+    @mixed_slow = Graph.revenue_by_fee_type_estimated(current_user,"Mixed",'estimated_conclusion_slow','high_estimate')
+    @fixed_fee_slow = Graph.revenue_by_fee_type_estimated(current_user,"Fixed Fee",'estimated_conclusion_slow','high_estimate')
+    @hourly_slow = Graph.revenue_by_fee_type_estimated(current_user,"Hourly",'estimated_conclusion_slow','high_estimate')
+  end
 
 #---------------BEGIN Estimated/Actual Revenue by Referral Source -----------------------
-  def actual_revenue_by_referral_source
+  def fee_received_by_referral_medium
     #Get list of all referral sources by lawfirm.
     all_referral_sources = Origination.all_referral_sources(current_user)
     amounts = []
 
-    #Sum the total_fee_received of all closed cases by referral source
+    #Sum the total_fee_received of all closed cases by referral source,
+      # => using params[:range] if provided, 3 otherwise
     all_referral_sources.each do |ref|
-      amounts << Graph.closeout_amount_by_origination(current_user, ref, 'total_fee_received')
+      amounts << Graph.fee_estimate_by_origination(current_user, ref, 'medium_estimate')
     end
-    @final_fee_by_referral_source = all_referral_sources.zip(amounts)
+    final_fee_by_origination_source = all_referral_sources.zip(amounts)
 
     #Remove elements from the array that are less than or = to amount us Graph.method(array, amount)
     #Do not 0 amount items in array cluttering the pie chart
-    @final_fee_by_referral_source = Graph.remove_arrays_less_than_or_equal_to(@final_fee_by_referral_source,0)
+    @fee_by_origination_source_medium = Graph.remove_arrays_less_than_or_equal_to(final_fee_by_origination_source,0)
 
-    #All others are expected values and need to be reworked
-    expected_revenue_by_referral_source
-    low_revenue_by_referral_source
-    high_revenue_by_referral_source
-  end
-
-  def expected_revenue_by_referral_source
-    open_cases = Graph.open_cases(current_user)
-    all_referral_sources = Origination.all_referral_sources(current_user)
-    array_of_fee_received = []
-    all_referral_sources.each do |ref_source|
-      sum_total = 0
-      open_cases.each do |ca|
-        if ca.originations.order(:created_at).last
-          if ca.originations.order(:created_at).last.referral_source == ref_source
-            sum_total += ca.fees.order(:created_at).last.medium_estimate
-          end
-        else
-          next
-        end
-      end
-      array_of_fee_received << sum_total
+    #Repeat for High and Low Fee Estimates
+    amounts = []
+    all_referral_sources.each do |ref|
+      amounts << Graph.fee_estimate_by_origination(current_user, ref, 'high_estimate')
     end
-    @final_fee_by_referral_source_expected = all_referral_sources.zip(array_of_fee_received)
-  end
+    final_fee_by_origination_source = all_referral_sources.zip(amounts)
+    @fee_by_origination_source_high = Graph.remove_arrays_less_than_or_equal_to(final_fee_by_origination_source,0)
 
-  def low_revenue_by_referral_source
-    open_cases = Graph.open_cases(current_user)
-    all_referral_sources = Origination.all_referral_sources(current_user)
-    array_of_fee_received = []
-    all_referral_sources.each do |ref_source|
-      sum_total = 0
-      open_cases.each do |ca|
-        if ca.originations.order(:created_at).last
-          if ca.originations.order(:created_at).last.referral_source == ref_source
-            sum_total += ca.fees.order(:created_at).last.low_estimate
-          end
-        else
-          next
-        end
-      end
-      array_of_fee_received << sum_total
+    amounts = []
+    all_referral_sources.each do |ref|
+      amounts << Graph.fee_estimate_by_origination(current_user, ref, 'low_estimate')
     end
-    @final_fee_by_referral_source_low = all_referral_sources.zip(array_of_fee_received)
+    final_fee_by_origination_source = all_referral_sources.zip(amounts)
+    @fee_by_origination_source_low = Graph.remove_arrays_less_than_or_equal_to(final_fee_by_origination_source,0)
   end
 
-  def high_revenue_by_referral_source
-    all_referral_sources = Origination.all_referral_sources(current_user)
-    array_of_fee_received = []
-    all_referral_sources.each do |ref_source|
-      sum_total = 0
-      current_user.lawfirm.cases.where(open: true).each do |ca|
-        if ca.originations.order(:created_at).last
-          if ca.originations.order(:created_at).last.referral_source == ref_source
-            sum_total += ca.fees.order(:created_at).last.high_estimate
-          end
-        else
-          next
-        end
-      end
-      array_of_fee_received << sum_total
-    end
-    @final_fee_by_referral_source_high = all_referral_sources.zip(array_of_fee_received)
-  end
-
-
-#---------------END Estimated/Actual Revenue by Referral Source -----------------------
 
 end
 

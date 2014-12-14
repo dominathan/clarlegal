@@ -55,6 +55,24 @@ class Graph < ActiveRecord::Base
     return array1.zip(array2).map { |x,y| x+y }
   end
 
+  #For Pie Charts, do not want values returned to JS template with <= 0
+  #because they do not show up in the graph except for the name, taking unnecessary space
+  def self.remove_arrays_less_than_or_equal_to(items,amount)
+    for remove_me in items
+      #Check the second element in the array, because the structure is
+      #[["item name","amount"],["item name2","amount2"]
+      if remove_me[1] <= amount
+        items.delete(remove_me)
+
+        #Recursive because if it finds one items less than, it deletes and ends the call
+        #Not functional if there is more than one itemname with amount less<=amonut.
+        #Probably a better way to do this.
+        remove_arrays_less_than_or_equal_to(items,amount)
+      end
+    end
+    return items
+  end
+
   #Return sum(closeout.attributee) by user lawfirm, grouped by year over the last 5 years
   def self.closeout_amount_by_year(user,closeout_amount)
     #Starting with 5 year look back
@@ -104,24 +122,6 @@ class Graph < ActiveRecord::Base
           where('referral_source = ?', referral_source).
           where('date_fee_received > ?', start_date).
           sum(closeout_amount)
-  end
-
-  #For Pie Charts, do not want values returned to JS template with <= 0
-  #because they do not show up in the graph except for the name, taking unnecessary space
-  def self.remove_arrays_less_than_or_equal_to(items,amount)
-    for remove_me in items
-      #Check the second element in the array, because the structure is
-      #[["item name","amount"],["item name2","amount2"]
-      if remove_me[1] <= amount
-        items.delete(remove_me)
-
-        #Recursive because if it finds one items less than, it deletes and ends the call
-        #Not functional if there is more than one itemname with amount less<=amonut.
-        #Probably a better way to do this.
-        remove_arrays_less_than_or_equal_to(items,amount)
-      end
-    end
-    return items
   end
 
   #Return a list of closed cases from beginning of number of years ago to today
@@ -389,5 +389,30 @@ class Graph < ActiveRecord::Base
     return final_tally_to_hash
   end
 
+  #Return the fee_estimate for a user's lawfirm by fee_type
+  def self.revenue_by_fee_type_estimated(user,fee_type,timing_estimate,fee_estimate)
+    #Get the next 4 years and this year, with corresponding amounts by year
+    year_of_collection = Graph.expected_years
+    amounts = Array.new(year_of_collection.length,0)
+
+    amounts.length.times do |i|
+      #Join fee and timings with cases, match fee_type and match timing estimate with year[i].
+      #Sum fee_estimate
+      amounts[i] = user.lawfirm.cases.where(open: true).joins(:fees,:timings).
+                    where('fee_type = ?', fee_type).
+                    where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                          {start_date: year_of_collection[i].beginning_of_year,
+                           end_date: year_of_collection[i].end_of_year}).
+                    sum(fee_estimate)
+    end
+    return amounts
+  end
+
+  #Return sum of open cases, fee_estimate by origination.referral_source by year lookback
+  def self.fee_estimate_by_origination(user,referral_source,fee_estimate)
+    user.lawfirm.cases.where(open: true).joins(:originations, :fees).
+          where('referral_source = ?', referral_source).
+          sum(fee_estimate)
+  end
 
 end

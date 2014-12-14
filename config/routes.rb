@@ -78,21 +78,19 @@ Claregal::Application.routes.draw do
   end
 
   #--------------------------Expected GRAPH ROUTES----------------------------------------------------
-  match '/practice_group/cases',                            to: "graphs#practice_group_pie", via: 'get'
-  match '/practice_group/revenues',                         to: "graphs#practice_group_revenue_pie_low", via: 'get'
-  match '/practice_group/:id/revenue',                      to: "graph_individual_prac_groups#expected_individual_pg_rev", via: 'get'
+  match '/practice_group/cases',                   to: "graphs#practice_group_pie", via: 'get'
+  match '/practice_group/revenues',                to: "graphs#practice_group_revenue_pie_low", via: 'get'
+  match '/practice_group/:id/revenue',             to: "graph_individual_prac_groups#expected_individual_pg_rev", via: 'get'
 
-  match '/revenue_by_year/practice_group',                  to: "graphs#rev_by_year_by_pg", via: 'get'
-  match '/revenue_by_year/practice_group/high',             to: "graphs#rev_by_year_by_pg_high", via: 'get'
-  match '/revenue_by_year/practice_group/low',              to: "graphs#rev_by_year_by_pg_low", via: 'get'
+  match '/revenue_by_year/practice_group',         to: "graphs#rev_by_year_by_pg",          via: 'get'
+  match '/revenue_by_year/practice_group/high',    to: "graphs#rev_by_year_by_pg_high",     via: 'get'
+  match '/revenue_by_year/practice_group/low',     to: "graphs#rev_by_year_by_pg_low",      via: 'get'
 
-  match '/revenue_by_year_accelerated/practice_group',      to: "graphs#rev_by_year_by_pg_accelerated", via: 'get'
-  match '/revenue_by_year_accelerated/practice_group/low',  to: "graphs#rev_by_year_by_pg_accelerated_low", via: 'get'
-  match '/revenue_by_year_accelerated/practice_group/high', to: "graphs#rev_by_year_by_pg_accelerated_high", via: 'get'
+  match '/revenue_by_year/fee_type/medium',        to: 'graphs#rev_by_fee_type_medium',     via: 'get'
+  match '/revenue_by_year/fee_type/high',          to: 'graphs#rev_by_fee_type_high',       via: 'get'
+  match '/revenue_by_year/fee_type/low',           to: 'graphs#rev_by_fee_type_low',        via: 'get'
 
-  match '/revenue_by_year_slow/practice_group',             to: "graphs#rev_by_year_by_pg_slow", via: 'get'
-  match '/revenue_by_year_slow/practice_group/low',         to: "graphs#rev_by_year_by_pg_slow_low", via: 'get'
-  match '/revenue_by_year_slow/practice_group/high',        to: "graphs#rev_by_year_by_pg_slow_high", via: 'get'
+  match '/revenue_by_origination',                 to: 'graphs#fee_received_by_referral_medium', via: 'get'
 
 
   match '/revenue_by_year/accelerated',     to: 'graph_drilldowns#rev_by_year',             via: 'get'
@@ -114,11 +112,9 @@ Claregal::Application.routes.draw do
   match '/revenue_year_5/expected',         to: 'graph_drilldowns#rev_year_5_expected',     via: 'get'
   match '/revenue_year_5/accelerated',      to: 'graph_drilldowns#rev_year_5_accelerated',  via: 'get'
 
-  match '/revenue_by_year/fee_type',        to: 'graph_drilldowns#rev_by_fee_type',         via: 'get'
 
-  match '/revenue_by_year/actual',          to: 'graphs#actual_revenue_by_year',            via: 'get'
-
-  match '/revenue_by_referral_source/',     to: 'graphs#actual_revenue_by_referral_source', via: 'get'
+  #I do not know why this is here, but when I remove it everything breaks
+  match '/revenue_by_referral_source',      to: 'graphs#rev_by_fee_type_medium',            via: 'get'
 
   #-------------------------------Search Routes--------------------------------------------------
 

@@ -2,35 +2,32 @@
 
 <div class="chart container">
   <div class='col-lg-10 col-lg-offset-2'>
-    <div id="revByFeeTypeMedium" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <div class="row" id="revByFeeTypeExpected" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div class="row" id="revByFeeTypeFast" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div class="row" id="revByFeeTypeSlow" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   </div>
-  <br>
-  <br>
-  <div class='col-lg-10 col-lg-offset-2'>
-    <div id="revByFeeTypeLow" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-  </div>
-  <br>
-  <br>
-  <div class='col-lg-10 col-lg-offset-2'>
-    <div id="revByFeeTypeHigh" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-  </div>
+</div>
+
+<div class="center">
+  <%= render 'shared/rev_by_fee_type_expected_button_paths' %>
 </div>
 
 <script type="text/javascript">
 
+  var categoryByYear = <%= Graph.expected_year_only %>;
 
   $(function () {
-    var categoryByYear = <%= @category_years %>;
-    var mixedRevenue = <%= @mixed_rev %>;
-    var contingencyRevenue = <%= @contingency_rev %>;
-    var hourlyRevenue = <%= @hourly_rev %>;
-    var fixedFeeRevenue = <%= @fixed_fee_rev %>;
-      $('#revByFeeTypeMedium').highcharts({
+    var mixedRevenue = <%= @mixed_expected %>;
+    var contingencyRevenue = <%= @contingency_expected %>;
+    var hourlyRevenue = <%= @hourly_expected %>;
+    var fixedFeeRevenue = <%= @fixed_fee_expected %>;
+      $('#revByFeeTypeExpected').highcharts({
           chart: {
               type: 'column'
           },
           title: {
-              text: 'Estimated Gross Fee By Fee Type (Medium Estimate)'
+              text: 'Expected Recovery / High Fee'
           },
           credits: {
             enabled: false
@@ -113,17 +110,16 @@
 
 
   $(function () {
-    var categoryByYear = <%= @category_years %>;
-    var mixedRevenue = <%= @mixed_rev_low %>;
-    var contingencyRevenue = <%= @contingency_rev_low %>;
-    var hourlyRevenue = <%= @hourly_rev_low %>;
-    var fixedFeeRevenue = <%= @fixed_fee_rev_low %>;
-      $('#revByFeeTypeLow').highcharts({
+    var mixedRevenue = <%= @mixed_fast %>;
+    var contingencyRevenue = <%= @contingency_fast %>;
+    var hourlyRevenue = <%= @hourly_fast %>;
+    var fixedFeeRevenue = <%= @fixed_fee_fast %>;
+      $('#revByFeeTypeFast').highcharts({
           chart: {
               type: 'column'
           },
           title: {
-              text: 'Estimated Gross Fee By Fee Type (Low Estimate)'
+              text: 'Accelerated Recovery / High Fee'
           },
           credits: {
             enabled: false
@@ -206,17 +202,16 @@
 
 
   $(function () {
-    var categoryByYear = <%= @category_years %>;
-    var mixedRevenue = <%= @mixed_rev_high %>;
-    var contingencyRevenue = <%= @contingency_rev_high %>;
-    var hourlyRevenue = <%= @hourly_rev_high %>;
-    var fixedFeeRevenue = <%= @fixed_fee_rev_high %>;
-      $('#revByFeeTypeHigh').highcharts({
+    var mixedRevenue = <%= @mixed_slow %>;
+    var contingencyRevenue = <%= @contingency_slow %>;
+    var hourlyRevenue = <%= @hourly_slow %>;
+    var fixedFeeRevenue = <%= @fixed_fee_slow %>;
+      $('#revByFeeTypeSlow').highcharts({
           chart: {
               type: 'column'
           },
           title: {
-              text: 'Estimated Gross Fee By Fee Type (High Estimate)'
+              text: 'Slow Recovery / High Fee'
           },
           credits: {
             enabled: false
