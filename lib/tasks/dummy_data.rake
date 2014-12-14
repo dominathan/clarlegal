@@ -172,7 +172,6 @@ namespace :db do
       Case.create!(client_id: Random.rand(1..20),
                     name: plaintiff+" v. "+defendant,
                     practicegroup_id: Practicegroup.find_by(id: Random.rand(1..5)).id,
-                    type_of_matter: CaseType.find_by(id: Random.rand(1..24)).mat_ref,
                     court: 'Jefferson County Circuit Court - Civil',
                     judge: judge_list[Random.rand(0..4)],
                     case_number: Random.rand(10..14).to_s + " - " + Random.rand(10000..99999).to_s,
@@ -180,6 +179,22 @@ namespace :db do
                     description: Faker::Lorem.paragraph,
                     user_id: Random.rand(1..8),
                     open: true)
+    end
+  end
+
+  desc "add 100 related cases randomly"
+  task populate: :environment do
+    100.times do
+      RelatedCase.create!(case_id: Random.rand(1..100),
+                          related_case_id: Random.rand(1..100))
+    end
+  end
+
+  desc "add 200 Matter Types Randomly"
+  task populate: :environment do
+    200.times do
+      Matter.create!(case_id: Random.rand(1..100),
+                      case_type_id: Random.rand(1..25))
     end
   end
 
