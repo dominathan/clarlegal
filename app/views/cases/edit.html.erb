@@ -32,14 +32,6 @@
             <td><%= f.text_field :opposing_attorney %> </td>
           </tr>
           <tr>
-            <td><%= f.label 'Matter Type:' %></td>
-            <td><%= f.text_field :type_of_matter %></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Related Cases:' %></td>
-            <td><%= f.select(:related_cases, current_user.lawfirm.cases.all.map { |c| c.name }.prepend("N/A"), :include_blank => "Select Related Cases or N/A") %></td>
-          </tr>
-          <tr>
             <td><%= f.label 'Practice Group:' %></td>
             <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %></td>
           </tr>
