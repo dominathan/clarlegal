@@ -337,7 +337,7 @@ namespace :db do
       ca.closeouts.create!(case_id: ca.id,
                            fee_type: ca.fees.last.fee_type,
                            total_recovery: actual_recovery,
-                           date_fee_received: Date.new(Random.rand(2008..2013),Random.rand(1..12),Random.rand(1..28)),
+                           date_fee_received: Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28)),
                            total_gross_fee_received: actual_recovery*0.5,
                            total_out_of_pocket_expenses: ca.fee.last.cost_estimate,
                            referring_fees_paid: ca.fee.last.referral,
