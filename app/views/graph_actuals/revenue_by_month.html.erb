@@ -1,0 +1,91 @@
+<% provide(:title, "Revenue By Month") %>
+
+
+<div class="chart container">
+  <div class="col-lg-10 col-lg-offset-2">
+    <div id="revenueYear1Accelerated" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <br>
+    <div class='center'>
+      <%= link_to "Back", revenue_by_year_graph_actual_path, class: "btn btn-large btn-small" %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+ $(function () {
+  var categoryByMonths = <%= raw @category_months %>;
+  var totalFeeReceived = <%= @total_fee_received %>;
+  var totalRecovery = <%= @total_recovery %>;
+  var grossFeeReceived = <%= @total_gross_fee_received %>;
+  var outOfPocket = <%= @total_out_of_pocket_expenses %>;
+  var referringFeesPaid = <%= @total_referring_fees_paid %>;
+  var estimatedOverhead = <%= @overhead_per_month %>;
+
+  // Create the chart
+  $('#revenueYear1Accelerated').highcharts({
+      title: {
+          text: 'Revenue/Profit by Month : <%= params[:year] %>'
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+        categories: categoryByMonths,
+      },
+      yAxis: {
+          title: {
+              text: 'Revenue'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          type: "column",
+          name: 'Total Recovery',
+          data: totalRecovery,
+      },
+      {
+          type: "column",
+          name: 'Gross Fee Received',
+          data: grossFeeReceived
+      },
+      {
+          type: "column",
+          name: 'Out-of-Pocket Expenses',
+          data: outOfPocket
+      },
+      {
+          type: "column",
+          name: "Referring Fees Paid",
+          data: referringFeesPaid
+      },
+      {
+          type: "column",
+          name: "Total Fee Received",
+          data: totalFeeReceived
+      },
+      {
+          type: "spline",
+          name: "Overhead per Month",
+          data: estimatedOverhead
+      }],
+  })
+});
+
+</script>

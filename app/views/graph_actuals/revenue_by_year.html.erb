@@ -1,4 +1,4 @@
-<% provide(:title, 'Actual Revenue by Year') %>
+<% provide(:title, 'Revenue by Year: Actual') %>
 
 <div class="chart container">
   <div class='col-lg-10 col-lg-offset-2'>
@@ -7,17 +7,23 @@
 </div>
 
 <script type="text/javascript">
-
  $(function () {
 
-var categoryByYear = <%= Graph.closeout_year_only %>;
-var totalRecovery = <%= @total_recovery %>;
-var totalGrossFeeReceived = <%= @total_gross_fee_received %>;
-var totalOutOfPocketExpenses = <%= @total_out_of_pocket_expenses %>;
-var referringFeesPaid = <%= @referring_fees_paid %>;
-var totalFeeReceived = <%= @total_fee_received %>;
-var totalIndirectCost = <%= @total_indirect_cost %>;
-var netProfit = <%= @net_profit %>;
+  var categoryByYear = <%= Graph.closeout_year_only %>;
+  var totalRecovery = <%= @total_recovery %>;
+  var totalGrossFeeReceived = <%= @total_gross_fee_received %>;
+  var totalOutOfPocketExpenses = <%= @total_out_of_pocket_expenses %>;
+  var referringFeesPaid = <%= @referring_fees_paid %>;
+  var totalFeeReceived = <%= @total_fee_received %>;
+  var totalIndirectCost = <%= @total_indirect_cost %>;
+  var netProfit = <%= @net_profit %>;
+  var categoryLinks = {
+     "<%=@category_by_year[0] %>" : "<%=revenue_by_month_graph_actual_url(1,@category_by_year[0]).to_str %>",
+     "<%=@category_by_year[1] %>" : "<%=revenue_by_month_graph_actual_url(1,@category_by_year[1]).to_str %>",
+     "<%=@category_by_year[2] %>" : "<%=revenue_by_month_graph_actual_url(1,@category_by_year[2]).to_str %>",
+     "<%=@category_by_year[3] %>" : "<%=revenue_by_month_graph_actual_url(1,@category_by_year[3]).to_str %>",
+     "<%=@category_by_year[4] %>" : "<%=revenue_by_month_graph_actual_url(1,@category_by_year[4]) %>"
+   };
 
   // Create the chart
   $('#revenueByYearActual').highcharts({
@@ -32,6 +38,12 @@ var netProfit = <%= @net_profit %>;
       },
       xAxis: {
           categories: categoryByYear,
+          labels: {
+                    formatter: function () {
+                        return '<a href="'  + categoryLinks[this.value] + '">' + this.value + '</a>';
+                    },
+                    useHTML: true
+                }
       },
       yAxis: {
           title: {

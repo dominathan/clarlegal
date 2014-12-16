@@ -17,6 +17,7 @@ class GraphActualsController < ApplicationController
   #Get all Closeout values belonging to User Lawfirm.  Expenses are made negative.
   #See Graph.closeamount_by_year(user,closeout.attribute) for more information.
     #Using all 5 dollar amounts in Closeout Model for graph.
+    @category_by_year = Graph.closeout_year_only
     @total_recovery = Graph.closeout_amount_by_year(current_user,"total_recovery")
     @total_gross_fee_received = Graph.closeout_amount_by_year(current_user,"total_gross_fee_received")
     @total_out_of_pocket_expenses =  Graph.closeout_amount_by_year(current_user,"total_out_of_pocket_expenses").map { |i| i *- 1}
@@ -25,6 +26,18 @@ class GraphActualsController < ApplicationController
     #Consider adding Hours Worked * Overhead as a cost as well to get Profit
     @total_indirect_cost = Graph.total_overhead_per_year(current_user).map {|i| i * -1 }
     @net_profit = Graph.add_arrays(@total_fee_received,@total_indirect_cost)
+  end
+
+  def revenue_by_month
+    @category_years = Graph.closeout_year_only
+    @category_months = Graph.set_month_only
+    @total_recovery = Graph.closeout_amount_by_month_by_year(current_user,'total_recovery',params[:year].to_i-@category_years.last)
+    @total_gross_fee_received = Graph.closeout_amount_by_month_by_year(current_user,'total_gross_fee_received',params[:year].to_i-@category_years.last)
+    @total_out_of_pocket_expenses = Graph.closeout_amount_by_month_by_year(current_user,'total_out_of_pocket_expenses',params[:year].to_i-@category_years.last).map { |x| x*-1 }
+    @total_referring_fees_paid = Graph.closeout_amount_by_month_by_year(current_user,'referring_fees_paid',params[:year].to_i-@category_years.last).map { |x| x*-1 }
+    @total_fee_received = Graph.closeout_amount_by_month_by_year(current_user,'total_fee_received',params[:year].to_i-@category_years.last)
+    ovh_for_year = Graph.total_overhead_this_year(current_user,params[:year].to_i)
+    @overhead_per_month = Array.new(12,ovh_for_year/12)
   end
 
   def revenue_by_pg

@@ -47,12 +47,16 @@ class Graph < ActiveRecord::Base
     Date.today.year + 4]
   end
 
-  def self.set_months(year_to_add)
+  def self.set_months(year_to_add=0)
     month = Date.today.beginning_of_year+year_to_add.years
     [
      month, month + 1.month, month + 2.months, month + 3.months, month + 4.months, month + 5.months,
      month + 6.months, month + 7.months, month + 8.months, month + 9.months, month + 10.months, month + 11.months
     ]
+  end
+
+  def self.set_month_only
+    ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
   end
 
   def self.subtract_arrays(array1,array2)
@@ -84,9 +88,8 @@ class Graph < ActiveRecord::Base
   #Return sum(closeout.attributee) by user lawfirm, grouped by year over the last 5 years
   def self.closeout_amount_by_year(user,closeout_amount)
     #Starting with 5 year look back
-    year_of_collection = [Date.today - 4.years,Date.today - 3.years,Date.today - 2.years,Date.today - 1.years,Date.today]
-    amounts = [0,0,0,0,0]
-
+    years_of_collection = Graph.closeout_years
+    amounts = Array.new(years_of_collection.length,0)
     #For the length of time being examined, check which Closeout.date_fee_received
     #is within the start and end of the year.  If it is, sum it.  Then repeat for
     #all 5 years.
@@ -94,11 +97,26 @@ class Graph < ActiveRecord::Base
       amounts[i] = user.lawfirm.cases.where(open: false).joins(:closeouts).
                                 where('date_fee_received >= :start_date AND
                                         date_fee_received <= :end_date',
-                                    {start_date: year_of_collection[i].beginning_of_year,
-                                     end_date: year_of_collection[i].end_of_year}).
+                                    {start_date: years_of_collection[i].beginning_of_year,
+                                     end_date: years_of_collection[i].end_of_year}).
                                 sum(closeout_amount)
     end
     return amounts
+  end
+
+  #Return sum#{closeout_attribute} by month for a given year for a given lawfirm
+  def self.closeout_amount_by_month_by_year(user,closeout_amount,year_to_add=0)
+    months_of_collection = Graph.set_months(year_to_add)
+    amounts = Array.new(months_of_collection.length,0)
+    amounts.length.times do |i|
+      amounts [i] = user.lawfirm.cases.where(open: false).joins(:closeouts).
+                                       where("date_fee_received >= :start_date AND
+                                              date_fee_received <= :end_date",
+                                              {start_date: months_of_collection[i].beginning_of_month,
+                                               end_date: months_of_collection[i].end_of_month}).
+                                       sum(closeout_amount)
+     end
+     return amounts
   end
 
   def self.total_overhead_per_year(user)
@@ -120,6 +138,18 @@ class Graph < ActiveRecord::Base
         end
       end
     end
+    return amounts
+  end
+
+  def self.total_overhead_this_year(user,year=0)
+    amounts = 0
+    ovh = user.lawfirm.overheads.where(year: year).first
+    amounts += ovh.rent
+    amounts += ovh.utilities
+    amounts += ovh.technology
+    amounts += ovh.hard_costs
+    amounts += ovh.guaranteed_salaries
+    amounts += ovh.other
     return amounts
   end
 
