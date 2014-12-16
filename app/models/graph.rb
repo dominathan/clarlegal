@@ -488,6 +488,20 @@ class Graph < ActiveRecord::Base
           sum(fee_estimate)
   end
 
+  def self.client_fee_estimate_by_year(user,client,fee_estimate,timing_estimate)
+    years_of_collection = Graph.expected_years
+    amounts = Array.new(years_of_collection.length,0)
+    #Join closeout amounts with client.cases, and sum amounts for the year in question
+    amounts.length.times do |i|
+        amounts[i] = client.cases.where(open: true).joins(:fees,:timings).
+                          where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                                {start_date: years_of_collection[i].beginning_of_year,
+                                 end_date: years_of_collection[i].end_of_year}).
+                          sum(fee_estimate)
+    end
+    return amounts
+  end
+
   #--------------------------For Estimated Individual Practice Groups--------------------
     #Calculate fee_estimate by specified practicegroup
   def self.fee_estimate_by_year_by_pg(user,pg,timing_estimate,fee_estimate)
