@@ -521,7 +521,7 @@ class Graph < ActiveRecord::Base
       #on that case over the length of time expected.
       years_to_complete = (estimated_completion - Date.today.year) + 1
       avg_hours_per_year_for_this_case = remaining_hours / years_to_complete
-      years_to_complete.times do |n|
+      0.upto(hours_expected.length - 1) do |n|
         hours_expected[n] += avg_hours_per_year_for_this_case
       end
     end

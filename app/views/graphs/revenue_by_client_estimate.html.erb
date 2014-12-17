@@ -1,0 +1,111 @@
+<% provide(:title, 'Client Profitability') %>
+<div class="center">
+  <div class="col-lg-6 col-lg-offset-4">
+    <h2>Select Other Client</h2>
+      <%= form_tag revenue_by_client_estimate_graph_path(params[:client],params[:client]),
+          method: :get do %>
+          <div class="row">
+            <div class='col-lg-6 col-lg-offset-3'>
+              <%= select_tag :client, options_for_select(@clients) %>
+              <%= submit_tag "Change Client", class: 'btn btn-md btn-primary center' %>
+            </div>
+          </div>
+      <%end%>
+  </div>
+</div>
+
+<div class='chart col-lg-10 col-lg-offset-2'>
+  <div id="revenueByClientByYearActual" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+  <div id="clientProf" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</div>
+
+<script type="text/javascript">
+
+$(function () {
+
+var categoryByYear = <%= Graph.expected_year_only %>;
+var high = <%= @high_estimate %>;
+var medium = <%= @medium_estimate %>;
+var low = <%= @low_estimate %>;
+var referral = <%= @referral %>;
+var cost = <%= @cost_estimate %>;
+var indirect = <%= @expected_indirect_cost %>;
+var clientName = "<%= raw @client.company || @client.full_name %>"
+
+  // Create the chart
+  $('#revenueByClientByYearActual').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Net Fee Received by Year - ' + clientName
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+      },
+      yAxis: {
+          title: {
+              text: 'Dollar Recovery and Costs'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX - 40,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Low Estimate',
+          data: low,
+      },
+      {
+          name: 'Medium Estimate',
+          data: medium
+      },
+      {
+          name: 'High Estimate',
+          data: high
+      },
+      {
+          name: 'Referring Fees',
+          data: referral,
+          color: 'red'
+      },
+      {
+          name: 'Direct Costs',
+          data: cost
+      },
+      {
+          name: "Indirect Costs",
+          data: indirect
+      }],
+  })
+});
+
+
+
+
+
+</script>
+

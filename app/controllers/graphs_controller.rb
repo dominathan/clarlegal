@@ -119,6 +119,22 @@ class GraphsController < ApplicationController
     @fee_by_origination_source_low = Graph.remove_arrays_less_than_or_equal_to(final_fee_by_origination_source,0)
   end
 
+  def revenue_by_client_estimate
+    binding.pry
+    #Returns array to be used in options_for_select on page.
+    @clients = Client.company_and_full_names(current_user)
+    #Either the params[:client] on submit, or the first client belonging to user.
+    @client = Client.find_by(id: params[:client]) || current_user.lawfirm.clients.first
+    if params[:timings] == nil
+      @high_estimate = Graph.client_fee_estimate_by_year(@client,'high_estimate','estimated_conclusion_expected')
+      @medium_estimate = Graph.client_fee_estimate_by_year(@client,'medium_estimate','estimated_conclusion_expected')
+      @low_estimate = Graph.client_fee_estimate_by_year(@client,'low_estimate','estimated_conclusion_expected')
+      @cost_estimate = Graph.client_fee_estimate_by_year(@client,'cost_estimate','estimated_conclusion_expected').map { |x| x*-1 }
+      @referral = Graph.client_fee_estimate_by_year(@client,'referral','estimated_conclusion_expected').map { |x| x*-1 }
+      #Indirect Cost is the rate_per_hour (overhead) multiplied by the number of hours expected on this client
+      @expected_indirect_cost = Graph.client_expected_hours_remaining(@client,'estimated_conclusion_expected').map {|x| x*-1*current_user.lawfirm.overheads.where(year: Date.today.year).take.rate_per_hour}
+    end
+  end
 
 end
 

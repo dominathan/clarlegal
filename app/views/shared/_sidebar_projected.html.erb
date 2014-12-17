@@ -33,6 +33,11 @@
         </li>
         <li class="divider"></li>
 
+        <li class="<%=is_active_graph?('graphs','revenue_by_client_estimate')%>">
+          <%= link_to "Client Profitability", revenue_by_client_estimate_graph_path(params[:client_id] || current_user.lawfirm.clients.first, params[:timing] || "estimated_conclusion_expected") %>
+        </li>
+        <li class="divider"></li>
+
         <li class="<%= is_active_graph?("graph_individual_prac_groups","expected_individual_pg_rev") %> dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Practice Groups <span class="caret"></span>
           </a>

@@ -16,7 +16,6 @@
       <th>Responsible Attorney</th>
       <th>Judge</th>
       <th>Opposing Counsel</th>
-      <th>Matter Type</th>
       <th>Case Number</th>
     </tr>
   </thead>
@@ -29,7 +28,6 @@
         <td><%= Case.lead_attorney(one_case) %> </td>
         <td><%= one_case.judge ? one_case.judge : "" %></td>
         <td><%= one_case.opposing_attorney ? one_case.opposing_attorney : ""%></td>
-        <td><%= one_case.type_of_matter ? one_case.type_of_matter : "" %></td>
         <td><%= one_case.case_number ? one_case.case_number : "" %></td>
       <% end %>
   </tbody>
