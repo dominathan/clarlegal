@@ -238,7 +238,7 @@ namespace :db do
   task populate: :environment do
     head_atts = Staffing.find_by(id: 1)
     new_time = Time.local(2008,1,1,12,0,0)
-    hours_expected = Random.rand(1..200)*10
+    hours_expected = Random.rand(200..600)*10
     hours_actual = Random.rand(1..200) *10
     Timecop.freeze(new_time)
     100.times do |n|
@@ -269,7 +269,7 @@ namespace :db do
       position = staff.position
       case_id = Random.rand(1..100)
       hours_actual = 0
-      hours_expected = Random.rand(1..30)*10
+      hours_expected = Random.rand(1..200)*10
       case_staff_list = Case.find_by(id: case_id).staff.collect(&:staffing_id)
       if !case_staff_list.include?(staff.id)
         Staff.create!(case_id: case_id,
@@ -375,7 +375,7 @@ namespace :db do
       new_time = Time.local(2008,1,1,12,0,0)
       Timecop.freeze(new_time)
       id = Random.rand(1..200)
-      hours_actual = Random.rand(1..100)*10
+      hours_actual = Random.rand(1..10)*10
       stf = Staff.find_by(id: id)
       hours_expected = stf.hours_expected
       stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
@@ -390,7 +390,7 @@ namespace :db do
       new_time = Time.local(2009,1,1,12,0,0)
       Timecop.freeze(new_time)
       id = Random.rand(1..200)
-      hours_actual = Random.rand(1..100)*10
+      hours_actual = Random.rand(1..10)*10
       stf = Staff.find_by(id: id)
       hours_expected = stf.hours_expected
       stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
@@ -405,7 +405,7 @@ namespace :db do
       new_time = Time.local(2010,1,1,12,0,0)
       Timecop.freeze(new_time)
       id = Random.rand(1..200)
-      hours_actual = Random.rand(1..100)*10
+      hours_actual = Random.rand(1..10)*10
       stf = Staff.find_by(id: id)
       hours_expected = stf.hours_expected
       stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
@@ -420,7 +420,7 @@ namespace :db do
       new_time = Time.local(2011,1,1,12,0,0)
       Timecop.freeze(new_time)
       id = Random.rand(1..200)
-      hours_actual = Random.rand(1..100)*10
+      hours_actual = Random.rand(1..10)*10
       stf = Staff.find_by(id: id)
       hours_expected = stf.hours_expected
       stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
@@ -435,7 +435,7 @@ namespace :db do
       new_time = Time.local(2012,1,1,12,0,0)
       Timecop.freeze(new_time)
       id = Random.rand(1..200)
-      hours_actual = Random.rand(1..100)*10
+      hours_actual = Random.rand(1..10)*10
       stf = Staff.find_by(id: id)
       hours_expected = stf.hours_expected
       stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
@@ -450,7 +450,7 @@ namespace :db do
       new_time = Time.local(2013,1,1,12,0,0)
       Timecop.freeze(new_time)
       id = Random.rand(1..200)
-      hours_actual = Random.rand(1..100)*10
+      hours_actual = Random.rand(1..10)*10
       stf = Staff.find_by(id: id)
       hours_expected = stf.hours_expected
       stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)
@@ -465,7 +465,7 @@ namespace :db do
       new_time = Time.local(2014,1,1,12,0,0)
       Timecop.freeze(new_time)
       id = Random.rand(1..200)
-      hours_actual = Random.rand(1..100)*10
+      hours_actual = Random.rand(1..10)*10
       stf = Staff.find_by(id: id)
       hours_expected = stf.hours_expected
       stf.update_attributes(hours_actual: stf.hours_actual + hours_actual, hours_expected: hours_expected)

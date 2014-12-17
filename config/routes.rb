@@ -1,10 +1,5 @@
 Claregal::Application.routes.draw do
 
-  get "related_cases/new"
-  get "related_cases/edit"
-  get "related_cases/index"
-  get "matters/show"
-  get "matters/edit"
   root 'home_pages#home'
 
   match '/about',              to: 'home_pages#about',        via: 'get'

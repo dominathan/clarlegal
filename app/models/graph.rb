@@ -488,10 +488,11 @@ class Graph < ActiveRecord::Base
           sum(fee_estimate)
   end
 
-  def self.client_fee_estimate_by_year(user,client,fee_estimate,timing_estimate)
+  #Return the fee estimate over 5 year period based off timing estimate for a client
+  def self.client_fee_estimate_by_year(client,fee_estimate,timing_estimate)
     years_of_collection = Graph.expected_years
     amounts = Array.new(years_of_collection.length,0)
-    #Join closeout amounts with client.cases, and sum amounts for the year in question
+    #Join fees and timings with client.cases, and sum amounts for the year in question
     amounts.length.times do |i|
         amounts[i] = client.cases.where(open: true).joins(:fees,:timings).
                           where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
@@ -500,6 +501,28 @@ class Graph < ActiveRecord::Base
                           sum(fee_estimate)
     end
     return amounts
+  end
+
+  #Return the total remaining hours expected to be worked on this client
+  def self.client_expected_hours_remaining(client,timing_estimate)
+    hours_expected = Array.new(5,0)
+
+    #Get the sum of hours_expected and hours_actual for every case of a client.
+    #Subtract the two to get remaining hours.
+    client.cases.where(open: true).each do |ca|
+      case_hours_expected = ca.staffs.sum('hours_expected')
+      case_hours_actual = ca.staffs.sum('hours_actual')
+      remaining_hours = case_hours_expected - case_hours_actual
+
+
+      estimated_completion = ca.timings.last.pluck(timing_estimate)
+      years_to_complete = (estimated_completion - Date.today.year) + 1
+      avg_hours_per_year_for_this_case = remaining_hours / years_to_complete
+      years_to_complete.times do |n|
+        hours_expected[n] += avg_hours_per_year_for_this_case
+      end
+    end
+    return hours_expected
   end
 
   #--------------------------For Estimated Individual Practice Groups--------------------
