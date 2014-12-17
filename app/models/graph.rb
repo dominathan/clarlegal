@@ -514,8 +514,11 @@ class Graph < ActiveRecord::Base
       case_hours_actual = ca.staffs.sum('hours_actual')
       remaining_hours = case_hours_expected - case_hours_actual
 
+      #Get the timing_estimate of case timing
+      estimated_completion = ca.timings.pluck(timing_estimate).last.year
 
-      estimated_completion = ca.timings.last.pluck(timing_estimate)
+      #Return number of years from today's year, and then find an average number of hours to spend
+      #on that case over the length of time expected.
       years_to_complete = (estimated_completion - Date.today.year) + 1
       avg_hours_per_year_for_this_case = remaining_hours / years_to_complete
       years_to_complete.times do |n|
@@ -526,7 +529,7 @@ class Graph < ActiveRecord::Base
   end
 
   #--------------------------For Estimated Individual Practice Groups--------------------
-    #Calculate fee_estimate by specified practicegroup
+  #Calculate fee_estimate by specified practicegroup
   def self.fee_estimate_by_year_by_pg(user,pg,timing_estimate,fee_estimate)
     #Set variables, collect amounts based of length of years
     year_of_collection = Graph.expected_years
