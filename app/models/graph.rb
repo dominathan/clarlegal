@@ -492,20 +492,30 @@ class Graph < ActiveRecord::Base
   def self.client_fee_estimate_by_year(client,fee_estimate,timing_estimate)
     years_of_collection = Graph.expected_years
     amounts = Array.new(years_of_collection.length,0)
-    #Join fees and timings with client.cases, and sum amounts for the year in question
+    #Join and timings with client.cases
     amounts.length.times do |i|
-        amounts[i] = client.cases.where(open: true).joins(:fees,:timings).
-                          where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
-                                {start_date: years_of_collection[i].beginning_of_year,
-                                 end_date: years_of_collection[i].end_of_year}).
-                          sum(fee_estimate)
+      case_listing = client.cases.where(open: true).joins(:timings).
+                        where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                              {start_date: years_of_collection[i].beginning_of_year,
+                               end_date: years_of_collection[i].end_of_year})
+
+      #If case_listing is nil for time_frame[i], move on
+      #Otherwise, Find the fees associated with case_name, and add the most recent one.
+      if case_listing.empty?
+        next
+      else
+        case_listing.each do |case_name|
+          amounts[i] += Fee.where(case_id: case_name.id).order(:updated_at).
+                            pluck(fee_estimate).last
+        end
+      end
     end
     return amounts
   end
 
   #Return the total remaining hours expected to be worked on this client
   def self.client_expected_hours_remaining(client,timing_estimate)
-    hours_expected = Array.new(5,0)
+    hours_expected = Array.new(Graph.expected_years.length,0)
 
     #Get the sum of hours_expected and hours_actual for every case of a client.
     #Subtract the two to get remaining hours.
@@ -519,9 +529,17 @@ class Graph < ActiveRecord::Base
 
       #Return number of years from today's year, and then find an average number of hours to spend
       #on that case over the length of time expected.
-      years_to_complete = (estimated_completion - Date.today.year) + 1
+      years_to_complete = (estimated_completion - Date.today.year)
+
+      #If it takes more than hours_expected for years_to_complete, throws an error.
+      #Years to complete must be <= hours_expected.length
+      if years_to_complete > hours_expected.length
+        years_to_complete = hours_expected.length
+      elsif years_to_complete == 0
+        years_to_complete = years_to_complete + 1
+      end
       avg_hours_per_year_for_this_case = remaining_hours / years_to_complete
-      0.upto(hours_expected.length - 1) do |n|
+      0.upto(years_to_complete - 1) do |n|
         hours_expected[n] += avg_hours_per_year_for_this_case
       end
     end

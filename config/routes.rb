@@ -78,7 +78,7 @@ Claregal::Application.routes.draw do
   #--------------------------Expected GRAPH ROUTES----------------------------------------------------
   resources :graphs do
     member do
-      get '/revenue_by_client/:client/', to: :revenue_by_client_estimate, as: "revenue_by_client_estimate"
+      get :revenue_by_client_estimate
     end
   end
 

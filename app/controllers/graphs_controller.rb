@@ -120,20 +120,36 @@ class GraphsController < ApplicationController
   end
 
   def revenue_by_client_estimate
-    binding.pry
     #Returns array to be used in options_for_select on page.
     @clients = Client.company_and_full_names(current_user)
     #Either the params[:client] on submit, or the first client belonging to user.
-    @client = Client.find_by(id: params[:client]) || current_user.lawfirm.clients.first
-    if params[:timings] == nil
-      @high_estimate = Graph.client_fee_estimate_by_year(@client,'high_estimate','estimated_conclusion_expected')
-      @medium_estimate = Graph.client_fee_estimate_by_year(@client,'medium_estimate','estimated_conclusion_expected')
-      @low_estimate = Graph.client_fee_estimate_by_year(@client,'low_estimate','estimated_conclusion_expected')
-      @cost_estimate = Graph.client_fee_estimate_by_year(@client,'cost_estimate','estimated_conclusion_expected').map { |x| x*-1 }
-      @referral = Graph.client_fee_estimate_by_year(@client,'referral','estimated_conclusion_expected').map { |x| x*-1 }
-      #Indirect Cost is the rate_per_hour (overhead) multiplied by the number of hours expected on this client
-      @expected_indirect_cost = Graph.client_expected_hours_remaining(@client,'estimated_conclusion_expected').map {|x| x*-1*current_user.lawfirm.overheads.where(year: Date.today.year).take.rate_per_hour}
-    end
+    @client = Client.find_by(id: params[:client_id]) || current_user.lawfirm.clients.first
+
+
+    #Expected conclusion date
+    @high_estimate_expected = Graph.client_fee_estimate_by_year(@client,'high_estimate','estimated_conclusion_expected')
+    @medium_estimate_expected = Graph.client_fee_estimate_by_year(@client,'medium_estimate','estimated_conclusion_expected')
+    @low_estimate_expected = Graph.client_fee_estimate_by_year(@client,'low_estimate','estimated_conclusion_expected')
+    @cost_estimate_expected = Graph.client_fee_estimate_by_year(@client,'cost_estimate','estimated_conclusion_expected').map { |x| x*-1 }
+    @referral_expected = Graph.client_fee_estimate_by_year(@client,'referral','estimated_conclusion_expected').map { |x| x*-1 }
+    #Indirect Cost is the rate_per_hour (overhead) multiplied by the number of hours expected on this client
+    @indirect_cost_expected = Graph.client_expected_hours_remaining(@client,'estimated_conclusion_expected').map {|x| (x*-1*current_user.lawfirm.overheads.where(year: Date.today.year).take.rate_per_hour).round(0 )}
+
+    #Accelerated Conclusion Date
+    @high_estimate_accelerated = Graph.client_fee_estimate_by_year(@client,'high_estimate','estimated_conclusion_fast')
+    @medium_estimate_accelerated = Graph.client_fee_estimate_by_year(@client,'medium_estimate','estimated_conclusion_fast')
+    @low_estimate_accelerated = Graph.client_fee_estimate_by_year(@client,'low_estimate','estimated_conclusion_fast')
+    @cost_estimate_accelerated = Graph.client_fee_estimate_by_year(@client,'cost_estimate','estimated_conclusion_fast').map { |x| x*-1 }
+    @referral_accelerated = Graph.client_fee_estimate_by_year(@client,'referral','estimated_conclusion_fast').map { |x| x*-1 }
+    @indirect_cost_accelerated = Graph.client_expected_hours_remaining(@client,'estimated_conclusion_fast').map {|x| (x*-1*current_user.lawfirm.overheads.where(year: Date.today.year).take.rate_per_hour).round(0 )}
+
+    #Slow Conclusion Date
+    @high_estimate_slow = Graph.client_fee_estimate_by_year(@client,'high_estimate','estimated_conclusion_slow')
+    @medium_estimate_slow = Graph.client_fee_estimate_by_year(@client,'medium_estimate','estimated_conclusion_slow')
+    @low_estimate_slow = Graph.client_fee_estimate_by_year(@client,'low_estimate','estimated_conclusion_slow')
+    @cost_estimate_slow = Graph.client_fee_estimate_by_year(@client,'cost_estimate','estimated_conclusion_slow').map { |x| x*-1 }
+    @referral_slow = Graph.client_fee_estimate_by_year(@client,'referral','estimated_conclusion_slow').map { |x| x*-1 }
+    @indirect_cost_slow = Graph.client_expected_hours_remaining(@client,'estimated_conclusion_slow').map {|x| (x*-1*current_user.lawfirm.overheads.where(year: Date.today.year).take.rate_per_hour).round(0 )}
   end
 
 end
