@@ -20,6 +20,14 @@ class Staffing < ActiveRecord::Base
     final_name_list.sort
   end
 
+  def self.all_full_names_last_first_with_ids(user)
+    final_name_list = []
+    user.lawfirm.staffings.each do |name|
+      final_name_list << [Staffing.full_name_last_first(name), name.id]
+    end
+    final_name_list.sort
+  end
+
   def self.full_name_last_first(staffing)
     myarr = [staffing.last_name, staffing.first_name, staffing.middle_initial ? staffing.middle_initial : ""]
     myarr[0..-2].join(", ")+(" ")+myarr[-1]

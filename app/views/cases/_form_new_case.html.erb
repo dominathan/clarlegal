@@ -187,7 +187,7 @@
             <table class="table">
               <tr>
                 <td><%= staff.label "Name:" %></td>
-                <td><%= staff.collection_select(:staffing_id, current_user.lawfirm.staffings.order(:full_name).all, :id, :full_name, :include_blank => "Select") %></td>
+                <td><%= staff.select(:staffing_id, options_for_select(Staffing.all_full_names_last_first_with_ids(current_user)), :include_blank => "Select") %></td>
                 <td class='hidden'>
               </tr>
               <tr>

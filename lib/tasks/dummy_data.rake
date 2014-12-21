@@ -120,10 +120,12 @@ namespace :db do
   desc "add 15 staff to lawfirm 1"
   task populate: :environment do
     first_name = 'Cathy'
+    middle_initial = (0..1).map { ('a'..'z').to_a[rand(26)] }.join.first.upcase!
       last_name = 'Wright'
       position = "Responsible Attorney"
     Staffing.create!(first_name: first_name,
                       last_name: last_name,
+                      middle_initial: "S",
                       position: position,
                       #Client.method used to put full_name in database
                       full_name: Client.full_name_last_first(first_name, last_name),                   position: 'Responsible Attorney',
@@ -136,6 +138,7 @@ namespace :db do
                         'Staff Attorney','Paralegal','Secretary', 'Responsible Attorney']
       Staffing.create!(first_name: first_name,
                         last_name: last_name,
+                        middle_initial: middle_initial,
                         #Client.method used to put full_name in database
                         full_name: Client.full_name_last_first(first_name, last_name),
                         position: position_list[Random.rand(0..7)],
@@ -151,13 +154,14 @@ namespace :db do
       last_name = Faker::Name.last_name
       Client.create!(first_name: first_name,
                       last_name: last_name,
+                      company: Faker::Company.name,
                       full_name: Client.full_name_last_first(first_name, last_name),
                       street_address: Faker::Address.street_address,
                       city: Faker::Address.city,
                       state: Faker::Address.state_abbr,
                       zip_code: Faker::Address.zip,
                       phone_number: Faker::PhoneNumber.phone_number,
-                      email: Faker::Internet.email,
+                      email: Faker::Internet.email(first_name),
                       user_id: Random.rand(1..8))
     end
   end
