@@ -8,20 +8,24 @@
       <%= render 'shared/error_messages', object: f.object %>
       <table class="table">
         <tr>
-          <td><%= f.label "First Name:" %></td>
+          <td><%= f.label :first_name, "First Name:" %></td>
           <td><%= f.text_field :first_name %></td>
         </tr>
         <tr>
-          <td><%= f.label "Last Name:" %></td>
+          <td><%= f.label :middle_initial, "Middle Initial:" %></td>
+          <td><%= f.text_field :middle_initial %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :last_name, "Last Name:" %></td>
           <td><%= f.text_field :last_name %></td>
         </tr>
         <tr>
-          <td><%= f.label "Position:" %></td>
+          <td><%= f.label :position, "Position:" %></td>
           <td><%= f.select(:position, Staffing.all_positions(current_user).uniq.sort, :include_blank => "Select") %>
           <td><%= f.text_field :new_position, :placeholder => "Or Create New Position" %></td>
         </tr>
         <tr>
-          <td><%= f.label "Hourly Rate:" %></td>
+          <td><%= f.label :hourly_rate, "Hourly Rate:" %></td>
           <td><%= f.text_field :hourly_rate, :placeholder => "If Applicable",
                     :class => "monetary" %></td>
         </tr>

@@ -80,7 +80,7 @@ class StaffingsController < ApplicationController
 
     def staffing_params
       params.require(:staffing).permit(:first_name, :last_name, :new_position, :position,
-                                        :hourly_rate,:case_id_carryover)
+                                        :hourly_rate,:case_id_carryover, :middle_initial)
     end
 
 end

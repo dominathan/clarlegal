@@ -15,9 +15,14 @@ class Staffing < ActiveRecord::Base
     #used in _staff_fields for collection select of LastName, FirstName
     final_name_list = []
     user.lawfirm.staffings.each do |name|
-      final_name_list << [name.last_name, name.first_name].compact.join(", ")
+      final_name_list << Staffing.full_name_last_first(name)
     end
     final_name_list.sort
+  end
+
+  def self.full_name_last_first(staffing)
+    myarr = [staffing.last_name, staffing.first_name, staffing.middle_initial ? staffing.middle_initial : ""]
+    myarr[0..-2].join(", ")+(" ")+myarr[-1]
   end
 
   #return list of open cases by staffing_id
