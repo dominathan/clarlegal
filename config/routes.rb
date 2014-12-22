@@ -10,31 +10,26 @@ Claregal::Application.routes.draw do
   match '/joinlawfirm',        to: 'lawfirm_sessions#new',    via: 'get'   #route for joinin lawfirm
   match '/joinlawfirm/commit', to: 'lawfirm_sessions#create', via: 'post'
 
+  resources :sessions,            only: [:new, :create, :destroy]
+  resources :account_activations, only: [:edit]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
 
   resources :users do
     resources :lawfirms do
-
       resources :practicegroups do
         member do
           get :group_case_list
         end
       end
-
       resources :staffings do
         member do
           match '/case_metrics/:case_id/', to: 'staffings#individuals_and_cases', via: 'get', as: :case_metrics
         end
       end
-
       resources :case_types
       resources :overheads
-
     end
   end
-
-  resources :sessions,            only: [:new, :create, :destroy]
-  resources :account_activations, only: [:edit]
-  resources :password_resets,     only: [:new, :create, :edit, :update]
 
   resources :clients do
     resources :cases do #nested routes so it has to be clients/3/cases/4....etc for parameters
