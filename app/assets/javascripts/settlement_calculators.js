@@ -4,6 +4,11 @@ $(document).ready(function() {
     "bFilter": false,
     "bInfo": false
   });
+  $('#settlementCalculatorDefendant').dataTable({
+    "bPaginate": false,
+    "bFilter": false,
+    "bInfo": false
+  });
 });
 
 // Extend the default Number object with a formatMoney() method:
@@ -21,6 +26,7 @@ Number.prototype.formatMoney = function(places, symbol, thousand, decimal) {
   return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
 };
 
+//For Settlement Calculator Plaintiff
 $(document).on('change','input', function() {
   // Strip out all ($ and ,) from monetary class and strip out % for probabilities
   // Multiply the value of the probabilty by the numerical amount for high and low estimates
@@ -89,3 +95,71 @@ $(document).on('change','input', function() {
 
 });
 
+
+//For Settlement Calculator - Defendant
+$(document).on('change','input', function() {
+  // Strip out all ($ and ,) from monetary class and strip out % for probabilities
+  // Multiply the value of the probabilty by the numerical amount for high and low estimates
+  if( $("#bestCaseHighDefendant").val() != "" &&
+      $("#bestCaseProbDefendant").val() != "" &&
+      $("#bestCaseLowDefendant").val() != "") {
+        var bestCaseHighDefendant = $("#bestCaseHighDefendant").val().replace(/[\$,]/g,"");
+        var bestCaseProbDefendant = parseFloat($("#bestCaseProbDefendant").val().replace(/[\%]/g,"")) <= 1 ? parseFloat($("#bestCaseProbDefendant").val().replace(/[\%]/g,"")) : parseFloat($("#bestCaseProbDefendant").val().replace(/[\%]/g,""))/100;
+        var bestCaseLowDefendant = $("#bestCaseLowDefendant").val().replace(/[\$,]/g,"");
+        $("#bestCaseHighEstimateDefendant").text((bestCaseHighDefendant * bestCaseProbDefendant).formatMoney(0));
+        $("#bestCaseLowEstimateDefendant").text((bestCaseProbDefendant * bestCaseLowDefendant).formatMoney(0));
+  };
+
+  if( $("#mostLikelyCaseHighDefendant").val() != "" &&
+    $("#mostLikelyCaseProbDefendant").val() != ""
+    && $("#mostLikelyCaseLowDefendant").val() != "") {
+      var mostLikelyCaseHighDefendant = $("#mostLikelyCaseHighDefendant").val().replace(/[\$,]/g,"");
+      var mostLikelyCaseProbDefendant = parseFloat($("#mostLikelyCaseProbDefendant").val().replace(/[\%]/g,"")) <= 1 ? parseFloat($("#mostLikelyCaseProbDefendant").val().replace(/[\%]/g,"")) : parseFloat($("#mostLikelyCaseProbDefendant").val().replace(/[\%]/g,""))/100;
+      var mostLikelyCaseLowDefendant = $("#mostLikelyCaseLowDefendant").val().replace(/[\$,]/g,"");
+      $("#mostLikelyCaseHighEstimateDefendant").text((mostLikelyCaseHighDefendant * mostLikelyCaseProbDefendant).formatMoney(0));
+      $("#mostLikelyCaseLowEstimateDefendant").text((mostLikelyCaseProbDefendant * mostLikelyCaseLowDefendant).formatMoney(0));
+  };
+
+  if( $("#worstCaseHighDefendant").val() != "" &&
+      $("#worstCaseProbDefendant").val() != "" &&
+      $("#worstCaseLowDefendant").val() != "") {
+        var worstCaseHighDefendant = $("#worstCaseHighDefendant").val().replace(/[\$,]/g,"");
+        var worstCaseProbDefendant = parseFloat($("#worstCaseProbDefendant").val().replace(/[\%]/g,"")) <= 1 ? parseFloat($("#worstCaseProbDefendant").val().replace(/[\%]/g,"")) : parseFloat($("#worstCaseProbDefendant").val().replace(/[\%]/g,""))/100;
+        var worstCaseLowDefendant = $("#worstCaseLowDefendant").val().replace(/[\$,]/g,"");
+        $("#worstCaseHighEstimateDefendant").text((worstCaseHighDefendant * worstCaseProbDefendant).formatMoney(0));
+        $("#worstCaseLowEstimateDefendant").text((worstCaseProbDefendant * worstCaseLowDefendant).formatMoney(0));
+  };
+
+  if ( $("#bestCaseHighEstimateDefendant").text() != "$" &&
+       $("#mostLikelyCaseHighEstimateDefendant").text() != "$" &&
+       $("#worstCaseHighEstimateDefendant").text() != "$" ) {
+          var bestHighDefendant = parseInt($("#bestCaseHighEstimateDefendant").text().replace(/[\$,]/g,""));
+          var mostlikelyHighDefendant = parseInt($("#mostLikelyCaseHighEstimateDefendant").text().replace(/[\$,]/g,""));
+          var worstHighDefendant = parseInt($("#worstCaseHighEstimateDefendant").text().replace(/[\$,]/g,""));
+          var highEstimateDefendant = (bestHighDefendant + mostlikelyHighDefendant + worstHighDefendant).formatMoney(0);
+          $("#totalSettlementValueHighDefendant").text(highEstimateDefendant);
+  }
+
+  if ( $("#bestCaseLowEstimateDefendant").text() != "$" &&
+       $("#mostLikelyCaseLowEstimateDefendant").text() != "$" &&
+       $("#worstCaseLowEstimateDefendant").text() != "$" ) {
+          var bestLowDefendant = parseInt($("#bestCaseLowEstimateDefendant").text().replace(/[\$,]/g,""));
+          var mostlikelyLowDefendant = parseInt($("#mostLikelyCaseLowEstimateDefendant").text().replace(/[\$,]/g,""));
+          var worstLowDefendant = parseInt($("#worstCaseLowEstimateDefendant").text().replace(/[\$,]/g,""));
+          var lowEstimateDefendant = (bestLowDefendant + mostlikelyLowDefendant + worstLowDefendant).formatMoney(0);
+          $("#totalSettlementValueLowDefendant").text(lowEstimateDefendant);
+  }
+
+  if( $("#totalSettlementValueLowDefendant").text() != "$" &&
+      $("#totalSettlementValueHighDefendant").text() != "$" &&
+      $("#highLegalCostDefendant").val() != "" &&
+      $("#lowLegalCostDefendant").val() != "") {
+          var finalLegalHighDefendant = parseInt($("#highLegalCostDefendant").val().replace(/[\$,]/g,""));
+          var finalLegalLowDefendant = parseInt($("#lowLegalCostDefendant").val().replace(/[\$,]/g,""));
+          var finalHighDefendant = (parseInt($("#totalSettlementValueHighDefendant").text().replace(/[\$,]/g,"")) + finalLegalHighDefendant).formatMoney(0);
+          var finalLowDefendant = (parseInt($("#totalSettlementValueLowDefendant").text().replace(/[\$,]/g,"")) + finalLegalLowDefendant).formatMoney(0);
+          $("#totalValueHighDefendant").text(finalHighDefendant);
+          $("#totalValueLowDefendant").text(finalLowDefendant);
+  }
+
+});
