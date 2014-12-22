@@ -5,6 +5,7 @@ $(document).ready(function() {
     "bInfo": false
   });
 });
+
 // Extend the default Number object with a formatMoney() method:
 // usage: someVar.formatMoney(decimalPlaces, symbol, thousandsSeparator, decimalSeparator)
 // defaults: (2, "$", ",", ".")
