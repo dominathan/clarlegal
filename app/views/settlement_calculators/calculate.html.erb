@@ -1,48 +1,84 @@
 <%= provide(:title, "Settlement Range") %>
 
-<h2>Settlement Calculator - Range Estimate</h2>
+<h1>Settlement Analysis - Range Estimate</h1>
+<h2>Plaintiff's Perspective</h2>
 <div class="settlement calculator">
   <div class="row">
     <div class="col-lg-12">
       <table id="settlementCalculator" class="display">
         <thead>
           <tr>
-            <th>Scenario</th>
-            <th>Percent Likelihood</th>
-            <th>High</th>
-            <th>Low</th>
-            <th>High</th>
-            <th>Low</th>
+            <td><b>Scenario</b></td>
+            <td><b>Percent Likelihood</b></th>
+            <td><b>Settlement Range: High</b></td>
+            <td><b>Settlement Range: Low</b></td>
+            <td><b>Discounted Settlement: High</b></td>
+            <td><b>Discounted Settlement: Low</b></td>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Best Case</td>
-            <td><input id="bestCaseProb" class="bestcase" type="text" name="" placeholder="e.g. 10%"></td>
-            <td><input id="bestCaseHigh" class="bestcase monetary" type="text" name="" placeholder="e.g. $100,000"></td>
-            <td><input id="bestCaseLow" class="bestcase monetary" type="text" name="" placeholder="e.g. $10,000"></td>
+            <td><input id="bestCaseProb" class="bestCase" type="text" name="" placeholder="e.g. 10%"></td>
+            <td><input id="bestCaseHigh" class="bestCase" type="text" name="" placeholder="e.g. $100,000"></td>
+            <td><input id="bestCaseLow" class="bestCase" type="text" name="" placeholder="e.g. $10,000"></td>
             <td><span id="bestCaseHighEstimate">$</span></td>
             <td><span id="bestCaseLowEstimate">$</span></td>
           </tr>
           <tr>
             <td>Most Likely Case</td>
-            <td><input id="mostLikelyCaseProb" type="text" name=""></td>
-            <td><input id="mostLikelyCaseHigh" class="monetary" type="text" name=""></td>
-            <td><input id="mostLikelyCaseLow" class="monetary" type="text" name=""></td>
+            <td><input id="mostLikelyCaseProb" class="mostLikelyCase" type="text" name=""></td>
+            <td><input id="mostLikelyCaseHigh" class="mostLikelyCase" type="text" name=""></td>
+            <td><input id="mostLikelyCaseLow" class="mostLikelyCase" type="text" name=""></td>
             <td><span id="mostLikelyCaseHighEstimate">$</span></td>
             <td><span id="mostLikelyCaseLowEstimate">$</span></td>
           </tr>
           <tr>
             <td>Worst Case</td>
-            <td><input id="worstCaseProb" type="text" name=""></td>
-            <td><input id="worstCaseHigh" class="monetary" type="text" name=""></td>
-            <td><input id="worstCaseLow" class="monetary" type="text" name=""></td>
+            <td><input id="worstCaseProb" class="worstCase" type="text" name=""></td>
+            <td><input id="worstCaseHigh" class="worstCase" type="text" name=""></td>
+            <td><input id="worstCaseLow" class="worstCase" type="text" name=""></td>
             <td><span id="worstCaseHighEstimate">$</span></td>
             <td><span id="worstCaseLowEstimate">$</span></td>
           </tr>
 
         </tbody>
       </table>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-lg-3 col-lg-offset-4">
+      <p><b>Total Settlement Range:</b></p>
+    </div>
+    <div class="col-lg-2">
+      <p><span id="totalSettlementValueHigh">$</span></p>
+    </div>
+    <div class="col-lg-2">
+      <p><span id="totalSettlementValueLow">$</span></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3 col-lg-offset-4">
+      <p><b>Expected Attorney's Fees:</b></p>
+    </div>
+    <div class="col-lg-2">
+      <input id="highLegalCost" class="legal" type="text" name="">
+    </div>
+    <div class="col-lg-2">
+      <input id="lowLegalCost" class="legal" type="text" name="">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3 col-lg-offset-4">
+      <p><b>Total:</b></p>
+    </div>
+    <div class="col-lg-2">
+      <p><span id="totalValueHigh">$<span></p>
+    </div>
+    <div class="col-lg-2">
+      <p><span id="totalValueLow">$<span></p>
     </div>
   </div>
 </div>
