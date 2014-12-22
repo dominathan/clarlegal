@@ -10,9 +10,11 @@ Claregal::Application.routes.draw do
   match '/joinlawfirm',        to: 'lawfirm_sessions#new',    via: 'get'   #route for joinin lawfirm
   match '/joinlawfirm/commit', to: 'lawfirm_sessions#create', via: 'post'
 
-  resources :sessions,            only: [:new, :create, :destroy]
-  resources :account_activations, only: [:edit]
-  resources :password_resets,     only: [:new, :create, :edit, :update]
+  get '/settlement_calculators', to: "settlement_calculators#calculate", as: :calculate
+
+  resources :sessions,              only: [:new, :create, :destroy]
+  resources :account_activations,   only: [:edit]
+  resources :password_resets,       only: [:new, :create, :edit, :update]
 
   resources :users do
     resources :lawfirms do
