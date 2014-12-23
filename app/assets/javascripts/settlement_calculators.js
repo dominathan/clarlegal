@@ -9,6 +9,12 @@ $(document).ready(function() {
     "bFilter": false,
     "bInfo": false
   });
+  $('#settlementFinal').dataTable({
+    "bPaginate": false,
+    "bFilter": false,
+    "bInfo": false,
+    "bSort": false
+  });
 });
 
 // Extend the default Number object with a formatMoney() method:
@@ -160,6 +166,33 @@ $(document).on('change','input', function() {
           var finalLowDefendant = (parseInt($("#totalSettlementValueLowDefendant").text().replace(/[\$,]/g,"")) + finalLegalLowDefendant).formatMoney(0);
           $("#totalValueHighDefendant").text(finalHighDefendant);
           $("#totalValueLowDefendant").text(finalLowDefendant);
+  }
+
+  if( $("#totalValueHighDefendant").text() != "$" &&
+      $("#totalValueLowDefendant").text() != "$" &&
+      $("#totalValueHigh").text() != "$" &&
+      $("#totalValueLow").text() != "$") {
+        var finalLegalHigh = parseInt($("#highLegalCost").val().replace(/[\$,]/g,""));
+        var finalLegalLow = parseInt($("#lowLegalCost").val().replace(/[\$,]/g,""));
+        var finalLegalHighDefendant = parseInt($("#highLegalCostDefendant").val().replace(/[\$,]/g,""));
+        var finalLegalLowDefendant = parseInt($("#lowLegalCostDefendant").val().replace(/[\$,]/g,""));
+        var tVHD = (parseInt($("#totalSettlementValueHighDefendant").text().replace(/[\$,]/g,"")) + finalLegalHighDefendant)
+        var tVLD = (parseInt($("#totalSettlementValueLowDefendant").text().replace(/[\$,]/g,"")) + finalLegalLowDefendant)
+        var tVHP = (parseInt($("#totalSettlementValueHigh").text().replace(/[\$,]/g,"")) - finalLegalHigh)
+        var tVLP = (parseInt($("#totalSettlementValueLow").text().replace(/[\$,]/g,"")) - finalLegalLow)
+        var avgHigh = ((tVHD + tVHP)/2).formatMoney(0)
+        var avgLow = ((tVLD = tVLP)/2).formatMoney(0)
+        tVHD = tVHD.formatMoney(0)
+        tVHP = tVHP.formatMoney(0)
+        tVLD = tVLD.formatMoney(0)
+        tVLP = tVLP.formatMoney(0)
+        $("#expectedRangeHigh").text(tVHP);
+        $("#expectedRangeLow").text(tVLD);
+        $("#worstRangeHigh").text(tVHD);
+        $("#worstRangeLow").text(tVLP);
+        $("#avgRangeHigh").text(avgHigh)
+        $("#avgRangeLow").text(avgLow)
+
   }
 
 });
