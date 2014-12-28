@@ -20,6 +20,7 @@ Claregal::Application.routes.draw do
     resources :lawfirms do
       member do
         get :index_lawfirm_users
+        post :toggle_dashboard
       end
       resources :practicegroups do
         member do

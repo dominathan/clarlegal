@@ -32,10 +32,11 @@ class LawfirmsController < ApplicationController
   end
 
   def show_lawfirm_cases
-    @firm_Name = current_user.lawfirm.firm_name
+    @firm_name = current_user.lawfirm.firm_name
     @lawfirm_cases = current_user.lawfirm.cases.load  #this is the paginate form
   end
 
+  # Allow lawfirm creator to have admin access to who views what
   def index_lawfirm_users
     if current_user.id == current_user.lawfirm.user_id
       @users = User.where(lawfirm_id: current_user.lawfirm.id).load
@@ -45,10 +46,37 @@ class LawfirmsController < ApplicationController
     end
   end
 
+  def toggle_dashboard
+    user = User.find(params[:id])
+    if params[:dashboard_access] == "true" && user.dashboard_access == false || user.dashboard_access == nil
+      respond_to do |format|
+        if user.update_attribute(:dashboard_access, 1)
+          format.html { render :nothing => true, :notice => "Updated Dashboard Access."}
+          format.js { render :nothing => true, :notice => "Updated Dashboard Access"}
+        else
+          @users = User.where(lawfirm_id: current_user.lawfirm.id).load
+          format.html { render :action => 'index_lawfirm_users', :notice => "We were not able to offer dashboard access at this time.  Please email admin@clarlegal.com if this persists." }
+          format.js { render :action => 'index_lawfirm_users', :notice => "We were not able to offer dashboard access at this time.  Please email admin@clarlegal.com if this persists."}
+        end
+      end
+    elsif params[:dashboard_access] == "false" && user.dashboard_access == true || user.dashboard_access = nil
+      respond_to do |format|
+        if user.update_attribute(:dashboard_access, 0)
+          format.html { render :nothing => true, :notice => "Updated Dashboard Access."}
+          format.js { render :nothing => true, :notice => "Updated Dashboard Access"}
+        else
+          @users = User.where(lawfirm_id: current_user.lawfirm.id).load
+          format.html { render :action => 'index_lawfirm_users', :notice => "We were not able to offer dashboard access at this time.  Please email admin@clarlegal.com if this persists." }
+          format.js { render :action => 'index_lawfirm_users', :notice => "We were not able to offer dashboard access at this time.  Please email admin@clarlegal.com if this persists."}
+        end
+      end
+    end
+  end
+
   private
 
-  def lawfirm_params
-    params.require(:lawfirm).permit(:firm_name, :password, :password_confirmation)
-  end
+    def lawfirm_params
+      params.require(:lawfirm).permit(:firm_name, :password, :password_confirmation)
+    end
 
 end

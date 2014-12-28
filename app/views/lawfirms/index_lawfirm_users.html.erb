@@ -8,8 +8,7 @@
     <tr>
       <th>Name</th>
       <th>Email</th>
-      <th>View Dashboard?</th>
-      <th>Update Matters?</th>
+      <th>Dashboard Access?</th>
     </tr>
   </thead>
   <tbody>
@@ -17,9 +16,26 @@
         <tr>
           <td><%= Staffing.full_name_last_first(user) %></td>
           <td><%= user.email %></td>
-          <td><%= check_box_tag("View") %></td>
-          <td><%= check_box_tag("View") %></td>
+          <td><%= check_box_tag("dashboard",user.id, user.dashboard_access, class: 'dashboard-access', data: {remote: true}) %></td>
         </tr>
       <% end %>
   </tbody>
 </table>
+
+<script type="text/javascript">
+  $('.dashboard-access').on('change', function() {
+    if(this.checked) {
+      $.ajax({
+        url: "/users/" + <%=current_user.id %> + "/lawfirms/" + this.value + "/toggle_dashboard",
+        type: 'POST',
+        data: {"dashboard_access": this.checked}
+      });
+    } else {
+      $.ajax({
+        url: "/users/" + <%=current_user.id %> + "/lawfirms/" + this.value + "/toggle_dashboard",
+        type: 'POST',
+        data: {"dashboard_access": this.checked}
+      });
+    }
+  });
+</script>
