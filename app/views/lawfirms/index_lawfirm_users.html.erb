@@ -24,18 +24,11 @@
 
 <script type="text/javascript">
   $('.dashboard-access').on('change', function() {
-    if(this.checked) {
-      $.ajax({
-        url: "/users/" + <%=current_user.id %> + "/lawfirms/" + this.value + "/toggle_dashboard",
-        type: 'POST',
-        data: {"dashboard_access": this.checked}
-      });
-    } else {
-      $.ajax({
-        url: "/users/" + <%=current_user.id %> + "/lawfirms/" + this.value + "/toggle_dashboard",
-        type: 'POST',
-        data: {"dashboard_access": this.checked}
-      });
-    }
+    $.ajax({
+      url: "/users/" + <%=current_user.id %> + "/lawfirms/" + this.value + "/toggle_dashboard",
+      type: 'POST',
+      data: {"dashboard_access": this.checked}
+    });
   });
+
 </script>
