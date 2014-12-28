@@ -66,6 +66,12 @@
                   <%= link_to "Overhead", new_user_lawfirm_overhead_path(:user_id =>current_user.id,:lawfirm_id => current_user.lawfirm.id) %>
                 </li>
               <% end %>
+              <!-- If user.id matches lawfirm.user_id, user is admin. -->
+              <% if current_user.id == current_user.lawfirm.user_id %>
+                <li>
+                  <%= link_to "Admin", index_lawfirm_users_user_lawfirm_path(current_user.id, current_user.lawfirm.id) %>
+                </li>
+              <% end %>
             </ul>
           </li>
         <% else %>

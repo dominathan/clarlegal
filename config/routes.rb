@@ -18,6 +18,9 @@ Claregal::Application.routes.draw do
 
   resources :users do
     resources :lawfirms do
+      member do
+        get :index_lawfirm_users
+      end
       resources :practicegroups do
         member do
           get :group_case_list

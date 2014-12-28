@@ -23,6 +23,10 @@ $(document).ready(function() {
 
   $('#lawfirmClients').dataTable({
   });
+
+  $("#lawfirmUsers").dataTable({
+
+  });
 });
 
 
