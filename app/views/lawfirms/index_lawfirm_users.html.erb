@@ -1,0 +1,21 @@
+<% provide(:title, 'Firm Users') %>
+
+<h2><%= "Members of #{current_user.lawfirm.firm_name}" %></h2>
+
+
+<table id="lawfirmUsers" class="display">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= link_to name, client_path(client) %></td>
+          <td><%= client.email %></td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>

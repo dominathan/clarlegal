@@ -36,6 +36,15 @@ class LawfirmsController < ApplicationController
     @lawfirm_cases = current_user.lawfirm.cases.load  #this is the paginate form
   end
 
+  def index_lawfirm_users
+    if current_user.id == current_user.lawfirm.user_id
+      @users = User.where(lawfirm_id: current_user.lawfirm.id).load
+    else
+      flash[:danger] = "You must have administrative privileges to view this page."
+      redirect_to user_cases_path
+    end
+  end
+
   private
 
   def lawfirm_params
