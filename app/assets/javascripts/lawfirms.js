@@ -27,9 +27,12 @@ $(document).ready(function() {
   $("#lawfirmUsers").dataTable({
 
   });
+
+
 });
-$(document).ready(function() {
-});
+
+
+
 
 
 

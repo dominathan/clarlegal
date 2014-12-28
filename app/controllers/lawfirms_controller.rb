@@ -46,6 +46,7 @@ class LawfirmsController < ApplicationController
     end
   end
 
+  #Lawfirm Admin grants access to lawfirm users to view dashboard
   def toggle_dashboard
     user = User.find(params[:id])
     if params[:dashboard_access] == "true" && user.dashboard_access == false || user.dashboard_access == nil
