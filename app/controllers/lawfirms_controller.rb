@@ -11,8 +11,7 @@ class LawfirmsController < ApplicationController
     @user = User.find(params[:user_id])
     if @lawfirm.save
       flash[:success] = "#{@lawfirm.firm_name} created successfully"
-    end
-    if @user.update_attribute(:lawfirm_id, @lawfirm.id) && @lawfirm.update_attribute(:user_id, current_user.id)
+      @user.update_attribute(:lawfirm_id, @lawfirm.id) && @lawfirm.update_attribute(:user_id, current_user.id)
       redirect_to user_cases_path(@user)
     else
       render 'new'
@@ -20,6 +19,23 @@ class LawfirmsController < ApplicationController
   end
 
   def edit
+    @lawfirm = Lawfirm.find(params[:id])
+  end
+
+  def update
+    @lawfirm = Lawfirm.find(params[:id])
+    if @lawfirm.authenticate(params[:old_password][:old_password])
+      if @lawfirm.update_attributes(lawfirm_params)
+        flash[:success] = "Firm Updated Successfully"
+        redirect_to index_lawfirm_users_user_lawfirm_path(current_user.id, current_user.lawfirm.id)
+      else
+        flash[:danger] = "Fix the following errors."
+        render 'edit'
+      end
+    else
+      flash[:danger] = "Password is incorrect"
+      render 'edit'
+    end
   end
 
   def show

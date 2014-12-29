@@ -1,0 +1,33 @@
+<% provide(:title, 'Edit Firm') %>
+<h2><%= "Edit Information - #{@lawfirm.firm_name} " %></h2>
+
+<div class='container'>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+    <%= form_for(@lawfirm, url: {action: "update"}) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <table class="table">
+        <tr>
+          <td><%= f.label :firm_name, "Law Firm Name:" %></td>
+          <td><%= f.text_field :firm_name %></td>
+        </tr>
+        <tr>
+          <td><%= label :old_password, "Old Password:" %></td>
+          <td><%= password_field :old_password, :old_password %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :password, "Password:" %></td>
+          <td><%= f.password_field :password, :placeholder => "Be sure to write this down for other firm members." %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :password_confirmation, "Password Confirmation" %></td>
+          <td><%= f.password_field :password_confirmation, :placeholder => "And keep separate from your user password." %></td>
+        </tr>
+      </table>
+      <div class="center">
+        <%= f.submit "Update Firm", class: "btn btn-large btn-primary" %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
