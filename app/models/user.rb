@@ -66,7 +66,12 @@ class User < ActiveRecord::Base
     UserMailer.password_reset(self).deliver
   end
 
-  #Return true if passwor reset has expired
+  #send lawfirm password reset email
+  def send_lawfirm_password_reset_email
+    LawfirmMailer.password_reset(self).deliver
+  end
+
+  #Return true if password reset has expired
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
   end

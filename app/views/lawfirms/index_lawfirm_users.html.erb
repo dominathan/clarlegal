@@ -24,7 +24,7 @@
 
 <div class="center">
   <%= link_to "Change Firm Password", edit_user_lawfirm_path(current_user.id,current_user.lawfirm.id), class: "btn btn-md btn-primary" %>
-  <%= link_to "Forgot Firm Password?", "#", class: "btn btn-md btn-danger" %>
+  <%= link_to "Forgot Firm Password?", new_lawfirm_password_reset_path, class: "btn btn-md btn-danger" %>
 </div>
 
 <script type="text/javascript">

@@ -12,9 +12,10 @@ Claregal::Application.routes.draw do
 
   get '/settlement_calculators', to: "settlement_calculators#calculate", as: :calculate
 
-  resources :sessions,              only: [:new, :create, :destroy]
-  resources :account_activations,   only: [:edit]
-  resources :password_resets,       only: [:new, :create, :edit, :update]
+  resources :sessions,                only: [:new, :create, :destroy]
+  resources :account_activations,     only: [:edit]
+  resources :password_resets,         only: [:new, :create, :edit, :update]
+  resources :lawfirm_password_resets, only: [:new, :edit, :create, :update]
 
   resources :users do
     resources :lawfirms do
