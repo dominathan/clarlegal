@@ -29,9 +29,7 @@ class LawfirmPasswordResetsController < ApplicationController
     if @lawfirm.password_reset_expired?
       flash[:danger] = "Password reset has expired."
       redirect_to new_lawfirm_password_reset_url
-      binding.pry
     elsif @lawfirm.update_attributes(lawfirm_params)
-      binding.pry
       if (params[:lawfirm][:password].blank? &&
           params[:lawfirm][:password_confirmation].blank?)
         flash.now[:danger] = "Password/confirmation can't be blank"
