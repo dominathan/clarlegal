@@ -84,7 +84,8 @@ namespace :db do
   task populate: :environment do
     Lawfirm.create!(firm_name: "Test Firm LLC",
                   password: 'password',
-                  password_confirmation: "password")
+                  password_confirmation: "password",
+                  user_id: 1)
     2.times do |n|
       Lawfirm.create!(firm_name: Faker::Company.name,
                   password: 'password',
