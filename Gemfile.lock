@@ -277,7 +277,7 @@ DEPENDENCIES
   letter_opener (= 1.2.0)
   mandrill-api (= 1.0.52)
   mandrill_mailer (= 0.4.6)
-  newrelic_rpm
+  newrelic_rpm (= 3.9.9.275)
   passenger (= 4.0.53)
   pg (= 0.17.1)
   pry
