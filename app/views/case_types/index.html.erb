@@ -6,7 +6,6 @@
   <thead>
     <tr>
       <th>Matter Types</th>
-      <th>Case Count</th>
       <th>Edit</th>
     </tr>
   </thead>
@@ -14,7 +13,6 @@
       <% @case_types.each do |matter_reference| %>
        <tr>
         <td><%= matter_reference.mat_ref %></td>
-        <td><%= current_user.lawfirm.cases.where(type_of_matter: matter_reference.mat_ref).count %></td>
         <td><%= link_to "Edit", edit_user_lawfirm_case_type_path(current_user.id,current_user.lawfirm_id,matter_reference.id) %></td>
       <% end %>
   </tbody>

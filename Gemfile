@@ -43,6 +43,7 @@ end
 group :production do
   gem 'rails_12factor', '0.0.2'
   gem 'passenger', '4.0.53' #production server
+  gem 'newrelic_rpm',  '3.9.9.275'
 end
 
 #for styling
