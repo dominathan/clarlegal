@@ -1,5 +1,5 @@
-<div id="revByFeeTypeExpected">
-  <div class='btn-group'>
+<div id="revByFeeTypeExpectedButtons">
+  <div class='btn-group' style="margin-top: 10px;">
       <%= link_to "Low Estimate", revenue_by_year_fee_type_low_path, class: "btn btn-default btn-md " + is_active_graph?('graphs','rev_by_fee_type_low') %>
       <%= link_to "Medium Estimate", revenue_by_year_fee_type_medium_path, class: "btn btn-default btn-md " + is_active_graph?('graphs','rev_by_fee_type_medium') %>
       <%= link_to "High Estimate", revenue_by_year_fee_type_high_path, class: "btn btn-default btn-md " + is_active_graph?('graphs','rev_by_fee_type_high') %>
