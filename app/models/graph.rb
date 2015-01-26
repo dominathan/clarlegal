@@ -284,41 +284,6 @@ class Graph < ActiveRecord::Base
 
 #----------------Individual Practice Groups --- Actual ---------------------------
 
-  def self.fee_estimate_by_year(user,timing_estimate,fee_estimate)
-    #Get current year + 4 year prospective look forwrad
-    years_of_collection = Graph.expected_years
-    amounts = Array.new(years_of_collection.length,0)
-
-    #For the length of time being examined, check which timing estimate
-    #is within the start and end of the year.  If it is, sum it.  Then repeat for
-    #all 5 years.
-    amounts.length.times do |i|
-      amounts[i] = user.lawfirm.cases.where(open: true).joins(:timings, :fees).
-                                where("#{timing_estimate} >= :start_date AND
-                                        #{timing_estimate} <= :end_date",
-                                    {start_date: years_of_collection[i].beginning_of_year,
-                                     end_date: years_of_collection[i].end_of_year}).
-                                sum(fee_estimate)
-    end
-    return amounts
-  end
-
-  def self.fee_estimate_by_month(user,timing_estimate,fee_estimate,year_to_add)
-    months_of_collection = Graph.set_months(year_to_add)
-    amounts = Array.new(months_of_collection.length,0)
-
-    amounts.length.times do |i|
-      amounts[i] = user.lawfirm.cases.where(open: true).joins(:timings, :fees).
-                                where("#{timing_estimate} >= :start_date AND
-                                        #{timing_estimate} <= :end_date",
-                                        { start_date: months_of_collection[i].beginning_of_month,
-                                          end_date: months_of_collection[i].end_of_month}).
-                                sum(fee_estimate)
-    end
-    amounts
-  end
-
-
   #Calculate closeoutamounts by specified practicegroup
   def self.closeout_by_year_pg(user,pg,closeout_amount)
     #Set variables, collect amounts based of length of years
@@ -380,6 +345,48 @@ class Graph < ActiveRecord::Base
   end
 
   #------------------------------------STARTING EXPECTED-------------------------------#
+
+
+  def self.fee_estimate_by_year(user,timing_estimate,fee_estimate)
+    #Get current year + 4 year prospective look forwrad
+    years_of_collection = Graph.expected_years
+    amounts = Array.new(years_of_collection.length,0)
+
+    #For the length of time being examined, check which timing estimate
+    #is within the start and end of the year.  If it is, sum it.  Then repeat for
+    #all 5 years.
+    amounts.length.times do |i|
+      amounts[i] = user.lawfirm.cases
+                               .where(open: true)
+                               .joins(:timings, :fees)
+                               .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                               .where("#{timing_estimate} >= :start_date AND
+                                        #{timing_estimate} <= :end_date",
+                                    {start_date: years_of_collection[i].beginning_of_year,
+                                     end_date: years_of_collection[i].end_of_year})
+                               .sum(fee_estimate)
+    end
+    return amounts
+  end
+
+  def self.fee_estimate_by_month(user,timing_estimate,fee_estimate,year_to_add)
+    months_of_collection = Graph.set_months(year_to_add)
+    amounts = Array.new(months_of_collection.length,0)
+
+    amounts.length.times do |i|
+      amounts[i] = user.lawfirm.cases
+                                .where(open: true)
+                                .joins(:timings, :fees)
+                                .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                                .where("#{timing_estimate} >= :start_date AND
+                                        #{timing_estimate} <= :end_date",
+                                        { start_date: months_of_collection[i].beginning_of_month,
+                                          end_date: months_of_collection[i].end_of_month})
+                                .sum(fee_estimate)
+    end
+    amounts
+  end
+
   def self.expected_overhead_next_year(user)
     amount = 0
     ovh = user.lawfirm.overheads.where(year: Date.today.year).last
@@ -447,11 +454,14 @@ class Graph < ActiveRecord::Base
     practice_groups_ids.each do |pg|
       amounts = Array.new(year_of_collection.length,0)
       amounts.length.times do |i|
-        amounts[i] = user.lawfirm.cases.where(open: true, practicegroup_id: pg).joins(:timings, :fees).
-                    where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+        amounts[i] = user.lawfirm.cases
+                    .where(open: true, practicegroup_id: pg)
+                    .joins(:timings, :fees)
+                    .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                    .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
                           {start_date: year_of_collection[i].beginning_of_year,
-                           end_date: year_of_collection[i].end_of_year}).
-                    sum(fee_estimate)
+                           end_date: year_of_collection[i].end_of_year})
+                    .sum(fee_estimate)
       end
       final_tally << [pg,amounts]
     end
@@ -474,21 +484,26 @@ class Graph < ActiveRecord::Base
     amounts.length.times do |i|
       #Join fee and timings with cases, match fee_type and match timing estimate with year[i].
       #Sum fee_estimate
-      amounts[i] = user.lawfirm.cases.where(open: true).joins(:fees,:timings).
-                    where('fee_type = ?', fee_type).
-                    where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
-                          {start_date: year_of_collection[i].beginning_of_year,
-                           end_date: year_of_collection[i].end_of_year}).
-                    sum(fee_estimate)
+      amounts[i] = user.lawfirm.cases
+                              .where(open: true).joins(:fees,:timings)
+                              .where('fee_type = ?', fee_type)
+                              .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                              .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                                    {start_date: year_of_collection[i].beginning_of_year,
+                                     end_date: year_of_collection[i].end_of_year})
+                              .sum(fee_estimate)
     end
     return amounts
   end
 
   #Return sum of open cases, fee_estimate by origination.referral_source by year lookback
   def self.fee_estimate_by_origination(user,referral_source,fee_estimate)
-    user.lawfirm.cases.where(open: true).joins(:originations, :fees).
-          where('referral_source = ?', referral_source).
-          sum(fee_estimate)
+    user.lawfirm.cases
+                .where(open: true)
+                .joins(:originations, :fees)
+                .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                .where('referral_source = ?', referral_source)
+                .sum(fee_estimate)
   end
 
   #Return the fee estimate over 5 year period based off timing estimate for a client
@@ -497,10 +512,12 @@ class Graph < ActiveRecord::Base
     amounts = Array.new(years_of_collection.length,0)
     #Join and timings with client.cases
     amounts.length.times do |i|
-      case_listing = client.cases.where(open: true).joins(:timings).
-                        where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
-                              {start_date: years_of_collection[i].beginning_of_year,
-                               end_date: years_of_collection[i].end_of_year})
+      case_listing = client.cases
+                           .where(open: true)
+                           .joins(:timings)
+                           .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                                  {start_date: years_of_collection[i].beginning_of_year,
+                                   end_date: years_of_collection[i].end_of_year})
 
       #If case_listing is nil for time_frame[i], move on
       #Otherwise, Find the fees associated with case_name, and add the most recent one.
@@ -559,19 +576,26 @@ class Graph < ActiveRecord::Base
     #Loop through open cases with practicegroup_id
     #Sum #{fee_estimate} if date_fee_received between start_date and end_date
     amounts.length.times do |i|
-      amounts[i] = user.lawfirm.cases.where(practicegroup_id: pg, open: true).joins(:fees,:timings).
-                        where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
-                          { start_date: year_of_collection[i].beginning_of_year,
-                            end_date: year_of_collection[i].end_of_year}).
-                        sum(fee_estimate)
+      amounts[i] = user.lawfirm.cases
+                               .where(practicegroup_id: pg, open: true)
+                               .joins(:fees,:timings)
+                               .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                               .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                                  { start_date: year_of_collection[i].beginning_of_year,
+                                    end_date: year_of_collection[i].end_of_year})
+                               .sum(fee_estimate)
     end
     return amounts
   end
 
   def self.fee_estimate_by_origination_pg(user,pg,referral_source,fee_estimate)
     #Sum #{fee_estimate} by practicegroup and referral_source
-    return user.lawfirm.cases.where(open: true, practicegroup_id: pg).joins(:originations, :fees).
-          where('referral_source = ?', referral_source).sum(fee_estimate)
+    return user.lawfirm.cases
+                       .where(open: true, practicegroup_id: pg)
+                       .joins(:originations, :fees)
+                       .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                       .where('referral_source = ?', referral_source)
+                       .sum(fee_estimate)
   end
 
   def self.all_origination_source_fee_estimate_pg(user,pg,fee_estimate)
@@ -598,12 +622,15 @@ class Graph < ActiveRecord::Base
     all_fee_types.each do |type|
       amounts = Array.new(year_of_collection.length, 0)
       amounts.length.times do |i|
-        amounts[i] = user.lawfirm.cases.where(open: true, practicegroup_id: pg).joins(:fees,:timings).
-                          where('fee_type = ?', type).
-                          where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
-                            { start_date: year_of_collection[i].beginning_of_year,
-                              end_date: year_of_collection[i].end_of_year }).
-                          sum(fee_estimate)
+        amounts[i] = user.lawfirm.cases
+                          .where(open: true, practicegroup_id: pg)
+                          .joins(:fees,:timings)
+                          .where('fee_type = ?', type)
+                          .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                          .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                                { start_date: year_of_collection[i].beginning_of_year,
+                                  end_date: year_of_collection[i].end_of_year })
+                          .sum(fee_estimate)
       end
       final << amounts
     end
