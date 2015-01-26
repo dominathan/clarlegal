@@ -419,10 +419,13 @@ class Graph < ActiveRecord::Base
     all_pg_fees = []
 
     #Loop through practice groups with open cases and inner join closeouts.
+    #select the most recent fee.created_at, and sum that fee_estimate across all fee.case_id = case.id
     practice_groups_ids.each do |pg|
-      pg_fee_estimate = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:fees).
-                                #Return the specified fee_estimate
-                                sum(fee_estimate)
+      pg_fee_estimate = user.lawfirm.cases
+                                    .where(open: true, practicegroup_id: pg)
+                                    .joins(:fees)
+                                    .where("fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)")
+                                    .sum(fee_estimate)
       all_pg_fees << pg_fee_estimate
     end
     #Collect all user practicegroup names and combine them with the amounts from above
