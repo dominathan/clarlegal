@@ -11,9 +11,13 @@
       <%= form_for @case, url: {action: "update"} do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
         <table class="table">
-          <tr>
+           <tr>
             <td><%= f.label 'Case Name:' %></td>
             <td><%= f.text_field :name %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :primary_email, "Email Recipient:"%></td>
+            <td><%= f.collection_select(:primary_email, current_user.lawfirm.staffings.order(:full_name), :email, :full_name, :include_blank => "Select Primary Contact for #{@case.name}") %></td>
           </tr>
           <tr>
             <td><%= f.label 'Court:' %></td>
@@ -28,12 +32,12 @@
             <td><%= f.text_field :case_number %></td>
           </tr>
           <tr>
-            <td><%= f.label 'Opposing Attorney:' %></td>
+            <td><%= f.label 'Opposing Counsel:' %></td>
             <td><%= f.text_field :opposing_attorney %> </td>
           </tr>
           <tr>
             <td><%= f.label 'Practice Group:' %></td>
-            <td><%= f.collection_select(:practice_group, current_user.lawfirm.practicegroups, :group_name, :group_name) %></td>
+            <td><%= f.collection_select(:practicegroup_id, current_user.lawfirm.practicegroups.order(:group_name), :id, :group_name, :include_blank => "Select Existing") %></td>
           </tr>
         </table>
         <div class="center">

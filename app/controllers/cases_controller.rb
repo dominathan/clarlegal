@@ -173,7 +173,6 @@ class CasesController < ApplicationController
     @case = Case.find(params[:id])
   end
 
-
   def destroy
   end
 
@@ -187,7 +186,7 @@ class CasesController < ApplicationController
         params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :new_practice_group,
                                               :name, :open, :client_id, :case_number, :new_opposing_attorney,
                                               :opposing_attorney, :new_judge, :judge, :related_cases, :description, :user_id,
-                                              :practicegroup_id,
+                                              :practicegroup_id, :primary_email,
                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
                                                           :low_estimate, :payment_likelihood, :retainer,
                                                           :cost_estimate, :referral],
