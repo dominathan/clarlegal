@@ -28,9 +28,5 @@ doc/
 .DS_Store
 .idea
 .secret
-
-server.crt
-server.csr
-server.key
-server.pass.key
+/server/
 bundle.pem
