@@ -21,6 +21,10 @@
           <td><%= f.text_field :last_name %></td>
         </tr>
         <tr>
+          <td><%= f.label :email, "Email Address:" %></td>
+          <td><%= f.text_field :email %></td>
+        </tr>
+        <tr>
           <td><%= f.label :position, "Position:" %></td>
           <td><%= f.select(:position, Staffing.all_positions(current_user).uniq.sort, :include_blank => "Select") %>
         </tr>
