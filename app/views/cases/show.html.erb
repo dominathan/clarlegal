@@ -9,12 +9,14 @@
           <td>Case Number</td>
           <td><%= @case.case_number %></td>
         </tr>
-
         <tr>
           <td>Responsible Attorney</td>
           <td><%= Case.lead_attorney(@case) %></td>
         </tr>
-
+        <tr>
+          <td>Email Recipient</td>
+          <td><%=  @case.primary_email %></td>
+        </tr>
         <tr>
           <td>Judge</td>
           <td><%= @case.judge %></td>
@@ -42,6 +44,7 @@
           <% else %>
             <td>Closed</td>
           <% end %>
+          <td></td>
         </tr>
 
       </table>
@@ -58,7 +61,9 @@
         <br>
         <br>
       <div class="center">
-        <h2><%= link_to "Update Case Information", edit_client_case_path(@case.client_id,@case), class: "btn btn-md btn-primary" %></h2>
+        <h2 style='padding-top: 10px;'>
+          <%= link_to "Update Case Information", edit_client_case_path(@case.client_id,@case), class: "btn btn-md btn-primary" %>
+        </h2>
       </div>
     </div>
   </div>

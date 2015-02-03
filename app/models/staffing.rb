@@ -5,10 +5,14 @@ class Staffing < ActiveRecord::Base
 
   attr_accessor :new_position #for user to enter new position if applicable
 
-  validates :lawfirm_id, :position, :first_name, :last_name, presence: true
+  validates :lawfirm_id, :position, :first_name, :last_name, :email, presence: true
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i || ""
+  validates :email, format: { with: VALID_EMAIL_REGEX }
 
   def self.all_positions(user)
-    position_list = StaticInformation::POSITION_LIST.concat(user.lawfirm.staffings.all.collect! { |person| person.position } ).uniq.sort!
+    position_list = StaticInformation::POSITION_LIST.concat(user.lawfirm.staffings.all
+                                                    .collect! { |person| person.position } )
+                                                    .compact.uniq.sort!
   end
 
   def self.all_full_name_last_first(user)

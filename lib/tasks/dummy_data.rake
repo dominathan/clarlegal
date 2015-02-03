@@ -182,7 +182,7 @@ namespace :db do
                     case_number: Random.rand(10..14).to_s + " - " + Random.rand(10000..99999).to_s,
                     opposing_attorney: opposing_attorney,
                     description: Faker::Lorem.paragraph,
-                    user_id: Random.rand(1..8),
+                    primary_email: User.find_by(id: Random.rand(1..8)).email,
                     open: true)
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141229183719) do
+ActiveRecord::Schema.define(version: 20150203180144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,12 +50,12 @@ ActiveRecord::Schema.define(version: 20141229183719) do
     t.string   "judge"
     t.text     "description"
     t.integer  "practicegroup_id"
-    t.integer  "user_id"
+    t.string   "primary_email"
   end
 
   add_index "cases", ["client_id"], name: "index_cases_on_client_id", using: :btree
   add_index "cases", ["practicegroup_id"], name: "index_cases_on_practicegroup_id", using: :btree
-  add_index "cases", ["user_id"], name: "index_cases_on_user_id", using: :btree
+  add_index "cases", ["primary_email"], name: "index_cases_on_primary_email", using: :btree
 
   create_table "checks", force: true do |t|
     t.integer  "case_id"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20141229183719) do
     t.string   "full_name"
     t.string   "company"
     t.string   "country"
+    t.integer  "external_id"
   end
 
   add_index "clients", ["user_id", "created_at"], name: "index_clients_on_user_id_and_created_at", using: :btree
@@ -233,6 +234,7 @@ ActiveRecord::Schema.define(version: 20141229183719) do
     t.string   "last_name"
     t.string   "full_name"
     t.string   "middle_initial"
+    t.string   "email"
   end
 
   add_index "staffings", ["lawfirm_id"], name: "index_staffings_on_lawfirm_id", using: :btree
@@ -245,8 +247,8 @@ ActiveRecord::Schema.define(version: 20141229183719) do
     t.string   "position"
     t.integer  "percent_utilization"
     t.integer  "staffing_id"
-    t.integer  "hours_actual"
-    t.integer  "hours_expected"
+    t.integer  "hours_actual",        default: 0
+    t.integer  "hours_expected",      default: 0
   end
 
   add_index "staffs", ["case_id"], name: "index_staffs_on_case_id", using: :btree
