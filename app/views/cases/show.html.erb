@@ -8,31 +8,40 @@
         <tr>
           <td>Case Number</td>
           <td><%= @case.case_number %></td>
+          <td></td>
         </tr>
-
         <tr>
           <td>Responsible Attorney</td>
           <td><%= Case.lead_attorney(@case) %></td>
+          <td></td>
         </tr>
-
+        <tr>
+          <td>Email Recipient</td>
+          <td><%=  @case.primary_email %></td>
+          <td><%= link_to "Change Primary Email", "#", class: "btn btn-primary btn-sm" %></td>
+        </tr>
         <tr>
           <td>Judge</td>
           <td><%= @case.judge %></td>
+          <td></td>
         </tr>
 
         <tr>
           <td>Court</td>
           <td><%= @case.court %></td>
+          <td></td>
         </tr>
 
         <tr>
           <td>Opposing Counsel</td>
           <td><%= @case.opposing_attorney %></td>
+          <td></td>
         </tr>
 
         <tr>
           <td>Practice Group</td>
           <td><%= Practicegroup.find_by(id: @case.practicegroup_id).group_name %></td>
+          <td></td>
         </tr>
 
         <tr>
@@ -42,6 +51,7 @@
           <% else %>
             <td>Closed</td>
           <% end %>
+          <td></td>
         </tr>
 
       </table>
@@ -58,7 +68,9 @@
         <br>
         <br>
       <div class="center">
-        <h2><%= link_to "Update Case Information", edit_client_case_path(@case.client_id,@case), class: "btn btn-md btn-primary" %></h2>
+        <h2 style='padding-top: 10px;'>
+          <%= link_to "Update Case Information", edit_client_case_path(@case.client_id,@case), class: "btn btn-md btn-primary" %>
+        </h2>
       </div>
     </div>
   </div>

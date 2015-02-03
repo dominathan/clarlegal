@@ -56,7 +56,7 @@ class CasesController < ApplicationController
     end
 
     #case.user_id can differ from case.client_id.user_id
-    @case.user_id = current_user.id
+    @case.primary_email = current_user.email
     if @case.save
       #set case to open
       Closeout.open_case(@case)
@@ -112,7 +112,7 @@ class CasesController < ApplicationController
       @case.originations.first.referral_source = params[:case][:originations_attributes]["0"][:new_referral_source]
     end
     #case.user_id can differ from case.client_id.user_id
-    @case.user_id = current_user.id
+    @case.primary_email = current_user.email
     if @case.save
       #Mark case.open == false
       Closeout.close_case(@case)
