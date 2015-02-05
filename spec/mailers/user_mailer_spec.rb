@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe UserMailer do
   describe "account_activation" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryGirl.create(:user, email: "test@example.com") }
     let(:mail) { UserMailer.account_activation(user) }
 
 
