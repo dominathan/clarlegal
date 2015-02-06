@@ -123,7 +123,6 @@ class Graph < ActiveRecord::Base
     #Set the last five years dates, and Sum all of the expenses per year to arrive at overhead costs
     years_of_collection = Graph.closeout_year_only
     amounts = Array.new(years_of_collection.length,0)
-
     #Take the overhead for the lawfirm, and if ovh.year matches the years_of_collection[year]
     #Sum all the amounts fo that year
     user.lawfirm.overheads.each do |ovh|
@@ -156,10 +155,12 @@ class Graph < ActiveRecord::Base
   #Return sum of closed cases, Closeout.closeout_amount by origination.referral_source by year lookback
   def self.closeout_amount_by_origination(user,referral_source,closeout_amount,test_year=3)
     start_date = Date.today.beginning_of_year - (test_year).years
-    user.lawfirm.cases.where(open: false).joins(:originations, :closeouts).
-          where('referral_source = ?', referral_source).
-          where('date_fee_received > ?', start_date).
-          sum(closeout_amount)
+    amount = user.lawfirm.cases.where(open: false)
+                      .joins(:originations, :closeouts)
+                      .where('referral_source = ?', referral_source)
+                      .where('date_fee_received > ?', start_date)
+                      .sum(closeout_amount)
+    return amount
   end
 
   #Return a list of closed cases from beginning of number of years ago to today

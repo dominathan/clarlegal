@@ -177,6 +177,66 @@ describe Graph do
       it { should be_a(Array) }
       it { should have(12).items }
       it { should eq(Array.new(11,0).prepend(1)) }
+
+      it 'changing a @closeout1 to february will show up in the second slot february' do
+        @closeout1.update_attribute(:date_fee_received, @closeout1.date_fee_received + 1.month)
+        expect(Graph.closeout_amount_by_month_by_year(@user1,'total_fee_received',0)).to eq([0,1,0,0,0,0,0,0,0,0,0,0])
+      end
+
+      it 'subtracting 1 year should grab @closeout2, 7 and 9 and have 3 in the month of january' do
+        expect(Graph.closeout_amount_by_month_by_year(@user1,'total_fee_received',-1)).to eq([3,0,0,0,0,0,0,0,0,0,0,0])
+      end
     end
+
+    before {    @ovh1 = FactoryGirl.create(:overhead, year: Date.today.year, id: 1),
+                @ovh2 = FactoryGirl.create(:overhead, year: Date.today.year - 1),
+                @ovh3 = FactoryGirl.create(:overhead, year: Date.today.year - 2),
+                @ovh4 = FactoryGirl.create(:overhead, year: Date.today.year - 3),
+                @ovh5 = FactoryGirl.create(:overhead, year: Date.today.year - 4)
+            }
+
+    context "Graph.total_overhead_per_year(user)" do
+
+      subject { Graph.total_overhead_per_year(@user1) }
+      it { should be_a(Array) }
+      it { should have(5).items }
+      it { should eq(Array.new(5,3000000)) }
+      it 'adding 2000000 to utiltiies in current year should show up last' do
+        Overhead.find_by(id: 1).update_attribute(:utilities, 2000000)
+        expect(Graph.total_overhead_per_year(@user1)).to eq(Array.new(4,3000000).append(5000000))
+      end
+    end
+
+    before {
+            @orig1 = FactoryGirl.create(:origination, case_id: 1,:referral_source => "source1")
+            @orig2 = FactoryGirl.create(:origination, case_id: 2,:referral_source => "source2")
+            @orig3 = FactoryGirl.create(:origination, case_id: 3,:referral_source => "source3")
+            @orig4 = FactoryGirl.create(:origination, case_id: 4,:referral_source => "source1")
+            @orig5 = FactoryGirl.create(:origination, case_id: 5,:referral_source => "source2")
+            @orig6 = FactoryGirl.create(:origination, case_id: 6,:referral_source => "source3")
+            @orig7 = FactoryGirl.create(:origination, case_id: 7,:referral_source => "source1")
+            @orig8 = FactoryGirl.create(:origination, case_id: 8,:referral_source => "source2")
+            @orig9 = FactoryGirl.create(:origination, case_id: 9,:referral_source => "source3")
+    }
+
+    context "Graph.closeout_amount_by_origination(user,referral_source,closeout_amount,test_year=3)" do
+      subject { Graph.closeout_amount_by_origination(@user1,'source3',"total_fee_received",3) }
+      it { should be_a(Integer) }
+      it { should eq(2)   }
+
+      it 'changing the amount won on a case should show up in the origination' do
+        @closeout3.update_attribute(:total_fee_received, 100)
+        expect(Graph.closeout_amount_by_origination(@user1,'source3',"total_fee_received",3)).to eq(101)
+      end
+
+      it 'change the date the fee received should not include it anymore' do
+        @closeout3.update_attribute(:total_fee_received, 100)
+        @closeout3.update_attribute(:date_fee_received, Date.today - 10.years)
+        expect(Graph.closeout_amount_by_origination(@user1,'source3',"total_fee_received",3)).to eq(1)
+      end
+    end
+
+
+
   end
 end

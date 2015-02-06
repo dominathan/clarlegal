@@ -55,6 +55,7 @@ FactoryGirl.define do
 
   factory :overhead do
     association                     :lawfirm
+    lawfirm_id                      1
     rent                            3000000
     utilities                       0
     guaranteed_salaries             0
@@ -64,6 +65,12 @@ FactoryGirl.define do
     number_of_billable_staff        20
     rate_per_hour                   75
   end
+
+  factory :origination do
+    association                      :case
+    sequence(:referral_source) { |n| "source#{n}" }
+  end
+
 end
 
 
