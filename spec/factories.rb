@@ -25,6 +25,8 @@ FactoryGirl.define do
     street_address        "222 Biilly Drive"
     city                  "Aust"
     state                 "AL"
+    phone_number          "(303) 303-3003"
+    zip_code              "33333"
   end
 
   factory :practicegroup do

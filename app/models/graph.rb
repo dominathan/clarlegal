@@ -21,30 +21,28 @@ class Graph < ActiveRecord::Base
 
   #Start year should be five years prior to the most recent collection fee_received
   def self.closeout_years
-    [Date.today - 4.years,Date.today - 3.years,
+    [ Date.today - 4.years,Date.today - 3.years,
       Date.today - 2.years,Date.today - 1.years,
       Date.today]
   end
 
   #To be used in html.erb for backward looking year categories on charts
   def self.closeout_year_only
-    [Date.today.year - 4,Date.today.year - 3,
+    [ Date.today.year - 4,Date.today.year - 3,
       Date.today.year - 2,Date.today.year - 1,
       Date.today.year]
   end
 
   #Calculating date today..date.today+4.years
   def self.expected_years
-    [Date.today, Date.today + 1.years,
-    Date.today + 2.years ,Date.today + 3.years,
-    Date.today + 4.years]
+    [Date.today, Date.today + 1.years, Date.today + 2.years, Date.today + 3.years,
+                                                             Date.today + 4.years]
   end
 
   #To be used in html.erb for forward looking year categories on charts
   def self.expected_year_only
-    [Date.today.year, Date.today.year + 1,
-    Date.today.year + 2,Date.today.year + 3,
-    Date.today.year + 4]
+    [Date.today.year, Date.today.year + 1, Date.today.year + 2,Date.today.year + 3,
+                                                               Date.today.year + 4]
   end
 
   def self.set_months(year_to_add=0)
@@ -94,12 +92,13 @@ class Graph < ActiveRecord::Base
     #is within the start and end of the year.  If it is, sum it.  Then repeat for
     #all 5 years.
     amounts.length.times do |i|
-      amounts[i] = user.lawfirm.cases.where(open: false).joins(:closeouts).
-                                where('date_fee_received >= :start_date AND
-                                        date_fee_received <= :end_date',
-                                    {start_date: years_of_collection[i].beginning_of_year,
-                                     end_date: years_of_collection[i].end_of_year}).
-                                sum(closeout_amount)
+      amounts[i] = user.lawfirm.cases.where(open: false)
+                                     .joins(:closeouts)
+                                     .where('date_fee_received >= :start_date AND
+                                             date_fee_received <= :end_date',
+                                            {start_date: years_of_collection[i].beginning_of_year,
+                                             end_date: years_of_collection[i].end_of_year})
+                                     .sum(closeout_amount)
     end
     return amounts
   end
@@ -109,12 +108,13 @@ class Graph < ActiveRecord::Base
     months_of_collection = Graph.set_months(year_to_add)
     amounts = Array.new(months_of_collection.length,0)
     amounts.length.times do |i|
-      amounts [i] = user.lawfirm.cases.where(open: false).joins(:closeouts).
-                                       where("date_fee_received >= :start_date AND
-                                              date_fee_received <= :end_date",
-                                              {start_date: months_of_collection[i].beginning_of_month,
-                                               end_date: months_of_collection[i].end_of_month}).
-                                       sum(closeout_amount)
+      amounts[i] = user.lawfirm.cases.where(open: false)
+                                     .joins(:closeouts)
+                                     .where("date_fee_received >= :start_date AND
+                                             date_fee_received <= :end_date",
+                                            {start_date: months_of_collection[i].beginning_of_month,
+                                             end_date: months_of_collection[i].end_of_month})
+                                     .sum(closeout_amount)
      end
      return amounts
   end
