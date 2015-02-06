@@ -156,10 +156,10 @@ class Graph < ActiveRecord::Base
   def self.closeout_amount_by_origination(user,referral_source,closeout_amount,test_year=3)
     start_date = Date.today.beginning_of_year - (test_year).years
     amount = user.lawfirm.cases.where(open: false)
-                      .joins(:originations, :closeouts)
-                      .where('referral_source = ?', referral_source)
-                      .where('date_fee_received > ?', start_date)
-                      .sum(closeout_amount)
+                              .joins(:originations, :closeouts)
+                              .where('referral_source = ?', referral_source)
+                              .where('date_fee_received > ?', start_date)
+                              .sum(closeout_amount)
     return amount
   end
 
@@ -173,13 +173,17 @@ class Graph < ActiveRecord::Base
     #Loop through practicegroups, and collect count of cases that belong to each practice group
     practice_groups = Graph.user_practice_group_ids(user)
     practice_groups.each do |pg|
-      closed_case_count = user.lawfirm.cases.where(open: false).joins(:closeouts).
-                        where("date_fee_received > ?", start_date).
-                        where('practicegroup_id = ?', pg).count
+      closed_case_count = user.lawfirm.cases
+                                      .where(open: false)
+                                      .joins(:closeouts)
+                                      .where("date_fee_received > ?", start_date)
+                                      .where('practicegroup_id = ?', pg)
+                                      .count
       final_case_count.push(closed_case_count)
     end
     #Return the [[practicegroupname,case_count],[pg,cc]]..etc
-    practice_group_names = user.lawfirm.practicegroups.where(id: practice_groups).collect(&:group_name)
+    practice_group_names = user.lawfirm.practicegroups.where(id: practice_groups)
+                                                      .collect(&:group_name)
     return practice_group_names.zip(final_case_count)
   end
 
