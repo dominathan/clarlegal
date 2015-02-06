@@ -54,6 +54,10 @@ FactoryGirl.define do
   factory :overhead do
     association                     :lawfirm
     rent                            3000000
+    utilities                       0
+    guaranteed_salaries             0
+    hard_costs                      0
+    other                           0
     billable_hours_per_lawyer       2000
     number_of_billable_staff        20
     rate_per_hour                   75
