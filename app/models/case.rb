@@ -57,4 +57,15 @@ class Case < ActiveRecord::Base
     return user.lawfirm.client_ids
   end
 
+  def self.email_reminder
+    @cases = Case.where(:updated_at => 6.months.ago..Time.now)
+    @emails_array = @cases.map do |c|
+      # puts c.user.inspect
+      c.user.email
+    end
+
+    puts @emails_array.count
+    # ReminderMailer.perform_async(@emails_array)
+  end
+
 end
