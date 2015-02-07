@@ -64,8 +64,8 @@ class Case < ActiveRecord::Base
       c.user.email
     end
 
-    puts @emails_array.count
-    # ReminderMailer.perform_async(@emails_array)
+    # puts @emails_array.count
+    ReminderMailer.perform(@emails_array)
   end
 
 end

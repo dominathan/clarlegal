@@ -7,7 +7,8 @@ class ReminderMailer < ActionMailer::Base
   def reminder_email(email_array)
     email_array.each do |email_address|
       # mail to: email_address, subject: "Account Activation"
-      puts email_address
+      # puts email_address
+      logger.info { "#{email_address}" }
     end
   end
 
