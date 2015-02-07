@@ -67,17 +67,17 @@ describe Graph do
              @closeout2 = FactoryGirl.create(:closeout, case_id: 2, date_fee_received: Date.today - 1.years ),
              @case3 = FactoryGirl.create(:case, client_id: 1, id: 3),
              @closeout3 = FactoryGirl.create(:closeout, case_id: 3, date_fee_received: Date.today - 2.years),
-             @case4 = FactoryGirl.create(:case, client_id: 2, id: 4),
+             @case4 = FactoryGirl.create(:case, client_id: 2, id: 4, practicegroup_id: 2),
              @closeout4 = FactoryGirl.create(:closeout, case_id: 4, date_fee_received: Date.today - 3.years),
-             @case5 = FactoryGirl.create(:case, client_id: 2, id: 5),
+             @case5 = FactoryGirl.create(:case, client_id: 2, id: 5, practicegroup_id: 2),
              @closeout5 = FactoryGirl.create(:closeout, case_id: 5, date_fee_received: Date.today - 4.years),
-             @case6 = FactoryGirl.create(:case, client_id: 2, id: 6),
+             @case6 = FactoryGirl.create(:case, client_id: 2, id: 6, practicegroup_id: 2),
              @closeout6 = FactoryGirl.create(:closeout, case_id: 6, date_fee_received: Date.today - 5.years),
-             @case7 = FactoryGirl.create(:case, client_id: 3, id: 7),
+             @case7 = FactoryGirl.create(:case, client_id: 3, id: 7, practicegroup_id: 3),
              @closeout7 = FactoryGirl.create(:closeout, case_id: 7 , date_fee_received: Date.today - 1.years),
-             @case8 = FactoryGirl.create(:case, client_id: 3, id: 8),
+             @case8 = FactoryGirl.create(:case, client_id: 3, id: 8, practicegroup_id: 3),
              @closeout8 = FactoryGirl.create(:closeout, case_id: 8, date_fee_received: Date.today - 2.years),
-             @case9 = FactoryGirl.create(:case, client_id: 3, id: 9),
+             @case9 = FactoryGirl.create(:case, client_id: 3, id: 9, practicegroup_id: 3),
              @closeout9 = FactoryGirl.create(:closeout, case_id: 9, date_fee_received: Date.today - 1.years)
            }
 
@@ -229,10 +229,50 @@ describe Graph do
         expect(Graph.closeout_amount_by_origination(@user1,'source3',"total_fee_received",3)).to eq(101)
       end
 
-      it 'change the date the fee received should not include it anymore' do
+      it 'changing :date_fee_received to longer than the N years ago should not include it anymore' do
         @closeout3.update_attribute(:total_fee_received, 100)
         @closeout3.update_attribute(:date_fee_received, Date.today - 10.years)
         expect(Graph.closeout_amount_by_origination(@user1,'source3',"total_fee_received",3)).to eq(1)
+      end
+    end
+
+    context 'Graph.closed_cases_after(user,test_year=3)' do
+      subject { Graph.closed_cases_after(@user1).sort }
+      it { should be_a(Array) }
+      it { should eq([['test_group_1',3],['test_group_2',0],['test_group_3',3]])}
+
+      it 'only looking back one year will show 1 year from todays date' do
+        expect(Graph.closed_cases_after(@user1,1).sort).to eq([["test_group_1", 1],["test_group_2", 0],["test_group_3", 0]])
+      end
+
+      it 'adding a new closedcase should show up' do
+        @case10 = FactoryGirl.create(:case, id: 444, client_id: 1, practicegroup_id: 1)
+        @closeout10 = FactoryGirl.create(:closeout, case_id: 444, date_fee_received: Date.today)
+        expect(Graph.closed_cases_after(@user1,1).sort).to eq([["test_group_1", 2],["test_group_2", 0],["test_group_3", 0]])
+      end
+    end
+
+    context 'Graph.closed_cases_by_pg_and_closeout_type(user,closeout_amount,test_year=3)' do
+      subject { Graph.closed_cases_by_pg_and_closeout_type(@user1,'total_fee_received', 1).sort }
+      it { should be_a(Array) }
+      it { should eq([["test_group_1", 1],["test_group_2", 0],["test_group_3", 0]])}
+
+      it 'changing the number of years looked back will include other amount' do
+        expect(Graph.closed_cases_by_pg_and_closeout_type(@user1,'total_fee_received', 2).sort).to eq([["test_group_1", 2],["test_group_2", 0],["test_group_3", 2]])
+      end
+
+      it 'changing the closeout_attribute will sum correctly' do
+        expect(Graph.closed_cases_by_pg_and_closeout_type(@user1,'total_recovery', 1).sort).to eq([["test_group_1", 5],["test_group_2", 0],["test_group_3", 0]])
+      end
+
+      it 'adding a practicegroup will show up for the right lawfirm' do
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, group_name: "IMHERE")
+        expect(Graph.closed_cases_by_pg_and_closeout_type(@user1,'total_recovery', 1).sort).to eq([["IMHERE",0],["test_group_1", 5],["test_group_2", 0],["test_group_3", 0]])
+      end
+
+      it 'adding a practicegroup will NOT show up for the WRONG lawfirm' do
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 2, group_name: "IMHERE")
+        expect(Graph.closed_cases_by_pg_and_closeout_type(@user1,'total_recovery', 1).sort).to eq([["test_group_1", 5],["test_group_2", 0],["test_group_3", 0]])
       end
     end
 

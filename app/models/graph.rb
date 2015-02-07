@@ -16,7 +16,7 @@ class Graph < ActiveRecord::Base
   end
 
   def self.user_practice_group_ids(user)
-    return user.lawfirm.practicegroups.collect(&:id)
+    return user.lawfirm.practicegroups.ids
   end
 
   #Start year should be five years prior to the most recent collection fee_received
@@ -48,8 +48,9 @@ class Graph < ActiveRecord::Base
   def self.set_months(year_to_add=0)
     month = Date.today.beginning_of_year+year_to_add.years
     [
-     month, month + 1.month, month + 2.months, month + 3.months, month + 4.months, month + 5.months,
-     month + 6.months, month + 7.months, month + 8.months, month + 9.months, month + 10.months, month + 11.months
+     month, month + 1.month, month + 2.months, month + 3.months, month + 4.months,
+     month + 5.months, month + 6.months, month + 7.months, month + 8.months,
+     month + 9.months, month + 10.months, month + 11.months
     ]
   end
 
@@ -164,7 +165,6 @@ class Graph < ActiveRecord::Base
   end
 
   #Return a list of closed cases from beginning of number of years ago to today
-  #For us in graphs_actuals_controller.closed_case_load_by_year
   def self.closed_cases_after(user,test_year=3)
     #Start from Beginning of year, and if test_year is provided, then go back beginning_of_year - test_year
     start_date = Date.today - (test_year).years
@@ -198,11 +198,10 @@ class Graph < ActiveRecord::Base
 
     #Loop through practice groups with closed cases and inner join closeouts.
     practice_groups.each do |pg|
-      pg_closeout_amount = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:closeouts).
-                                #If the date_fee_received is after the specified start_date
-                                where("date_fee_received > ?", start_date).
-                                #Return the specified closeout_amount
-                                sum(closeout_amount)
+      pg_closeout_amount = user.lawfirm.cases.where(open: false, practicegroup_id: pg)
+                                             .joins(:closeouts)
+                                             .where("date_fee_received > ?", start_date)
+                                             .sum(closeout_amount)
       all_pg_closeout_amounts << pg_closeout_amount
     end
     #Collect all user practicegroup names and combine them with the amounts from above
