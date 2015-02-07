@@ -22,13 +22,13 @@ describe Graph do
 
   context 'when calling Graph.user_practice_groups' do
     it 'should have only practicegroups of the first lawfirm' do
-      expect(Graph.user_practice_groups(@user1)).to eq(["test_group_3","test_group_2","test_group_1"])
+      expect(Graph.user_practice_groups(@user1).sort).to eq(["test_group_1","test_group_2","test_group_3"])
     end
   end
 
   context 'when calling Graph.user_practice_group_ids' do
     it 'should return 1,2,3' do
-      expect(Graph.user_practice_group_ids(@user1)).to eq([3,2,1])
+      expect(Graph.user_practice_group_ids(@user1).sort).to eq([1,2,3])
     end
   end
 
@@ -276,7 +276,29 @@ describe Graph do
       end
     end
 
+    context 'Graph.revenue_by_practice_group_actual(user,closeout_amount)' do
+      subject { ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_fee_received")) }
+      it { should eq([{"name" => "test_group_3", "data" => [0,0,1,2,0]},{"name" => "test_group_2", "data" => [1,1,0,0,0]},{"name" => "test_group_1", "data" => [0,0,1,1,1]}]) }
 
+      it 'changing closeout_amount to "total_recovery" will multiply by 5' do
+        expect(ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_recovery")))
+              .to eq([{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
+      end
+
+      it 'a new practicegroup will show up' do
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, group_name: "IMHERE")
+        expect(ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_recovery")))
+              .to eq([{"name" => "IMHERE", "data" => [0,0,0,0,0]},{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
+      end
+
+      it 'a new closed case will show up at the right date' do
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, group_name: "IMHERE", id: 444)
+        @case10 = FactoryGirl.create(:case, client_id: 1, practicegroup_id: 444, id: 444)
+        @closeout10 = FactoryGirl.create(:closeout, case_id: 444, total_recovery: 500, date_fee_received: Date.today - 2.years)
+        expect(ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_recovery")))
+              .to eq([{"name" => "IMHERE", "data" => [0,0,500,0,0]},{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
+      end
+    end
 
   end
 end

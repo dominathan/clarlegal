@@ -222,11 +222,12 @@ class Graph < ActiveRecord::Base
     practice_groups.each do |pg|
       amounts = Array.new(year_of_collection.length,0)
       amounts.length.times do |i|
-        amounts[i] = user.lawfirm.cases.where(open: false, practicegroup_id: pg).joins(:closeouts).
-                    where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
-                          {start_date: year_of_collection[i].beginning_of_year,
-                           end_date: year_of_collection[i].end_of_year}).
-                    sum(closeout_amount)
+        amounts[i] = user.lawfirm.cases.where(open: false, practicegroup_id: pg)
+                                       .joins(:closeouts)
+                                       .where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
+                                              {start_date: year_of_collection[i].beginning_of_year,
+                                                end_date: year_of_collection[i].end_of_year})
+                                       .sum(closeout_amount)
       end
       final_tally << [pg,amounts]
     end
@@ -236,8 +237,7 @@ class Graph < ActiveRecord::Base
 
     #Return a hash for each practicegroup that is
       #{name: PG.group_name, data: [amounts]}
-    final_tally_to_hash = final_tally.map { |name,values|  { 'name' => name, 'data' => values } }.to_json
-    return final_tally_to_hash
+    return final_tally.map { |name,values|  { 'name' => name, 'data' => values } }.to_json
   end
 
   #Return the summed closeout_amount for a user's lawfirm by fee_type
@@ -248,12 +248,13 @@ class Graph < ActiveRecord::Base
 
     amounts.length.times do |i|
       #Join closeouts with cases, match fee_type and match year[i]. Sum closeout amount
-      amounts[i] = user.lawfirm.cases.where(open: false).joins(:closeouts).
-                    where('fee_type = ?', fee_type).
-                    where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
-                          {start_date: year_of_collection[i].beginning_of_year,
-                           end_date: year_of_collection[i].end_of_year}).
-                    sum(closeout_amount)
+      amounts[i] = user.lawfirm.cases.where(open: false)
+                                     .joins(:closeouts)
+                                     .where('fee_type = ?', fee_type)
+                                     .where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
+                                              {start_date: year_of_collection[i].beginning_of_year,
+                                               end_date: year_of_collection[i].end_of_year})
+                                     .sum(closeout_amount)
     end
     return amounts
   end
