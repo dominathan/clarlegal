@@ -27,5 +27,4 @@ FactoryGirl.define do
     state                 "AL"
   end
 
-
 end

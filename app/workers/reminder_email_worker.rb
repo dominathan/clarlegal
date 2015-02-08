@@ -7,7 +7,7 @@ class ReminderEmailWorker
   sidekiq_options retry: false
 
   def get_primary_emails
-    @cases = Case.where(:updated_at => 6.months.ago..Time.now)
+    @cases = Case.where("updated_at < :default", {:default => 6.months.ago})
     @primary_emails_array = @cases.map do |c|
       c.primary_email
     end
