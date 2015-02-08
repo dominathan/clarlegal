@@ -6,7 +6,7 @@ describe Graph do
            @lawfirm2 = FactoryGirl.create(:lawfirm, id: 2),
 
            @user1 = FactoryGirl.create(:user, lawfirm_id: 1, id: 1),
-           @user2 = FactoryGirl.create(:user, lawfirm_id: 2),
+           @user2 = FactoryGirl.create(:user, lawfirm_id: 2, id: 2),
 
            @prac1_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, id: 1, group_name: "test_group_1"),
            @prac2_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, id: 2, group_name: "test_group_2"),
@@ -15,9 +15,10 @@ describe Graph do
            @prac5_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 2),
            @prac6_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 2),
 
-           @client1 = FactoryGirl.create(:client, user_id: 1, id: 1),
-           @client2 = FactoryGirl.create(:client, user_id: 1, id: 2),
+           @client1 = FactoryGirl.create(:client, user_id: 1, id: 1)
+           @client2 = FactoryGirl.create(:client, user_id: 1, id: 2)
            @client3 = FactoryGirl.create(:client, user_id: 1, id: 3)
+           @client4 = FactoryGirl.create(:client, user_id: 2, id: 999)
          }
 
   context 'when calling Graph.user_practice_groups' do
@@ -300,5 +301,102 @@ describe Graph do
       end
     end
 
+    context 'Graph.revenue_by_fee_type_actual(user,fee_type,closeout_amount)' do
+      subject { Graph.revenue_by_fee_type_actual(@user1,'Contingency','total_fee_received') }
+      it { should be_a(Array) }
+      it { should have(5).items }
+      it { should eq([1,1,2,3,1])}
+
+      before { @case10 = FactoryGirl.create(:case, client_id: 1, practicegroup_id: 444, id: 444)
+               @closeout10 = FactoryGirl.create(:closeout, case_id: 444, total_recovery: 500,
+                                                date_fee_received: Date.today - 2.years, fee_type: "Mixed")
+             }
+
+      it 'adding a Mixed FeeType will not show up in contingency' do
+        expect(Graph.revenue_by_fee_type_actual(@user1,'Contingency','total_recovery')).to eq([5,5,10,15,5])
+      end
+
+      it 'adding Mixed Fee Type will show up in Mixed' do
+        expect(Graph.revenue_by_fee_type_actual(@user1,'Mixed','total_recovery')).to eq([0,0,500,0,0])
+      end
+    end
+
+    context 'Graph.closeout_by_year_pg(user,pg,closeout_amount)' do
+      subject { Graph.closeout_by_year_pg(@user1,1,'total_fee_received')}
+      it { should be_a(Array) }
+      it { should have(5).items }
+      it { should eq([0,0,1,1,1]) }
+
+      it 'changing the practice group will change the amounts' do
+        expect(Graph.closeout_by_year_pg(@user1,3,'total_fee_received')).to eq([0,0,1,2,0])
+      end
+
+      before { @pracgroup7 = FactoryGirl.create(:practicegroup, lawfirm_id: 1,
+                                                group_name: "test_group_444", id: 444)
+               @not_this_prac_group = FactoryGirl.create(:practicegroup,
+                                                         lawfirm_id: 2, group_name: "Not Me",id: 333)
+               @case11 = FactoryGirl.create(:case, practicegroup_id: 444, client_id: 1, id: 444)
+               @closeout11 = FactoryGirl.create(:closeout, case_id: 444, total_recovery: 500,
+                                                date_fee_received: Date.today - 2.years)
+               @case12 = FactoryGirl.create(:case, practicegroup_id: 333, client_id: 999, id: 333)
+               @closeout12 = FactoryGirl.create(:closeout, case_id: 333, total_recovery: 500,
+                                                date_fee_received: Date.today - 1.years)
+             }
+
+      it "Graph.closeout_by_year_pg(@user1,444,'total_recovery')" do
+        expect(Graph.closeout_by_year_pg(@user1,444,'total_recovery')).to eq([0,0,500,0,0])
+        expect(Graph.closeout_by_year_pg(@user1,444,'total_recovery')).to_not eq([0,0,500,500,0])
+      end
+
+      it "Graph.closeout_by_year_pg(@user2,333,'total_recovery')" do
+        expect(Graph.closeout_by_year_pg(@user2,333,'total_recovery')).to eq([0,0,0,500,0])
+      end
+    end
+
+    context 'Graph.all_origination_source_rev_pg(user,pg,closeout_amount)' do
+      subject { Origination.all_referral_sources(@user1).sort }
+      it { should be_a(Array) }
+      it { should have(8).items }
+      it { should eq(["Advertising", "Attorney", "Client", "Internet", "Reputation", "source1","source2","source3"])}
+    end
+
+    context 'Graph.revenue_by_origination_pg(user,pg,all_referral_sources[i],closeout_amount)' do
+      subject { Graph.revenue_by_origination_pg(@user1,1,'source1','total_fee_received') }
+      it { should be_a(Integer) }
+      it { should eq(1)}
+    end
+
+    context 'Graph.all_origination_source_rev_pg(user,pg,closeout_amount)' do
+      subject { Graph.all_origination_source_rev_pg(@user1,1,'total_fee_received').sort }
+      it { should be_a(Array) }
+      it { should have(8).items }
+      it { should eq([["Advertising",0],["Attorney",0],["Client",0],["Internet",0],
+                      ["Reputation",0],["source1",1],["source2",1],["source3",1]])
+          }
+
+      it "adding a new case with a new origination source will appear" do
+        @casee11 = FactoryGirl.create(:case, id: 444, client_id: 1, practicegroup_id: 1)
+        @closeout11 = FactoryGirl.create(:closeout, case_id: 444, fee_type: "Mixed", total_fee_received: 500)
+        @orig11 = FactoryGirl.create(:origination, case_id: 444, id: 2, referral_source: "IM HERE")
+
+        expect(Graph.all_origination_source_rev_pg(@user1,1,'total_fee_received').sort).to eq([
+          ["Advertising",0],["Attorney",0],["Client",0],["IM HERE",500],["Internet",0],
+          ["Reputation",0],["source1",1],["source2",1],["source3",1]])
+      end
+    end
+
+    context 'Graph.rev_by_fee_type_pg(user,pg,closeout_amount)' do
+      subject { ActiveSupport::JSON.decode(Graph.rev_by_fee_type_pg(@user1,1,"total_fee_received")) }
+      it { should be_a(Array) }
+      it { should eq([{'name' => "Contingency", 'data' => [0, 0, 1, 1, 1]}])}
+
+      it 'adding another case with diff feetype will show up' do
+        @case10 = FactoryGirl.create(:case, client_id: 1, practicegroup_id: 1, id: 575)
+        @closeout10 = FactoryGirl.create(:closeout, case_id: 575, fee_type: "SHOW ME", total_fee_received: 500)
+        expect(ActiveSupport::JSON.decode(Graph.rev_by_fee_type_pg(@user1,1,"total_fee_received"))).to eq(
+          [{'name' => "Contingency", 'data' => [0, 0, 1, 1, 1]},
+           {'name' => "SHOW ME", 'data' => [0, 0, 0, 0, 500]}])
+      end
+    end
   end
 end

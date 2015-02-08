@@ -1,35 +1,33 @@
+<br>
+<hr>
 <div class='nested-fields'>
 
-  <table class="table">
-    <tr>
-      <td><%= f.label "Name:" %></td>
-      <td><%= f.select(:staffing_id, options_for_select(Staffing.all_full_names_last_first_with_ids(current_user)), :include_blank => "Select") %></td>
-      <td class='hidden'>
-    </tr>
-    <tr>
-      <td><%= f.label "Position:" %></td>
-      <td><%= f.select(:position, Staffing.all_positions(current_user).uniq.sort, :include_blank => "Select") %></td>
-    </tr>
-    <tr class="expectedTotalHours">
-      <td><%= f.label :hours_expected, "Expected Total Hours:" %></td>
-      <td><%= f.text_field :hours_expected, :placeholder => "Leave blank if case is closed." %></td>
-    <tr>
-      <td><%= f.label :hours_actual, "Actual Hours Worked:" %></td>
-      <td><%= f.text_field :hours_actual, :placeholder => 'Leave blank if none.' %></td>
-    </tr>
-  </table>
+ <div class='col-sm-3'>
+    <%= f.label :staffing_id, "Name:", class: "control-label" %>
+  </div>
+  <div class='col-sm-9'>
+    <%= f.select(:staffing_id, options_for_select(Staffing.all_full_names_last_first_with_ids(current_user)), {:include_blank => "Select"}, class: "form-control") %>
+  </div>
+
+  <div class='col-sm-3'>
+    <%= f.label :position, "Position:", class: "control-label" %>
+  </div>
+  <div class='col-sm-9'>
+    <%= f.select(:position, Staffing.all_positions(current_user).uniq.sort, {:include_blank => "Select"}, class: 'form-control') %>
+  </div>
+
+  <div class='col-sm-3 expectedTotalHours'>
+    <%= f.label :hours_expected, "Expected Total Hours:", class: "control-label" %>
+  </div>
+  <div class='col-sm-9'>
+    <%= f.text_field :hours_expected, :placeholder => "Leave blank if case is closed.", class: "form-control" %>
+  </div>
+
+  <div class="col-sm-3">
+    <%= f.label :hours_actual, "Actual Hours Worked:", class: "control-label" %>
+  </div>
+  <div class="col-sm-9">
+    <%= f.text_field :hours_actual, :placeholder => 'Leave blank if none.', class: "form-control" %>
+  </div>
+
 </div>
-
-<script type="text/javascript">
-  var hideTheseElements = function(el) {
-    $(el).each(function(i,obj){
-      $(this).addClass('hide');
-    });
-  };
-
-  $('.addStaff').click(function() {
-    if($('.fee').length === 0) {
-      setTimeout(hideTheseElements($('.expectedTotalHours')),1000);
-    };
-  });
-</script>

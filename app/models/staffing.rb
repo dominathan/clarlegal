@@ -10,7 +10,7 @@ class Staffing < ActiveRecord::Base
   validates :email, format: { with: VALID_EMAIL_REGEX }
 
   def self.all_positions(user)
-    position_list = StaticInformation::POSITION_LIST.concat(user.lawfirm.staffings.all
+    position_list = StaticInformation::POSITION_LIST.concat(user.lawfirm.staffings.load
                                                     .collect! { |person| person.position } )
                                                     .compact.uniq.sort!
   end
