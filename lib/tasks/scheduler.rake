@@ -1,6 +1,6 @@
 desc "Heroku scheduler tasks"
-task :email_appointments_reminder => :environment do
+task :send_reminder_emails => :environment do
   puts "Sending out email reminders for appointments."
-  Case.email_reminder
+  ReminderEmailWorker.perform_async
   puts "Emails sent!"
 end

@@ -4,15 +4,12 @@ class ReminderMailer < ActionMailer::Base
   include Sidekiq::Worker
   default from: "noreply-clarlegal@clarlegal.com"
 
-  def reminder_email(email_array)
-    email_array.each do |email_address|
-      # mail to: email_address, subject: "Account Activation"
+  def send_email_reminder(primary_emails_array)
+    primary_emails_array.each do |primary_email_address|
+      # mail to: primary_email_address, subject: ""
       # puts email_address
-      logger.info { "#{email_address}" }
+      logger.info { "#{primary_email_address}" }
     end
   end
 
-  def perform(email_array)
-    reminder_email(email_array)
-  end
 end
