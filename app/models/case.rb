@@ -60,12 +60,12 @@ class Case < ActiveRecord::Base
   def self.email_reminder
     @cases = Case.where(:updated_at => 6.months.ago..Time.now)
     @emails_array = @cases.map do |c|
-      # puts c.user.inspect
-      c.user.email
+      # puts c.inspect
+      c.primary_email
     end
 
-    # puts @emails_array.count
-    ReminderMailer.perform(@emails_array)
+    puts @emails_array
+    # ReminderMailer.perform(@emails_array)
   end
 
 end
