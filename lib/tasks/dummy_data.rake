@@ -122,8 +122,10 @@ namespace :db do
   task populate: :environment do
     first_name = 'Cathy'
     middle_initial = (0..1).map { ('a'..'z').to_a[rand(26)] }.join.first.upcase!
-      last_name = 'Wright'
-      position = "Responsible Attorney"
+    last_name = 'Wright'
+    position = "Responsible Attorney"
+    email = Faker::Internet.email
+
     Staffing.create!(first_name: first_name,
                       last_name: last_name,
                       middle_initial: "S",
@@ -131,10 +133,12 @@ namespace :db do
                       #Client.method used to put full_name in database
                       full_name: Client.full_name_last_first(first_name, last_name),                   position: 'Responsible Attorney',
                       hourly_rate: (Random.rand(10..45)*10),
+                      email: email,
                       lawfirm_id: 1)
     15.times do
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name
+      email = Faker::Internet.email
       position_list = ['Managing Member', 'Partner','Counsel','Contract Attorney',
                         'Staff Attorney','Paralegal','Secretary', 'Responsible Attorney']
       Staffing.create!(first_name: first_name,
@@ -144,6 +148,7 @@ namespace :db do
                         full_name: Client.full_name_last_first(first_name, last_name),
                         position: position_list[Random.rand(0..7)],
                         hourly_rate: (Random.rand(10..45)*10),
+                        email: email,
                         lawfirm_id: 1)
     end
   end
