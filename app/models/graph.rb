@@ -69,56 +69,47 @@ class Graph < ActiveRecord::Base
   #For Pie Charts, do not want values returned to JS template with <= 0
   #because they do not show up in the graph except for the name, taking unnecessary space
   def self.remove_arrays_less_than_or_equal_to(items,amount)
-    for remove_me in items
-      #Check the second element in the array, because the structure is
-      #[["item name","amount"],["item name2","amount2"]
-      if remove_me[1] <= amount
-        items.delete(remove_me)
-
-        #Recursive because if it finds one items less than, it deletes and ends the call
-        #Not functional if there is more than one itemname with amount less<=amonut.
-        #Probably a better way to do this.
-        remove_arrays_less_than_or_equal_to(items,amount)
-      end
+    items.reject do |item|
+      item.last <= amount
     end
-    return items
   end
 
   #Return sum(closeout.attributee) by user lawfirm, grouped by year over the last 5 years
   def self.closeout_amount_by_year(user,closeout_amount)
     #Starting with 5 year look back
     years_of_collection = Graph.closeout_years
-    amounts = Array.new(years_of_collection.length,0)
     #For the length of time being examined, check which Closeout.date_fee_received
     #is within the start and end of the year.  If it is, sum it.  Then repeat for
     #all 5 years.
-    amounts.length.times do |i|
-      amounts[i] = user.lawfirm.cases.where(open: false)
-                                     .joins(:closeouts)
-                                     .where('date_fee_received >= :start_date AND
-                                             date_fee_received <= :end_date',
-                                            {start_date: years_of_collection[i].beginning_of_year,
-                                             end_date: years_of_collection[i].end_of_year})
-                                     .sum(closeout_amount)
+    Array.new(years_of_collection.length, 0).map.with_index do |amount, i|
+      user_lawfirm_cases_sum_within_date(user, closeout_amount, [
+        years_of_collection[i].beginning_of_year,
+        years_of_collection[i].end_of_year
+      ])
     end
-    return amounts
   end
 
   #Return sum#{closeout_attribute} by month for a given year for a given lawfirm
   def self.closeout_amount_by_month_by_year(user,closeout_amount,year_to_add=0)
     months_of_collection = Graph.set_months(year_to_add)
-    amounts = Array.new(months_of_collection.length,0)
-    amounts.length.times do |i|
-      amounts[i] = user.lawfirm.cases.where(open: false)
-                                     .joins(:closeouts)
-                                     .where("date_fee_received >= :start_date AND
-                                             date_fee_received <= :end_date",
-                                            {start_date: months_of_collection[i].beginning_of_month,
-                                             end_date: months_of_collection[i].end_of_month})
-                                     .sum(closeout_amount)
-     end
-     return amounts
+    Array.new(months_of_collection.length,0).map.with_index do |amount, i|
+      user_lawfirm_cases_sum_within_date(user, closeout_amount, [
+        months_of_collection[i].beginning_of_month,
+        months_of_collection[i].end_of_month
+      ])
+    end
   end
+
+  def self.user_lawfirm_cases_sum_within_date(user, closeout_amount, date_collection)
+    user.lawfirm.cases.where(open: false)
+                      .joins(:closeouts)
+                      .where("date_fee_received >= :start_date AND
+                              date_fee_received <= :end_date",
+                      {start_date: date_collection.first,
+                         end_date: date_collection.last})
+                      .sum(closeout_amount)
+  end
+
 
   def self.total_overhead_per_year(user)
     #Set the last five years dates, and Sum all of the expenses per year to arrive at overhead costs
@@ -141,16 +132,16 @@ class Graph < ActiveRecord::Base
     return amounts
   end
 
-  def self.total_overhead_this_year(user,year=0)
-    amounts = 0
+  def self.total_overhead_this_year(user, year = 0)
     ovh = user.lawfirm.overheads.where(year: year).first
-    amounts += ovh.rent
-    amounts += ovh.utilities
-    amounts += ovh.technology
-    amounts += ovh.hard_costs
-    amounts += ovh.guaranteed_salaries
-    amounts += ovh.other
-    return amounts
+    [
+      ovh.rent,
+      ovh.utilities,
+      ovh.technology,
+      ovh.hard_costs,
+      ovh.guaranteed_salaries,
+      ovh.other
+    ].sum
   end
 
   #Return sum of closed cases, Closeout.closeout_amount by origination.referral_source by year lookback

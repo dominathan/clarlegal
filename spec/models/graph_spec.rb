@@ -52,8 +52,8 @@ describe Graph do
   context 'when removing items less than from an array' do
     it 'should remove items less than or equal to specified amount' do
       @array1 = [1,2,3]
-      @items = Graph.user_practice_groups(@user1).zip(@array1)
-      expect(Graph.remove_arrays_less_than_or_equal_to(@items,2)).to eq([['test_group_1',3]])
+      @items = Graph.user_practice_groups(@user1).sort.reverse.zip(@array1)
+      expect(Graph.remove_arrays_less_than_or_equal_to(@items,2)).to eq([['test_group_1', 3]])
       expect(Graph.remove_arrays_less_than_or_equal_to(@items,2)).to_not eq([['test_group_1',3],["test_group_2",2],["test_group_1",1]])
     end
   end
@@ -279,17 +279,17 @@ describe Graph do
 
     context 'Graph.revenue_by_practice_group_actual(user,closeout_amount)' do
       subject { ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_fee_received")) }
-      it { should eq([{"name" => "test_group_3", "data" => [0,0,1,2,0]},{"name" => "test_group_2", "data" => [1,1,0,0,0]},{"name" => "test_group_1", "data" => [0,0,1,1,1]}]) }
+      it { should match_array([{"name" => "test_group_3", "data" => [0,0,1,2,0]},{"name" => "test_group_2", "data" => [1,1,0,0,0]},{"name" => "test_group_1", "data" => [0,0,1,1,1]}]) }
 
       it 'changing closeout_amount to "total_recovery" will multiply by 5' do
         expect(ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_recovery")))
-              .to eq([{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
+              .to match_array([{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
       end
 
       it 'a new practicegroup will show up' do
         @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, group_name: "IMHERE")
         expect(ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_recovery")))
-              .to eq([{"name" => "IMHERE", "data" => [0,0,0,0,0]},{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
+              .to match_array([{"name" => "IMHERE", "data" => [0,0,0,0,0]},{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
       end
 
       it 'a new closed case will show up at the right date' do
@@ -297,7 +297,7 @@ describe Graph do
         @case10 = FactoryGirl.create(:case, client_id: 1, practicegroup_id: 444, id: 444)
         @closeout10 = FactoryGirl.create(:closeout, case_id: 444, total_recovery: 500, date_fee_received: Date.today - 2.years)
         expect(ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_recovery")))
-              .to eq([{"name" => "IMHERE", "data" => [0,0,500,0,0]},{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
+              .to match_array([{"name" => "IMHERE", "data" => [0,0,500,0,0]},{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
       end
     end
 

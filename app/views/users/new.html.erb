@@ -3,32 +3,57 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <%= form_for(@user) do |f| %>
+    <div class="">
+      <%= form_for(@user, html: { class: "form-horizontal" }) do |f| %>
 
         <%= render 'shared/error_messages', object: f.object %>
-      <table class='table'>
-        <tr>
-          <td>  <%= f.label :first_name %></td>
-          <td><%= f.text_field :first_name %></td>
-        </tr>
-        <tr>
-          <td>  <%= f.label :last_name %></td>
-          <td><%= f.text_field :last_name %></td>
-        </tr>
-        <tr>
-          <td><%= f.label :email %></td>
-          <td><%= f.text_field :email %></td>
-        </tr>
-        <tr>
-          <td><%= f.label :password %></td>
-          <td><%= f.password_field :password %></td>
-        </tr>
-        <tr>
-          <td><%= f.label :password_confirmation, "Confirmation" %></td>
-          <td><%= f.password_field :password_confirmation %></td>
-        </tr>
-      </table>
+
+          <div class="form-group">
+            <div class="">
+              <%= f.label :first_name, "First Name", class: "control-label col-sm-3"%>
+            </div>
+            <div class='col-sm-6'>
+              <td><%= f.text_field :first_name, autofocus: true, class: "form-control" %></td>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="">
+              <td>  <%= f.label :last_name, class: "control-label col-sm-3" %></td>
+            </div>
+            <div class='col-sm-6'>
+              <td><%= f.text_field :last_name, class: "form-control" %></td>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="">
+              <td><%= f.label :email, class: "control-label col-sm-3" %></td>
+            </div>
+            <div class='col-sm-6'>
+              <td><%= f.text_field :email, class: "form-control" %></td>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="">
+              <td><%= f.label :password, class: "control-label col-sm-3" %></td>
+            </div>
+            <div class='col-sm-6'>
+              <td><%= f.password_field :password, class: "form-control" %></td>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="">
+              <td><%= f.label :password_confirmation, "Confirmation", class: "control-label col-sm-3" %></td>
+            </div>
+            <div class='col-sm-6'>
+              <td><%= f.password_field :password_confirmation, class: "form-control" %></td>
+            </div>
+          </div>
+
+
       <div class="center">
         <%= f.submit "Create Account", class: "btn btn-large btn-primary" %>
       </div>
