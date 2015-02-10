@@ -1,4 +1,4 @@
-  $navbarBackground: #2459b1;
+$navbarBackground: #2459b1;
 $navbarBackgroundHighlight: #332051;
 $navbarText: #000;
 $navbarLinkColor: #FFF;
@@ -150,7 +150,7 @@ footer {
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
-  margin-bottom: 1px;
+  margin-bottom: 0px;
   @include box_sizing;
 }
 
@@ -179,7 +179,7 @@ input {
 
 .checkbox {
   margin-left: -15px;
-  margin-top: -5px;
+  margin-top: 5px;
   margin-bottom: 5px;
   span {
     margin-left: 20px;
@@ -316,4 +316,10 @@ fieldset[disabled] .btn.active {
 #practice-group-revenue-buttons {
   float: left;
   margin-left: 125px;
+}
+
+
+#conflict-date, #referring-date, #client-engagement-date {
+  padding-top: 50px;
+  padding-bottom: 50px;
 }

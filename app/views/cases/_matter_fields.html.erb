@@ -1,9 +1,10 @@
 <div class='nested-fields'>
-
-  <div class="col-sm-3">
-    <%= f.label :matter_type, "Additional Matter Type:", class: "control-label" %>
-  </div>
-  <div class="col-sm-9">
-    <%= f.collection_select(:case_type_id, current_user.lawfirm.case_types.load, :id, :mat_ref, {:include_blank => "Select"}, class: "form-control" )%>
+  <div class="form-group">
+    <div class="col-sm-3">
+      <%= f.label :matter_type, "Additional Matter Type:", class: "control-label" %>
+    </div>
+    <div class="col-sm-9">
+      <%= f.collection_select(:case_type_id, current_user.lawfirm.case_types.load, :id, :mat_ref, {:include_blank => "Select"}, class: "form-control" )%>
+    </div>
   </div>
 </div>

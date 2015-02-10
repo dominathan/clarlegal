@@ -5,63 +5,116 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-    <%= form_for @client do |f| %>
+    <%= form_for @client, html: { class: "form-horizontal" } do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-        <table class="table">
-          <tr>
-            <td><%= f.label :company, "Company Name:" %></td>
-            <td><%= f.text_field :company %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :first_name, "First Name:" %></td>
-            <td><%= f.text_field :first_name %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :last_name, "Last Name:" %></td>
-            <td><%= f.text_field :last_name %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :street_address, "Street Address:" %></td>
-            <td><%= f.text_field :street_address %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :city, "City:" %></td>
-            <td><%= f.text_field :city %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :state, "State:" %></td>
-            <td><%= f.select :state, StaticInformation::STATES.select {|x| x[0]  } %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :zip_code, "Zip Code:" %></td>
-            <td><%= f.text_field :zip_code %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :country, "Country:" %></td>
-            <td><%= f.select :country, StaticInformation::COUNTRIES %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :phone_number, "Primary Phone Number:" %></td>
-            <td><%= f.telephone_field :phone_number %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :fax_number, "Fax Number:" %></td>
-            <td><%= f.telephone_field :fax_number %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :email, "Email Address:" %></td>
-            <td><%= f.text_field :email %></td>
-          </tr>
-          <tr>
-            <td><%= f.label "Different Billing Address?" %> </td>
-            <td><%= f.check_box :different_billing %> </td>
-          </tr>
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :company, "Company:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.text_field :company, class: 'form-control' %>
+          </div>
+        </div>
 
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :first_name, "First Name:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.text_field :first_name, class: 'form-control' %>
+          </div>
+        </div>
 
-        </table>
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :last_name, "Last Name:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.text_field :last_name, class: 'form-control' %>
+          </div>
+        </div>
 
-        <br>
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :street_address, "Street Address:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.text_field :street_address, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :city, "City:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.text_field :city, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :state, "State:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.select :state, StaticInformation::STATES.select {|x| x[0]  } %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :zip_code, "Zip Code:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9" id="feeSelect">
+            <%= f.text_field :zip_code, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :country, "Country:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.select :country, StaticInformation::COUNTRIES, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :phone_number, "Phone Number:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.text_field :phone_number, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :fax_number, "Fax Number:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.text_field :fax_number, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :email, "Email Address:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.text_field :email, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :differnt_billing, "Different Billing Address?:", class: 'control-label' %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.check_box :different_billing, class: 'form-control' %>
+          </div>
+        </div>
 
           <div class='billing hide' id="billing-information">
             <h2>Billing Address</h2>

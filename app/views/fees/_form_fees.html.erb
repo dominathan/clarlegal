@@ -1,20 +1,15 @@
-<% provide(:title, 'Case Fee') %>
+<div class="fee">
+  <%= form_for(@fee) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %> do |f| %>
 
-<%= render 'shared/subheader' %>
-
-<h2>Case Fee</h2>
-  <div class="col-md-10 col-md-offset-1">
-  <%= form_for(@fee, url: {action: "create"}, html: { class: "form-horizontal"}) do |f| %>
-    <%= render 'shared/error_messages', object: f.object %>
     <div class="form-group">
       <div class="col-sm-3">
         <%= f.label "Fee Type:", class: 'control-label' %>
       </div>
-      <div class="col-sm-9" id="feeSelect">
+      <div class="col-sm-9">
         <%= f.select :fee_type, StaticInformation::FEE_TYPE, {include_blank: "Select Fee Type"}, class: 'form-control' %>
       </div>
     </div>
-
     <div class="form-group">
       <div class='fees hourly mixed contingency hide'>
         <div class="col-sm-3">
@@ -25,7 +20,6 @@
         </div>
       </div>
     </div>
-
     <div class="form-group">
       <div class='fees hourly mixed contingency fixed hide'>
       <!-- Change label name if fixedfee or hourly case -->
@@ -37,7 +31,6 @@
         </div>
       </div>
     </div>
-
     <div class="form-group">
       <div class='fees hourly mixed contingency hide'>
         <div class="col-sm-3">
@@ -48,7 +41,6 @@
         </div>
       </div>
     </div>
-
     <div class="form-group">
       <div class='fees hourly mixed contingency fixed hide'>
         <div class="col-sm-3">
@@ -59,7 +51,6 @@
         </div>
       </div>
     </div>
-
     <div class="form-group">
       <div class='fees hourly mixed contingency fixed hide'>
         <div class="col-sm-3">
@@ -70,7 +61,6 @@
         </div>
       </div>
     </div>
-
     <div class="form-group">
       <div class='fees hourly mixed contingency fixed hide'>
         <div class="col-sm-3">
@@ -81,7 +71,6 @@
         </div>
       </div>
     </div>
-
     <div class="form-group">
       <div class='fees hourly mixed contingency fixed hide'>
         <div class="col-sm-3">
@@ -92,10 +81,7 @@
         </div>
       </div>
     </div>
-    <br>
-    <br>
-    <div class="center">
-      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
-    </div>
-  <% end %>
-</div>
+
+  <%end%>
+  </div> <!--END FEE DIV -->
+
