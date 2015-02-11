@@ -4,51 +4,112 @@
 
 <h2>Update Case Information</h2>
 
-<div class='container'>
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="container">
+      <div class="col-md-10 col-md-offset-1">
 
-      <%= form_for @case, url: {action: "update"} do |f| %>
+      <%= form_for @case, url: {action: "update"}, html: { class: "form-horizontal"} do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
-        <table class="table">
-           <tr>
-            <td><%= f.label 'Case Name:' %></td>
-            <td><%= f.text_field :name %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :primary_email, "Email Recipient:"%></td>
-            <td><%= f.collection_select(:primary_email, current_user.lawfirm.staffings.order(:full_name), :email, :full_name, :include_blank => "Select Primary Contact for #{@case.name}") %></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Court:' %></td>
-            <td><%= f.text_field :court %></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Judge:' %></td>
-            <td><%= f.text_field :judge %></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Case Number:' %></td>
-            <td><%= f.text_field :case_number %></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Opposing Counsel:' %></td>
-            <td><%= f.text_field :opposing_attorney %> </td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Practice Group:' %></td>
-            <td><%= f.collection_select(:practicegroup_id, current_user.lawfirm.practicegroups.order(:group_name), :id, :group_name, :include_blank => "Select Existing") %></td>
-          </tr>
-        </table>
-        <div class="center">
 
-          <%= f.label 'Notes and Description' %>
-          <%= f.text_area :description %>
-
-
-        <%= f.submit "Update Case", class: "btn btn-md btn-primary" %>
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label 'Client Name:', class: "control-label" %>
+          </div>
+          <div class="col-sm-6">
+            <%= f.select(:client_id, Client.company_and_full_names(current_user), {:include_blank => 'Select Client'}, {class: "form-control"}) %>
+          </div>
+          <div class="col-sm-3">
+            <%= link_to "New Client?", new_client_path, class: 'btn btn-md btn-primary' %>
+          </div>
         </div>
-      <% end %>
-    </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :primary_email, "Email Recipient:"%>
+          </div>
+          <div class="col-sm-6">
+            <%= f.collection_select(:primary_email, current_user.lawfirm.staffings.order(:full_name), :email, :full_name, :include_blank => "Select Primary Contact") %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label 'Case Name:', class: "control-label" %>
+          </div>
+          <div class="col-sm-6">
+            <%= f.text_field :name, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label 'Court:', class: "control-label" %>
+          </div>
+          <div class="col-sm-6">
+            <%= f.select(:court, current_user.lawfirm.cases.order(:court).collect(&:court).uniq - ["", nil], {:include_blank => "Select Existing"}, {class: "form-control"}) %>
+          </div>
+          <div class='col-sm-3'>
+            <%= f.text_field :new_court, placeholder: "Add New", class: "form-control "%>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class='col-sm-3'>
+            <%= f.label 'Judge:', class: "control-label" %>
+          </div>
+          <div class="col-sm-6">
+            <%= f.select(:judge, current_user.lawfirm.cases.order(:judge).collect(&:judge).uniq - ["",nil], {:include_blank => "Select Existing"}, {class: "form-control" })%>
+          </div>
+          <div class="col-sm-3">
+            <%= f.text_field :new_judge, placeholder: "Add New", class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label 'Case Number:', class: "control-label" %>
+          </div>
+          <div class="col-sm-6">
+            <%= f.text_field :case_number, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label 'Opposing Counsel:', class: "control-label" %>
+          </div>
+          <div class="col-sm-6">
+            <%= f.select(:opposing_attorney, current_user.lawfirm.cases.order(:opposing_attorney).collect(&:opposing_attorney).uniq - ["",nil], {include_blank: "Select Existing"}, { class: "form-control"}) %>
+          </div>
+          <div class='col-sm-3'>
+            <%= f.text_field :new_opposing_attorney, placeholder: "Add New", class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label :practicegroup_id, 'Practice Group:', class: "control-label" %>
+          </div>
+          <div class="col-sm-6">
+            <%= f.collection_select(:practicegroup_id, current_user.lawfirm.practicegroups.order(:group_name), :id, :group_name, {:include_blank => "Select Existing"}, { class: "form-control"}) %>
+          </div>
+          <div class="col-sm-3">
+            <%= f.text_field :new_practice_group, placeholder: "Add New", class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <%= f.label "Notes and Description", class: "control-label" %>
+          </div>
+          <div class="col-sm-9">
+            <%= f.text_area :description, class: "form-control" %>
+          </div>
+        </div>
+        <div class="center">
+          <%= f.submit "Update Case", class: "btn btn-md btn-primary" %>
+        </div>
+
+
+      </div>
+    <% end %>
   </div>
-</div>

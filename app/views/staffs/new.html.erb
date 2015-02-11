@@ -7,27 +7,44 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <%= form_for(@staff, url: {action: "create"}) do |f| %>
+      <%= form_for(@staff, url: {action: "create"}, html: {class: "form-horizontal"}) do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
 
-        <table class="table">
-          <tr>
-            <td><%= f.label "Name:" %></td>
-            <td><%=f.collection_select(:staffing_id, current_user.lawfirm.staffings.order(:full_name).all, :id, :full_name, :include_blank => "Select") %></td>
-          </tr>
-          <tr>
-            <td><%= f.label "Position:" %></td>
-            <td><%=f.select(:position, Staffing.all_positions(current_user).sort, :include_blank => "Select") %></td>
-          </tr>
-          <tr>
-            <td><%= f.label "Expected Total Hours:" %></td>
-            <td><%=f.text_field :hours_expected %></td>
-          </tr>
-          <tr>
-            <td><%= f.label "Actual Hours Worked:" %></td>
-            <td><%=f.text_field :hours_actual, :placeholder => 'Leave blank if new case' %></td>
-          </tr>
-        </table>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :name, "Name:" , class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%=f.collection_select(:staffing_id, current_user.lawfirm.staffings.order(:full_name).all, :id, :full_name, {:include_blank => "Select"}, {class: "form-control"}) %>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :position, "Case Position:", class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.select(:position, Staffing.all_positions(current_user).sort, {:include_blank => "Select"}, {class: "form-control"}) %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :hours_expected, "Expected Total Hours:", class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.text_field :hours_expected, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :hours_actual, "Actual Hours Worked:", class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.text_field :hours_actual, class: "form-control" %>
+        </div>
+      </div>
 
     <div class='center'>
         <%= f.submit "Submit", class: "btn btn-large btn-primary" %>

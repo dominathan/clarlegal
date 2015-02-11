@@ -2,68 +2,113 @@
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
 
-    <%= form_for(@case, url: {action: "create_closed_case"})  do |f| %>
+    <%= form_for(@case, url: {action: "create_closed_case"}, html: {class: "form-horizontal"})  do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
       <h2>Case Information</h2>
 
-        <table class="table">
-          <tr>
-            <td><%= f.label 'Client Name:' %></td>
-            <!-- Call Client.company_and_full_names(user)
 
-            This returns array with [[Company Name, client_id],[...],[Client.full_name,client_id] If Company is not found, it returns the (human) client's name-->
-            <td> <%= f.select(:client_id, Client.company_and_full_names(current_user), :include_blank => 'Select Client') %></td>
-            <td><%= link_to "New Client? Click Here", new_client_path, class: 'btn btn-sm btn-primary' %></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Case Name:' %></td>
-            <td><%= f.text_field :name %></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Court:' %></td>
-            <td><%= f.select(:court, current_user.lawfirm.cases.order(:court).collect(&:court).uniq - ["", nil], :include_blank => "Select Existing") %></td>
-            <td><%= f.text_field :new_court, placeholder: "Add New" %></td>
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label 'Client Name:', class: "control-label" %>
+        </div>
+        <div class="col-sm-6">
+          <%= f.select(:client_id, Client.company_and_full_names(current_user), {:include_blank => 'Select Client'}, {class: "form-control"}) %>
+        </div>
+        <div class="col-sm-3">
+          <%= link_to "New Client?", new_client_path, class: 'btn btn-md btn-primary' %>
+        </div>
+      </div>
 
-          </tr>
-          <tr>
-            <td><%= f.label 'Judge:' %></td>
-            <td><%= f.select(:judge, current_user.lawfirm.cases.order(:judge).collect(&:judge).uniq - ["",nil], :include_blank => "Select Existing")%></td>
-            <td><%= f.text_field :new_judge, placeholder: "Add New" %></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Case Number:' %></td>
-            <td><%= f.text_field :case_number %></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Opposing Counsel:' %></td>
-            <td><%= f.select(:opposing_attorney, current_user.lawfirm.cases.order(:opposing_attorney).collect(&:opposing_attorney).uniq - ["",nil], :include_blank => "Select Existing") %> </td>
-            <td><%= f.text_field :new_opposing_attorney, placeholder: "Add New" %> </td>
-          </tr>
-          <tr>
-            <td><%= f.label 'Practice Group:' %></td>
-            <td><%= f.collection_select(:practicegroup_id, current_user.lawfirm.practicegroups.order(:group_name), :id, :group_name, :include_blank => "Select Existing") %></td>
-            <td><%= f.text_field :new_practice_group, placeholder: "Add New" %></td>
-          </tr>
-          <tr>
-            <td><%= f.label "Notes and Description" %></td>
-            <td><%= f.text_area :description %></td>
-            <td></td>
-        </table>
-        <hr>
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label 'Case Name:', class: "control-label" %>
+        </div>
+        <div class="col-sm-6">
+          <%= f.text_field :name, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label 'Court:', class: "control-label" %>
+        </div>
+        <div class="col-sm-6">
+          <%= f.select(:court, current_user.lawfirm.cases.order(:court).collect(&:court).uniq - ["", nil], {:include_blank => "Select Existing"}, {class: "form-control"}) %>
+        </div>
+        <div class='col-sm-3'>
+          <%= f.text_field :new_court, placeholder: "Add New", class: "form-control "%>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class='col-sm-3'>
+          <%= f.label 'Judge:', class: "control-label" %>
+        </div>
+        <div class="col-sm-6">
+          <%= f.select(:judge, current_user.lawfirm.cases.order(:judge).collect(&:judge).uniq - ["",nil], {:include_blank => "Select Existing"}, {class: "form-control" })%>
+        </div>
+        <div class="col-sm-3">
+          <%= f.text_field :new_judge, placeholder: "Add New", class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label 'Case Number:', class: "control-label" %>
+        </div>
+        <div class="col-sm-6">
+          <%= f.text_field :case_number, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label 'Opposing Counsel:', class: "control-label" %>
+        </div>
+        <div class="col-sm-6">
+          <%= f.select(:opposing_attorney, current_user.lawfirm.cases.order(:opposing_attorney).collect(&:opposing_attorney).uniq - ["",nil], {include_blank: "Select Existing"}, { class: "form-control"}) %>
+        </div>
+        <div class='col-sm-3'>
+          <%= f.text_field :new_opposing_attorney, placeholder: "Add New", class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :practicegroup_id, 'Practice Group:', class: "control-label" %>
+        </div>
+        <div class="col-sm-6">
+          <%= f.collection_select(:practicegroup_id, current_user.lawfirm.practicegroups.order(:group_name), :id, :group_name, {:include_blank => "Select Existing"}, { class: "form-control"}) %>
+        </div>
+        <div class="col-sm-3">
+          <%= f.text_field :new_practice_group, placeholder: "Add New", class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label "Notes and Description", class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.text_area :description, class: "form-control" %>
+        </div>
+      </div>
+        <hr><!-- END CASES -->
 
         <div class="matterTypes">
           <div class='center'><h2>Matter Types</h2></div>
 
           <%= f.fields_for :matters do |matter| %>
-            <table class="table">
-              <tr>
-                <td><%= matter.label "Matter Type:" %></td>
-                <td><%= matter.collection_select(:case_type_id, current_user.lawfirm.case_types.all, :id, :mat_ref, :include_blank => "Select") %></td>
-              </tr>
-            </table>
+            <div class="form-group">
+              <div class="col-sm-3">
+                <%= matter.label "Matter Type:", class: "control-label" %>
+              </div>
+              <div class="col-sm-9">
+                <%= matter.collection_select(:case_type_id, current_user.lawfirm.case_types.load, :id, :mat_ref, {:include_blank => "Select"}, class: "form-control" )%>
+              </div>
+            </div>
+
             <% render 'matter_fields', :f => matter %>
 
             <div class='center'>
@@ -77,12 +122,14 @@
           <div class='center'><h2>Related Cases</h2></div>
 
           <%= f.fields_for :related_cases do |rel_case| %>
-            <table class="table">
-              <tr>
-                <td><%= rel_case.label :related_case_id, "Related Cases:" %></td>
-                <td><%= rel_case.collection_select(:related_case_id, current_user.lawfirm.cases.all, :id, :name, :include_blank => "Select") %></td>
-              </tr>
-            </table>
+            <div class="form-group">
+              <div class="col-sm-3">
+                <%= rel_case.label :related_case_id, "Related Cases:", class: "control-label" %>
+              </div>
+              <div class="col-sm-9">
+                <%= rel_case.collection_select(:related_case_id, current_user.lawfirm.cases.load, :id, :name, {:include_blank => "Select"}, class: "form-control") %>
+              </div>
+            </div>
             <% render 'related_case_fields', :f => rel_case%>
 
             <div class='center'>
@@ -93,39 +140,82 @@
 
         <div class="closeout">
           <div class="center"><h2>Closeout</h2></div>
-          <%= f.fields_for :closeouts do |ff| %>
-            <table class="table">
-              <tr>
-                <td><%= ff.label :fee_type, "Fee Type:" %></td>
-                <td><%= ff.select :fee_type, StaticInformation::FEE_TYPE.sort %></td>
-              </tr>
-              <tr>
-                <td><%= ff.label "Total Recovery:" %></td>
-                <td><%= ff.text_field :total_recovery, class: "monetary" %></td>
-              </tr>
-              <tr>
-                <td> <%= ff.label "Total Gross Fee Received:" %></td>
-                <td><%= ff.text_field :total_gross_fee_received, class: "monetary" %></td>
-              </tr>
-              <tr>
-                <td> <%= ff.label "Total Out-of-Pocket Expenses:" %></td>
-                <td> <%= ff.text_field :total_out_of_pocket_expenses, class: "monetary" %></td>
-              </tr>
-              <tr>
-                <td> <%= ff.label "Referring Fee Paid:" %></td>
-                <td>    <%= ff.text_field :referring_fees_paid, class: "monetary" %></td>
-              </tr>
-              <tr>
-                <td> <%= ff.label "Total Fee Received:" %></td>
-                <td> <%= ff.text_field :total_fee_received, class: "monetary" %></td>
-              </tr>
-              <tr>
-                <td><%= ff.label "Date Fee Received:" %></td>
-                <td> <%= ff.date_field :date_fee_received, id: 'datepicker' %></td>
-              </tr>
-            </table>
+            <%= f.fields_for :closeouts do |ff| %>
+
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <%= ff.label :fee_type, "Fee Type:", class: "control-label" %>
+                </div>
+                <div class="col-sm-8">
+                  <%= ff.select :fee_type, StaticInformation::FEE_TYPE.sort, class: "form-control" %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <%= ff.label :total_recovery, "Total Recovery:", class: "control-label" %>
+                </div>
+                <div class="col-sm-8">
+                  <%= ff.text_field :total_recovery, class: "form-control monetary" %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <%= ff.label :total_gross_fee_received, "Total Gross Fee Received:", class: "control-label" %>
+                </div>
+                <div class="col-sm-8">
+                  <%= ff.text_field :total_gross_fee_received, class: "monetary form-control" %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <%= ff.label :total_gross_fee_received, "Total Gross Fee Received:", class: "control-label" %>
+                </div>
+                <div class="col-sm-8">
+                  <%= ff.text_field :total_gross_fee_received, class: "monetary form-control" %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <%= ff.label :total_out_of_pocket_expenses, "Total Out of Pocket Expenses:", class: "control-label" %>
+                </div>
+                <div class="col-sm-8">
+                  <%= ff.text_field :total_out_of_pocket_expenses, class: "monetary form-control" %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <%= ff.label :referring_fees_paid, "Referring Fees Paid:", class: "control-label" %>
+                </div>
+                <div class="col-sm-8">
+                  <%= ff.text_field :referring_fees_paid, class: "monetary form-control" %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <%= ff.label :total_fee_received, "Total Gross Fee Received:", class: "control-label" %>
+                </div>
+                <div class="col-sm-8">
+                  <%= ff.text_field :total_fee_received, class: "monetary form-control" %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <%= ff.label :date_fee_received, "Total Gross Fee Received:", class: "control-label" %>
+                </div>
+                <div class="col-sm-8">
+                  <%= ff.date_field :date_fee_received, id: "datepicker" %>
+                </div>
+              </div>
+
           <% end %>
-        </div>
+        </div><!--  END CLOSEOUTS -->
         <hr>
 
       <div class='center'>
@@ -133,24 +223,40 @@
       </div>
       <div class='staff'>
         <%= f.fields_for :staffs do |staff| %>
-          <table class="table">
-            <tr>
-              <td><%= staff.label "Name:" %></td>
-              <td><%= staff.select(:staffing_id, options_for_select(Staffing.all_full_names_last_first_with_ids(current_user)), :include_blank => "Select") %></td>
-              <td class='hidden'>
-            </tr>
-            <tr>
-              <td><%= staff.label "Position:" %></td>
-              <td><%= staff.select(:position, Staffing.all_positions(current_user).uniq.sort, :include_blank => "Select") %></td>
-            </tr>
-            <tr class="expectedTotalHours">
-              <td><%= staff.label :hours_expected, "Expected Total Hours:" %></td>
-              <td><%= staff.text_field :hours_expected, :placeholder => "Leave blank if case is closed." %></td>
-            <tr>
-              <td><%= staff.label :hours_actual, "Actual Hours Worked:" %></td>
-              <td><%= staff.text_field :hours_actual, :placeholder => 'Leave blank if none.' %></td>
-            </tr>
-          </table>
+          <div class="form-group">
+            <div class='col-sm-3'>
+              <%= staff.label :staffing_id, "Name:", class: "control-label" %>
+            </div>
+            <div class='col-sm-9'>
+              <%= staff.select(:staffing_id, options_for_select(Staffing.all_full_names_last_first_with_ids(current_user)), {:include_blank => "Select"}, class: "form-control") %>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class='col-sm-3'>
+              <%= staff.label :position, "Position:", class: "control-label" %>
+            </div>
+            <div class='col-sm-9'>
+              <%= staff.select(:position, Staffing.all_positions(current_user).uniq.sort, {:include_blank => "Select"}, class: 'form-control') %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class='col-sm-3 expectedTotalHours'>
+              <%= staff.label :hours_expected, "Expected Total Hours:", class: "control-label" %>
+            </div>
+            <div class='col-sm-9'>
+              <%= staff.text_field :hours_expected, :placeholder => "Leave blank if case is closed.", class: "form-control" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-3">
+              <%= staff.label :hours_actual, "Actual Hours Worked:", class: "control-label" %>
+            </div>
+            <div class="col-sm-9">
+              <%= staff.text_field :hours_actual, :placeholder => 'Leave blank if none.', class: "form-control" %>
+            </div>
+          </div>
+
           <% render 'staff_fields', :f => staff %>
           <div class='center'>
             <%= link_to_add_association "Click to Add More Staff", f, :staffs, :class => "addStaff" %> <br><br>
@@ -167,18 +273,25 @@
         <div class='origination'>
           <%= f.fields_for :originations do |ff| %>
 
-            <table class='table'>
-              <tr>
-                <td><%= ff.label "Referral Source:" %></td>
-                <td><%= ff.select(:referral_source, Origination.all_referral_sources(current_user), :include_blank => "Select") %></td>
-                <td><%= ff.text_field :new_referral_source, placeholder: "Add New" %></td>
-              </tr>
-              <tr>
-                <td><%= ff.label "More Information:" %></td>
-                <td><%= ff.text_field :source_description %></td>
-                <td></td>
-              </tr>
-            </table>
+            <div class="form-group">
+              <div class="col-sm-3">
+                <%= ff.label :referral_source, "Referral Source:", class: "control-label" %>
+              </div>
+              <div class="col-sm-6">
+                <%= ff.select(:referral_source, Origination.all_referral_sources(current_user), {:include_blank => "Select"}, class: "form-control") %>
+              </div>
+              <div class='col-sm-3'>
+                <%= ff.text_field :new_referral_source, placeholder: "Add New", class: 'form-control' %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-3">
+                <%= ff.label :source_description, "More Information:", class: "control-label" %>
+              </div>
+              <div class='col-sm-9'>
+                <%= ff.text_field :source_description, class: "form-control" %>
+              </div>
+            </div>
 
           <% end %>
 

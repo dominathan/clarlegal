@@ -15,6 +15,7 @@
       <th>Likelihood of Recovery</th>
       <th>Retainer</th>
       <th>Last Update</th>
+      <th>Edit</th>
     </tr>
   </thead>
   <tbody>
@@ -28,6 +29,7 @@
       <td><%= @fee.payment_likelihood %></td>
       <td><%= number_to_currency @fee.retainer, precision: 0 %></td>
       <td><%= @fee.updated_at.strftime("%b %d, %Y") %></td>
+      <td><%= link_to "Edit", edit_client_case_fee_path(@client,@case,@fee) %></td>
     </tr>
   </tbody>
 </table>
