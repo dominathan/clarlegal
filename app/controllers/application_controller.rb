@@ -62,6 +62,21 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def has_overhead_last_year
+      if current_user.lawfirm.overheads
+        ovh = current_user.lawfirm.overheads.collect(&:year)
+        if ovh.include?(Date.today.year)
+          return true
+        else
+          redirect_to user_lawfirm_overheads_path(current_user, current_user.lawfirm_id),
+            :flash => {:danger => "You must add ESTIMATED overhead for this year."}
+        end
+      else
+        redirect_to user_lawfirm_overheads_path(current_user, current_user.lawfirm_id),
+          :flash => {:danger => "You must add ESTIMATED overhead for this year."}
+      end
+    end
+
   def set_case
     @case = Case.find(params[:case_id])
   end

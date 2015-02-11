@@ -22,7 +22,7 @@
             <%= f.label :rent, "Rent:", class: "control-label" %>
           </div>
           <div class="col-sm-8">
-            <%= f.text_field :rent, class: "form-control" %>
+            <%= f.text_field :rent, class: "form-control monetary" %>
           </div>
         </div>
         <div class="form-group">
@@ -30,7 +30,7 @@
             <%= f.label :utilities, "Utilties:", class: "control-label" %>
           </div>
           <div class="col-sm-8">
-            <%= f.text_field :utilities, class: "form-control" %>
+            <%= f.text_field :utilities, class: "form-control monetary" %>
           </div>
         </div>
 
@@ -39,7 +39,7 @@
             <%= f.label :guaranteed_salaries, "Guaranteed Salaries:", class: "control-label" %>
           </div>
           <div class="col-sm-8">
-            <%= f.text_field :guaranteed_salaries, class: "form-control" %>
+            <%= f.text_field :guaranteed_salaries, class: "form-control monetary" %>
           </div>
         </div>
 
@@ -48,7 +48,7 @@
             <%= f.label :hard_costs, "Hard Costs:", class: "control-label" %>
           </div>
           <div class="col-sm-8">
-            <%= f.text_field :hard_costs, class: "form-control" %>
+            <%= f.text_field :hard_costs, class: "form-control monetary" %>
           </div>
         </div>
 
@@ -57,7 +57,7 @@
             <%= f.label :other, "Other:", class: "control-label" %>
           </div>
           <div class="col-sm-8">
-            <%= f.text_field :other, class: "form-control" %>
+            <%= f.text_field :other, class: "form-control monetary" %>
           </div>
         </div>
 
@@ -66,7 +66,7 @@
             <%= f.label :billable_hours_per_lawyer, "Billable Hours per Lawyer:", class: "control-label" %>
           </div>
           <div class="col-sm-8">
-            <%= f.text_field :billable_hours_per_lawyer, class: "form-control" %>
+            <%= f.text_field :billable_hours_per_lawyer, placeholder: "2000", class: "form-control monetary" %>
           </div>
         </div>
 
@@ -75,7 +75,7 @@
             <%= f.label :number_of_billable_staff, "Number of Billable Staff:", class: "control-label" %>
           </div>
           <div class="col-sm-8">
-            <%= f.text_field :number_of_billable_staff, :placeholder => current_user.lawfirm.staffings.count, class: "form-control" %>
+            <%= f.text_field :number_of_billable_staff, :placeholder => current_user.lawfirm.staffings.count, class: "form-control monetary" %>
           </div>
         </div>
 

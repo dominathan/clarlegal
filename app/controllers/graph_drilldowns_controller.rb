@@ -1,5 +1,5 @@
 class GraphDrilldownsController < ApplicationController
-  before_action :signed_in_user, :belongs_to_firm, :has_open_cases, :has_overhead_last_5_years
+  before_action :signed_in_user, :belongs_to_firm, :has_open_cases, :has_overhead_last_year
 
   def set_category_months
     @category_months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']

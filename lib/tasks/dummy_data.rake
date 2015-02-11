@@ -131,7 +131,7 @@ namespace :db do
                       #Client.method used to put full_name in database
                       full_name: Client.full_name_last_first(first_name, last_name),                   position: 'Responsible Attorney',
                       hourly_rate: (Random.rand(10..45)*10),
-                      email: "cathy@test.com"
+                      email: "cathy@test.com",
                       lawfirm_id: 1)
     15.times do
       first_name = Faker::Name.first_name
