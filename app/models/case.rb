@@ -9,7 +9,7 @@ class Case < ActiveRecord::Base
 
   has_many :staff
   has_many :staffs
-  accepts_nested_attributes_for :staffs, :reject_if => proc { |attribute| attribute[:name] == nil}
+  accepts_nested_attributes_for :staffs, :reject_if => :all_blank
   has_many :timing
   has_many :timings
   accepts_nested_attributes_for :timings

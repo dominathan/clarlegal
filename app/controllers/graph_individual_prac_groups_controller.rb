@@ -31,7 +31,9 @@ class GraphIndividualPracGroupsController < ApplicationController
     @referring_fees = Graph.closeout_by_year_pg(current_user,params[:id],'referring_fees_paid').map {|i| i * -1}
     @total_fee_received = Graph.closeout_by_year_pg(current_user,params[:id],'total_fee_received')
 
-    @origination_source_med = Graph.all_origination_source_fee_estimate_pg(current_user,params[:id],"medium_estimate")
+    @origination_source_med = Graph.remove_arrays_less_than_or_equal_to(
+                                    Graph.all_origination_source_fee_estimate_pg(current_user,params[:id],"medium_estimate"),
+                                0)
 
     @fee_types_med = Graph.fee_estimate_by_fee_type_pg(current_user,params[:id],"medium_estimate","estimated_conclusion_expected")
   end
