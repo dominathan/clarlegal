@@ -4,10 +4,10 @@
 set :output, {:error => "#{path}/log/cron_error_log.log", :standard => "#{path}/log/cron_log.log"}
 
 
-every 1.month do
-  runner 'FixedFee.monthly_fixed_fee_adjustment'
-  runner 'print "FixedFee Adjustment Ran"'
-end
+# every 1.month do
+#   runner 'FixedFee.monthly_fixed_fee_adjustment'
+#   runner 'print "FixedFee Adjustment Ran"'
+# end
 
 # Use this file to easily define all of your cron jobs.
 #
