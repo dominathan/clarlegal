@@ -56,7 +56,7 @@
 
           <div class="form-group">
             <div class="col-sm-4">
-              <%= f.label :total_fee_received, "Total Gross Fee Received:", class: "control-label" %>
+              <%= f.label :total_fee_received, "Net Fee Received:", class: "control-label" %>
             </div>
             <div class="col-sm-8">
               <%= f.text_field :total_fee_received, class: "monetary form-control" %>
@@ -65,7 +65,7 @@
 
           <div class="form-group">
             <div class="col-sm-4">
-              <%= f.label :date_fee_received, "Total Gross Fee Received:", class: "control-label" %>
+              <%= f.label :date_fee_received, "Date Fee Received:", class: "control-label" %>
             </div>
             <div class="col-sm-8">
               <%= f.date_field :date_fee_received, id: "datepicker" %>
