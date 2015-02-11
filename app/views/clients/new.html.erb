@@ -58,7 +58,7 @@
             <%= f.label :state, "State:", class: 'control-label' %>
           </div>
           <div class="col-sm-9">
-            <%= f.select :state, StaticInformation::STATES.select {|x| x[0]  } %>
+            <%= f.select :state, StaticInformation::STATES.select {|x| x[0] }, include_blank: "Select" %>
           </div>
         </div>
 

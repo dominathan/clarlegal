@@ -175,6 +175,10 @@ class CasesController < ApplicationController
 
   def show
     @case = Case.find(params[:id])
+    @lead_attorney = Case.lead_attorney(@case)
+    if @lead_attorney.blank?
+      @lead_attorney = "Select a Responsible Attorney in Staff"
+    end
   end
 
   def destroy

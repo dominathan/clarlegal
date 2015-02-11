@@ -10,7 +10,7 @@ class Client < ActiveRecord::Base
   validates :user_id, presence: true
   validates :first_name, :last_name, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i || ""
-  validates :email, format: { with: VALID_EMAIL_REGEX }
+  #validates :email, format: { with: VALID_EMAIL_REGEX }
   #validates :phone_number, presence: true
   #validates :street_address, :city, :zip_code, presence: true
 
