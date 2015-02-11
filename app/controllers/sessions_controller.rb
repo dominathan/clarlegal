@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
       if user.activated?
         flash[:success] = "Welcome to ClarLegal"
         sign_in user
+        user.sign_in_incrementer
         params[:session][:remember_me] == '1' ? remember(user) : forget(user)
         redirect_back_or user_cases_path
       else

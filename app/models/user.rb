@@ -83,6 +83,10 @@ class User < ActiveRecord::Base
     [user.last_name, user.first_name].compact.join(", ")
   end
 
+  def sign_in_incrementer
+    increment! :signin_counter
+  end
+
   private
 
     def downcase_email
