@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
 
   #send password reset email
   def send_password_reset_email
-    UserMailer.password_reset(self).deliver
+    UserMailer.password_reset(self).send_later(:deliver)
   end
 
   #send lawfirm password reset email
