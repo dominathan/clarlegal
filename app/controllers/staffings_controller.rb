@@ -9,13 +9,13 @@ class StaffingsController < ApplicationController
   end
 
   def index
-    @staffing = current_user.lawfirm.staffings.order(:last_name).load
     @lawfirm = current_user.lawfirm
+    @staffing = current_user.lawfirm.staffings.order(:last_name).load
   end
 
   def create
-    @user = User.find(params[:user_id])
-    @lawfirm = Lawfirm.find(params[:lawfirm_id])
+    @user = current_user
+    @lawfirm = current_user.lawfirm
     @staffing = @lawfirm.staffings.new(staffing_params)
     #the following is a Client.method to store fullname in database
     @staffing.full_name = Client.full_name_last_first(params[:staffing][:first_name],
