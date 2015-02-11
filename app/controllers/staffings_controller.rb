@@ -5,7 +5,7 @@ class StaffingsController < ApplicationController
 
   def new
     @staffing = Staffing.new
-    @lawfirm = Lawfirm.find(params[:lawfirm_id])
+    @lawfirm = current_user.lawfirm
   end
 
   def index
@@ -16,12 +16,12 @@ class StaffingsController < ApplicationController
   def create
     @user = User.find(params[:user_id])
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
-    @staff = @lawfirm.staffings.new(staffing_params)
+    @staffing = @lawfirm.staffings.new(staffing_params)
     #the following is a Client.method to store fullname in database
-    @staff.full_name = Client.full_name_last_first(params[:staffing][:first_name],
+    @staffing.full_name = Client.full_name_last_first(params[:staffing][:first_name],
                                                     params[:staffing][:last_name])
-    @staff.position = params[:staffing][:new_position] unless params[:staffing][:new_position].empty?
-    if @staff.save
+    @staffing.position = params[:staffing][:new_position] unless params[:staffing][:new_position].empty?
+    if @staffing.save
       flash[:success] = "Staff Added Successfully."
       redirect_to user_lawfirm_staffings_path(@user, @lawfirm)
     else
@@ -38,14 +38,15 @@ class StaffingsController < ApplicationController
 
   def edit
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
-    @staff = Staffing.find(params[:id])
+    @staffing = Staffing.find(params[:id])
   end
 
   def update
     @user = User.find(params[:user_id])
     @lawfirm = Lawfirm.find(params[:lawfirm_id])
-    @staff = @lawfirm.staffings.find(params[:id])
-    if @staff.update_attributes(staffing_params)
+    @staffing = @lawfirm.staffings.find(params[:id])
+    params[:staffing][:position] = params[:staffing][:new_position] unless params[:staffing][:new_position].empty?
+    if @staffing.update_attributes(staffing_params)
       flash[:success] = "Staff Updated Successfully"
       redirect_to user_lawfirm_staffings_path(@user, @lawfirm)
     else
