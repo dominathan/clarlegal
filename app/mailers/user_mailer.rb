@@ -1,5 +1,11 @@
 class UserMailer < ActionMailer::Base
-  default from: "noreply-clarlegal@clarlegal.com"
+  if Rails.env == "development"
+    default from: "test-clarlegal@clarlegal.com"
+  elsif Rails.env == 'staging'
+    default from: "noreply-clarlegal@clarlegal-staging-herokuapp.com"
+  else
+    default from: "noreply-clarlegal@clarlegal.com"
+  end
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
