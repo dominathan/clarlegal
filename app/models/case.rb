@@ -72,7 +72,7 @@ class Case < ActiveRecord::Base
 
   def self.reminder_email
     Case.pluck(:id).each do |case_id|
-      ReminderMailer.send_email_reminder(case_id)
+      ReminderMailer.delay.send_email_reminder(case_id)
     end
   end
 

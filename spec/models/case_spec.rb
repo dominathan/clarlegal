@@ -71,7 +71,9 @@ describe Case do
     end
 
     it 'send an email to each case primary email address' do
+      expect(Delayed::Job.count).to eq(0)
       Case.reminder_email
+      expect(Delayed::Job.count).to eq(13)
     end
   end
 end
