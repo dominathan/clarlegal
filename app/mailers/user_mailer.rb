@@ -16,7 +16,7 @@ class UserMailer < ActionMailer::Base
     @user = user
     mail to: user.email, subject: "Account Activation", bcc: "nathan.hall@clarlegal.com"
   end
-  handle_asychronously :account_activation
+  #handle_asychronously :account_activation
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
