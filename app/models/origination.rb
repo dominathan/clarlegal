@@ -10,10 +10,8 @@ class Origination < ActiveRecord::Base
   REFERRALS = ['Attorney','Client','Internet','Advertising','Reputation']
 
   # def referral_source_cannot_be_taken_by_lawfirm
-  #   binding.pry
   # => self.case does not work be case_id has not been created.  Also, cannot find by current_user
   #   case_list = self.case.lawfirm.cases.id
-  #   binding.pry
   #   ref_sources = Origination.where(id: case_list).map { |orig| orig.referral_source.downcase }
   #   if ref_sources.includes?(referral_source.downcase)
   #     errors.add(:referral_source, "Referral Source is already taken.  Please select it form the drop down menu")

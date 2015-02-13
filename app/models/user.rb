@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   end
 
   def send_activation_email
-    UserMailer.account_activation(self).deliver
+    UserMailer.delay.account_activation(self)
   end
 
   #set password reset attributes
@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
 
   #send password reset email
   def send_password_reset_email
-    UserMailer.password_reset(self).send_later(:deliver)
+    UserMailer.password_reset(self).deliver
   end
 
   #send lawfirm password reset email
