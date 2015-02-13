@@ -66,7 +66,6 @@ gem 'letter_opener', '1.2.0', :group => :development #test email being sent
 gem 'mandrill_mailer', '0.4.6'
 gem 'mandrill-api', '1.0.52'
 
-gem 'sidekiq'
-
+gem 'delayed_job_active_record'
 
 
