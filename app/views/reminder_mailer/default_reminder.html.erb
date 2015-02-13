@@ -1,2 +1,10 @@
 
-<p>TEST.It's been 6 months since you've updated your Clarlegal case.TEST</p>
+<p>
+  Dear <%= @case.primary_email %>,
+</p>
+<p>
+  You are receiving this email because your case details are out of date. Please review
+  and update the details of case id: <%= @case.id %>.
+</p>
+<p>Regards,</p>
+<p>The ClarLegal Team</p>
