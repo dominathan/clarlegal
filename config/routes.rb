@@ -1,6 +1,6 @@
 Claregal::Application.routes.draw do
 
-  root 'home_pages#home'
+  root 'static_pages#index'
 
   match '/about',              to: 'home_pages#about',        via: 'get'
   match '/contact',            to: 'home_pages#contact',      via: 'get'
@@ -10,6 +10,8 @@ Claregal::Application.routes.draw do
   match '/joinlawfirm',        to: 'lawfirm_sessions#new',    via: 'get'   #route for joinin lawfirm
   match '/joinlawfirm/commit', to: 'lawfirm_sessions#create', via: 'post'
 
+
+  #----------------------------------------------------------------------#
   get '/settlement_calculators', to: "settlement_calculators#calculate", as: :calculate
 
   resources :sessions,                only: [:new, :create, :destroy]
