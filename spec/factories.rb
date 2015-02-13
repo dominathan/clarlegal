@@ -27,9 +27,11 @@ FactoryGirl.define do
     state                 "AL"
   end
 
-  factory :one_case do
-    case_id               404
+  factory :case do
+    id                    404
     primary_email         "reminderemail@test.com"
+    client_id             1
+    practicegroup_id     301
   end
 
 end
