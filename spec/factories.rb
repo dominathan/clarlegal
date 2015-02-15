@@ -40,6 +40,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Me v. World#{n}" }
     open                  false
     court                 "Jeff Co"
+    primary_email         "reminderemail@test.com"
   end
 
   factory :closeout do
