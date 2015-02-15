@@ -83,7 +83,11 @@ h6 {
 }
 
 .email-form {
-    margin-right: 200px;
+    input {
+        max-width: 80%;
+        margin: 0 auto;
+        display: block;
+    }
 }
 
 #email-subscription {
@@ -92,31 +96,6 @@ h6 {
 }
 #subscription {
     margin-top: 5px;
-    width: 350px;
-}
-
-@media(max-width:767px) {
-    .intro-message {
-        padding-bottom: 15%;
-    }
-
-    .intro-message > h1 {
-        font-size: 3em;
-    }
-
-    ul.intro-social-buttons > li {
-        display: block;
-        margin-bottom: 20px;
-        padding: 0;
-    }
-
-    ul.intro-social-buttons > li:last-child {
-        margin-bottom: 0;
-    }
-
-    .intro-divider {
-        width: 100%;
-    }
 }
 
 .network-name {
@@ -177,6 +156,28 @@ h6 {
 }
 
 @media(max-width:767px) {
+    .intro-message {
+        padding-bottom: 15%;
+    }
+
+    .intro-message > h1 {
+        font-size: 3em;
+    }
+
+    ul.intro-social-buttons > li {
+        display: block;
+        margin-bottom: 20px;
+        padding: 0;
+    }
+
+    ul.intro-social-buttons > li:last-child {
+        margin-bottom: 0;
+    }
+
+    .intro-divider {
+        width: 100%;
+    }
+
     .banner h2 {
         margin: 0;
         text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
@@ -191,6 +192,14 @@ h6 {
 
     ul.banner-social-buttons > li:last-child {
         margin-bottom: 0;
+    }
+
+    .email-form {
+        padding-top: 20px;
+
+        input {
+            max-width: 100%;
+        }
     }
 }
 
