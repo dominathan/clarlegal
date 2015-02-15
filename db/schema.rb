@@ -88,7 +88,6 @@ ActiveRecord::Schema.define(version: 20150211170012) do
     t.string   "full_name"
     t.string   "company"
     t.string   "country"
-    t.integer  "external_id"
   end
 
   add_index "clients", ["user_id", "created_at"], name: "index_clients_on_user_id_and_created_at", using: :btree
