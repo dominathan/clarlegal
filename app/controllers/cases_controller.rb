@@ -24,7 +24,6 @@ class CasesController < ApplicationController
     @case.opposing_attorney = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
     #add new practice group to user lawfirm practicegroups unless :new_practice_group is empty
     unless params[:case][:new_practice_group].empty?
-      @case.practice_group = params[:case][:new_practice_group]
       @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id)
       @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:new_practice_group]).id
     end
@@ -156,6 +155,11 @@ class CasesController < ApplicationController
   def update
     @client = Client.find(params[:client_id])
     @case = Case.find(params[:id])
+    params[:case][:court] = params[:case][:new_court] unless params[:case][:new_court].empty?
+    #add a new judge unless user selects from dropdown list
+    params[:case][:judge] = params[:case][:new_judge] unless params[:case][:new_judge].empty?
+    #add a new attorney unless user selects from dropdown list
+    params[:case][:opposing_attorney] = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
     if @case.update_attributes(case_params)
       flash[:success] = "Updated case matter information"
       redirect_to client_case_path(@client,@case)
@@ -171,6 +175,10 @@ class CasesController < ApplicationController
 
   def show
     @case = Case.find(params[:id])
+    @lead_attorney = Case.lead_attorney(@case)
+    if @lead_attorney.blank?
+      @lead_attorney = "Select a Responsible Attorney in Staff"
+    end
   end
 
   def destroy

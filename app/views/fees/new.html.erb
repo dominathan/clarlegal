@@ -3,54 +3,99 @@
 <%= render 'shared/subheader' %>
 
 <h2>Case Fee</h2>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <%= form_for(@fee, url: {action: "create"}) do |f| %>
-        <%= render 'shared/error_messages', object: f.object %>
-
-        <table class='table'>
-          <tr>
-            <td><%= f.label "Fee Type:" %></td>
-            <td><%= f.select :fee_type, StaticInformation::FEE_TYPE %></td>
-          </tr>
-
-          <tr>
-            <td><%= f.label :high_estimate, "High Value Estimate:" %></td>
-            <td><%= f.text_field :high_estimate, class: 'monetary' %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :medium_estimate, "Medium Value Estimate:" %></td>
-            <td><%= f.text_field :medium_estimate, class: 'monetary' %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :low_estimate, "Low Value Estimate:" %></td>
-            <td><%= f.text_field :low_estimate, class: 'monetary' %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :payment_likelihoo, "Likelihood of Recovery:" %></td>
-            <td><%= f.select :payment_likelihood, StaticInformation::FEE_PAYMENT_LIKELIHOOD %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :referral, "Fee Owed to Referral Source:" %></td>
-            <td><%= f.text_field :referral, class: 'monetary' %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :cost_estimate, "Estimated Out-of-Pocket Expenses:" %></td>
-            <td><%= f.text_field :cost_estimate, class: 'monetary' %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :retainer, "Retainer:" %></td>
-            <td><%= f.text_field :retainer, class: 'monetary' %></td>
-          </tr>
-        </table>
-
-        <div class="center">
-          <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
-        </div>
-        <% end %>
-
+  <div class="col-md-10 col-md-offset-1">
+  <%= form_for(@fee, url: {action: "create"}, html: { class: "form-horizontal"}) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="form-group">
+      <div class="col-sm-3">
+        <%= f.label "Fee Type:", class: 'control-label' %>
+      </div>
+      <div class="col-sm-9" id="feeSelect">
+        <%= f.select :fee_type, StaticInformation::FEE_TYPE, {include_blank: "Select Fee Type"}, class: 'form-control' %>
+      </div>
     </div>
-  </div>
+
+    <div class="form-group">
+      <div class='fees hourly mixed contingency hide'>
+        <div class="col-sm-3">
+          <%= f.label :high_estimate, "High Value Estimate:", class: "control-label" %>
+        </div>
+        <div class='col-sm-9'>
+          <%= f.text_field :high_estimate, class: 'monetary form-control' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class='fees hourly mixed contingency fixed hide'>
+      <!-- Change label name if fixedfee or hourly case -->
+        <div id="feeNameChange" class="col-sm-3">
+          <%= f.label :medium_estimate, "Medium Value Estimate", class: "control-label" %>
+        </div>
+        <div class="col-md-9">
+          <%= f.text_field :medium_estimate, class: 'monetary form-control' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class='fees hourly mixed contingency hide'>
+        <div class="col-sm-3">
+          <%= f.label :low_estimate, "Low Value Estimate:", class: "control-label" %>
+        </div>
+        <div class='col-sm-9'>
+          <%= f.text_field :low_estimate, class: 'monetary form-control' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class='fees hourly mixed contingency fixed hide'>
+        <div class="col-sm-3">
+          <%= f.label :payment_likelihood,  "Likelihood of Recovery:", class: 'control-label' %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.select :payment_likelihood, StaticInformation::FEE_PAYMENT_LIKELIHOOD, {}, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class='fees hourly mixed contingency fixed hide'>
+        <div class="col-sm-3">
+          <%= f.label :referral, "Fee Owed to Referral Source:", class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.text_field :referral, class: 'monetary form-control' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class='fees hourly mixed contingency fixed hide'>
+        <div class="col-sm-3">
+          <%= f.label :cost_estimate, "Out-of-Pocket Expenses:", class: "control-label" %>
+        </div>
+        <div class='col-sm-9'>
+          <%= f.text_field :cost_estimate, class: 'monetary form-control' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class='fees hourly mixed contingency fixed hide'>
+        <div class="col-sm-3">
+          <%= f.label :retainer, "Retainer:", class: 'control-label' %>
+        </div>
+        <div class='col-sm-9'>
+          <%= f.text_field :retainer, class: 'monetary form-control' %>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="center">
+      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+    </div>
+  <% end %>
 </div>

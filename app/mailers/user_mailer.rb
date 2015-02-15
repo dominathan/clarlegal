@@ -1,5 +1,11 @@
 class UserMailer < ActionMailer::Base
-  default from: "noreply-clarlegal@clarlegal.com"
+  if Rails.env == "development"
+    default from: "test-clarlegal@clarlegal.com"
+  elsif Rails.env == 'staging'
+    default from: "noreply-clarlegal@clarlegal-staging-herokuapp.com"
+  else
+    default from: "noreply-clarlegal@clarlegal.com"
+  end
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -8,8 +14,9 @@ class UserMailer < ActionMailer::Base
   #
   def account_activation(user)
     @user = user
-    mail to: user.email, subject: "Account Activation"
+    mail to: user.email, subject: "Account Activation", bcc: "nathan.hall@clarlegal.com"
   end
+  #handle_asychronously :account_activation
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -18,7 +25,6 @@ class UserMailer < ActionMailer::Base
   #
   def password_reset(user)
     @user = user
-
     mail to: user.email, subject: "Password Reset Instructions"
   end
 end

@@ -1,4 +1,4 @@
-  $navbarBackground: #2459b1;
+$navbarBackground: #2459b1;
 $navbarBackgroundHighlight: #332051;
 $navbarText: #000;
 $navbarLinkColor: #FFF;
@@ -23,7 +23,7 @@ html {
 }
 
 body {
-  padding-top: 60px;
+  padding-top: 30px;
 }
 
 section {
@@ -48,6 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
+  font-family: verdana, arial, helvetica, sans-serif;
   font-size: 3em;
   letter-spacing: -2px;
   margin-bottom: 30px;
@@ -149,7 +150,7 @@ footer {
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 0px;
   @include box_sizing;
 }
 
@@ -177,8 +178,9 @@ input {
 }
 
 .checkbox {
-  margin-top: -10px;
-  margin-bottom: 10px;
+  margin-left: -15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   span {
     margin-left: 20px;
     font-weight: normal;
@@ -314,4 +316,8 @@ fieldset[disabled] .btn.active {
 #practice-group-revenue-buttons {
   float: left;
   margin-left: 125px;
+}
+
+#signupForm {
+  padding-left: 5%;
 }

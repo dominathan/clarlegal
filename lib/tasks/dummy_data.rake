@@ -138,7 +138,6 @@ namespace :db do
     15.times do
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name
-      email = Faker::Internet.email
       position_list = ['Managing Member', 'Partner','Counsel','Contract Attorney',
                         'Staff Attorney','Paralegal','Secretary', 'Responsible Attorney']
       Staffing.create!(first_name: first_name,
@@ -148,7 +147,7 @@ namespace :db do
                         full_name: Client.full_name_last_first(first_name, last_name),
                         position: position_list[Random.rand(0..7)],
                         hourly_rate: (Random.rand(10..45)*10),
-                        email: email,
+                        email: Faker::Internet.email,
                         lawfirm_id: 1)
     end
   end

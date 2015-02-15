@@ -41,4 +41,7 @@ Claregal::Application.configure do
 
   #added for testing efficiency
   ActiveModel::SecurePassword.min_cost = true
+
+  #Added to remove the annoying testing message
+  config.i18n.enforce_available_locales = false
 end

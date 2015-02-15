@@ -2,7 +2,7 @@ class OverheadsController < ApplicationController
   before_action :signed_in_user, :belongs_to_firm
 
   def index
-    @overheads = current_user.lawfirm.overheads.order(:year).reverse
+    @overheads = current_user.lawfirm.overheads.order('year DESC')
   end
 
   def new

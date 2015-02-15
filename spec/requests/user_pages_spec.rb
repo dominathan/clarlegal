@@ -32,11 +32,11 @@ describe "User pages" do
 
     describe "with valid information" do
       before do
-        fill_in "First name",         with: "Example User"
-        fill_in "Last name",         with: "Nothing"
+        fill_in "First Name",         with: "Example User"
+        fill_in "Last Name",         with: "Nothing"
         fill_in "Email",        with: "user@example.com"
         fill_in "Password",     with: "password"
-        fill_in "Confirmation", with: "password"
+        fill_in "Password Confirmation", with: "password"
       end
 
       describe "after clicking submit button" do

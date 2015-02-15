@@ -23,6 +23,7 @@ gem 'will_paginate', '3.0.7' #added to have clickiable page numbers at bottom of
 gem 'will_paginate-bootstrap', '1.0.1'
 gem 'cocoon', '1.2.6'  #nested forms, javascript adds new form
 gem 'whenever', '0.9.2', :require => false #handles cron tasks
+gem 'delayed_job_active_record', '4.0.3'
 
 group :development, :test do
   gem 'thin', '1.6.3' #local server
@@ -66,6 +67,10 @@ gem 'letter_opener', '1.2.0', :group => :development #test email being sent
 gem 'mandrill_mailer', '0.4.6'
 gem 'mandrill-api', '1.0.52'
 
-gem 'delayed_job_active_record'
+#for a sexy landing page, et. al.
+gem 'bootsaas', '1.0.0'
+gem 'brakeman' #NEED TO CHECK MORE ABOUT ITS FEATURES
 
 
+#gem 'rails_12factor', group: :production
+#gem 'brakeman'

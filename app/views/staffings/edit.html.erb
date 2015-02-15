@@ -1,39 +1,68 @@
 <% provide(:title, "Edit Staff") %>
 
-<h1>Edit <%= "#{@staff.last_name}, #{@staff.first_name} for #{@lawfirm.firm_name}" %> </h1>
+<h1>Edit <%= "#{@staffing.last_name}, #{@staffing.first_name} for #{@lawfirm.firm_name}" %> </h1>
 
 <div class="row">
-  <div class="col-lg-6 col-lg-offset-3">
-    <%= form_for(@staff, url: {action: "update"}) do |f| %>
+  <div class="col-lg-10 col-lg-offset-1">
+    <%= form_for(@staffing, url: {action: "update"}, html: {class: 'form-horizontal'}) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-     <table class="table">
-        <tr>
-          <td><%= f.label :first_name, "First Name:" %></td>
-          <td><%= f.text_field :first_name %></td>
-        </tr>
-        <tr>
-          <td><%= f.label :middle_initial, "Middle Initial:" %></td>
-          <td><%= f.text_field :middle_initial %></td>
-        </tr>
-        <tr>
-          <td><%= f.label :last_name, "Last Name:" %></td>
-          <td><%= f.text_field :last_name %></td>
-        </tr>
-        <tr>
-          <td><%= f.label :email, "Email Address:" %></td>
-          <td><%= f.text_field :email %></td>
-        </tr>
-        <tr>
-          <td><%= f.label :position, "Position:" %></td>
-          <td><%= f.select(:position, Staffing.all_positions(current_user).uniq.sort, :include_blank => "Select") %>
-        </tr>
-        <tr>
-          <td><%= f.label :hourly_rate, "Hourly Rate:" %></td>
-          <td><%= f.text_field :hourly_rate, :placeholder => "If Applicable",
-                    :class => "monetary" %></td>
-        </tr>
-      </table>
+     <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :first_name, "First Name:", class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.text_field :first_name, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :middle_initial, "Middle Initial:", class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.text_field :middle_initial, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :last_name, "Last Name:", class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.text_field :last_name, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :email, "Email Address:", class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.text_field :email, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :position, "Position:", class: "control-label" %>
+        </div>
+        <div class="col-sm-6">
+          <%= f.select(:position, Staffing.all_positions(current_user).uniq.sort, {:include_blank => "Select"}, {class: "form-control"}) %>
+        </div>
+        <div class="col-sm-3">
+          <%= f.text_field :new_position, :placeholder => "Or Create New Position", class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <%= f.label :hourly_rate, "Hourly Rate:", class: "control-label" %>
+        </div>
+        <div class="col-sm-9">
+          <%= f.text_field :hourly_rate, class: "form-control" %>
+        </div>
+      </div>
 
       <div class="center">
         <%= f.submit "Update Staff", class: "btn btn-large btn-primary center" %>

@@ -43,18 +43,15 @@ class StaffCase < ActiveRecord::Base
         # end
       end
       actual_list << actual_hours
-      binding.pry
       if current_datetime_position == 0
         delta =  actual_list[0]
       else
         delta = actual_list[current_datetime_position] - actual_list[current_datetime_position - 1]
         if delta > 0
           actual_list[current_datetime_position] = actual_list[current_datetime_position - 1] + delta
-          binding.pry
         end
       #expected_list << expected_hours
       end
-      binding.pry
       current_datetime_position += 1
     end
     actual_list

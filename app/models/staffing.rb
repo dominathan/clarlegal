@@ -7,10 +7,10 @@ class Staffing < ActiveRecord::Base
 
   validates :lawfirm_id, :position, :first_name, :last_name, :email, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i || ""
-  validates :email, format: { with: VALID_EMAIL_REGEX }
+  validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }
 
   def self.all_positions(user)
-    position_list = StaticInformation::POSITION_LIST.concat(user.lawfirm.staffings.all
+    position_list = StaticInformation::POSITION_LIST.concat(user.lawfirm.staffings.load
                                                     .collect! { |person| person.position } )
                                                     .compact.uniq.sort!
   end
