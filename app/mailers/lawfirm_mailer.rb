@@ -1,5 +1,5 @@
 class LawfirmMailer < ActionMailer::Base
-  default from: "noreply-clarlegal@clarlegal.com"
+  default from: "noreply@clarlegal.com"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
