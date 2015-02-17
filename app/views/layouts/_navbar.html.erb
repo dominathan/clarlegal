@@ -26,7 +26,7 @@
           <li><%= link_to "My Cases", user_cases_path %></li>
           <li><%= link_to "Sign Out", signout_path, method: "delete" %>
         <% else %>
-          <%= link_to 'Sign Up', new_user_path, class: "btn btn-success navbar-btn" %>
+          <%= link_to 'Sign Up', new_user_path, class: "btn btn-primary navbar-btn" %>
           <li><%= link_to "Sign In", signin_path %></li>
         <% end %>
       </ul>

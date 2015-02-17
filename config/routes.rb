@@ -2,8 +2,8 @@ Claregal::Application.routes.draw do
 
   root 'static_pages#index'
 
-  match '/about',              to: 'home_pages#about',        via: 'get'
-  match '/contact',            to: 'home_pages#contact',      via: 'get'
+  match '/new_subscriber',     to: 'subscribers#create',      via: 'post'
+
   match '/signup',             to: 'users#new',               via: 'get'
   match '/signin',             to: 'sessions#new',            via: 'get'
   match '/signout',            to: 'sessions#destroy',        via: 'delete'
