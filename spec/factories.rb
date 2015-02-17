@@ -71,6 +71,30 @@ FactoryGirl.define do
     sequence(:referral_source) { |n| "source#{n}" }
   end
 
+  factory :open_case do
+    association                     :client
+    sequence(:name)            { |n| "Me v. World#{n}" }
+    open                            false
+  end
+
+  factory :fee do
+    association                     :case
+    fee_type                        "Contingency"
+    high_estimate                   5
+    medium_estimate                 3
+    low_estimate                    1
+    retainer                        3
+    cost_estimate                   2
+    referral                        1
+  end
+
+  factory :timing do
+    association                     :case
+    estimated_conclusion_fast       Date.today
+    estimated_conclusion_expected   Date.today + 1.year
+    estimated_conclusion_slow       Date.today + 2.years
+  end
+
 end
 
 

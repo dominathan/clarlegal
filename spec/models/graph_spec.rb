@@ -399,4 +399,71 @@ describe Graph do
       end
     end
   end
+
+  describe 'expected / projected amounts' do
+    before {
+            @clcase1 = FactoryGirl.create(:case, open: true, client_id: 1, id: 21, practicegroup_id: 1)
+            @clcase2 = FactoryGirl.create(:case, open: true, client_id: 1, id: 22, practicegroup_id: 1)
+            @clcase3 = FactoryGirl.create(:case, open: true, client_id: 1, id: 23, practicegroup_id: 1)
+            @clcase4 = FactoryGirl.create(:case, open: true, client_id: 2, id: 24, practicegroup_id: 2)
+            @clcase5 = FactoryGirl.create(:case, open: true, client_id: 2, id: 25, practicegroup_id: 2)
+            @clcase6 = FactoryGirl.create(:case, open: true, client_id: 2, id: 26, practicegroup_id: 2)
+            @clcase7 = FactoryGirl.create(:case, open: true, client_id: 3, id: 27, practicegroup_id: 3)
+            @clcase8 = FactoryGirl.create(:case, open: true, client_id: 3, id: 28, practicegroup_id: 3)
+            @clcase9 = FactoryGirl.create(:case, open: true, client_id: 3, id: 29, practicegroup_id: 3)
+            @fee1 = FactoryGirl.create(:fee, case_id: 21)
+            @fee2 = FactoryGirl.create(:fee, case_id: 22)
+            @fee3 = FactoryGirl.create(:fee, case_id: 23)
+            @fee4 = FactoryGirl.create(:fee, case_id: 24)
+            @fee5 = FactoryGirl.create(:fee, case_id: 25)
+            @fee6 = FactoryGirl.create(:fee, case_id: 26)
+            @fee7 = FactoryGirl.create(:fee, case_id: 27)
+            @fee8 = FactoryGirl.create(:fee, case_id: 28)
+            @fee9 = FactoryGirl.create(:fee, case_id: 29)
+            @timing1 = FactoryGirl.create(:timing, case_id: 21)
+            @timing2 = FactoryGirl.create(:timing, case_id: 22)
+            @timing3 = FactoryGirl.create(:timing, case_id: 23)
+            @timing4 = FactoryGirl.create(:timing, case_id: 24)
+            @timing5 = FactoryGirl.create(:timing, case_id: 25)
+            @timing6 = FactoryGirl.create(:timing, case_id: 26)
+            @timing7 = FactoryGirl.create(:timing, case_id: 27)
+            @timing8 = FactoryGirl.create(:timing, case_id: 28)
+            @timing9 = FactoryGirl.create(:timing, case_id: 29)
+    }
+
+    context 'a new case' do
+      subject { @clcase1 }
+      it { should be_a(Case) }
+
+      it 'should respond to the case attributes' do
+        expect(@clcase1.open).to eq(true)
+        expect(@clcase2.fees.first.high_estimate).to be(5)
+        expect(@clcase9.timings.first.estimated_conclusion_fast).to be_a(Date)
+      end
+
+
+    end
+
+
+
+
+
+
+
+
+
+
+#REMEMBER AT SOMEPOINT TO CHECK CASES THAT HAVE BEEN UPDATED OVER TIME
+
+
+
+
+
+
+
+
+
+
+
+  end
 end
