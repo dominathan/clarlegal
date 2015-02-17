@@ -399,4 +399,128 @@ describe Graph do
       end
     end
   end
+
+  describe 'expected / projected amounts' do
+    before {
+            @clcase1 = FactoryGirl.create(:case, open: true, client_id: 1, id: 21, practicegroup_id: 1)
+            @clcase2 = FactoryGirl.create(:case, open: true, client_id: 1, id: 22, practicegroup_id: 1)
+            @clcase3 = FactoryGirl.create(:case, open: true, client_id: 1, id: 23, practicegroup_id: 1)
+            @clcase4 = FactoryGirl.create(:case, open: true, client_id: 2, id: 24, practicegroup_id: 2)
+            @clcase5 = FactoryGirl.create(:case, open: true, client_id: 2, id: 25, practicegroup_id: 2)
+            @clcase6 = FactoryGirl.create(:case, open: true, client_id: 2, id: 26, practicegroup_id: 2)
+            @clcase7 = FactoryGirl.create(:case, open: true, client_id: 3, id: 27, practicegroup_id: 3)
+            @clcase8 = FactoryGirl.create(:case, open: true, client_id: 3, id: 28, practicegroup_id: 3)
+            @clcase9 = FactoryGirl.create(:case, open: true, client_id: 3, id: 29, practicegroup_id: 3)
+            @fee1 = FactoryGirl.create(:fee, case_id: 21)
+            @fee2 = FactoryGirl.create(:fee, case_id: 22)
+            @fee3 = FactoryGirl.create(:fee, case_id: 23)
+            @fee4 = FactoryGirl.create(:fee, case_id: 24)
+            @fee5 = FactoryGirl.create(:fee, case_id: 25)
+            @fee6 = FactoryGirl.create(:fee, case_id: 26)
+            @fee7 = FactoryGirl.create(:fee, case_id: 27)
+            @fee8 = FactoryGirl.create(:fee, case_id: 28)
+            @fee9 = FactoryGirl.create(:fee, case_id: 29)
+            @timing1 = FactoryGirl.create(:timing, case_id: 21)
+            @timing2 = FactoryGirl.create(:timing, case_id: 22)
+            @timing3 = FactoryGirl.create(:timing, case_id: 23)
+            @timing4 = FactoryGirl.create(:timing, case_id: 24)
+            @timing5 = FactoryGirl.create(:timing, case_id: 25)
+            @timing6 = FactoryGirl.create(:timing, case_id: 26)
+            @timing7 = FactoryGirl.create(:timing, case_id: 27)
+            @timing8 = FactoryGirl.create(:timing, case_id: 28)
+            @timing9 = FactoryGirl.create(:timing, case_id: 29)
+    }
+
+    context 'a new case' do
+      subject { @clcase1 }
+      it { should be_a(Case) }
+
+      it 'should respond to the case attributes' do
+        expect(@clcase1.open).to eq(true)
+        expect(@clcase2.fees.first.high_estimate).to be(5)
+        expect(@clcase9.timings.first.estimated_conclusion_fast).to be_a(Date)
+      end
+    end
+
+    context 'Graph.expected_years' do
+      subject { Graph.expected_years }
+      it { should be_a(Array) }
+      it { should eq([Date.today, Date.today + 1.year, Date.today + 2.years,
+                      Date.today + 3.years, Date.today + 4.years])
+          }
+    end
+
+    context 'Graph.fee_estimate_by_year(user,timing_estimate,fee_estimate)' do
+
+      subject { Graph.fee_estimate_by_year(@user1,'estimated_conclusion_fast',"high_estimate")}
+      it { should eq([45,0,0,0,0]) }
+
+      it 'should accept different estimates' do
+        expect(Graph.fee_estimate_by_year(@user1,'estimated_conclusion_slow',"medium_estimate")).to eq([0,0,27,0,0])
+      end
+
+      it 'should respond to updated fees from user' do
+        @fee11 = FactoryGirl.create(:fee, case_id: 21, high_estimate: 1, medium_estimate: 0, low_estimate: 0)
+        expect(Graph.fee_estimate_by_year(@user1,'estimated_conclusion_fast',"high_estimate")).to eq([41,0,0,0,0])
+      end
+
+      it 'should react to new timings' do
+        @fee11 = FactoryGirl.create(:fee, case_id: 21, high_estimate: 1, medium_estimate: 0, low_estimate: 0)
+        @timing11 = FactoryGirl.create(:timing, case_id: 21, estimated_conclusion_fast: Date.today + 4.years,
+                                                        estimated_conclusion_expected: Date.today + 5.years,
+                                                        estimated_conclusion_slow: Date.today + 6.years )
+        expect(Graph.fee_estimate_by_year(@user1,'estimated_conclusion_fast',"high_estimate")).to eq([41,0,0,0,1])
+      end
+    end
+
+    context 'Graph.fee_estimate_by_month(user,timing_estimate,fee_estimate,year_to_add)' do
+      subject { Graph.fee_estimate_by_month(@user1,'estimated_conclusion_fast','low_estimate',0)}
+      it { should have(12).items }
+      it { should eq([0,9,0,0,0,0,0,0,0,0,0,0])}
+      it 'updating a fee to afew months later will show up' do
+        @timing9.update_attribute(:estimated_conclusion_fast, "Mon, 16 Feb 2015".to_date + 4.months)
+        expect(Graph.fee_estimate_by_month(@user1,'estimated_conclusion_fast','low_estimate',0)).to eq([0,8,0,0,0,1,0,0,0,0,0,0])
+      end
+
+      it 'adding a new fee and timing  to an existing case will show the updated fee' do
+        @timing12 = FactoryGirl.create(:timing, case_id: 21, estimated_conclusion_fast: "Mon, 16 Feb 2015".to_date + 4.months,
+                                                        estimated_conclusion_expected: Date.today + 5.years,
+                                                        estimated_conclusion_slow: Date.today + 6.years)
+        @fee12 = FactoryGirl.create(:fee, case_id: 21, high_estimate: 60, medium_estimate: 60, low_estimate: 60)
+        expect(Graph.fee_estimate_by_month(@user1,'estimated_conclusion_fast','high_estimate',0)).to eq([0,40,0,0,0,60,0,0,0,0,0,0])
+      end
+    end
+
+    before { FactoryGirl.create(:overhead, lawfirm_id: 1, year: Date.today.year)}
+    context 'expected overhead calculations' do
+      subject { Graph.expected_overhead_next_year(@user1) }
+      it { should eq(3000000) }
+    end
+
+    context 'expected overhead each month' do
+      subject { Graph.overhead_by_month(@user1) }
+      it { should eq(3000000/12)}
+    end
+
+    context 'Graph.open_cases_by_pg(user)' do
+      subject { Graph.open_cases_by_pg(@user1) }
+      it { should match_array([["test_group_1",3],["test_group_2",3],["test_group_3",3]]) }
+    end
+
+    context 'Graph.open_cases_by_pg_and_fee_estimate(user,fee_estimate)' do
+      subject { Graph.open_cases_by_pg_and_fee_estimate(@user1,'low_estimate') }
+      it { should match_array([['test_group_1',3],["test_group_2",3],["test_group_3",3]])}
+    end
+
+    context 'Graph.revenue_by_practice_group_estimated(user,fee_estimate,timing_estimate)' do
+      subject { ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_estimated(@user1,'low_estimate','estimated_conclusion_fast')) }
+      it { should match_array([
+                                {"name"=>"test_group_1", "data"=>[3,0,0,0,0]},
+                                {"name"=>"test_group_2", "data"=>[3,0,0,0,0]},
+                                {"name"=>"test_group_3", "data"=>[3,0,0,0,0]}
+                              ])
+          }
+    end
+
+  end
 end
