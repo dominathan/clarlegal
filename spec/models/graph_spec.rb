@@ -491,9 +491,36 @@ describe Graph do
       end
     end
 
+    before { FactoryGirl.create(:overhead, lawfirm_id: 1, year: Date.today.year)}
+    context 'expected overhead calculations' do
+      subject { Graph.expected_overhead_next_year(@user1) }
+      it { should eq(3000000) }
+    end
 
+    context 'expected overhead each month' do
+      subject { Graph.overhead_by_month(@user1) }
+      it { should eq(3000000/12)}
+    end
 
+    context 'Graph.open_cases_by_pg(user)' do
+      subject { Graph.open_cases_by_pg(@user1) }
+      it { should match_array([["test_group_1",3],["test_group_2",3],["test_group_3",3]]) }
+    end
 
+    context 'Graph.open_cases_by_pg_and_fee_estimate(user,fee_estimate)' do
+      subject { Graph.open_cases_by_pg_and_fee_estimate(@user1,'low_estimate') }
+      it { should match_array([['test_group_1',3],["test_group_2",3],["test_group_3",3]])}
+    end
+
+    context 'Graph.revenue_by_practice_group_estimated(user,fee_estimate,timing_estimate)' do
+      subject { ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_estimated(@user1,'low_estimate','estimated_conclusion_fast')) }
+      it { should match_array([
+                                {"name"=>"test_group_1", "data"=>[3,0,0,0,0]},
+                                {"name"=>"test_group_2", "data"=>[3,0,0,0,0]},
+                                {"name"=>"test_group_3", "data"=>[3,0,0,0,0]}
+                              ])
+          }
+    end
 
   end
 end

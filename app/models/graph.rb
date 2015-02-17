@@ -133,7 +133,7 @@ class Graph < ActiveRecord::Base
   end
 
   def self.total_overhead_this_year(user, year = 0)
-    ovh = user.lawfirm.overheads.where(year: year).first
+    ovh = user.lawfirm.overheads.where(year: year).last
     [
       ovh.rent,
       ovh.utilities,
@@ -390,15 +390,13 @@ class Graph < ActiveRecord::Base
   end
 
   def self.expected_overhead_next_year(user)
-    amount = 0
     ovh = user.lawfirm.overheads.where(year: Date.today.year).last
-    amount += ovh.rent
-    amount += ovh.utilities
-    amount += ovh.technology
-    amount += ovh.hard_costs
-    amount += ovh.guaranteed_salaries
-    amount += ovh.other
-    return amount
+    [ovh.rent,
+    ovh.utilities,
+    ovh.technology,
+    ovh.hard_costs,
+    ovh.guaranteed_salaries,
+    ovh.other].sum
   end
 
   def self.overhead_by_month(user)
