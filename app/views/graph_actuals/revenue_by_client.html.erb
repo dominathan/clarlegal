@@ -6,7 +6,7 @@
           method: :get do %>
           <div class="row">
             <div class='col-lg-6 col-lg-offset-3'>
-              <%= select_tag :client, options_for_select(@clients) %>
+              <%= select_tag :client, options_for_select(@clients), class: "form-control" %><br>
               <%= submit_tag "Change Client", class: 'btn btn-md btn-primary center' %>
             </div>
           </div>
