@@ -460,6 +460,7 @@ class Graph < ActiveRecord::Base
                     .where(open: true, practicegroup_id: pg)
                     .joins(:timings, :fees)
                     .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                    .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                     .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
                           {start_date: year_of_collection[i].beginning_of_year,
                            end_date: year_of_collection[i].end_of_year})
@@ -489,6 +490,7 @@ class Graph < ActiveRecord::Base
       amounts[i] = user.lawfirm.cases
                               .where(open: true).joins(:fees,:timings)
                               .where('fee_type = ?', fee_type)
+                              .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                               .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
                               .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
                                     {start_date: year_of_collection[i].beginning_of_year,
@@ -517,6 +519,7 @@ class Graph < ActiveRecord::Base
       case_listing = client.cases
                            .where(open: true)
                            .joins(:timings)
+                           .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                            .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
                                   {start_date: years_of_collection[i].beginning_of_year,
                                    end_date: years_of_collection[i].end_of_year})
@@ -582,6 +585,7 @@ class Graph < ActiveRecord::Base
                                .where(practicegroup_id: pg, open: true)
                                .joins(:fees,:timings)
                                .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                               .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                                .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
                                   { start_date: year_of_collection[i].beginning_of_year,
                                     end_date: year_of_collection[i].end_of_year})
@@ -629,6 +633,7 @@ class Graph < ActiveRecord::Base
                           .joins(:fees,:timings)
                           .where('fee_type = ?', type)
                           .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                          .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                           .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
                                 { start_date: year_of_collection[i].beginning_of_year,
                                   end_date: year_of_collection[i].end_of_year })
@@ -638,28 +643,6 @@ class Graph < ActiveRecord::Base
     end
     return all_fee_types.zip(final).map { |name,values|  { 'name' => name, 'data' => values } }.to_json
   end
-
-
-#----------------------------------REMOVE
-  # def self.get_all_unupdated_case_ids(date_since_last_update)
-  #   Case.select { |ca| ca.fees.last.updated_at <= date_since_last_update ||
-  #                   ca.timings.last.updated_at <= date_since_last_update ||
-  #                   ca.updated_at <= date_since_last_update }
-  #       .collect(&:id)
-  # end
-
-  # def self.prim_emails_and_case_ids(var)
-  #   email_and_ids = []
-  #   var.each do |id|
-  #     email_and_ids << [Case.find(id).primary_email, id]
-  #   end
-  #   vals = email_and_ids.group_by { |item| item[0] }
-  #   keys = vals.keys
-  #   keys.each do |key|
-  #     vals[key] = vals[key].map { |item| item[1] }
-  #   end
-  #   vals
-  # end
 
 
 end
