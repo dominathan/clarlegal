@@ -7,8 +7,8 @@ class SubscribersController < ApplicationController
       flash[:success] = "Thanks for your interest in our product. We will be in touch shortly."
       redirect_to root_path
     else
+      flash[:danger] = "You have either entered an email address we already have on file, or have entered an invalid email address."
       redirect_to root_path
-      flash[:alert] = "Please review the errors below."
     end
   end
 
