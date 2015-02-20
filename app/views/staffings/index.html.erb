@@ -13,7 +13,7 @@
     <tbody>
         <% @staffing.each do |staff| %>
           <tr>
-            <td><%= Staffing.full_name_last_first(staff) %> </td>
+            <td><%= staff.full_name_last_first %> </td>
             <td><%= staff.email %></td>
             <td><%= staff.position %></td>
             <td><%= link_to "Edit", edit_user_lawfirm_staffing_path(:user_id => current_user.id, :lawfirm_id => current_user.lawfirm.id, :id => staff.id) %></td>

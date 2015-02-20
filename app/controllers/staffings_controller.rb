@@ -1,21 +1,17 @@
 #Staffing refers to actual Staff for the lawfirm
 #Staff refers to Case Staff... staff that work on a case
 class StaffingsController < ApplicationController
-  before_action :signed_in_user, :belongs_to_firm
+  before_action :signed_in_user, :belongs_to_firm, :set_lawfirm
 
   def new
-    @staffing = Staffing.new
-    @lawfirm = current_user.lawfirm
+    @staffing = @lawfirm.staffings.build
   end
 
   def index
-    @lawfirm = current_user.lawfirm
-    @staffing = current_user.lawfirm.staffings.order(:last_name).load
+    @staffing = @lawfirm.staffings.order(:last_name).load
   end
 
   def create
-    @user = current_user
-    @lawfirm = current_user.lawfirm
     @staffing = @lawfirm.staffings.new(staffing_params)
     #the following is a Client.method to store fullname in database
     @staffing.full_name = Client.full_name_last_first(params[:staffing][:first_name],
@@ -23,32 +19,28 @@ class StaffingsController < ApplicationController
     @staffing.position = params[:staffing][:new_position] unless params[:staffing][:new_position].empty?
     if @staffing.save
       flash[:success] = "Staff Added Successfully."
-      redirect_to user_lawfirm_staffings_path(@user, @lawfirm)
+      redirect_to user_lawfirm_staffings_path(current_user, @lawfirm)
     else
       render 'new'
     end
   end
 
   def show
-    @lawfirm = Lawfirm.find(params[:lawfirm_id])
     @staff = Staffing.find(params[:id])
     @closed_cases = Staffing.closed_cases_by_staffing(@staff.id)
     @open_cases = Staffing.open_cases_by_staffing(@staff.id)
   end
 
   def edit
-    @lawfirm = Lawfirm.find(params[:lawfirm_id])
     @staffing = Staffing.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:user_id])
-    @lawfirm = Lawfirm.find(params[:lawfirm_id])
     @staffing = @lawfirm.staffings.find(params[:id])
     params[:staffing][:position] = params[:staffing][:new_position] unless params[:staffing][:new_position].empty?
     if @staffing.update_attributes(staffing_params)
       flash[:success] = "Staff Updated Successfully"
-      redirect_to user_lawfirm_staffings_path(@user, @lawfirm)
+      redirect_to user_lawfirm_staffings_path(current_user, @lawfirm)
     else
       render 'edit'
     end

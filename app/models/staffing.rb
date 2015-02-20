@@ -5,7 +5,7 @@ class Staffing < ActiveRecord::Base
 
   attr_accessor :new_position #for user to enter new position if applicable
 
-  validates :lawfirm_id, :position, :first_name, :last_name, :email, presence: true
+  validates :lawfirm_id, :position, :first_name, :last_name, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i || ""
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }
 
@@ -27,13 +27,13 @@ class Staffing < ActiveRecord::Base
   def self.all_full_names_last_first_with_ids(user)
     final_name_list = []
     user.lawfirm.staffings.each do |name|
-      final_name_list << [Staffing.full_name_last_first(name), name.id]
+      final_name_list << [name.full_name_last_first, name.id]
     end
     final_name_list.sort
   end
 
-  def self.full_name_last_first(staffing)
-    myarr = [staffing.last_name, staffing.first_name, staffing.middle_initial ? staffing.middle_initial : ""]
+  def full_name_last_first
+    myarr = [self.last_name, self.first_name, self.middle_initial ? self.middle_initial : ""]
     myarr[0..-2].join(", ")+(" ")+myarr[-1]
   end
 
