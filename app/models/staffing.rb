@@ -1,9 +1,10 @@
+require 'csv'
 class Staffing < ActiveRecord::Base
 
   belongs_to :lawfirm
   has_many :staffs
 
-  attr_accessor :new_position #for user to enter new position if applicable
+  attr_accessor :new_position
 
   validates :lawfirm_id, :position, :first_name, :last_name, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i || ""
@@ -35,6 +36,40 @@ class Staffing < ActiveRecord::Base
   def full_name_last_first
     myarr = [self.last_name, self.first_name, self.middle_initial ? self.middle_initial : ""]
     myarr[0..-2].join(", ")+(" ")+myarr[-1]
+  end
+
+  def self.import(file,user)
+    spreadsheet = open_spreadsheet(file)
+    header = spreadsheet.row(1)
+    (2..spreadsheet.last_row).each do |i|
+      row = Hash[[header, spreadsheet.row(i)].transpose]
+      if Staffing.find_by(email: row["Email"]) &&
+        Staffing.find_by(email: row["Email"]).lawfirm_id == user.lawfirm_id
+        staff = Staffing.find_by(email: row["Email"])
+        staff.update_attributes(position: row["Position"],
+                               first_name: row['First Name'],
+                               middle_initial: row["Middle Name"],
+                               last_name: row["Last Name"],
+                               lawfirm_id: user.lawfirm_id)
+        staff.save
+      else
+        Staffing.create(email: row["Email"],
+                       position: row["Position"],
+                       first_name: row['First Name'],
+                       middle_initial: row["Middle Name"],
+                       last_name: row["Last Name"],
+                       lawfirm_id: user.lawfirm_id)
+      end
+    end
+  end
+
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_filename)
+    when ".csv" then Roo::CSV.new(file.path)
+    when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
+    when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
+    else raise "Unknown file type: #{file.original_filename}"
+    end
   end
 
   #return list of open cases by staffing_id

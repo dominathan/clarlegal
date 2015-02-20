@@ -70,3 +70,6 @@ gem 'mandrill-api', '1.0.52'
 #for a sexy landing page, et. al.
 gem 'bootsaas', '1.0.0'
 gem 'brakeman' #NEED TO CHECK MORE ABOUT ITS FEATURES
+
+#for CSV/EXCEL file uploads
+gem 'roo', "~> 1.13"
