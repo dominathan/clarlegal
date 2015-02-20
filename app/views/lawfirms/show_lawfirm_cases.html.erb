@@ -2,10 +2,6 @@
 
 <h1><%= "#{@firm_name} Case List" %></h1>
 
-
-<% if @lawfirm_cases.any? %> <!-- does the lawfirm have cases?  If show then show them-->
-
-
 <table id="lawfirmCases" class="display">
   <thead>
     <tr>
@@ -33,13 +29,10 @@
   </tbody>
 </table>
 
-<% else %>
-
   <div class="center">
     <%= link_to "Add Open Case", new_case_path, class: 'btn btn-md btn-primary' %>
     <%= link_to "Add Closed Case", new_closed_case_path, class: 'btn btn-md btn-primary' %>
   </div>
 
-<% end %>
 
 

@@ -4,70 +4,50 @@
 
 <div class="row">
   <div class="col-lg-8 col-lg-offset-2">
-    <%= form_for(@staffing, url: {action: "create"}, html: {class: 'form-horizontal'}) do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
 
-      <div class="form-group">
-        <div class="col-sm-3">
-          <%= f.label :first_name, "First Name:", class: "control-label" %>
-        </div>
-        <div class="col-sm-9">
-          <%= f.text_field :first_name, class: "form-control" %>
-        </div>
-      </div>
+    <% @action = "create" %>
+    <%= render partial: 'form', locals: {staffing: @staffing} %>
 
-      <div class="form-group">
-        <div class="col-sm-3">
-          <%= f.label :middle_initial, "Middle Initial:", class: "control-label" %>
-        </div>
-        <div class="col-sm-9">
-          <%= f.text_field :middle_initial, class: "form-control" %>
-        </div>
-      </div>
+  </div>
+</div>
 
-      <div class="form-group">
-        <div class="col-sm-3">
-          <%= f.label :last_name, "Last Name:", class: "control-label" %>
-        </div>
-        <div class="col-sm-9">
-          <%= f.text_field :last_name, class: "form-control" %>
-        </div>
-      </div>
+<div class="col-md-12">
+    <h2>Instructions for Uploading Staff</h2>
 
-      <div class="form-group">
-        <div class="col-sm-3">
-          <%= f.label :email, "Email Address:", class: "control-label" %>
-        </div>
-        <div class="col-sm-9">
-          <%= f.text_field :email, class: "form-control" %>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div class="col-sm-3">
-          <%= f.label :position, "Position:", class: "control-label" %>
+  <div class="col-md-6">
+    <p>1. Only the following file types are permissible:<br>
+    <ul>
+      <li>.xlsx</li>
+      <li>.xls</li>
+      <li>.csv</li>
+    </ul>
+    2. Download the attached file.<br>
+    3. Enter the information in each row as shown. Do NOT change the first row.<br>
+    4. All fields are required EXCEPT middle name.<br>
+    5. Save the file.<br>
+    6. Choose the file you saved, and click Import.<br>
+    7. Staff Members will appear on following screen.
+    </p>
+    <div class="center">
+      <%= form_tag staffings_import_path, multipart: true do %>
+      <div class="row">
+        <div class="col-sm-6">
+          <%= file_field_tag :file, class: 'btn btn-default', style: "width: 300px; background-color: white; color: gray;" %>
         </div>
         <div class="col-sm-6">
-          <%= f.select(:position, Staffing.all_positions(current_user).uniq.sort, {:include_blank => "Select Existing"}, {class: "form-control"}) %>
-        </div>
-        <div class="col-sm-3">
-          <%= f.text_field :new_position, :placeholder => "Create New Position", class: "form-control" %>
+          <%= submit_tag "Import", class: "btn btn-primary" %>
         </div>
       </div>
-
-      <div class="form-group hide">
-        <div class="col-sm-3">
-          <%= f.label :hourly_rate, "Hourly Rate:", class: "control-label" %>
-        </div>
-        <div class="col-sm-9">
-          <%= f.text_field :hourly_rate, class: "form-control" %>
-        </div>
-      </div>
-
-      <div class="center">
-        <%= f.submit "Add Staff", class: "btn btn-large btn-primary center" %>
-      </div>
-
-    <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="row">
+      <%= image_tag 'staffing_upload2.png', class: 'img-responsive', id: "staffing-file" %>
+    </div>
+    <br>
+    <div class="center">
+      <%= link_to "Download", "/data/Staffing\ Spreadsheet.xlsx", class: 'btn btn-primary', style: "margin: -5px; width: 150px; padding-bottom: 7px;"  %>
+    </div>
   </div>
 </div>

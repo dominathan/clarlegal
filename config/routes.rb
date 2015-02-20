@@ -30,15 +30,12 @@ Claregal::Application.routes.draw do
           get :group_case_list
         end
       end
-      resources :staffings do
-        member do
-          match '/case_metrics/:case_id/', to: 'staffings#individuals_and_cases', via: 'get', as: :case_metrics
-        end
-      end
+      resources :staffings
       resources :case_types
       resources :overheads
     end
   end
+  match '/staffings/import',    to: "staffings#import_staffing", via: 'post'
 
   resources :clients do
     resources :cases do #nested routes so it has to be clients/3/cases/4....etc for parameters

@@ -1,0 +1,56 @@
+<%= form_for(@staffing, url: {action: @action}, html: {class: 'form-horizontal'}) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="form-group">
+    <div class="col-sm-3">
+      <%= f.label :first_name, "First Name:", class: "control-label" %>
+    </div>
+    <div class="col-sm-9">
+      <%= f.text_field :first_name, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-3">
+      <%= f.label :middle_initial, "Middle Initial:", class: "control-label" %>
+    </div>
+    <div class="col-sm-9">
+      <%= f.text_field :middle_initial, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-3">
+      <%= f.label :last_name, "Last Name:", class: "control-label" %>
+    </div>
+    <div class="col-sm-9">
+      <%= f.text_field :last_name, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-3">
+      <%= f.label :email, "Email Address:", class: "control-label" %>
+    </div>
+    <div class="col-sm-9">
+      <%= f.text_field :email, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-3">
+      <%= f.label :position, "Position:", class: "control-label" %>
+    </div>
+    <div class="col-sm-6">
+      <%= f.select(:position, Staffing.all_positions(current_user), {:include_blank => "Select Existing"}, {class: "form-control"}) %>
+    </div>
+    <div class="col-sm-3">
+      <%= f.text_field :new_position, :placeholder => "Create New Position", class: "form-control" %>
+    </div>
+  </div>
+  <div class="center">
+    <%= f.submit "#{@action.titleize} Staff", class: "btn btn-large btn-primary center" %>
+  </div>
+
+<% end %>
+  <br>
+  <hr>

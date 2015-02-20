@@ -77,12 +77,16 @@ class ApplicationController < ActionController::Base
       end
     end
 
-  def set_case
-    @case = Case.find(params[:case_id])
-  end
+    def set_case
+      @case = Case.find(params[:case_id])
+    end
 
-  def set_client
-    @client = Client.find(params[:client_id])
-  end
+    def set_client
+      @client = Client.find(params[:client_id])
+    end
+
+    def set_lawfirm
+      @lawfirm = Lawfirm.find_by(id: current_user.lawfirm.id)
+    end
 
 end
