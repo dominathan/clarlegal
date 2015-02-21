@@ -19,8 +19,6 @@ end
 
 gem 'figaro', '0.7.0' #application.yml file for safety
 gem 'highcharts-rails', '~> 4.0.1' #for highcharts.js
-gem 'will_paginate', '3.0.7' #added to have clickiable page numbers at bottom of page
-gem 'will_paginate-bootstrap', '1.0.1'
 gem 'cocoon', '1.2.6'  #nested forms, javascript adds new form
 gem 'whenever', '0.9.2', :require => false #handles cron tasks
 gem 'delayed_job_active_record', '4.0.3'
