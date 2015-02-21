@@ -70,10 +70,14 @@ describe Case do
       Case.reminder_email.size.should eq(13)
     end
 
-    it 'send an email to each case primary email address' do
+    it 'sends an email to each case primary email address' do
       expect(Delayed::Job.count).to eq(0)
+
       Case.reminder_email
+
       expect(Delayed::Job.count).to eq(13)
+
+      expect(Delayed::Worker.new.work_off).to  eq([13,0]) # Returns [successes, failures]
     end
   end
 end

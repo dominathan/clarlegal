@@ -19,5 +19,6 @@ describe ReminderMailer do
     it "contains the correct case id" do
       mail.body.parts.first.encoded.should include "#{test_case.id}"
     end
+
   end
 end
