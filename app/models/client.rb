@@ -8,7 +8,9 @@ class Client < ActiveRecord::Base
   #all attributes must be filled for billings or it will not save
 
   validates :user_id, presence: true
-  validates :first_name, :last_name, presence: true
+  validates :company, presence: true, unless: :first_name? && :last_name?
+  validates :first_name, :last_name, presence: true, unless: :company?
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i || ""
   #validates :email, format: { with: VALID_EMAIL_REGEX }
   #validates :phone_number, presence: true
@@ -36,7 +38,7 @@ class Client < ActiveRecord::Base
     final_name_list.sort
   end
 
-  def self.full_name_last_first(first_name, last_name)
+  def full_name_last_first
     [last_name, first_name].compact.join(", ")
   end
 

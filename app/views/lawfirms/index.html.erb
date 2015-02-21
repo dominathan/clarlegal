@@ -16,11 +16,7 @@
       <% @lawfirm_clients.each do |client| %>
 
       <!-- Use Client.company first, otherwise use client.full_name -->
-        <% if client.company == nil %>
-          <% name = User.full_name_last_first(client) %>
-        <% else %>
-          <% name = client.company %>
-        <% end %>
+         <% client.company.empty? ? name = client.full_name_last_first : name = client.company%>
       <!-- End name set -->
 
         <tr>

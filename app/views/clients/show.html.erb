@@ -1,4 +1,4 @@
-<% provide(:title, "#{User.full_name_last_first(@client)}") %>
+<% provide(:title) %>
 
 <h1>Client Information</h1>
 
@@ -17,12 +17,8 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= User.full_name_last_first(@client) %></td>
-      <% if current_user.clients.where(id: params[:id]) != [] %>
-        <td><%= link_to "Cases for #{User.full_name_last_first(@client)}", client_cases_path(@client) %></td>
-      <% else %>
-        <td>You Must Be the Client Owner to Access Cases</td>
-      <% end %>
+      <td><%= @client.company.empty? ? @client.full_name_last_first : @client.company %></td>
+      <td><%= link_to "Cases", client_cases_path(@client) %></td>
       <td><%= @client.email %></td>
       <td><%= @client.phone_number %></td>
       <td><%= @client.street_address %><br>
