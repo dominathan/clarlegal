@@ -20,13 +20,10 @@ class Client < ActiveRecord::Base
   def self.company_and_full_names(user)
     companies_and_ids = []
     full_name_and_ids = []
-    user.lawfirm.clients.each do |cl|
-      cl.company ? companies_and_ids << [cl.company, cl.id] : next
+    user.lawfirm.clients.order(:company, :last_name).each do |cl|
+      !cl.company.empty? ? companies_and_ids << [cl.company, cl.id] : full_name_and_ids << [cl.full_name_last_first, cl.id]
     end
-    user.lawfirm.clients.each do |cl|
-      !cl.company ? full_name_and_ids << [cl.full_name, cl.id] : next
-    end
-    return companies_and_ids.sort.concat(full_name_and_ids.sort)
+    return companies_and_ids.concat(full_name_and_ids)
   end
 
   def self.all_full_name_last_first(user)
