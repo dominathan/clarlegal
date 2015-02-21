@@ -1,0 +1,59 @@
+.responsive-table {
+  @media
+  only screen and (max-width: 768px) {
+
+    /* Force table to not be like tables anymore */
+    table, thead, tbody, th, td, tr {
+      display: block;
+      // text-align: right;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    tr {
+      margin-top: 20px;
+      border-top: 5px solid #000;
+    }
+
+    td {
+      /* Behave  like a "row" */
+      border: none;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      padding-left: 60% !important;
+    }
+
+    td:before {
+      /* Now like a table header */
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 58%;
+      padding: 0 10px;
+      background-color: #ddd;
+      height: 100%;
+      vertical-align: text-bottom;
+      line-height: 2.5;
+    }
+
+    /*
+    Label the data
+    */
+   &.overhead {
+      td:nth-of-type(1):before { content: "Year"; }
+      td:nth-of-type(2):before { content: "Rent"; }
+      td:nth-of-type(3):before { content: "Utilities"; }
+      td:nth-of-type(4):before { content: "Guaranteed Salary"; }
+      td:nth-of-type(5):before { content: "Hard Costs"; }
+      td:nth-of-type(6):before { content: "Other"; }
+      td:nth-of-type(7):before { content: "Expected Billable Hours per Lawyer"; }
+      td:nth-of-type(8):before { content: "Number of Billable Staff"; }
+      td:nth-of-type(9):before { content: "Overhead Rate per Hour"; }
+    }
+  }
+}
