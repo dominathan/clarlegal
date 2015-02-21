@@ -71,3 +71,6 @@ gem 'brakeman' #NEED TO CHECK MORE ABOUT ITS FEATURES
 
 #for CSV/EXCEL file uploads
 gem 'roo', "~> 1.13"
+
+# For ie8 peeps
+gem "respond-rails", "~> 1.0"

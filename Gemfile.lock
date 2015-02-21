@@ -212,6 +212,8 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    respond-rails (1.0.1)
+      railties (>= 3.1.0)
     roo (1.13.2)
       nokogiri
       rubyzip
@@ -319,6 +321,7 @@ DEPENDENCIES
   railroady
   rails (= 4.0.3)
   rails_12factor (= 0.0.2)
+  respond-rails (~> 1.0)
   roo (~> 1.13)
   rspec-rails (= 2.13.1)
   sass-rails (~> 4.0.0)
