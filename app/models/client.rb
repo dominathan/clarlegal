@@ -23,7 +23,7 @@ class Client < ActiveRecord::Base
     user.lawfirm.clients.order(:company, :last_name).each do |cl|
       !cl.company.empty? ? companies_and_ids << [cl.company, cl.id] : full_name_and_ids << [cl.full_name_last_first, cl.id]
     end
-    return companies_and_ids.concat(full_name_and_ids)
+    companies_and_ids.concat(full_name_and_ids)
   end
 
   def self.all_full_name_last_first(user)
@@ -37,6 +37,56 @@ class Client < ActiveRecord::Base
 
   def full_name_last_first
     [last_name, first_name].compact.join(", ")
+  end
+
+  def self.import(file,user)
+    spreadsheet = open_spreadsheet(file)
+    header = spreadsheet.row(1)
+    (2..spreadsheet.last_row).each do |i|
+      row = Hash[[header, spreadsheet.row(i)].transpose]
+      if user.lawfirm.clients.find_by(first_name: row["First Name"],
+                                      last_name: row["Last Name"])
+         user.lawfirm.clients.find_by(company: row["Company"])
+        client = user.clients.find_by(first_name: row["First Name"],
+                                      last_name: row["Last Name"]) ||
+        client = user.clients.find_by(company: row["Company"])
+        client.update_attributes(street_address: row["Street Address"],
+                               company: row["Company"] == nil ? "" : row["Company"],
+                               first_name: row['First Name'],
+                               last_name: row["Last Name"],
+                               city: row["City"],
+                               state: row["State"],
+                               country: row["Country"],
+                               zip_code: row["Zip Code"].to_i.to_s,
+                               phone_number: row["Phone Number"],
+                               fax_number: row["Fax Number"],
+                               user_id: user.id)
+        client.save
+      else
+        Client.create(email: row["Email"],
+                       street_address: row["Street Address"],
+                       company: row["Company"] == nil ? "" : row["Company"],
+                       first_name: row['First Name'],
+                       last_name: row["Last Name"],
+                       city: row["City"],
+                       state: row["State"],
+                       country: row["Country"],
+                       zip_code: row["Zip Code"].to_i.to_s,
+                       phone_number: row["Phone Number"],
+                       fax_number: row["Fax Number"],
+                       user_id: user.id,
+                       external_id: row["External ID"].to_i)
+      end
+    end
+  end
+
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_filename)
+    when ".csv" then Roo::CSV.new(file.path)
+    when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
+    when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
+    else raise "Unknown file type: #{file.original_filename}"
+    end
   end
 
   #returns all ACTUAL expenses and revenue associated with client to clients#show

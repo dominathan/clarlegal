@@ -128,8 +128,7 @@ namespace :db do
                       last_name: last_name,
                       middle_initial: "S",
                       position: position,
-                      #Client.method used to put full_name in database
-                      full_name: Client.full_name_last_first(first_name, last_name),                   position: 'Responsible Attorney',
+                      position: 'Responsible Attorney',
                       hourly_rate: (Random.rand(10..45)*10),
                       email: "cathy@test.com",
                       lawfirm_id: 1)
@@ -142,7 +141,6 @@ namespace :db do
                         last_name: last_name,
                         middle_initial: middle_initial,
                         #Client.method used to put full_name in database
-                        full_name: Client.full_name_last_first(first_name, last_name),
                         position: position_list[Random.rand(0..7)],
                         hourly_rate: (Random.rand(10..45)*10),
                         email: Faker::Internet.email,
@@ -158,7 +156,6 @@ namespace :db do
       Client.create!(first_name: first_name,
                       last_name: last_name,
                       company: Faker::Company.name,
-                      full_name: Client.full_name_last_first(first_name, last_name),
                       street_address: Faker::Address.street_address,
                       city: Faker::Address.city,
                       state: Faker::Address.state_abbr,
