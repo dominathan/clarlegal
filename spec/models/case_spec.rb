@@ -57,14 +57,6 @@ describe Case do
     end
   }
 
-
-  describe '#get_old_case_ids' do
-    it 'only returns primary email addresses of cases that have not been updated in at least 1 month (default frequency)' do
-      @results = Case.get_old_case_ids(1.month.ago)
-      @results.size.should eq(10)
-    end
-  end
-
   describe '#self.reminder_email' do
     it 'retrieves case ids of all users' do
       Case.reminder_email.size.should eq(13)
@@ -77,7 +69,9 @@ describe Case do
 
       expect(Delayed::Job.count).to eq(13)
 
-      expect(Delayed::Worker.new.work_off).to  eq([13,0]) # Returns [successes, failures]
+      worker = Delayed::Worker.new(quiet: false).work_off
+
+      expect(worker).to  eq([13,0]) # Returns [successes, failures]
     end
   end
 end

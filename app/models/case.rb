@@ -53,9 +53,13 @@ class Case < ActiveRecord::Base
     return user.clients.ids
   end
 
+  def self.client_id_list_of_lawfirm(user)
+    return user.lawfirm.client_ids
+  end
+
   def self.reminder_email
     Case.pluck(:id).each do |case_id|
-      ReminderMailer.default_reminder(case_id).deliver!
+      ReminderMailer.delay.default_reminder(case_id)
     end
   end
 
