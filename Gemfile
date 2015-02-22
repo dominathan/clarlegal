@@ -31,6 +31,7 @@ group :development, :test do
   gem 'jazz_hands' #easy railsconsole viewing
   gem 'hirb', '0.7.2' #easy railsconsole viewing
   gem 'quiet_assets', '1.0.3' #removes all that logger shit about assets
+  gem 'letter_opener', '1.2.0' #test email being sent
 end
 
 group :test do
@@ -58,8 +59,6 @@ gem 'bcrypt-ruby', '3.1.2'
 #to replace flying-sphinx, for datatables and searching datatables
 gem 'jquery-datatables-rails', '2.2.3'
 gem 'jquery-ui-rails', '5.0.3'
-
-gem 'letter_opener', '1.2.0', :group => :development #test email being sent
 
 #actual email being sent
 gem 'mandrill_mailer', '0.4.6'

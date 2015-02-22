@@ -3,8 +3,12 @@
   Dear <%= @case.primary_email %>,
 </p>
 <p>
-  You are receiving this email because your case details are out of date. Please review
-  and update the details of case id: <%= @case.id %>.
+  You are receiving this email because you have not updated your cases in the past month.
 </p>
+
+<p>
+  If you would like to update your cases, please click the following link: <%= link_to "Update Case", edit_client_case_path(@case.client.id, @case) %>
+</p>
+
 <p>Regards,</p>
 <p>The ClarLegal Team</p>

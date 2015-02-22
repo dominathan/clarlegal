@@ -13,7 +13,7 @@ describe ReminderMailer do
     end
 
     it "renders the body" do
-      mail.body.parts.first.encoded.should include "You are receiving this email because your case details are out of date."
+      mail.body.parts.first.encoded.should include "You are receiving this email because you have not updated your cases in the past month."
     end
 
     it "contains the correct case id" do

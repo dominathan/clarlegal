@@ -53,26 +53,9 @@ class Case < ActiveRecord::Base
     return user.clients.ids
   end
 
-  def self.client_id_list_of_lawfirm(user)
-    return user.lawfirm.client_ids
-  end
-
-  def self.get_old_case_ids(date_since_last_update=1.month.ago)
-    # Case.select { |ca|
-    #                 ca.updated_at <= date_since_last_update &&
-    #                 ca.fees.last.updated_at <= date_since_last_update &&
-    #                 ca.timings.last.updated_at <= date_since_last_update }
-    #     .collect(&:id)
-
-    Case.select { |ca|
-                      ca.updated_at <= date_since_last_update }
-          .collect(&:id)
-
-  end
-
   def self.reminder_email
     Case.pluck(:id).each do |case_id|
-      ReminderMailer.delay.default_reminder(case_id)
+      ReminderMailer.default_reminder(case_id).deliver!
     end
   end
 
