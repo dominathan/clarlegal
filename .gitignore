@@ -30,3 +30,4 @@ doc/
 .secret
 /server/
 bundle.pem
+dump.rdb

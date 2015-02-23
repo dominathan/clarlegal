@@ -45,11 +45,13 @@ class Client < ActiveRecord::Base
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
       if user.lawfirm.clients.find_by(first_name: row["First Name"],
-                                      last_name: row["Last Name"])
-         user.lawfirm.clients.find_by(company: row["Company"])
+                                      last_name: row["Last Name"]) &&
+                                    row["First Name"] != nil &&
+                                    row["First Name"] != "" &&
+                                    row["Last Name"] != nil &&
+                                    row["Last Name"] != ""
         client = user.clients.find_by(first_name: row["First Name"],
                                       last_name: row["Last Name"]) ||
-        client = user.clients.find_by(company: row["Company"])
         client.update_attributes(street_address: row["Street Address"],
                                company: row["Company"] == nil ? "" : row["Company"],
                                first_name: row['First Name'],
@@ -62,6 +64,20 @@ class Client < ActiveRecord::Base
                                fax_number: row["Fax Number"],
                                user_id: user.id)
         client.save
+      elsif user.lawfirm.clients.find_by(company: row["Company"]) && row["Company"] != nil && row["Company"] != ""
+        client = user.clients.find_by(company: row["Company"])
+        client.update_attributes(street_address: row["Street Address"],
+                               company: row["Company"] == nil ? "" : row["Company"],
+                               first_name: row['First Name'],
+                               last_name: row["Last Name"],
+                               city: row["City"],
+                               state: row["State"],
+                               country: row["Country"],
+                               zip_code: row["Zip Code"].to_i.to_s,
+                               phone_number: row["Phone Number"],
+                               fax_number: row["Fax Number"],
+                               user_id: user.id,
+                               external_id: row["External ID"].to_s)
       else
         Client.create(email: row["Email"],
                        street_address: row["Street Address"],
@@ -74,8 +90,7 @@ class Client < ActiveRecord::Base
                        zip_code: row["Zip Code"].to_i.to_s,
                        phone_number: row["Phone Number"],
                        fax_number: row["Fax Number"],
-                       user_id: user.id,
-                       external_id: row["External ID"].to_i)
+                       user_id: user.id)
       end
     end
   end

@@ -19,8 +19,6 @@ end
 
 gem 'figaro', '0.7.0' #application.yml file for safety
 gem 'highcharts-rails', '~> 4.0.1' #for highcharts.js
-gem 'will_paginate', '3.0.7' #added to have clickiable page numbers at bottom of page
-gem 'will_paginate-bootstrap', '1.0.1'
 gem 'cocoon', '1.2.6'  #nested forms, javascript adds new form
 gem 'whenever', '0.9.2', :require => false #handles cron tasks
 gem 'delayed_job_active_record', '4.0.3'
@@ -33,6 +31,7 @@ group :development, :test do
   gem 'jazz_hands' #easy railsconsole viewing
   gem 'hirb', '0.7.2' #easy railsconsole viewing
   gem 'quiet_assets', '1.0.3' #removes all that logger shit about assets
+  gem 'letter_opener', '1.2.0' #test email being sent
 end
 
 group :test do
@@ -61,8 +60,6 @@ gem 'bcrypt-ruby', '3.1.2'
 gem 'jquery-datatables-rails', '2.2.3'
 gem 'jquery-ui-rails', '5.0.3'
 
-gem 'letter_opener', '1.2.0', :group => :development #test email being sent
-
 #actual email being sent
 gem 'mandrill_mailer', '0.4.6'
 gem 'mandrill-api', '1.0.52'
@@ -73,3 +70,6 @@ gem 'brakeman' #NEED TO CHECK MORE ABOUT ITS FEATURES
 
 #for CSV/EXCEL file uploads
 gem 'roo', "~> 1.13"
+
+# For ie8 peeps
+gem "respond-rails", "~> 1.0"
