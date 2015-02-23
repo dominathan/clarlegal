@@ -43,7 +43,6 @@ class Client < ActiveRecord::Base
     spreadsheet = open_spreadsheet(file)
     header = spreadsheet.row(1)
     (2..spreadsheet.last_row).each do |i|
-      binding.pry
       row = Hash[[header, spreadsheet.row(i)].transpose]
       if user.lawfirm.clients.find_by(first_name: row["First Name"],
                                       last_name: row["Last Name"]) &&
@@ -80,7 +79,6 @@ class Client < ActiveRecord::Base
                                user_id: user.id,
                                external_id: row["External ID"].to_s)
       else
-        binding.pry
         Client.create(email: row["Email"],
                        street_address: row["Street Address"],
                        company: row["Company"] == nil ? "" : row["Company"],
