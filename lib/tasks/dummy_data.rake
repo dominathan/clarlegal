@@ -128,7 +128,7 @@ namespace :db do
 
     Staffing.create!(first_name: first_name,
                       last_name: last_name,
-                      middle_initial: "S",
+                      middle_initial: middle_initial,
                       position: position,
                       position: 'Responsible Attorney',
                       hourly_rate: (Random.rand(10..45)*10),
