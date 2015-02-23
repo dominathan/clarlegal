@@ -13,7 +13,7 @@ class ClientsController < ApplicationController
 
   def edit
     @client = Client.find(params[:id])
-
+    @client.billings.build
   end
 
   #added profitability metrics to view client as compared to average of all clients
