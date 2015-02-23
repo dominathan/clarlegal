@@ -16,16 +16,8 @@ class Staffing < ActiveRecord::Base
                                                     .compact.uniq.sort!
   end
 
-  def self.all_full_name_last_first(user)
-    #used in _staff_fields for collection select of LastName, FirstName
-    final_name_list = []
-    user.lawfirm.staffings.each do |name|
-      final_name_list << Staffing.full_name_last_first(name)
-    end
-    final_name_list.sort
-  end
-
   def self.all_full_names_last_first_with_ids(user)
+    #used in _staff_fields for collection select of LastName, FirstName
     final_name_list = []
     user.lawfirm.staffings.each do |name|
       final_name_list << [name.full_name_last_first, name.id]
@@ -78,7 +70,7 @@ class Staffing < ActiveRecord::Base
     return Case.where(id: caselist, open: true)
   end
 
-    def self.closed_cases_by_staffing(staffing_id)
+  def self.closed_cases_by_staffing(staffing_id)
     caselist = Staff.where(staffing_id: staffing_id).collect(&:case_id)
     return Case.where(id: caselist, open: false)
   end

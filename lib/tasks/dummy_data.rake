@@ -485,7 +485,7 @@ namespace :db do
   desc 'add overhead to lawfirm 2008-2014'
   task populate: :environment do
     7.times do |n|
-      year = 2008 + n
+      year = 2009 + n
       rent = Random.rand(500000..1000000)
       salaries = Random.rand(500000..2000000)
       other = Random.rand(500000..2000000)
