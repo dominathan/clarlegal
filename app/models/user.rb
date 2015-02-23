@@ -87,6 +87,11 @@ class User < ActiveRecord::Base
     increment! :signin_counter
   end
 
+  def full_name_last_first
+    myarr = [self.last_name, self.first_name, self.middle_initial ? self.middle_initial : ""]
+    myarr[0..-2].join(", ")+(" ")+myarr[-1]
+  end
+
   private
 
     def downcase_email

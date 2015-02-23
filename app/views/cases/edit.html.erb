@@ -27,7 +27,7 @@
             <%= f.label :primary_email, "Email Recipient:"%>
           </div>
           <div class="col-sm-6">
-            <%= f.collection_select(:primary_email, current_user.lawfirm.staffings.order(:full_name), :email, :full_name, :include_blank => "Select Primary Contact") %>
+            <%= f.collection_select(:primary_email, current_user.lawfirm.staffings.order(:last_name), :email, :full_name_last_first, :include_blank => "Select Primary Contact") %>
           </div>
         </div>
 

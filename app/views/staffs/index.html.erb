@@ -19,12 +19,12 @@
     <% if @case.staff.present? %>
       <% @staff.order(:name,:updated_at).each do |staf| %>
         <tr>
-          <td><%= Staffing.find_by(id: staf.staffing_id).full_name %></td>
+          <td><%= Staffing.find_by(id: staf.staffing_id).full_name_last_first %></td>
           <td><%= staf.position %></td>
           <td><%= staf.hours_expected ? staf.hours_expected : "" %></td>
           <td><%= staf.hours_actual ? staf.hours_actual : "" %></td>
           <td><%= link_to 'Update', edit_client_case_staff_path(@client,@case,staf) %></td>
-          <td><%= link_to 'Remove', client_case_staff_path(@client,@case,staf), method: :delete, data: { confirm: "Remove #{Staffing.find_by(id: staf.staffing_id).full_name}?" }%></td>
+          <td><%= link_to 'Remove', client_case_staff_path(@client,@case,staf), method: :delete, data: { confirm: "Remove #{Staffing.find_by(id: staf.staffing_id).full_name_last_first}?" }%></td>
         </tr>
       <% end %>
     <% else %>
