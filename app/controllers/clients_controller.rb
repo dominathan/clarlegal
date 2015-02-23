@@ -3,7 +3,7 @@ class ClientsController < ApplicationController
   before_action :belongs_to_firm
 
   def index
-    @client = Client.where(user_id: current_user.id).order(:last_name).load
+    @clients = Client.where(user_id: current_user.id).order(:last_name).load
   end
 
   def new
@@ -27,8 +27,6 @@ class ClientsController < ApplicationController
 
   def create
     @client = current_user.clients.build(client_params)
-    @client.full_name = Client.full_name_last_first(params[:client][:first_name],
-                                                    params[:client][:last_name])
     if @client.save
       flash[:success] = "Client Added Successfully"
       redirect_to clients_path
@@ -47,6 +45,16 @@ class ClientsController < ApplicationController
     end
   end
 
+  def import_clients
+    begin
+    if Client.import(params[:file],current_user)
+      flash[:success] = "Clients Uploaded Successfully"
+    end
+    rescue
+      flash[:danger] = "Clients Not Uploaded. Enter your information in the prescribed layout."
+    end
+    redirect_to user_lawfirms_path(current_user) #user lawfirms path is index of clients.
+  end
 
   private
 

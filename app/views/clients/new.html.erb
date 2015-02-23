@@ -5,161 +5,50 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-    <%= form_for @client, html: { class: "form-horizontal" } do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
 
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :company, "Company:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.text_field :company, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :first_name, "First Name:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.text_field :first_name, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :last_name, "Last Name:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.text_field :last_name, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :street_address, "Street Address:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.text_field :street_address, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :city, "City:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.text_field :city, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :state, "State:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.select :state, StaticInformation::STATES.select {|x| x[0] }, include_blank: "Select" %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :zip_code, "Zip Code:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9" id="feeSelect">
-            <%= f.text_field :zip_code, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :country, "Country:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.select :country, StaticInformation::COUNTRIES, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :phone_number, "Phone Number:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.text_field :phone_number, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :fax_number, "Fax Number:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.text_field :fax_number, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :email, "Email Address:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.text_field :email, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-3">
-            <%= f.label :differnt_billing, "Different Billing Address?:", class: 'control-label' %>
-          </div>
-          <div class="col-sm-9">
-            <%= f.check_box :different_billing, class: 'form-control' %>
-          </div>
-        </div>
-
-          <div class='billing hide' id="billing-information">
-            <h2>Billing Address</h2>
-
-            <%= f.fields_for :billings do |ff| %>
-              <table class="table">
-                <tr>
-                  <td><%= ff.label :name, 'Company Name:' %></td>
-                  <td><%= ff.text_field :name %></td>
-                </tr>
-                <tr>
-                  <td><%= ff.label :street_address, 'Street Address:' %></td>
-                  <td><%= ff.text_field :street_address %></td>
-                </tr>
-                <tr>
-                  <td><%= ff.label :city, 'City:' %></td>
-                  <td><%= ff.text_field :city %></td>
-                </tr>
-                <tr>
-                  <td><%= ff.label :state, 'State:' %></td>
-                  <td><%= ff.select :state, StaticInformation::STATES.select {|x| x[0]  } %></td>
-                </tr>
-                <tr>
-                  <td><%= ff.label :zip_code, 'Zip Code:' %></td>
-                  <td><%= ff.text_field :zip_code %></td>
-                </tr>
-                <tr>
-                  <td><%= f.label :country, "Country:" %></td>
-                  <td><%= f.select :country, StaticInformation::COUNTRIES %></td>
-                </tr>
-              </table>
-
-              <% end %>
-          </div>
-          <div class="center">
-            <%= f.submit "Create Client", class: "btn btn-default btn-lg" %>
-          </div>
-    <% end %>
+      <%= render partial: 'form_new_client', locals: { client: @client } %>
     </div>
   </div>
 </div>
 
-<script type="text/javascript">
-  $("#client_different_billing").click(function(){
-     $("#billing-information").toggleClass('hide')
-   });
-</script>
+<div class="col-md-12">
+    <h2>Instructions for Uploading Clients</h2>
+
+  <div class="col-md-6">
+    <p>1. Only the following file types are permissible:<br>
+    <ul>
+      <li>.xlsx</li>
+      <li>.xls</li>
+      <li>.csv</li>
+    </ul>
+    2. Download the attached file.<br>
+    3. Enter the information in each row as shown. Do NOT change the first row.<br>
+    4. First Name, Last Name (BOTH) or Company are REQUIRED.<br>
+    5. Save the file.<br>
+    6. Choose the file you saved, and click Import.<br>
+    7. Clients will appear on following screen.
+    </p>
+    <div class="center">
+      <%= form_tag clients_import_path, multipart: true do %>
+      <div class="row">
+        <div class="col-sm-6">
+          <%= file_field_tag :file, class: 'btn btn-default', style: "width: 300px; background-color: white; color: gray;" %>
+        </div>
+        <div class="col-sm-6">
+          <%= submit_tag "Import", class: "btn btn-primary" %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="row">
+      <%= image_tag 'client_upload_test.png', class: 'img-responsive', id: "staffing-file" %>
+    </div>
+    <br>
+    <div class="center">
+      <%= link_to "Download", "/data/ClarLegal\ Client\ Import.xlsx", class: 'btn btn-primary', style: "margin: -5px; width: 150px; padding-bottom: 7px; margin-top: 92px;"  %>
+    </div>
+  </div>
+</div>
 

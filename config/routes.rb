@@ -36,6 +36,7 @@ Claregal::Application.routes.draw do
     end
   end
   match '/staffings/import',    to: "staffings#import_staffing", via: 'post'
+  match '/clients/import',    to: "clients#import_clients", via: 'post'
 
   resources :clients do
     resources :cases do #nested routes so it has to be clients/3/cases/4....etc for parameters

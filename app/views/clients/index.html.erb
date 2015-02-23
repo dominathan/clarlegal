@@ -1,7 +1,7 @@
 <% provide(:title, 'Client List') %>
 <div class="row">
   <div class='title'>
-    <h1><%= "Client List for #{User.full_name(current_user)}"%> </h1>
+    <h1><%= "Clients for #{User.full_name(current_user)}"%> </h1>
   </div>
 </div>
 
@@ -17,15 +17,10 @@
       </tr>
     </thead>
     <tbody>
-        <% @client.each do |client| %>
-              <!-- Use Client.company first, otherwise use client.full_name -->
-              <% if client.company == nil %>
-                <% name = User.full_name_last_first(client) %>
-              <% else %>
-                <% name = client.company %>
-              <% end %>
+        <% @clients.each do |client| %>
+            <!-- Use Client.company first, otherwise use client.full_name -->
+            <% client.company.empty? ? name = client.full_name_last_first : name = client.company%>
             <!-- End name set -->
-
           <tr>
             <td><%= link_to name, client_path(client) %></td>
             <td><%= link_to "Cases", client_cases_path(client) %></td>
@@ -41,7 +36,7 @@
   </table>
 
 <div class="center">
-  <%= link_to 'Add a Client', new_client_path, class: "btn btn-md btn-primary" %>
+  <%= link_to 'Add Client', new_client_path, class: "btn btn-md btn-primary" %>
 </div>
 
 
