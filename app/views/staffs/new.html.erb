@@ -16,7 +16,7 @@
           <%= f.label :name, "Name:" , class: "control-label" %>
         </div>
         <div class="col-sm-9">
-          <%=f.collection_select(:staffing_id, current_user.lawfirm.staffings.order(:full_name).all, :id, :full_name, {:include_blank => "Select"}, {class: "form-control"}) %>
+          <%=f.collection_select(:staffing_id, current_user.lawfirm.staffings.order(:last_name).all, :id, :full_name_last_first, {:include_blank => "Select"}, {class: "form-control"}) %>
         </div>
       </div>
       <div class="form-group">
