@@ -37,7 +37,7 @@ class Case < ActiveRecord::Base
 
   def self.lead_attorney(case_name)
     @lead_att = nil
-    case_name.staff.each do |stf|
+    case_name.staffs.each do |stf|
       if stf.position == "Responsible Attorney" || stf.position == "Lead Attorney" ||
       stf.position == "Billing Attorney" || stf.position == "Billing Partner" ||
       stf.position == "Responsible Partner" || stf.position == "Lead Partner"
