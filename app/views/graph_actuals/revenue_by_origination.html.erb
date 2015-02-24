@@ -2,30 +2,30 @@
 
 <div class="chart container">
     <div class="col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2">
-
-        <div class="col-sm-4 col-sm-offset-4">
-          <div class="select-year">
-            <h5>Change Number of Years</h5>
-            <div class="col-lg-6">
-                <%= form_tag revenue_by_origination_graph_actual_path(current_user.lawfirm_id),
-                  method: :get do %>
-                <div class="row" style='margin-left: -50px'>
-                    <div class='col-sm-6'>
-                        <%= select_tag :range, options_for_select([1,2,3,4,5,6,7,8,9,10]) %>
-                    </div>
-                    <div class='col-sm-6'>
-                        <%= submit_tag "Change Years", class: 'btn btn-xs btn-primary' %>
-                    </div>
-                  </div>
-                <%end%>
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+              <div class="select-year">
+                <h5>Change Number of Years</h5>
+                <div class="col-lg-6">
+                    <%= form_tag revenue_by_origination_graph_actual_path(current_user.lawfirm_id),
+                      method: :get do %>
+                    <div class="row" style='margin-left: -50px'>
+                        <div class='col-sm-6'>
+                            <%= select_tag :range, options_for_select([1,2,3,4,5,6,7,8,9,10]) %>
+                        </div>
+                        <div class='col-sm-6'>
+                            <%= submit_tag "Change Years", class: 'btn btn-xs btn-primary' %>
+                        </div>
+                      </div>
+                    <%end%>
+                </div>
+              </div>
             </div>
-          </div>
         </div>
 
-        <div id='revByOriginationSourceActual' style="min-width: 310px;
-                                      height: 600px; width: 600px;
-                                      max-width: 600px;
-                                       margin: 0 auto">
+        <div class="row">
+            <div id='revByOriginationSourceActual'>
+            </div>
         </div>
     </div>
 </div>
