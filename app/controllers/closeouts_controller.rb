@@ -1,53 +1,47 @@
 class CloseoutsController < ApplicationController
     before_action :signed_in_user, :belongs_to_firm
+    before_action :set_case, :set_client, only: [:new, :create, :edit, :show, :update, :index]
+    before_action :set_closeout, only: [:show, :edit, :update]
+
+  def index
+    @closeouts = @case.closeouts
+  end
 
   def new
-    @case = Case.find(params[:case_id])
-    @client = Client.find(params[:client_id])
     @closeout = Closeout.new
   end
 
   def create
-    @case = Case.find(params[:case_id])
-    @client = Client.find(params[:client_id])
     @closeout = @case.closeouts.new(closeout_params)
-    @closeout.fee_type = @case.fees.last.fee_type
     if @closeout.save
       Closeout.close_case(@case)
       flash[:success] = "Case Closed Successfully"
-      redirect_to client_case_closeout_path(@client,@case,@closeout)
+      redirect_to client_case_closeouts_path(@client,@case)
     else
       render 'new'
     end
   end
 
-
-  def edit
-    @case = Case.find(params[:case_id])
-    @client = Client.find(params[:client_id])
-    @closeout = Closeout.find(params[:id])
+  def show
   end
 
-  def show
-    @case = Case.find(params[:case_id])
-    @client = Client.find(params[:client_id])
-    @closeout = Closeout.find(params[:id])
+  def edit
   end
 
   def update
-    @case = Case.find(params[:case_id])
-    @client = Client.find(params[:client_id])
-    @closeout = Closeout.find(params[:id])
     if @closeout.update_attributes(closeout_params)
       flash[:success] = "Update Closeout Information"
-      redirect_to client_case_closeout_path(@client,@case,@closeout)
+      redirect_to client_case_closeouts_path(@client, @case)
     else
       render 'edit'
     end
   end
 
-
   private
+
+    def set_closeout
+      @closeout = Closeout.find(params[:id])
+    end
 
     def closeout_params
        params.require(:closeout).permit(:total_recovery, :total_gross_fee_received,

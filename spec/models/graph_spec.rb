@@ -2,18 +2,18 @@ require 'spec_helper'
 
 describe Graph do
   before { @lawfirm  = FactoryGirl.create(:lawfirm),
-           @lawfirm1 = FactoryGirl.create(:lawfirm, id: 1),
-           @lawfirm2 = FactoryGirl.create(:lawfirm, id: 2),
+           @lawfirm1 = FactoryGirl.create(:lawfirm, id: 111),
+           @lawfirm2 = FactoryGirl.create(:lawfirm, id: 222),
 
-           @user1 = FactoryGirl.create(:user, lawfirm_id: 1, id: 1),
-           @user2 = FactoryGirl.create(:user, lawfirm_id: 2, id: 2),
+           @user1 = FactoryGirl.create(:user, lawfirm_id: 111, id: 1),
+           @user2 = FactoryGirl.create(:user, lawfirm_id: 222, id: 2),
 
-           @prac1_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, id: 1, group_name: "test_group_1"),
-           @prac2_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, id: 2, group_name: "test_group_2"),
-           @prac3_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, id: 3, group_name: "test_group_3"),
-           @prac4_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 2),
-           @prac5_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 2),
-           @prac6_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 2),
+           @prac1_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, id: 1, group_name: "test_group_1"),
+           @prac2_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, id: 2, group_name: "test_group_2"),
+           @prac3_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, id: 3, group_name: "test_group_3"),
+           @prac4_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 222),
+           @prac5_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 222),
+           @prac6_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 222),
 
            @client1 = FactoryGirl.create(:client, user_id: 1, id: 1)
            @client2 = FactoryGirl.create(:client, user_id: 1, id: 2)
@@ -267,12 +267,12 @@ describe Graph do
       end
 
       it 'adding a practicegroup will show up for the right lawfirm' do
-        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, group_name: "IMHERE")
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, group_name: "IMHERE")
         expect(Graph.closed_cases_by_pg_and_closeout_type(@user1,'total_recovery', 1).sort).to eq([["IMHERE",0],["test_group_1", 5],["test_group_2", 0],["test_group_3", 0]])
       end
 
       it 'adding a practicegroup will NOT show up for the WRONG lawfirm' do
-        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 2, group_name: "IMHERE")
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 222, group_name: "IMHERE")
         expect(Graph.closed_cases_by_pg_and_closeout_type(@user1,'total_recovery', 1).sort).to eq([["test_group_1", 5],["test_group_2", 0],["test_group_3", 0]])
       end
     end
@@ -287,13 +287,13 @@ describe Graph do
       end
 
       it 'a new practicegroup will show up' do
-        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, group_name: "IMHERE")
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, group_name: "IMHERE")
         expect(ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_recovery")))
               .to match_array([{"name" => "IMHERE", "data" => [0,0,0,0,0]},{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
       end
 
       it 'a new closed case will show up at the right date' do
-        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 1, group_name: "IMHERE", id: 444)
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, group_name: "IMHERE", id: 444)
         @case10 = FactoryGirl.create(:case, client_id: 1, practicegroup_id: 444, id: 444)
         @closeout10 = FactoryGirl.create(:closeout, case_id: 444, total_recovery: 500, date_fee_received: Date.today - 2.years)
         expect(ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_recovery")))
@@ -331,10 +331,10 @@ describe Graph do
         expect(Graph.closeout_by_year_pg(@user1,3,'total_fee_received')).to eq([0,0,1,2,0])
       end
 
-      before { @pracgroup7 = FactoryGirl.create(:practicegroup, lawfirm_id: 1,
+      before { @pracgroup7 = FactoryGirl.create(:practicegroup, lawfirm_id: 111,
                                                 group_name: "test_group_444", id: 444)
                @not_this_prac_group = FactoryGirl.create(:practicegroup,
-                                                         lawfirm_id: 2, group_name: "Not Me",id: 333)
+                                                         lawfirm_id: 222, group_name: "Not Me",id: 333)
                @case11 = FactoryGirl.create(:case, practicegroup_id: 444, client_id: 1, id: 444)
                @closeout11 = FactoryGirl.create(:closeout, case_id: 444, total_recovery: 500,
                                                 date_fee_received: Date.today - 2.years)
@@ -491,7 +491,7 @@ describe Graph do
       end
     end
 
-    before { FactoryGirl.create(:overhead, lawfirm_id: 1, year: Date.today.year)}
+    before { FactoryGirl.create(:overhead, lawfirm_id: 111, year: Date.today.year)}
     context 'expected overhead calculations' do
       subject { Graph.expected_overhead_next_year(@user1) }
       it { should eq(3000000) }

@@ -7,76 +7,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <%= form_for(@closeout, url: {action: "create"}, html: {class: "form-horizontal"}) do |f| %>
-        <%= render 'shared/error_messages', object: f.object %>
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :fee_type, "Fee Type:", class: "control-label" %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.select :fee_type, StaticInformation::FEE_TYPE.sort, class: "form-control" %>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :total_recovery, "Total Recovery:", class: "control-label" %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.text_field :total_recovery, class: "form-control monetary" %>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :total_gross_fee_received, "Total Gross Fee Received:", class: "control-label" %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.text_field :total_gross_fee_received, class: "monetary form-control" %>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :total_out_of_pocket_expenses, "Total Out of Pocket Expenses:", class: "control-label" %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.text_field :total_out_of_pocket_expenses, class: "monetary form-control" %>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :referring_fees_paid, "Referring Fees Paid:", class: "control-label" %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.text_field :referring_fees_paid, class: "monetary form-control" %>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :total_fee_received, "Net Fee Received:", class: "control-label" %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.text_field :total_fee_received, class: "monetary form-control" %>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :date_fee_received, "Date Fee Received:", class: "control-label" %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.date_field :date_fee_received, id: "datepicker" %>
-            </div>
-          </div>
-          <br>
-        <div class="center">
-          <%= f.submit "Submit", class: "btn btn-default btn-large btn-primary" %>
-        </div>
-
-      <% end %>
+      <% @action = 'create' %>
+      <%= render partial: 'closeout_form', locals: {staffing: @closeout} %>
     </div>
   </div>
 </div>

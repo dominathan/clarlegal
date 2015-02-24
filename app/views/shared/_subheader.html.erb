@@ -128,7 +128,7 @@
          </li>
       <% else %>
          <li class="<%= is_active?('closeouts') %> dropdown">
-            <%= link_to "Closeout", client_case_closeout_path(@case.client_id,@case,@case.closeouts.first.id) %>
+            <%= link_to "Closeout", client_case_closeouts_path(@case.client_id,@case) %>
          </li>
       <% end %>
 
