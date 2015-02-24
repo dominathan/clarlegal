@@ -56,7 +56,7 @@ FactoryGirl.define do
 
   factory :overhead do
     association                     :lawfirm
-    lawfirm_id                      1
+    lawfirm_id                      111
     rent                            3000000
     utilities                       0
     guaranteed_salaries             0

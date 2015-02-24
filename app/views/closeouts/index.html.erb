@@ -1,0 +1,36 @@
+<% provide(:title, "Closeout") %>
+
+<%= render 'shared/subheader' %>
+
+<h2>Closeout</h2>
+<table id="caseCloseouts" class='display'>
+  <thead>
+    <tr>
+      <th>Total Recovery</th>
+      <th>Total Gross Fee Received</th>
+      <th>Total Out-of-Pocket Expenses</th>
+      <th>Referring Fee Paid</th>
+      <th>Total Fee Received</th>
+      <th>Date Fee Received</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @closeouts.each do |closeout| %>
+      <tr>
+        <td><%= number_to_currency closeout.total_recovery, precision: 0 %></td>
+        <td><%= number_to_currency closeout.total_gross_fee_received, precision: 0 %></td>
+        <td><%= number_to_currency closeout.total_out_of_pocket_expenses, precision: 0 %></td>
+        <td><%= number_to_currency closeout.referring_fees_paid, precision: 0 %></td>
+        <td><%= number_to_currency closeout.total_fee_received, precision: 0 %></td>
+        <td><%= closeout.date_fee_received ? closeout.date_fee_received.strftime("%b %d, %Y") : "" %></td>
+        <td><%= link_to "Edit", edit_client_case_closeout_path(@client, @case, closeout) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<br>
+<div class="center">
+  <%= link_to "New Amount", new_client_case_closeout_path(@client, @case), class: "btn btn-md btn-primary" %>
+</div>

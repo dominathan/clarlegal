@@ -9,6 +9,6 @@ $(document).on('submit', function(){
 
 $(document).ready(function() {
   $('#caseCloseouts').dataTable({
-
+    "order": [[5,"desc"]]
   });
 });
