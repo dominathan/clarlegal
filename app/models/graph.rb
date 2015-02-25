@@ -167,6 +167,7 @@ class Graph < ActiveRecord::Base
       closed_case_count = user.lawfirm.cases
                                       .where(open: false)
                                       .joins(:closeouts)
+                                      .where('closeouts.created_at = (SELECT MAX(created_at) FROM closeouts p group by case_id having p.case_id = closeouts.case_id)')
                                       .where("date_fee_received > ?", start_date)
                                       .where('practicegroup_id = ?', pg)
                                       .count('cases')
