@@ -166,9 +166,10 @@ class Graph < ActiveRecord::Base
     practice_groups.each do |pg|
       closed_case_count = user.lawfirm.cases
                                       .where(open: false)
+                                      .joins(:closeouts)
                                       .where("date_fee_received > ?", start_date)
                                       .where('practicegroup_id = ?', pg)
-                                      .count
+                                      .count('cases')
       final_case_count.push(closed_case_count)
     end
     #Return the [[practicegroupname,case_count],[pg,cc]]..etc
