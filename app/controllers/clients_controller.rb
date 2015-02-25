@@ -1,6 +1,7 @@
 class ClientsController < ApplicationController
   before_action :signed_in_user
   before_action :belongs_to_firm
+  before_action :has_overhead_last_5_years, only: [:show]
 
   def index
     @clients = Client.where(user_id: current_user.id).order(:last_name).load
