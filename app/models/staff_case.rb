@@ -6,8 +6,8 @@ class StaffCase < ActiveRecord::Base
   def self.add_to_staff_master_list(staff_array,case_id)
     for stf in staff_array
       StaffCase.create!(staffing_id: stf['staffing_id'], case_id: case_id, current_case: true,
-                hours_expected: stf['hours_expected'] || nil,
-                hours_actual: stf['hours_actual'] || nil)
+                hours_expected: stf['hours_expected'] || 0,
+                hours_actual: stf['hours_actual'] || 0)
     end
   end
 

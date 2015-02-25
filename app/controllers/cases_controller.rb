@@ -122,6 +122,11 @@ class CasesController < ApplicationController
                                           source_description: source_description)
         @new_origination.save
       end
+      unless params[:case][:staffs_attributes] == nil
+        @staff_list = params[:case][:staffs_attributes].values
+        case_id = @case.id
+        StaffCase.add_to_staff_master_list(@staff_list,case_id)
+      end
       flash[:success] = "Case Added Successfully"
       redirect_to client_case_path(@case.client_id,@case)
     else
