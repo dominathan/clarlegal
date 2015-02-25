@@ -19,7 +19,7 @@
        <tr>
         <td><%= link_to one_case.name != nil && one_case.name != "" ? one_case.name : "Add Name", client_case_path(:client_id => one_case.client_id, :id => one_case.id) %></td>
         <td><%= Practicegroup.find_by(id: one_case.practicegroup_id).group_name %> </td>
-        <td><%= User.full_name_last_first(one_case.client) %> </td>
+        <td><%= one_case.client.company ? one_case.client.company.empty? ? one_case.client.full_name_last_first : one_case.client.company : one_case.client.company %> </td>
         <td><%= Case.lead_attorney(one_case).blank? ? "Select a primary attorney" : Case.lead_attorney(one_case) %> </td>
         <td><%= one_case.judge ? one_case.judge : "" %></td>
         <td><%= one_case.opposing_attorney ? one_case.opposing_attorney : ""%></td>
