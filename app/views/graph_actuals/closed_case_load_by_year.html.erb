@@ -12,10 +12,14 @@
                       method: :get do %>
                       <div class="row">
                         <div class='col-sm-6'>
-                            <%= select_tag :range, options_for_select([1,2,3,4,5,6,7,8,9,10]) %>
+                            <div class="form-group">
+                                <%= select_tag :range, options_for_select([1,2,3,4,5,6,7,8,9,10]), class: "form-control", id: "select-year" %>
+                            </div>
                         </div>
                         <div class='col-sm-6'>
-                            <%= submit_tag "Change Years", class: 'btn btn-xs btn-primary' %>
+                            <div class="form-group">
+                                <%= submit_tag "Change Years", class: 'btn btn-sm btn-primary' %>
+                            </div>
                         </div>
                       </div>
                     <%end%>
