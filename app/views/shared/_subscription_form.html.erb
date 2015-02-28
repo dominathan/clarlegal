@@ -1,7 +1,7 @@
 <%= form_for(@subscriber, url: {controller: "subscribers", action: "create"}, html: {class: "form-horizontal"}) do |f| %>
   <div class="row" id="email-form-row">
-    <div class="col-sm-8">
-      <%= f.text_field :email, class: "form-control", id: 'subscribe-form', placeholder: "Enter Email", style: "height:45px;width:400px;font-size:20px;" %>
+    <div class="col-sm-12 col-md-8">
+      <%= f.text_field :email, class: "form-control", id: 'subscribe-form', placeholder: "Enter Email" %>
       <div id="mce-responses" class="clear">
         <div class="response" id="mce-error-response" style="display:none"></div>
         <div class="response" id="mce-success-response" style="display:none"></div>
@@ -10,8 +10,8 @@
         <input type="text" name="b_c46cf3e404f62902d724b0579_7a48d65845" tabindex="-1" value="">
       </div>
     </div>
-    <div class="col-sm-4">
-      <%= f.submit "Contact ClarLegal", class: "btn btn-lg btn-primary", id: 'subscribe-button' %>
+    <div class="col-sm-12 col-md-4">
+      <%= f.submit "Contact ClarLegal", class: "btn btn-lg btn-primary btn-block", id: 'subscribe-button' %>
     </div>
   </div>
 <% end %>
