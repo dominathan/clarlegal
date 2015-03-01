@@ -100,6 +100,10 @@ Claregal::Application.routes.draw do
   match '/revenue_by_origination',                 to: 'graphs#fee_received_by_referral_medium', via: 'get'
 
 
+  match '/revenue_by_year',                 to: 'graph_drilldowns#rev_by_year',             via: 'get'
+  match '/revenue_year',                    to: 'graph_drilldowns#rev_year',                via: 'get'
+
+
   match '/revenue_by_year/accelerated',     to: 'graph_drilldowns#rev_by_year',             via: 'get'
   match '/revenue_by_year/expected',        to: 'graph_drilldowns#rev_by_year_expected',    via: 'get'
   match '/revenue_by_year/slow',            to: 'graph_drilldowns#rev_by_year_slow',        via: 'get'

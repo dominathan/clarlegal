@@ -6,9 +6,9 @@
     </div>
     <br>
     <div class='center'>
-        <%= link_to "Accelerated Recovery", revenue_by_year_accelerated_path, class: "btn btn-primary btn-md" %>
-        <%= link_to "Expected Recovery", revenue_by_year_expected_path, class: "btn btn-primary btn-md" %>
-        <%= link_to "Slow Recovery", revenue_by_year_slow_path, class: "btn btn-primary btn-md" %>
+        <%= link_to "Accelerated Recovery", revenue_by_year_path(recovery_rate: 'fast'), class: "btn btn-primary btn-md" %>
+        <%= link_to "Expected Recovery", revenue_by_year_path(recovery_rate: 'expected'), class: "btn btn-primary btn-md" %>
+        <%= link_to "Slow Recovery", revenue_by_year_path(recovery_rate: 'slow'), class: "btn btn-primary btn-md" %>
     </div>
   </div>
 </div>
@@ -25,11 +25,11 @@ var revByYearMedium = <%= @rev_by_year_medium %>;
 var revByYearLow = <%= @rev_by_year_low %>;
 var estimatedOverhead = <%= @overhead_by_year %>;
 var categoryLinks = {
-   "<%=@category_years[0] %>" : "<%=revenue_year_1_accelerated_url.to_str %>",
-   "<%=@category_years[1] %>" : "<%=revenue_year_2_accelerated_url.to_str %>",
-   "<%=@category_years[2] %>" : "<%=revenue_year_3_accelerated_url.to_str %>",
-   "<%=@category_years[3] %>" : "<%=revenue_year_4_accelerated_url.to_str %>",
-   "<%=@category_years[4] %>" : "<%=revenue_year_5_accelerated_url.to_str %>",
+   "<%=@category_years[0] %>" : "<%=revenue_year_path(recovery_rate: 'fast', year: '1').to_str %>",
+   "<%=@category_years[1] %>" : "<%=revenue_year_path(recovery_rate: 'fast', year: '2').to_str %>",
+   "<%=@category_years[2] %>" : "<%=revenue_year_path(recovery_rate: 'fast', year: '3').to_str %>",
+   "<%=@category_years[3] %>" : "<%=revenue_year_path(recovery_rate: 'fast', year: '4').to_str %>",
+   "<%=@category_years[4] %>" : "<%=revenue_year_path(recovery_rate: 'fast', year: '5').to_str %>",
  };
 
 
