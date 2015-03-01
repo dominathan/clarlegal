@@ -103,27 +103,6 @@ Claregal::Application.routes.draw do
   match '/revenue_by_year',                 to: 'graph_drilldowns#rev_by_year',             via: 'get'
   match '/revenue_year',                    to: 'graph_drilldowns#rev_year',                via: 'get'
 
-
-  match '/revenue_by_year/accelerated',     to: 'graph_drilldowns#rev_by_year',             via: 'get'
-  match '/revenue_by_year/expected',        to: 'graph_drilldowns#rev_by_year_expected',    via: 'get'
-  match '/revenue_by_year/slow',            to: 'graph_drilldowns#rev_by_year_slow',        via: 'get'
-  match '/revenue_year_1/slow',             to: 'graph_drilldowns#rev_year_1_slow',         via: 'get'
-  match '/revenue_year_1/expected',         to: 'graph_drilldowns#rev_year_1_expected',     via: 'get'
-  match '/revenue_year_1/accelerated',      to: 'graph_drilldowns#rev_year_1_accelerated',  via: 'get'
-  match '/revenue_year_2/slow',             to: 'graph_drilldowns#rev_year_2_slow',         via: 'get'
-  match '/revenue_year_2/expected',         to: 'graph_drilldowns#rev_year_2_expected',     via: 'get'
-  match '/revenue_year_2/accelerated',      to: 'graph_drilldowns#rev_year_2_accelerated',  via: 'get'
-  match '/revenue_year_3/slow',             to: 'graph_drilldowns#rev_year_3_slow',         via: 'get'
-  match '/revenue_year_3/expected',         to: 'graph_drilldowns#rev_year_3_expected',     via: 'get'
-  match '/revenue_year_3/accelerated',      to: 'graph_drilldowns#rev_year_3_accelerated',  via: 'get'
-  match '/revenue_year_4/slow',             to: 'graph_drilldowns#rev_year_4_slow',         via: 'get'
-  match '/revenue_year_4/expected',         to: 'graph_drilldowns#rev_year_4_expected',     via: 'get'
-  match '/revenue_year_4/accelerated',      to: 'graph_drilldowns#rev_year_4_accelerated',  via: 'get'
-  match '/revenue_year_5/slow',             to: 'graph_drilldowns#rev_year_5_slow',         via: 'get'
-  match '/revenue_year_5/expected',         to: 'graph_drilldowns#rev_year_5_expected',     via: 'get'
-  match '/revenue_year_5/accelerated',      to: 'graph_drilldowns#rev_year_5_accelerated',  via: 'get'
-
-
   #I do not know why this is here, but when I remove it everything breaks
   match '/revenue_by_referral_source',      to: 'graphs#rev_by_fee_type_medium',            via: 'get'
 

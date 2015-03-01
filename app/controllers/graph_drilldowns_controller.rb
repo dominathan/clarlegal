@@ -6,7 +6,7 @@ class GraphDrilldownsController < ApplicationController
   end
 
   def rev_by_year
-    @recovery_rate = params[:recovery_rate]
+    @recovery_rate = params[:recovery_rate] || 'expected'
     @year = params[:year]
     @category_years = Graph.expected_year_only
 
