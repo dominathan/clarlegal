@@ -291,8 +291,8 @@ fieldset[disabled] .btn.active {
 
 /* Charts */
 
-.chart {
-  margin-top: 25px;
+[data-highcharts-chart] {
+  margin: 50px auto !important;
 }
 
 /* Search Bar */
