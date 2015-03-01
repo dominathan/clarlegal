@@ -3,7 +3,7 @@
 
 <div class="chart container">
   <div class="col-lg-10 col-lg-offset-2">
-    <div id="revenueYear1Accelerated" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="revenueYear" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     <br>
     <div class='center'>
       <%= link_to "Back", revenue_by_year_path(recovery_rate: params[:recovery_rate]), class: "btn btn-large btn-small btn-primary" %>
@@ -23,12 +23,12 @@ var estimatedOverhead = <%= @overhead_by_month %>;
 
 
   // Create the chart
-  $('#revenueYear1Accelerated').highcharts({
+  $('#revenueYear').highcharts({
       title: {
           text: 'Gross Fee <%= @category_years[0]%>'
       },
       subtitle: {
-          text: 'Accelerated Recovery Rate'
+          text: '<%= @recovery_rate.capitalize %> Recovery Rate'
       },
       credits: {
         enabled: false
