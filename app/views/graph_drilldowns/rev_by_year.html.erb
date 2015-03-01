@@ -25,11 +25,11 @@ var revByYearMedium = <%= @rev_by_year_medium %>;
 var revByYearLow = <%= @rev_by_year_low %>;
 var estimatedOverhead = <%= @overhead_by_year %>;
 var categoryLinks = {
-   "<%=@category_years[0] %>" : "<%=revenue_year_path(recovery_rate: 'fast', year: '1').to_str %>",
-   "<%=@category_years[1] %>" : "<%=revenue_year_path(recovery_rate: 'fast', year: '2').to_str %>",
-   "<%=@category_years[2] %>" : "<%=revenue_year_path(recovery_rate: 'fast', year: '3').to_str %>",
-   "<%=@category_years[3] %>" : "<%=revenue_year_path(recovery_rate: 'fast', year: '4').to_str %>",
-   "<%=@category_years[4] %>" : "<%=revenue_year_path(recovery_rate: 'fast', year: '5').to_str %>",
+   "<%=@category_years[0] %>" : "<%=revenue_year_path(recovery_rate: params[:recovery_rate], year: '1').to_str %>",
+   "<%=@category_years[1] %>" : "<%=revenue_year_path(recovery_rate: params[:recovery_rate], year: '2').to_str %>",
+   "<%=@category_years[2] %>" : "<%=revenue_year_path(recovery_rate: params[:recovery_rate], year: '3').to_str %>",
+   "<%=@category_years[3] %>" : "<%=revenue_year_path(recovery_rate: params[:recovery_rate], year: '4').to_str %>",
+   "<%=@category_years[4] %>" : "<%=revenue_year_path(recovery_rate: params[:recovery_rate], year: '5').to_str %>",
  };
 
 
