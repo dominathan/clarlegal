@@ -1,11 +1,12 @@
 <% provide(:title, "Revenue By Month") %>
 
+
 <div class="chart container">
-  <div class="col-lg-10 col-lg-offset-2">
-    <div id="revenueYear4Slow" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  <div class="col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2">
+    <div id="revenueYear"></div>
     <br>
     <div class='center'>
-      <%= link_to "Back", revenue_by_year_slow_path, class: "btn btn-large btn-small btn-primary" %>
+      <%= link_to "Back", revenue_by_year_path(recovery_rate: params[:recovery_rate]), class: "btn btn-large btn-small btn-primary" %>
     </div>
   </div>
 </div>
@@ -15,19 +16,19 @@
  $(function () {
 
 var categoryByMonths = <%= raw @category_months %>;
-var revByMonthHigh = <%= @year_4_by_month_high %>;
-var revByMonthMedium = <%= @year_4_by_month_medium %>;
-var revByMonthLow = <%= @year_4_by_month_low %>;
+var revByMonthHigh = <%= @year_by_month_high %>;
+var revByMonthMedium = <%= @year_by_month_medium %>;
+var revByMonthLow = <%= @year_by_month_low %>;
 var estimatedOverhead = <%= @overhead_by_month %>;
 
 
   // Create the chart
-  $('#revenueYear4Slow').highcharts({
+  $('#revenueYear').highcharts({
       title: {
-          text: 'Gross Fee <%= @category_years[3]%>'
+          text: 'Gross Fee <%= @category_years[0]%>'
       },
       subtitle: {
-          text: 'Slow Recovery Rate'
+          text: '<%= @recovery_rate.capitalize %> Recovery Rate'
       },
       credits: {
         enabled: false

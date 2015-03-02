@@ -1,3 +1,9 @@
+.sidebar {
+  > div {
+    position: relative;
+    z-index: 999;
+  }
+}
 @media (min-width: 1024px) {
   .sidebar {
     position: fixed;

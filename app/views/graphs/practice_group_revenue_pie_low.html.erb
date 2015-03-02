@@ -1,7 +1,7 @@
 <% provide(:title, 'Revenue by PG') %>
 
 <div class="chart container">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2">
         <div class="center">
             <div class="btn-group btn-group-md">
                 <button id="lowButton" type="button" class="btn btn-default">Low Revenue</button>
@@ -36,7 +36,6 @@
 
 <script type="text/javascript">
 $(function() {
-    event.preventDefault();
     $("#expectedButton").click(function() {
         $('#RevenueByPracticeGroupLow').hide();
         $('#RevenueByPracticeGroupHigh').hide();
