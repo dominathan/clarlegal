@@ -41,6 +41,11 @@ textarea {
   }
 }
 
+.alert {
+  position: relative;
+  z-index: 999;
+}
+
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {
@@ -291,8 +296,8 @@ fieldset[disabled] .btn.active {
 
 /* Charts */
 
-.chart {
-  margin-top: 25px;
+[data-highcharts-chart] {
+  margin: 50px auto !important;
 }
 
 /* Search Bar */
