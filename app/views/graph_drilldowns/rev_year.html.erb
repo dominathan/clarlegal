@@ -25,7 +25,7 @@ var estimatedOverhead = <%= @overhead_by_month %>;
   // Create the chart
   $('#revenueYear').highcharts({
       title: {
-          text: 'Gross Fee <%= @category_years[0]%>'
+          text: 'Gross Fee <%= @category_years[params[:year].to_i - 1]%>'
       },
       subtitle: {
           text: '<%= @recovery_rate.capitalize %> Recovery Rate'
