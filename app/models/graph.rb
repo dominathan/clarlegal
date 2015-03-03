@@ -362,6 +362,7 @@ class Graph < ActiveRecord::Base
                                .where(open: true)
                                .joins(:timings, :fees)
                                .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                               .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                                .where("#{timing_estimate} >= :start_date AND
                                         #{timing_estimate} <= :end_date",
                                     {start_date: years_of_collection[i].beginning_of_year,
