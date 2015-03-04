@@ -113,7 +113,7 @@ namespace :db do
                               'Uninsured Motorist', 'Maritime', 'Jones Act', 'Premises Liability', "Slips & Falls",
                               'Spinal Chord Injury', 'Traumatic Brain Injury', "Worker's Compensation", 'Wrongful Death']
     25.times do |n|
-      CaseType.create!(mat_ref: matter_reference_list[n+1],
+      CaseType.create!(mat_ref: matter_reference_list[n],
                       lawfirm_id: 1)
     end
   end

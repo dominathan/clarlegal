@@ -36,7 +36,8 @@ Claregal::Application.routes.draw do
     end
   end
   match '/staffings/import',    to: "staffings#import_staffing", via: 'post'
-  match '/clients/import',    to: "clients#import_clients", via: 'post'
+  match '/clients/import',      to: "clients#import_clients",    via: 'post'
+  match '/matter_types/import', to: "case_types#import_matters", via: 'post'
 
   resources :clients do
     resources :cases do
