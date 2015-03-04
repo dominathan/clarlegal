@@ -32,6 +32,18 @@ class CaseTypesController < ApplicationController
 
   end
 
+
+  def import_matters
+    begin
+    if CaseType.import(params[:file],current_user)
+      flash[:success] = "Matter Types Uploaded Successfully"
+    end
+    rescue
+      flash[:danger] = "Matter Types Not Uploaded. Enter your information in the prescribed layout."
+    end
+    redirect_to user_lawfirm_case_types_path(current_user, current_user.lawfirm)
+  end
+
   private
 
 

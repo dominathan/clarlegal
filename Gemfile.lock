@@ -68,6 +68,7 @@ GEM
       unicode_utils (~> 1.4)
     daemon_controller (1.2.0)
     daemons (1.1.9)
+    database_cleaner (1.4.0)
     debug_inspector (0.0.2)
     debugger (1.6.8)
       columnize (>= 0.3.1)
@@ -299,6 +300,7 @@ DEPENDENCIES
   capybara (= 2.1.0)
   cocoon (= 1.2.6)
   coffee-rails (~> 4.0.0)
+  database_cleaner
   delayed_job_active_record (= 4.0.3)
   factory_girl_rails (= 4.2.1)
   faker (= 1.1.2)
