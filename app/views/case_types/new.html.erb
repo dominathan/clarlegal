@@ -23,3 +23,44 @@
     <% end %>
   </div>
 </div>
+
+<div class="col-md-12">
+    <h2>Instructions for Uploading Staff</h2>
+
+  <div class="col-md-6">
+    <p>1. Only the following file types are permissible:<br>
+    <ul>
+      <li>.xlsx</li>
+      <li>.xls</li>
+      <li>.csv</li>
+    </ul>
+    2. Download the attached file.<br>
+    3. Enter the information in each row as shown. Do NOT change the first row.<br>
+    4. All fields are required.<br>
+    5. Save the file.<br>
+    6. Choose the file you saved, and click Import.<br>
+    7. Matter Types will appear on following screen.
+    </p>
+    <div class="center">
+      <%= form_tag matter_types_import_path, multipart: true do %>
+      <div class="row">
+        <div class="col-sm-6">
+          <%= file_field_tag :file, class: 'btn btn-default', style: "width: 300px; background-color: white; color: gray;" %>
+        </div>
+        <div class="col-sm-6">
+          <%= submit_tag "Import", class: "btn btn-primary" %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="row">
+      <%= image_tag 'matter_type_xls.png', class: 'img-responsive', id: "casetype-file" %>
+    </div>
+    <br>
+    <div class="center">
+      <%= link_to "Download", "/data/Matter\ Types\ Upload.xlsx", class: 'btn btn-primary', style: "margin: -5px; width: 150px; padding-bottom: 7px;"  %>
+    </div>
+  </div>
+</div>
