@@ -29,7 +29,26 @@ class CaseTypesController < ApplicationController
   end
 
   def update
+    @case_type = CaseType.find(params[:id])
+    if @case_type.update_attributes(case_type_params)
+      flash[:success] = "Matter Type Added Successfully"
+      redirect_to user_lawfirm_case_types_path(current_user,current_user.lawfirm)
+    else
+      flash[:danger] = "Matter Type Not Added.  Please Review the Errors."
+      render 'edit'
+    end
+  end
 
+
+  def import_matters
+    begin
+    if CaseType.import(params[:file],current_user)
+      flash[:success] = "Matter Types Uploaded Successfully"
+    end
+    rescue
+      flash[:danger] = "Matter Types Not Uploaded. Enter your information in the prescribed layout."
+    end
+    redirect_to user_lawfirm_case_types_path(current_user, current_user.lawfirm)
   end
 
   private

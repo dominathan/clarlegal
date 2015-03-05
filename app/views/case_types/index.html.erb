@@ -13,7 +13,7 @@
       <% @case_types.each do |matter_reference| %>
        <tr>
         <td><%= matter_reference.mat_ref %></td>
-        <td><%= link_to "Edit", edit_user_lawfirm_case_type_path(current_user.id,current_user.lawfirm_id,matter_reference.id) %></td>
+        <td><%= link_to "Edit", edit_user_lawfirm_case_type_path(current_user.id,current_user.lawfirm_id,matter_reference) %></td>
       <% end %>
   </tbody>
 </table>

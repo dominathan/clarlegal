@@ -32,6 +32,7 @@ group :development, :test do
   gem 'hirb', '0.7.2' #easy railsconsole viewing
   gem 'quiet_assets', '1.0.3' #removes all that logger shit about assets
   gem 'letter_opener', '1.2.0' #test email being sent
+  gem 'database_cleaner'
 end
 
 group :test do

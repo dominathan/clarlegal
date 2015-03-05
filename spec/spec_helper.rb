@@ -3,6 +3,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
+require 'database_cleaner'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -42,6 +43,7 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.include(MailerMacros)
   config.before(:each) { reset_email }
+
 
   #added it because it was causing failing tests
   def full_title(page_title)
