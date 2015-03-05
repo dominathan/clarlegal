@@ -1,4 +1,5 @@
 class CaseTypesController < ApplicationController
+before_action :signed_in_user, :belongs_to_firm
 
   def new
     @case_type = CaseType.new
