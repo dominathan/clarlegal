@@ -29,7 +29,14 @@ class CaseTypesController < ApplicationController
   end
 
   def update
-
+    @case_type = CaseType.find(params[:id])
+    if @case_type.update_attributes(case_type_params)
+      flash[:success] = "Matter Type Added Successfully"
+      redirect_to user_lawfirm_case_types_path(current_user,current_user.lawfirm)
+    else
+      flash[:danger] = "Matter Type Not Added.  Please Review the Errors."
+      render 'edit'
+    end
   end
 
 

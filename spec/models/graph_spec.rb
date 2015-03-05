@@ -11,9 +11,9 @@ describe Graph do
            @prac1_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, id: 1, group_name: "test_group_1"),
            @prac2_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, id: 2, group_name: "test_group_2"),
            @prac3_firm1 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, id: 3, group_name: "test_group_3"),
-           @prac4_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 222),
-           @prac5_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 222),
-           @prac6_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 222),
+           @prac4_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 222, id: 4),
+           @prac5_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 222, id: 5),
+           @prac6_firm2 = FactoryGirl.create(:practicegroup, lawfirm_id: 222, id: 6),
 
            @client1 = FactoryGirl.create(:client, user_id: 1, id: 1)
            @client2 = FactoryGirl.create(:client, user_id: 1, id: 2)
@@ -189,11 +189,11 @@ describe Graph do
       end
     end
 
-    before {    @ovh1 = FactoryGirl.create(:overhead, year: Date.today.year, id: 1),
-                @ovh2 = FactoryGirl.create(:overhead, year: Date.today.year - 1),
-                @ovh3 = FactoryGirl.create(:overhead, year: Date.today.year - 2),
-                @ovh4 = FactoryGirl.create(:overhead, year: Date.today.year - 3),
-                @ovh5 = FactoryGirl.create(:overhead, year: Date.today.year - 4)
+    before {    @ovh1 = FactoryGirl.create(:overhead, year: Date.today.year, lawfirm_id: 111),
+                @ovh2 = FactoryGirl.create(:overhead, year: Date.today.year - 1, lawfirm_id: 111),
+                @ovh3 = FactoryGirl.create(:overhead, year: Date.today.year - 2, lawfirm_id: 111),
+                @ovh4 = FactoryGirl.create(:overhead, year: Date.today.year - 3, lawfirm_id: 111),
+                @ovh5 = FactoryGirl.create(:overhead, year: Date.today.year - 4, lawfirm_id: 111)
             }
 
     context "Graph.total_overhead_per_year(user)" do
@@ -203,7 +203,7 @@ describe Graph do
       it { should have(5).items }
       it { should eq(Array.new(5,3000000)) }
       it 'adding 2000000 to utiltiies in current year should show up last' do
-        Overhead.find_by(id: 1).update_attribute(:utilities, 2000000)
+        Overhead.find_by(year: Date.today.year).update_attribute(:utilities, 2000000)
         expect(Graph.total_overhead_per_year(@user1)).to eq(Array.new(4,3000000).append(5000000))
       end
     end
@@ -267,12 +267,12 @@ describe Graph do
       end
 
       it 'adding a practicegroup will show up for the right lawfirm' do
-        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, group_name: "IMHERE")
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, group_name: "IMHERE", id: 123456)
         expect(Graph.closed_cases_by_pg_and_closeout_type(@user1,'total_recovery', 1).sort).to eq([["IMHERE",0],["test_group_1", 5],["test_group_2", 0],["test_group_3", 0]])
       end
 
       it 'adding a practicegroup will NOT show up for the WRONG lawfirm' do
-        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 222, group_name: "IMHERE")
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 222, group_name: "IMHERE", id: 24)
         expect(Graph.closed_cases_by_pg_and_closeout_type(@user1,'total_recovery', 1).sort).to eq([["test_group_1", 5],["test_group_2", 0],["test_group_3", 0]])
       end
     end
@@ -287,7 +287,7 @@ describe Graph do
       end
 
       it 'a new practicegroup will show up' do
-        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, group_name: "IMHERE")
+        @pg4 = FactoryGirl.create(:practicegroup, lawfirm_id: 111, group_name: "IMHERE", id: 44)
         expect(ActiveSupport::JSON.decode(Graph.revenue_by_practice_group_actual(@user1,"total_recovery")))
               .to match_array([{"name" => "IMHERE", "data" => [0,0,0,0,0]},{"name" => "test_group_3", "data" => [0,0,5,10,0]},{"name" => "test_group_2", "data" => [5,5,0,0,0]},{"name" => "test_group_1", "data" => [0,0,5,5,5]}])
       end
