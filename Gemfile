@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 #==INITALLY ON RAILS NEW==#
-gem 'rails', '4.0.3'
+gem 'rails', '4.0.9'
 gem 'pg', '0.17.1'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
@@ -67,7 +67,7 @@ gem 'mandrill-api', '1.0.52'
 
 #for a sexy landing page, et. al.
 gem 'bootsaas', '1.0.0'
-gem 'brakeman' #NEED TO CHECK MORE ABOUT ITS FEATURES
+gem 'brakeman', '~> 3.0.1' #NEED TO CHECK MORE ABOUT ITS FEATURES
 
 #for CSV/EXCEL file uploads
 gem 'roo', "~> 1.13"
