@@ -31,3 +31,6 @@ doc/
 /server/
 bundle.pem
 dump.rdb
+
+brakeman.html
+
