@@ -1,0 +1,2864 @@
+<!DOCTYPE HTML SYSTEM>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Brakeman Report</title>
+  <script>
+    function toggle(context) {
+      var elem = document.getElementById(context);
+
+      if (elem.style.display != "block")
+        elem.style.display = "block";
+      else
+        elem.style.display = "none";
+
+      elem.parentNode.scrollIntoView();
+    }
+  </script>
+  <style>
+    /* CSS style used for HTML reports */
+
+body {
+  font-family: sans-serif;
+  color: #161616;
+}
+
+a {
+  color: #161616;
+}
+
+p {
+  font-weight: bold;
+  font-size: 11pt;
+  color: #2D0200;
+ }
+
+ th {
+   background-color: #980905;
+   border-bottom: 5px solid #530200;
+   color: white;
+   font-size: 11pt;
+   padding: 1px 8px 1px 8px;
+ }
+
+ td {
+   border-bottom: 2px solid white;
+   font-family: monospace;
+   padding: 5px 8px 1px 8px;
+ }
+
+ table {
+   background-color: #FCF4D4;
+   border-collapse: collapse;
+ }
+
+ h1 {
+   color: #2D0200;
+   font-size: 14pt;
+ }
+
+ h2 {
+   color: #2D0200;
+   font-size: 12pt;
+ }
+
+ span.high-confidence {
+   font-weight:bold;
+   color: red;
+ }
+
+ span.med-confidence {
+ }
+
+ span.weak-confidence {
+   color:gray;
+ }
+
+ div.warning_message {
+   cursor: pointer;
+ }
+
+ div.warning_message:hover {
+   background-color: white;
+ }
+
+ table caption {
+   background-color: #FFE;
+   padding: 2px;
+ }
+
+ table.context {
+   margin-top: 5px;
+   margin-bottom: 5px;
+   border-left: 1px solid #90e960;
+   color: #212121;
+ }
+
+ tr.context {
+   background-color: white;
+ }
+
+ tr.first {
+   border-top: 1px solid #7ecc54;
+   padding-top: 2px;
+ }
+
+ tr.error {
+  background-color: #f4c1c1 !important
+ }
+
+ tr.near_error {
+  background-color: #f4d4d4 !important
+ }
+
+ tr.alt {
+   background-color: #e8f4d4;
+ }
+
+ td.context {
+   padding: 2px 10px 0px 6px;
+   border-bottom: none;
+ }
+
+ td.context_line {
+   padding: 2px 8px 0px 7px;
+   border-right: 1px solid #b3bda4;
+   border-bottom: none;
+   color: #6e7465;
+ }
+
+ pre.context {
+   margin-bottom: 1px;
+ }
+
+ .user_input {
+   background-color: #fcecab;
+ }
+
+ div.render_path {
+   display: none;
+   background-color: #ffe;
+   padding: 5px;
+   margin: 2px 0px 2px 0px;
+ }
+
+ div.template_name {
+   cursor: pointer;
+ }
+
+ div.template_name:hover {
+   background-color: white;
+ }
+
+  </style>
+</head>
+<body>
+
+<h1>Brakeman Report</h1>
+<table>
+  <tr>
+    <th>Application Path</th>
+    <th>Rails Version</th>
+    <th>Brakeman Version</th>
+    <th>Report Time</th>
+    <th>Checks Performed</th>
+  </tr>
+  <tr>
+    <td>/Users/nathanhall/Projects/Claregal/Claregal</td>
+    <td>4.0.9</td>
+    <td>3.0.1
+    <td>
+      2015-03-07 13:15:58 -0600<br><br>
+      5.462711 seconds
+    </td>
+    <td>BasicAuth, ContentTag, CreateWith, CrossSiteScripting, DefaultRoutes, Deserialize, DetailedExceptions, DigestDoS, EscapeFunction, Evaluation, Execute, FileAccess, FileDisclosure, FilterSkipping, ForgerySetting, HeaderDoS, I18nXSS, JRubyXML, JSONParsing, LinkTo, LinkToHref, MailTo, MassAssignment, ModelAttrAccessible, ModelAttributes, ModelSerialize, NestedAttributes, NumberToCurrency, QuoteTableName, Redirect, RegexDoS, Render, RenderDoS, RenderInline, ResponseSplitting, SQL, SQLCVEs, SSLVerify, SafeBufferManipulation, SanitizeMethods, SelectTag, SelectVulnerability, Send, SendFile, SessionSettings, SimpleFormat, SingleQuotes, SkipBeforeFilter, StripTags, SymbolDoSCVE, TranslateBug, UnsafeReflection, ValidationRegex, WithoutProtection, YAMLParsing</td>
+  </tr>
+</table>
+<br>
+<h2 id='summary'>Summary</h2>
+<table>
+  <tr>
+    <th>Scanned/Reported</th>
+    <th>Total</th>
+  </tr>
+  <tr>
+    <td>Controllers</td>
+    <td>30</td>
+  </tr>
+  <tr>
+    <td>Models</td>
+    <td>22</td>
+  </tr>
+  <tr>
+    <td>Templates</td>
+    <td>129</td>
+  </tr>
+  <tr>
+    <td>Errors</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td>Security Warnings</td>
+    <td>31 <span class='high-confidence'>(0)</span></td>
+  </tr>
+  
+  <tr>
+    <td>Ignored Warnings</td>
+    <td>0</td>
+  </tr>
+  
+</table>
+<br>
+<table>
+  <tr>
+    <th>Warning Type</th>
+    <th>Total</th>
+  </tr>
+  
+  <tr>
+    <td>Cross Site Scripting</td>
+    <td>31</td>
+  </tr>
+  
+</table>
+<br>
+<p>View Warnings</p>
+<table>
+  <tr>
+    <th>Confidence</th>
+    <th>Template</th>
+    <th>Warning Type</th>
+    <th>Message</th>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        fees/index (FeesController#index)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context1');toggle('message1');toggle('full_message1')" >Unescaped model attribute near line 51: Fee.get_fee_dates(Case.find(params[:case_id]))<table id='context1' class='context' style='display:none'><caption>app/views/fees/index.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>50</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>51</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var categories = &lt;%= raw @fee_timeline %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>52</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var lowEstimate = &lt;%= @fee_low_estimates %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>53</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var mediumEstimate = &lt;%= @fee_medium_estimates %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>54</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var highEstimate = &lt;%= @fee_high_estimates %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>56</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(function () {</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_actuals/individual_practice_group (GraphActualsController#individual_practice_group)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context2');toggle('message2');toggle('full_message2')" >Unescaped model attribute near line 150: Graph.closeout_year_only<table id='context2' class='context' style='display:none'><caption>app/views/graph_actuals/individual_practice_group.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>145</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>            }]</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>146</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        });</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>147</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>     });</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>149</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>150</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var categoryByYear = &lt;%= raw Graph.closeout_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>151</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @fee_types %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>152</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      $(&#39;#revenueByPracticeGroupByFeeType&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>153</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>154</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>              type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>155</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          },</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_actuals/individual_practice_group (GraphActualsController#individual_practice_group)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context3');toggle('message3');toggle('full_message3')" ><span id='message3' style='display:block' >Unescaped model attribute near line 151: Graph.rev_by_fee_type_pg(current_user, params[:id], &quot;total_f...</span><span id='full_message3' style='display:none'>Unescaped model attribute near line 151: Graph.rev_by_fee_type_pg(current_user, params[:id], &quot;total_fee_received&quot;)</span><table id='context3' class='context' style='display:none'><caption>app/views/graph_actuals/individual_practice_group.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>146</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>        });</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>147</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>     });</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>149</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>150</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var categoryByYear = &lt;%= raw Graph.closeout_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>151</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @fee_types %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>152</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      $(&#39;#revenueByPracticeGroupByFeeType&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>153</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>154</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>              type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>155</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          },</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>156</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          title: {</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_actuals/revenue_by_fee_type (GraphActualsController#revenue_by_fee_type)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context5');toggle('message5');toggle('full_message5')" >Unescaped model attribute near line 11: Graph.closeout_year_only<table id='context5' class='context' style='display:none'><caption>app/views/graph_actuals/revenue_by_fee_type.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>6</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>  &lt;/div&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>7</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>&lt;/div&gt;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>9</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>10</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>11</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var categoryByYear = &lt;%= raw Graph.closeout_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>12</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var mixedRevenue = &lt;%= @mixed %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>13</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var contingencyRevenue = &lt;%= @contingency %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>14</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var hourlyRevenue = &lt;%= @hourly %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>15</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var fixedFeeRevenue = &lt;%= @fixed %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>16</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      $(&#39;#revByFeeTypeActual&#39;).highcharts({</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_actuals/revenue_by_month (GraphActualsController#revenue_by_month)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context6');toggle('message6');toggle('full_message6')" >Unescaped model attribute near line 17: Graph.set_month_only<table id='context6' class='context' style='display:none'><caption>app/views/graph_actuals/revenue_by_month.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>12</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>&lt;/div&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>14</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>16</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'> $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>17</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var categoryByMonths = &lt;%= raw @category_months %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>18</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var totalFeeReceived = &lt;%= @total_fee_received %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>19</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var totalRecovery = &lt;%= @total_recovery %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>20</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var grossFeeReceived = &lt;%= @total_gross_fee_received %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>21</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var outOfPocket = &lt;%= @total_out_of_pocket_expenses %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>22</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var referringFeesPaid = &lt;%= @total_referring_fees_paid %&gt;;</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_actuals/revenue_by_pg (GraphActualsController#revenue_by_pg)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context7');toggle('message7');toggle('full_message7')" >Unescaped model attribute near line 16: Graph.closeout_year_only<table id='context7' class='context' style='display:none'><caption>app/views/graph_actuals/revenue_by_pg.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>12</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>15</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>16</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var categoryYear = &lt;%= raw Graph.closeout_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>17</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @pgs_total_fee_received %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>18</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    $(&#39;#revenueByYearByPG&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>19</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>20</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>21</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        },</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_actuals/revenue_by_pg (GraphActualsController#revenue_by_pg)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context8');toggle('message8');toggle('full_message8')" ><span id='message8' style='display:block' >Unescaped model attribute near line 17: Graph.revenue_by_practice_group_actual(current_user, &quot;total_f...</span><span id='full_message8' style='display:none'>Unescaped model attribute near line 17: Graph.revenue_by_practice_group_actual(current_user, &quot;total_fee_received&quot;)</span><table id='context8' class='context' style='display:none'><caption>app/views/graph_actuals/revenue_by_pg.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>12</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>15</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>16</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var categoryYear = &lt;%= raw Graph.closeout_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>17</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @pgs_total_fee_received %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>18</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    $(&#39;#revenueByYearByPG&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>19</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>20</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>21</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        },</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>22</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        title: {</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context9');toggle('message9');toggle('full_message9')" >Unescaped model attribute near line 36: Graph.expected_year_only<table id='context9' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>32</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>34</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'> $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>36</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var categoryByYear = &lt;%= raw Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>37</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var costByYear = &lt;%= @cost_expected %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>38</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var referralFee = &lt;%= @referral_expected %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>39</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearHigh = &lt;%= @high_expected %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>40</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearMedium = &lt;%= @med_expected %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>41</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearLow = &lt;%= @low_expected %&gt;;</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context10');toggle('message10');toggle('full_message10')" >Unescaped model attribute near line 42: Practicegroup.find_by(:id =&gt; (params[:id])).group_name<table id='context10' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>37</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>var costByYear = &lt;%= @cost_expected %&gt;;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>38</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var referralFee = &lt;%= @referral_expected %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>39</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearHigh = &lt;%= @high_expected %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>40</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearMedium = &lt;%= @med_expected %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>41</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearLow = &lt;%= @low_expected %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>42</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var pracGroup = &quot;&lt;%= raw Practicegroup.find_by(id: params[:id]).group_name %&gt;&quot;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>44</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  // Create the chart</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>45</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(&#39;#individualPGRevenueByYearExpected&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>46</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>47</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context11');toggle('message11');toggle('full_message11')" >Unescaped model attribute near line 115: Graph.expected_year_only<table id='context11' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>110</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>  })</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>111</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>});</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>113</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>115</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var categoryByYear = &lt;%= raw Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>116</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var costByYear = &lt;%= @cost_fast %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>117</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var referralFee = &lt;%= @referral_fast %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>118</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearHigh = &lt;%= @high_fast %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>119</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearMedium = &lt;%= @med_fast %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>120</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearLow = &lt;%= @low_fast %&gt;;</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context12');toggle('message12');toggle('full_message12')" >Unescaped model attribute near line 121: Practicegroup.find_by(:id =&gt; (params[:id])).group_name<table id='context12' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>116</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>var costByYear = &lt;%= @cost_fast %&gt;;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>117</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var referralFee = &lt;%= @referral_fast %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>118</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearHigh = &lt;%= @high_fast %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>119</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearMedium = &lt;%= @med_fast %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>120</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearLow = &lt;%= @low_fast %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>121</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var pracGroup = &quot;&lt;%= raw Practicegroup.find_by(id: params[:id]).group_name %&gt;&quot;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>123</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  // Create the chart</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>124</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(&#39;#individualPGRevenueByYearAccelerated&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>125</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>126</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context13');toggle('message13');toggle('full_message13')" >Unescaped model attribute near line 194: Graph.expected_year_only<table id='context13' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>189</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>  })</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>190</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>});</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>192</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'> $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>194</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var categoryByYear = &lt;%= raw Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>195</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var costByYear = &lt;%= @cost_slow %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>196</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var referralFee = &lt;%= @referral_slow %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>197</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearHigh = &lt;%= @high_slow %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>198</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearMedium = &lt;%= @med_slow %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>199</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearLow = &lt;%= @low_slow %&gt;;</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context14');toggle('message14');toggle('full_message14')" >Unescaped model attribute near line 200: Practicegroup.find_by(:id =&gt; (params[:id])).group_name<table id='context14' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>195</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>var costByYear = &lt;%= @cost_slow %&gt;;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>196</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var referralFee = &lt;%= @referral_slow %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>197</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearHigh = &lt;%= @high_slow %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>198</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearMedium = &lt;%= @med_slow %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>199</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var revByYearLow = &lt;%= @low_slow %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>200</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var pracGroup = &quot;&lt;%= raw Practicegroup.find_by(id: params[:id]).group_name %&gt;&quot;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>202</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  // Create the chart</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>203</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(&#39;#individualPGRevenueByYearSlow&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>204</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>205</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context15');toggle('message15');toggle('full_message15')" >Unescaped model attribute near line 272: Graph.closeout_year_only<table id='context15' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>267</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>      }],</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>268</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  })</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>269</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>});</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>270</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>272</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var categoryByYearBackwards = &lt;%= raw Graph.closeout_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>273</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var totalRecovery = &lt;%= @total_recovery %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>274</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var grossFeeReceived = &lt;%= @gross_fee_received %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>275</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var outOfPocketExpenses = &lt;%= @out_of_pocket %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>276</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var referringFeesPaid = &lt;%= @referring_fees %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>277</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var totalFeeReceived = &lt;%= @total_fee_received %&gt;;</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context16');toggle('message16');toggle('full_message16')" >Unescaped model attribute near line 278: Practicegroup.find_by(:id =&gt; (params[:id])).group_name<table id='context16' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>273</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>var totalRecovery = &lt;%= @total_recovery %&gt;;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>274</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var grossFeeReceived = &lt;%= @gross_fee_received %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>275</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var outOfPocketExpenses = &lt;%= @out_of_pocket %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>276</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var referringFeesPaid = &lt;%= @referring_fees %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>277</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var totalFeeReceived = &lt;%= @total_fee_received %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>278</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var pracGroup = &quot;&lt;%= raw Practicegroup.find_by(id: params[:id]).group_name %&gt;&quot;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>281</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  // Create the chart</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>282</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(&#39;#individualPGRevenueByYearActual&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>283</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      chart: {</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context17');toggle('message17');toggle('full_message17')" >Unescaped model attribute near line 351: Practicegroup.find_by(:id =&gt; (params[:id])).group_name<table id='context17' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>346</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>      }],</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>347</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  })</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>348</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>});</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>349</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>351</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var pracGroup = &quot;&lt;%= raw Practicegroup.find_by(id: params[:id]).group_name %&gt;&quot;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>352</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var pieDataOriginationMedium = [&lt;% @origination_source_med.each do |d| %&gt;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>353</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                      &lt;%= raw d %&gt;,</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>354</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                    &lt;% end %&gt;];</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>356</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    $(&#39;#expectedRevByReferralMedium&#39;).highcharts({</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context18');toggle('message18');toggle('full_message18')" >Unescaped model attribute near line 394: Graph.expected_year_only<table id='context18' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>389</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>        }]</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>390</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    });</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>391</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>});</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>393</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>394</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var categoryByYear = &lt;%= raw Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>395</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @fee_types_med %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>396</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      $(&#39;#revenueByPracticeGroupByFeeType&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>397</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>398</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>              type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>399</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          },</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graph_individual_prac_groups/expected_individual_pg_rev (GraphIndividualPracGroupsController#expected_individual_pg_rev)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context19');toggle('message19');toggle('full_message19')" ><span id='message19' style='display:block' >Unescaped model attribute near line 395: Graph.fee_estimate_by_fee_type_pg(current_user, params[:id],...</span><span id='full_message19' style='display:none'>Unescaped model attribute near line 395: Graph.fee_estimate_by_fee_type_pg(current_user, params[:id], &quot;medium_estimate&quot;, &quot;estimated_conclusion_expected&quot;)</span><table id='context19' class='context' style='display:none'><caption>app/views/graph_individual_prac_groups/expected_individual_pg_rev.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>390</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>    });</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>391</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>});</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>393</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>394</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var categoryByYear = &lt;%= raw Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>395</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @fee_types_med %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>396</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      $(&#39;#revenueByPracticeGroupByFeeType&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>397</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>398</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>              type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>399</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          },</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>400</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          title: {</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graphs/rev_by_year_by_pg (GraphsController#rev_by_year_by_pg)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context20');toggle('message20');toggle('full_message20')" ><span id='message20' style='display:block' >Unescaped model attribute near line 24: Graph.revenue_by_practice_group_estimated(current_user, &quot;medi...</span><span id='full_message20' style='display:none'>Unescaped model attribute near line 24: Graph.revenue_by_practice_group_estimated(current_user, &quot;medium_estimate&quot;, &quot;estimated_conclusion_expected&quot;)</span><table id='context20' class='context' style='display:none'><caption>app/views/graphs/rev_by_year_by_pg.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>20</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>22</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>23</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var categoryYear = &lt;%= Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>24</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @medium_fee_expected_conclusion %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>26</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        $(&#39;#revenueByYearByPG&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>27</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>28</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>29</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            },</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graphs/rev_by_year_by_pg (GraphsController#rev_by_year_by_pg)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context21');toggle('message21');toggle('full_message21')" ><span id='message21' style='display:block' >Unescaped model attribute near line 75: Graph.revenue_by_practice_group_estimated(current_user, &quot;medi...</span><span id='full_message21' style='display:none'>Unescaped model attribute near line 75: Graph.revenue_by_practice_group_estimated(current_user, &quot;medium_estimate&quot;, &quot;estimated_conclusion_fast&quot;)</span><table id='context21' class='context' style='display:none'><caption>app/views/graphs/rev_by_year_by_pg.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>70</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>        });</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>71</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    });</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>73</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>74</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        var categoryYear = &lt;%= Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>75</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        var seriesData = &lt;%= raw @medium_fee_accelerated_conclusion %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>77</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        $(&#39;#revenueByYearByPGMediumAccelerated&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>78</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>79</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>80</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            },</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graphs/rev_by_year_by_pg (GraphsController#rev_by_year_by_pg)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context22');toggle('message22');toggle('full_message22')" ><span id='message22' style='display:block' >Unescaped model attribute near line 126: Graph.revenue_by_practice_group_estimated(current_user, &quot;med...</span><span id='full_message22' style='display:none'>Unescaped model attribute near line 126: Graph.revenue_by_practice_group_estimated(current_user, &quot;medium_estimate&quot;, &quot;estimated_conclusion_slow&quot;)</span><table id='context22' class='context' style='display:none'><caption>app/views/graphs/rev_by_year_by_pg.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>121</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>        });</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>122</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    });</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>124</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>125</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var categoryYear = &lt;%= Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>126</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @medium_fee_slow_conclusion %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>127</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        $(&#39;#revenueByYearByPGMediumSlow&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>128</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>129</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>130</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            },</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>131</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            credits: {</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graphs/rev_by_year_by_pg_high (GraphsController#rev_by_year_by_pg_high)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context23');toggle('message23');toggle('full_message23')" ><span id='message23' style='display:block' >Unescaped model attribute near line 22: Graph.revenue_by_practice_group_estimated(current_user, &quot;high...</span><span id='full_message23' style='display:none'>Unescaped model attribute near line 22: Graph.revenue_by_practice_group_estimated(current_user, &quot;high_estimate&quot;, &quot;estimated_conclusion_expected&quot;)</span><table id='context23' class='context' style='display:none'><caption>app/views/graphs/rev_by_year_by_pg_high.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>18</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>19</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var categoryYear = &lt;%=Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>21</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>22</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @high_fee_expected_conclusion %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>24</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        $(&#39;#revenueByYearByPGHighExpected&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>25</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>26</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>27</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            },</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graphs/rev_by_year_by_pg_high (GraphsController#rev_by_year_by_pg_high)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context24');toggle('message24');toggle('full_message24')" ><span id='message24' style='display:block' >Unescaped model attribute near line 66: Graph.revenue_by_practice_group_estimated(current_user, &quot;high...</span><span id='full_message24' style='display:none'>Unescaped model attribute near line 66: Graph.revenue_by_practice_group_estimated(current_user, &quot;high_estimate&quot;, &quot;estimated_conclusion_fast&quot;)</span><table id='context24' class='context' style='display:none'><caption>app/views/graphs/rev_by_year_by_pg_high.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>61</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>            series: seriesData</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>62</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        });</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>63</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    });</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>65</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>66</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @high_fee_accelerated_conclusion %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>67</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        $(&#39;#revenueByYearByPGHighAccelerated&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>68</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>69</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>70</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            },</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>71</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            title: {</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graphs/rev_by_year_by_pg_high (GraphsController#rev_by_year_by_pg_high)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context25');toggle('message25');toggle('full_message25')" ><span id='message25' style='display:block' >Unescaped model attribute near line 115: Graph.revenue_by_practice_group_estimated(current_user, &quot;hig...</span><span id='full_message25' style='display:none'>Unescaped model attribute near line 115: Graph.revenue_by_practice_group_estimated(current_user, &quot;high_estimate&quot;, &quot;estimated_conclusion_slow&quot;)</span><table id='context25' class='context' style='display:none'><caption>app/views/graphs/rev_by_year_by_pg_high.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>110</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>            series: seriesData</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>111</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        });</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>112</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    });</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>114</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>115</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @high_fee_slow_conclusion %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>116</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        $(&#39;#revenueByYearByPGHighSlow&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>117</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>118</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>119</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            },</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>120</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            credits: {</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graphs/rev_by_year_by_pg_low (GraphsController#rev_by_year_by_pg_low)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context26');toggle('message26');toggle('full_message26')" ><span id='message26' style='display:block' >Unescaped model attribute near line 24: Graph.revenue_by_practice_group_estimated(current_user, &quot;low_...</span><span id='full_message26' style='display:none'>Unescaped model attribute near line 24: Graph.revenue_by_practice_group_estimated(current_user, &quot;low_estimate&quot;, &quot;estimated_conclusion_expected&quot;)</span><table id='context26' class='context' style='display:none'><caption>app/views/graphs/rev_by_year_by_pg_low.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>19</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>21</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var categoryYear = &lt;%= Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>23</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>24</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @low_fee_expected_conclusion %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>25</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        $(&#39;#revenueByYearByPGExpectedLow&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>26</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>27</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>28</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            },</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>29</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            credits: {</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graphs/rev_by_year_by_pg_low (GraphsController#rev_by_year_by_pg_low)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context27');toggle('message27');toggle('full_message27')" ><span id='message27' style='display:block' >Unescaped model attribute near line 67: Graph.revenue_by_practice_group_estimated(current_user, &quot;low_...</span><span id='full_message27' style='display:none'>Unescaped model attribute near line 67: Graph.revenue_by_practice_group_estimated(current_user, &quot;low_estimate&quot;, &quot;estimated_conclusion_fast&quot;)</span><table id='context27' class='context' style='display:none'><caption>app/views/graphs/rev_by_year_by_pg_low.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>62</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>            series: seriesData</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>63</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        });</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>64</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    });</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>66</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>67</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @low_fee_accelerated_conclusion %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>69</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        $(&#39;#revenueByYearByPGAcceleratedLow&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>70</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>71</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>72</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            },</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        graphs/rev_by_year_by_pg_low (GraphsController#rev_by_year_by_pg_low)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context28');toggle('message28');toggle('full_message28')" ><span id='message28' style='display:block' >Unescaped model attribute near line 117: Graph.revenue_by_practice_group_estimated(current_user, &quot;low...</span><span id='full_message28' style='display:none'>Unescaped model attribute near line 117: Graph.revenue_by_practice_group_estimated(current_user, &quot;low_estimate&quot;, &quot;estimated_conclusion_slow&quot;)</span><table id='context28' class='context' style='display:none'><caption>app/views/graphs/rev_by_year_by_pg_low.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>112</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>            series: seriesData</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>113</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        });</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>114</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    });</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>116</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>117</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var seriesData = &lt;%= raw @low_fee_slow_conclusion %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>119</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        $(&#39;#revenueByYearByPGSlowLow&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>120</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>121</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>                type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>122</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>            },</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        shared/_sidebar_actual
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context30');toggle('message30');toggle('full_message30')" >Unescaped model attribute near line 55: Graph.user_practice_group_ids(current_user)<table id='context30' class='context' style='display:none'><caption>app/views/shared/_sidebar_actual.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>51</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>52</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>53</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      &lt;% prac_group = Graph.user_practice_groups(current_user) %&gt;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>54</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      var allPracticeGroups = &lt;%= raw prac_group %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>55</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      var allPracticeGroupIds = &lt;%= raw Graph.user_practice_group_ids(current_user) %&gt;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>56</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      var ulToAddTo = document.getElementById(&quot;individualPracticeGroups&quot;);</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>57</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      for (var i in allPracticeGroups) {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>58</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        var pracgroupID = allPracticeGroupIds[i]</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>59</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        var li = document.createElement(&quot;li&quot;);</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>60</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>        var a = document.createElement(&#39;a&#39;);</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='med-confidence'>Medium</span></td>
+    <td>
+      
+        shared/_sidebar_projected
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context31');toggle('message31');toggle('full_message31')" >Unescaped model attribute near line 57: Graph.user_practice_group_ids(current_user)<table id='context31' class='context' style='display:none'><caption>app/views/shared/_sidebar_projected.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>53</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>54</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>55</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    &lt;% prac_group = Graph.user_practice_groups(current_user) %&gt;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>56</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var allPracticeGroups = &lt;%= raw prac_group %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>57</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var allPracticeGroupIds = &lt;%= raw Graph.user_practice_group_ids(current_user) %&gt;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>58</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    var ulToAddTo = document.getElementById(&quot;individualPracticeGroups&quot;);</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>59</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>    for (var i in allPracticeGroups) {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>60</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      var pracgroupID = allPracticeGroupIds[i]</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>61</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      var li = document.createElement(&quot;li&quot;);</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>62</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      var a = document.createElement(&#39;a&#39;);</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='weak-confidence'>Weak</span></td>
+    <td>
+      
+        graph_actuals/revenue_by_client (GraphActualsController#revenue_by_client)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context4');toggle('message4');toggle('full_message4')" ><span id='message4' style='display:block' >Unescaped model attribute near line 34: (<span class="user_input">Client.find_by(:id =&gt; (params[:client]))</span> or current_user.law...</span><span id='full_message4' style='display:none'>Unescaped model attribute near line 34: (<span class="user_input">Client.find_by(:id =&gt; (params[:client]))</span> or current_user.lawfirm.clients.first).company</span><table id='context4' class='context' style='display:none'><caption>app/views/graph_actuals/revenue_by_client.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>29</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>var totalGrossFeeReceived = &lt;%= @gross_fee_received %&gt;;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>30</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var totalOutOfPocketExpenses = &lt;%= @out_of_pocket %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>31</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var referringFeesPaid = &lt;%= @referring_fees %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>32</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var totalFeeReceived = &lt;%= @total_fee_received %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context near_error'>
+            <td class='context_line'>
+              <pre class='context'>33</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var totalFeeReceived = &lt;%= @total_fee_received %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt error'>
+            <td class='context_line'>
+              <pre class='context'>34</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var clientName = &quot;&lt;%= raw @client.company || @client.full_name_last_first %&gt;&quot;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>36</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  // Create the chart</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>37</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  $(&#39;#revenueByClientByYearActual&#39;).highcharts({</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>38</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>      chart: {</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>39</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>          type: &#39;column&#39;</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+  <tr>
+    <td><span class='weak-confidence'>Weak</span></td>
+    <td>
+      
+        graphs/revenue_by_client_estimate (GraphsController#revenue_by_client_estimate)
+      
+    </td>
+    <td><a rel="no-referrer" href="http://brakemanscanner.org/docs/warning_types/cross_site_scripting">Cross Site Scripting</a></td>
+    <td><div class='warning_message' onClick="toggle('context29');toggle('message29');toggle('full_message29')" ><span id='message29' style='display:block' >Unescaped model attribute near line 29: (<span class="user_input">Client.find_by(:id =&gt; (params[:client_id]))</span> or current_user....</span><span id='full_message29' style='display:none'>Unescaped model attribute near line 29: (<span class="user_input">Client.find_by(:id =&gt; (params[:client_id]))</span> or current_user.lawfirm.clients.first).company</span><table id='context29' class='context' style='display:none'><caption>app/views/graphs/revenue_by_client_estimate.html.erb</caption>        <tr class='context first'>
+          <td class='context_line'>
+            <pre class='context'>24</pre>
+          </td>
+          <td class='context'>
+            <pre class='context'>  &lt;div id=&quot;clientProf&quot;&gt;&lt;/div&gt;</pre>
+          </td>
+        </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>25</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>&lt;/div&gt;</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>27</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>&lt;script type=&quot;text/javascript&quot;&gt;</pre>
+            </td>
+          </tr>
+          <tr class='context alt near_error'>
+            <td class='context_line'>
+              <pre class='context'>28</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var categoryByYear = &lt;%= Graph.expected_year_only %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context error'>
+            <td class='context_line'>
+              <pre class='context'>29</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>var clientName = &quot;&lt;%= raw @client.company || @client.full_name_last_first %&gt;&quot;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>31</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>$(function () {</pre>
+            </td>
+          </tr>
+          <tr class='context'>
+            <td class='context_line'>
+              <pre class='context'>33</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var high = &lt;%= @high_estimate_expected %&gt;;</pre>
+            </td>
+          </tr>
+          <tr class='context alt'>
+            <td class='context_line'>
+              <pre class='context'>34</pre>
+            </td>
+            <td class='context'>
+              <pre class='context'>  var medium = &lt;%= @medium_estimate_expected %&gt;;</pre>
+            </td>
+          </tr>
+</table></div></td>
+  </tr>
+
+</table>
+</body></html>
