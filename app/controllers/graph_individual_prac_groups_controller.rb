@@ -7,7 +7,7 @@ class GraphIndividualPracGroupsController < ApplicationController
     @low_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','low_estimate')
     @cost_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','cost_estimate').map {|i| i * -1}
     #@retainer_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','retainer')
-    @referral_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','referral').map {|i| i * -1}
+    @referral_fast = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_fast','medium_referral').map {|i| i * -1}
 
 
     @high_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','high_estimate')
@@ -15,7 +15,7 @@ class GraphIndividualPracGroupsController < ApplicationController
     @low_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','low_estimate')
     @cost_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','cost_estimate').map {|i| i * -1}
     #@retainer_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','retainer')
-    @referral_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','referral').map {|i| i * -1}
+    @referral_expected = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_expected','medium_referral').map {|i| i * -1}
 
 
     @high_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','high_estimate')
@@ -23,7 +23,7 @@ class GraphIndividualPracGroupsController < ApplicationController
     @low_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','low_estimate')
     @cost_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','cost_estimate').map {|i| i * -1}
     #@retainer_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','retainer')
-    @referral_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','referral').map {|i| i * -1}
+    @referral_slow = Graph.fee_estimate_by_year_by_pg(current_user,params[:id],'estimated_conclusion_slow','medium_referral').map {|i| i * -1}
 
     @total_recovery = Graph.closeout_by_year_pg(current_user,params[:id],'total_recovery')
     @gross_fee_received = Graph.closeout_by_year_pg(current_user,params[:id],'total_gross_fee_received')

@@ -211,16 +211,23 @@ namespace :db do
     new_time = Time.local(2008,1,1,12,0,0)
     Timecop.freeze(new_time)
     100.times do |n|
+      high_estimate = Random.rand(1000..4000)*1000
+      medium_estimate = Random.rand(500..(1000-1))*1000
+      low_estimate = Random.rand(0..499)*1000
+      referral_percentage = Random.rand(0.0..0.25).round(2)
       Fee.create!(case_id: n+1,
                   fee_type: fee_type[Random.rand(0..3)],
-                  high_estimate: Random.rand(1000..4000)*1000,
+                  high_estimate: high_estimate,
                   #try to make it line up if fix fee but dont want to waste time on it now
-                  medium_estimate: Random.rand(500..(1000-1))*1000,
-                  low_estimate: Random.rand(0..499)*1000,
+                  medium_estimate: medium_estimate,
+                  low_estimate: low_estimate,
                   payment_likelihood: payment_likelihood[Random.rand(0..2)],
                   retainer: Random.rand(0..100)*100,
                   cost_estimate: Random.rand(0..100)*1000,
-                  referral: Random.rand(0.0..0.25).round(2))
+                  referral_percentage: referral_percentage,
+                  high_referral: (high_estimate * referral_percentage).round(0),
+                  medium_referral: (medium_estimate * referral_percentage).round(0),
+                  low_referral: (low_estimate * referral_percentage).round(0))
     end
     Timecop.return
   end
@@ -336,7 +343,7 @@ namespace :db do
 
   desc 'case closeout Random.rand(1..30)to begin making completed case graphs (case.open ==false)'
   task populate: :environment do
-    75.times do |n|
+    50.times do |n|
       ca = Case.find_by(id: n+1)
       possible_recovery = [ca.fee.last.high_estimate, ca.fee.last.medium_estimate, ca.fee.last.low_estimate]
       actual_recovery = possible_recovery[Random.rand(0..2)]
@@ -346,10 +353,10 @@ namespace :db do
                            date_fee_received: Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28)),
                            total_gross_fee_received: actual_recovery*0.5,
                            total_out_of_pocket_expenses: ca.fee.last.cost_estimate,
-                           referring_fees_paid: ca.fee.last.referral * actual_recovery,
+                           referring_fees_paid: ca.fee.last.referral_percentage * actual_recovery,
                            total_fee_received: (actual_recovery*0.5 -
                                                 ca.fee.last.cost_estimate -
-                                                ca.fee.last.referral * actual_recovery))
+                                                ca.fee.last.referral_percentage * actual_recovery))
       Closeout.close_case(ca)
     end
   end
@@ -361,16 +368,23 @@ namespace :db do
     100.times do |n|
       new_time = Time.local(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28),12,0,0)
       Timecop.freeze(new_time)
+      high_estimate = Random.rand(1000..4000)*1000
+      medium_estimate = Random.rand(500..(1000-1))*1000
+      low_estimate = Random.rand(0..499)*1000
+      referral_percentage = Random.rand(0.0..0.25).round(2)
       Fee.create!(case_id: Random.rand(1..100),
                   fee_type: fee_type[Random.rand(0..3)],
-                  high_estimate: Random.rand(1000..4000)*1000,
+                  high_estimate: high_estimate,
                   #try to make it line up if fix fee but dont want to waste time on it now
-                  medium_estimate: Random.rand(500..(1000-1))*1000,
-                  low_estimate: Random.rand(0..499)*1000,
+                  medium_estimate: medium_estimate,
+                  low_estimate: low_estimate,
                   payment_likelihood: payment_likelihood[Random.rand(0..2)],
                   retainer: Random.rand(0..100)*100,
                   cost_estimate: Random.rand(0..100)*1000,
-                  referral: Random.rand(0.0..0.25).round(2))
+                  referral_percentage: referral_percentage,
+                  high_referral: (high_estimate * referral_percentage).round(0),
+                  medium_referral: (medium_estimate * referral_percentage).round(0),
+                  low_referral: (low_estimate * referral_percentage).round(0))
     end
     Timecop.return
   end

@@ -14,7 +14,7 @@ class GraphDrilldownsController < ApplicationController
     rev_by_year_medium = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_#{@recovery_rate}","medium_estimate")
     rev_by_year_low = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_#{@recovery_rate}","low_estimate")
     @cost_by_year = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_#{@recovery_rate}","cost_estimate").map { |x| x*-1}
-    @referral_by_year = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_#{@recovery_rate}","referral").map { |x| x*-1}
+    @referral_by_year = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_#{@recovery_rate}","medium_referral").map { |x| x*-1}
     @category_years = Graph.expected_year_only
     @rev_by_year_high = Graph.add_arrays(rev_by_year_high, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @rev_by_year_medium = Graph.add_arrays(rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
