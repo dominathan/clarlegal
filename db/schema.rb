@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304231830) do
+ActiveRecord::Schema.define(version: 20150309143844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,11 +133,11 @@ ActiveRecord::Schema.define(version: 20150304231830) do
     t.integer  "medium_estimate",    default: 0
     t.integer  "low_estimate",       default: 0
     t.string   "payment_likelihood"
-    t.string   "retainer",           default: "0"
     t.integer  "cost_estimate",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "referral",           default: 0
+    t.integer  "retainer"
   end
 
   add_index "fees", ["case_id"], name: "index_fees_on_case_id", using: :btree
