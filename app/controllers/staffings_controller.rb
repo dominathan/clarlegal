@@ -13,9 +13,6 @@ class StaffingsController < ApplicationController
 
   def create
     @staffing = @lawfirm.staffings.new(staffing_params)
-    #the following is a Client.method to store fullname in database
-    @staffing.full_name = Client.full_name_last_first(params[:staffing][:first_name],
-                                                    params[:staffing][:last_name])
     @staffing.position = params[:staffing][:new_position] unless params[:staffing][:new_position].empty?
     if @staffing.save
       flash[:success] = "Staff Added Successfully."
