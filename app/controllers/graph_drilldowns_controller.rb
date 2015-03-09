@@ -24,7 +24,7 @@ class GraphDrilldownsController < ApplicationController
 
   def rev_year
     @recovery_rate = params[:recovery_rate] || 'expected'
-    @year = params[:year].to_i
+    @year = params[:year].to_i - 1
     @category_years = Graph.expected_year_only
     set_category_months
     @year_by_month_low = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_#{@recovery_rate}","low_estimate", @year)

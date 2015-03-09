@@ -469,7 +469,7 @@ describe Graph do
         @timing11 = FactoryGirl.create(:timing, case_id: 21, estimated_conclusion_fast: Date.today + 4.years,
                                                         estimated_conclusion_expected: Date.today + 5.years,
                                                         estimated_conclusion_slow: Date.today + 6.years )
-        expect(Graph.fee_estimate_by_year(@user1,'estimated_conclusion_fast',"high_estimate")).to eq([41,0,0,0,1])
+        expect(Graph.fee_estimate_by_year(@user1,'estimated_conclusion_fast',"high_estimate")).to eq([40,0,0,0,1])
       end
     end
 
