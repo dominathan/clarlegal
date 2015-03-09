@@ -58,10 +58,10 @@
     <div class="form-group">
       <div class='fees hourly mixed contingency fixed <%= controller.action_name == "edit" ? " " : "hide "%>'>
         <div class="col-sm-3">
-          <%= f.label :referral, "Percentage Fee Owed to Referral Source:", class: "control-label" %>
+          <%= f.label :referral_percentage, "Percent to Referral Source:", class: "control-label" %>
         </div>
         <div class="col-sm-9">
-          <%= f.text_field :referral, class: 'percentage form-control', placeholder: "e.g. 2.5%" %>
+          <%= f.text_field :referral_percentage, class: 'percentage form-control', placeholder: "e.g. 2.5%" %>
         </div>
       </div>
     </div>

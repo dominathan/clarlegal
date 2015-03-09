@@ -89,6 +89,7 @@ class CasesController < ApplicationController
     @case.matters.build
     @case.related_cases.build
   end
+
   #Logs closed cases to DB
   def create_closed_case
     @case = Case.new(case_params)
@@ -193,13 +194,13 @@ class CasesController < ApplicationController
   private
 
     def case_params
-        params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :new_practice_group,
+      params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :new_practice_group,
                                               :name, :open, :client_id, :case_number, :new_opposing_attorney,
                                               :opposing_attorney, :new_judge, :judge, :related_cases, :description, :user_id,
                                               :practicegroup_id, :primary_email,
                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
                                                           :low_estimate, :payment_likelihood, :retainer,
-                                                          :cost_estimate, :referral],
+                                                          :cost_estimate, :referral_percentage],
                                     :staffs_attributes => [:name, :position, :hours_expected, :staffing_id,
                                                            :hours_actual],
                                     :originations_attributes => [:new_referral_source, :referral_source, :source_description],

@@ -1,8 +1,3 @@
-#need to update controller action.  A FEE should only be "Updated", if
-# client mis-types the data on the inital request.  Otherwise, each "update"
-# should make a "new" data object with the same CaseID, but a "new" Fee ID.
-# These can be shown with timestamps for a graphical representation of the data.
-
 class FeesController < ApplicationController
   before_action :signed_in_user, :belongs_to_firm
 
@@ -27,6 +22,7 @@ class FeesController < ApplicationController
     @client = Client.find(params[:client_id])
     @case = Case.find(params[:case_id])
     @fee = @case.fee.new(fee_params)
+    @fee.referral_estimates
     if @fee.save
       flash[:success] = "Fee Added Successfully"
       redirect_to client_case_fees_path(@client, @case)
@@ -41,7 +37,6 @@ class FeesController < ApplicationController
     @client = Client.find(params[:client_id])
   end
 
-
   def edit
     @fee = Fee.find(params[:id])
     @case = Case.find(params[:case_id])
@@ -53,8 +48,11 @@ class FeesController < ApplicationController
     @client = Client.find(params[:client_id])
     @fee = Fee.find(params[:id])
     if @fee.update_attributes(fee_params)
-      flash[:success] = "Updated Fee Successfully"
-      redirect_to client_case_fees_path(@client, @case)
+      @fee.referral_estimates
+      if @fee.save
+        flash[:success] = "Updated Fee Successfully"
+        redirect_to client_case_fees_path(@client, @case)
+      end
     else
       render 'edit'
     end
@@ -63,9 +61,9 @@ class FeesController < ApplicationController
   private
 
     def fee_params
-        params.require(:fee).permit(:fee_type, :high_estimate, :medium_estimate,
-                                    :low_estimate, :payment_likelihood, :retainer,
-                                    :cost_estimate, :referral)
+      params.require(:fee).permit(:fee_type, :high_estimate, :medium_estimate,
+                                  :low_estimate, :payment_likelihood, :retainer,
+                                  :cost_estimate, :referral_percentage)
     end
 
 end

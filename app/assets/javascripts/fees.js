@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('#caseFees').dataTable({
-
+    order: [[8,'desc']]
   });
 });
 
@@ -13,7 +13,7 @@ $(document).on('submit', function(){
 
   $('.percentage').each(function(i,obj) {
     percentage = $(this).val();
-    final_num = parseFloat(percentage.replace(/[\%]/g,"")) <= 1 ? parseFloat(percentage) : parseFloat(percentage.replace(/[\%]/g,""))/100;
+    final_num = parseFloat(percentage.replace(/[\%]/g,"")) < 1 ? parseFloat(percentage) : parseFloat(percentage.replace(/[\%]/g,""))/100;
     $(this).val(final_num);
   });
 });

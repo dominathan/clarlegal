@@ -1,10 +1,15 @@
 class Fee < ActiveRecord::Base
   belongs_to :case
 
-  #validates :case_id, presence: true
   validates :high_estimate, :medium_estimate, :low_estimate, presence: true,
                                                             numericality: { only_integer: true}
+  validates :referral_percentage, presence: true
 
+  def referral_estimates
+    self.medium_referral = (self.referral_percentage * self.medium_estimate).round(0)
+    self.high_referral = (self.referral_percentage * self.high_estimate).round(0)
+    self.low_referral = (self.referral_percentage * self.low_estimate).round(0)
+  end
 
   def self.get_fee_dates(user_case)
     updates = []
