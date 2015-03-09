@@ -196,10 +196,10 @@
           <div class="form-group">
             <div class='fees hourly mixed contingency fixed hide'>
               <div class="col-sm-3">
-                <%= ff.label :referral, "Fee Owed to Referral Source:", class: "control-label" %>
+                <%= ff.label :referral_percentage, "Percent to Referral Source:", class: "control-label" %>
               </div>
               <div class="col-sm-9">
-                <%= ff.text_field :referral, class: 'monetary form-control' %>
+                <%= ff.text_field :referral_percentage, class: 'percentage form-control', placeholder: "e.g. 2.5%" %>
               </div>
             </div>
           </div>
@@ -470,12 +470,16 @@
 
 
   $(document).on('submit', function(){
-
     $('.monetary').each(function(i,obj) {
       currency = $(this).val();
       $(this).val(Number(currency.replace(/[\$,]/g,"")))
     });
 
+    $('.percentage').each(function(i,obj) {
+      percentage = $(this).val();
+      final_num = parseFloat(percentage.replace(/[\%]/g,"")) <= 1 ? parseFloat(percentage) : parseFloat(percentage.replace(/[\%]/g,""))/100;
+      $(this).val(final_num);
+    });
   });
 </script>
 

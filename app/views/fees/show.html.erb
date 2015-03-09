@@ -25,7 +25,7 @@
       <td><%= number_to_currency @fee.medium_estimate, precision: 0 %></td>
       <td><%= number_to_currency @fee.high_estimate, precision: 0 %></td>
       <td><%= number_to_currency @fee.cost_estimate, precision: 0 %></td>
-      <td><%= number_to_currency @fee.referral, precision: 0 %></td>
+      <td><%= (@fee.referral_percentage*100).to_s.concat("%") %></td>
       <td><%= @fee.payment_likelihood %></td>
       <td><%= number_to_currency @fee.retainer, precision: 0 %></td>
       <td><%= @fee.updated_at.strftime("%b %d, %Y") %></td>

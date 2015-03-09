@@ -131,7 +131,7 @@ class GraphsController < ApplicationController
     @medium_estimate_expected = Graph.client_fee_estimate_by_year(@client,'medium_estimate','estimated_conclusion_expected')
     @low_estimate_expected = Graph.client_fee_estimate_by_year(@client,'low_estimate','estimated_conclusion_expected')
     @cost_estimate_expected = Graph.client_fee_estimate_by_year(@client,'cost_estimate','estimated_conclusion_expected').map { |x| x*-1 }
-    @referral_expected = Graph.client_fee_estimate_by_year(@client,'referral','estimated_conclusion_expected').map { |x| x*-1 }
+    @referral_expected = Graph.client_fee_estimate_by_year(@client,'medium_referral','estimated_conclusion_expected').map { |x| x*-1 }
     #Indirect Cost is the rate_per_hour (overhead) multiplied by the number of hours expected on this client
     @indirect_cost_expected = Graph.client_expected_hours_remaining(@client,'estimated_conclusion_expected').map {|x| (x*-1*current_user.lawfirm.overheads.where(year: Date.today.year).take.rate_per_hour).round(0 )}
 
@@ -140,7 +140,7 @@ class GraphsController < ApplicationController
     @medium_estimate_accelerated = Graph.client_fee_estimate_by_year(@client,'medium_estimate','estimated_conclusion_fast')
     @low_estimate_accelerated = Graph.client_fee_estimate_by_year(@client,'low_estimate','estimated_conclusion_fast')
     @cost_estimate_accelerated = Graph.client_fee_estimate_by_year(@client,'cost_estimate','estimated_conclusion_fast').map { |x| x*-1 }
-    @referral_accelerated = Graph.client_fee_estimate_by_year(@client,'referral','estimated_conclusion_fast').map { |x| x*-1 }
+    @referral_accelerated = Graph.client_fee_estimate_by_year(@client,'medium_referral','estimated_conclusion_fast').map { |x| x*-1 }
     @indirect_cost_accelerated = Graph.client_expected_hours_remaining(@client,'estimated_conclusion_fast').map {|x| (x*-1*current_user.lawfirm.overheads.where(year: Date.today.year).take.rate_per_hour).round(0 )}
 
     #Slow Conclusion Date
@@ -148,7 +148,7 @@ class GraphsController < ApplicationController
     @medium_estimate_slow = Graph.client_fee_estimate_by_year(@client,'medium_estimate','estimated_conclusion_slow')
     @low_estimate_slow = Graph.client_fee_estimate_by_year(@client,'low_estimate','estimated_conclusion_slow')
     @cost_estimate_slow = Graph.client_fee_estimate_by_year(@client,'cost_estimate','estimated_conclusion_slow').map { |x| x*-1 }
-    @referral_slow = Graph.client_fee_estimate_by_year(@client,'referral','estimated_conclusion_slow').map { |x| x*-1 }
+    @referral_slow = Graph.client_fee_estimate_by_year(@client,'medium_referral','estimated_conclusion_slow').map { |x| x*-1 }
     @indirect_cost_slow = Graph.client_expected_hours_remaining(@client,'estimated_conclusion_slow').map {|x| (x*-1*current_user.lawfirm.overheads.where(year: Date.today.year).take.rate_per_hour).round(0 )}
   end
 

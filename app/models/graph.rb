@@ -373,7 +373,7 @@ class Graph < ActiveRecord::Base
   end
 
   def self.fee_estimate_by_month(user,timing_estimate,fee_estimate,year_to_add)
-    months_of_collection = Graph.set_months(year_to_add - 1)
+    months_of_collection = Graph.set_months(year_to_add)
     amounts = Array.new(months_of_collection.length,0)
 
     amounts.length.times do |i|

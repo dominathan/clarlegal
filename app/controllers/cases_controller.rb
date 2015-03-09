@@ -1,36 +1,15 @@
 class CasesController < ApplicationController
-    before_action :signed_in_user, :belongs_to_firm
+  before_action :signed_in_user, :belongs_to_firm
 
-  #currently open cases
   def new_case
-    @case = Case.new
-    @case.matters.build
-    @case.related_cases.build
+    new_case_material
     @case.fees.build
-    @case.staffs.build
     @case.timings.build
-    @case.originations.build
     @case.checks.build
   end
 
-  #Create open case to DB...Read comments for information about the purpose of individual lines
   def create_case
-    @case = Case.new(case_params)
-    #add a newcourt unless user selects from dropdown list
-    @case.court = params[:case][:new_court] unless params[:case][:new_court].empty?
-    #add a new judge unless user selects from dropdown list
-    @case.judge = params[:case][:new_judge] unless params[:case][:new_judge].empty?
-    #add a new attorney unless user selects from dropdown list
-    @case.opposing_attorney = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
-    #add new practice group to user lawfirm practicegroups unless :new_practice_group is empty
-    unless params[:case][:new_practice_group].empty?
-      @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id)
-      @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:new_practice_group]).id
-    end
-    #add new referral source to database if empty
-    unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
-      @case.originations.first.referral_source = params[:case][:originations_attributes]["0"][:new_referral_source]
-    end
+    new_create_case_objects
     #timings must be converted fromintegers to dates to correctly calculate timing in graph models and controller
     unless params[:case]['timings_attributes']['0']['estimated_conclusion_fast'].empty?
       #if length > 3..its Class is Date and can be saved without conversion
@@ -48,28 +27,18 @@ class CasesController < ApplicationController
         @case.timings.first.estimated_conclusion_slow = Date.today + (params[:case]['timings_attributes']['0']['estimated_conclusion_slow']).to_i.month
       end
     end
-    #if fee type is fixed fee... medium estimate == contract amount and high/low estimate = medium estimate
+    #If fee type is fixed fee... medium estimate == contract amount and high/low estimate = medium estimate
     if params[:case]['fees_attributes']['0']['fee_type'] == "Fixed Fee"
       @case.fees.first.high_estimate = params[:case]['fees_attributes']['0']['medium_estimate']
       @case.fees.first.low_estimate = params[:case]['fees_attributes']['0']['medium_estimate']
     end
-
-    #case.user_id can differ from case.client_id.user_id
-    @case.primary_email = current_user.email
+    @case.fees.last.referral_estimates
     if @case.save
-      #set case to open
       Closeout.open_case(@case)
-      #create Fixed Fee DB entry for montly conversion if fee_type == fixed fee
       if @case.fees.first.fee_type == 'Fixed Fee'
         FixedFee.initial_fixed_fee(@case)
       end
-      #add all staff to StaffCase DB as Master List unless no staff
-      unless params[:case][:staffs_attributes] == nil
-        @staff_list = params[:case][:staffs_attributes].values
-        case_id = @case.id
-        StaffCase.add_to_staff_master_list(@staff_list,case_id)
-      end
-      #add new_originations to originations db unless user did not input a new origination source
+      add_staff_to_staff_case
       unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
         @new_origination = Origination.create!(referral_source: params[:case][:originations_attributes]["0"][:new_referral_source],
                                               case_id: @case.id,
@@ -82,35 +51,13 @@ class CasesController < ApplicationController
     end
   end
 
-  #For cases that law firm has already received judgement, use new_closed_case
   def new_closed_case
-    @case = Case.new
+    new_case_material
     @case.closeouts.build
-    @case.originations.build
-    @case.staffs.build
-    @case.matters.build
-    @case.related_cases.build
   end
-  #Logs closed cases to DB
+
   def create_closed_case
-    @case = Case.new(case_params)
-    #add a newcourt unless user selects from dropdown list
-    @case.court = params[:case][:new_court] unless params[:case][:new_court].empty?
-    #add a new judge unless user selects from dropdown list
-    @case.judge = params[:case][:new_judge] unless params[:case][:new_judge].empty?
-    #add a new attorney unless user selects from dropdown list
-    @case.opposing_attorney = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
-    #add new practice group to user lawfirm practicegroups unless :new_practice_group is empty
-    unless params[:case][:new_practice_group].empty?
-      @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id) unless current_user.lawfirm.practicegroups.collect(&:group_name).include?(params[:case][:new_practice_group])
-      @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:new_practice_group]).id
-    end
-    #add new referral source to database if empty
-    unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
-      @case.originations.first.referral_source = params[:case][:originations_attributes]["0"][:new_referral_source]
-    end
-    #case.user_id can differ from case.client_id.user_id
-    @case.primary_email = current_user.email
+    new_create_case_objects
     if @case.save
       #Mark case.open == false
       Closeout.close_case(@case)
@@ -122,11 +69,7 @@ class CasesController < ApplicationController
                                           source_description: source_description)
         @new_origination.save
       end
-      unless params[:case][:staffs_attributes] == nil
-        @staff_list = params[:case][:staffs_attributes].values
-        case_id = @case.id
-        StaffCase.add_to_staff_master_list(@staff_list,case_id)
-      end
+      add_staff_to_staff_case
       flash[:success] = "Case Added Successfully"
       redirect_to client_case_path(@case.client_id,@case)
     else
@@ -195,13 +138,13 @@ class CasesController < ApplicationController
   private
 
     def case_params
-        params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :new_practice_group,
+      params.require(:case).permit(:client, :new_court, :court, :new_type_of_matter, :new_practice_group,
                                               :name, :open, :client_id, :case_number, :new_opposing_attorney,
                                               :opposing_attorney, :new_judge, :judge, :related_cases, :description, :user_id,
                                               :practicegroup_id, :primary_email,
                                     :fees_attributes => [:fee_type, :high_estimate, :medium_estimate,
                                                           :low_estimate, :payment_likelihood, :retainer,
-                                                          :cost_estimate, :referral],
+                                                          :cost_estimate, :referral_percentage],
                                     :staffs_attributes => [:name, :position, :hours_expected, :staffing_id,
                                                            :hours_actual],
                                     :originations_attributes => [:new_referral_source, :referral_source, :source_description],
@@ -217,6 +160,37 @@ class CasesController < ApplicationController
                                     :matters_attributes => [:case_type_id],
                                     :related_cases_attributes => [:related_case_id])
 
+    end
+
+    def new_case_material
+      @case = Case.new
+      @case.matters.build
+      @case.related_cases.build
+      @case.staffs.build
+      @case.originations.build
+    end
+
+    def new_create_case_objects
+      @case = Case.new(case_params)
+      @case.court = params[:case][:new_court] unless params[:case][:new_court].empty?
+      @case.judge = params[:case][:new_judge] unless params[:case][:new_judge].empty?
+      @case.opposing_attorney = params[:case][:new_opposing_attorney] unless params[:case][:new_opposing_attorney].empty?
+      unless params[:case][:new_practice_group].empty?
+        @new_pg = Practicegroup.create!(group_name: params[:case][:new_practice_group], lawfirm_id: current_user.lawfirm.id) unless current_user.lawfirm.practicegroups.collect(&:group_name).include?(params[:case][:new_practice_group])
+        @case.practicegroup_id = Practicegroup.find_by(group_name: params[:case][:new_practice_group]).id
+      end
+      unless params[:case][:originations_attributes]["0"][:new_referral_source].empty?
+        @case.originations.first.referral_source = params[:case][:originations_attributes]["0"][:new_referral_source]
+      end
+      @case.primary_email = current_user.email
+    end
+
+    def add_staff_to_staff_case
+      unless params[:case][:staffs_attributes] == nil
+        @staff_list = params[:case][:staffs_attributes].values
+        case_id = @case.id
+        StaffCase.add_to_staff_master_list(@staff_list,case_id)
+      end
     end
 
 
