@@ -1,17 +1,17 @@
 <div class="fee">
-  <%= form_for(@fee) do |f| %>
-    <%= render 'shared/error_messages', object: f.object %> do |f| %>
-
+  <%= form_for(@fee, url: {action: @action}, html: { class: "form-horizontal"}) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
     <div class="form-group">
       <div class="col-sm-3">
         <%= f.label "Fee Type:", class: 'control-label' %>
       </div>
-      <div class="col-sm-9">
+      <div class="col-sm-9" id="feeSelect">
         <%= f.select :fee_type, StaticInformation::FEE_TYPE, {include_blank: "Select Fee Type"}, class: 'form-control' %>
       </div>
     </div>
+
     <div class="form-group">
-      <div class='fees hourly mixed contingency hide'>
+      <div class='fees hourly mixed contingency <%= controller.action_name == "edit" ? " " : "hide" %>'>
         <div class="col-sm-3">
           <%= f.label :high_estimate, "High Value Estimate:", class: "control-label" %>
         </div>
@@ -20,8 +20,9 @@
         </div>
       </div>
     </div>
+
     <div class="form-group">
-      <div class='fees hourly mixed contingency fixed hide'>
+      <div class='fees hourly mixed contingency fixed <%= controller.action_name == "edit" ? " " : "hide "%>'>
       <!-- Change label name if fixedfee or hourly case -->
         <div id="feeNameChange" class="col-sm-3">
           <%= f.label :medium_estimate, "Medium Value Estimate", class: "control-label" %>
@@ -31,8 +32,9 @@
         </div>
       </div>
     </div>
+
     <div class="form-group">
-      <div class='fees hourly mixed contingency hide'>
+      <div class='fees hourly mixed contingency <%= controller.action_name == "edit" ? " " : "hide "%>'>
         <div class="col-sm-3">
           <%= f.label :low_estimate, "Low Value Estimate:", class: "control-label" %>
         </div>
@@ -41,8 +43,9 @@
         </div>
       </div>
     </div>
+
     <div class="form-group">
-      <div class='fees hourly mixed contingency fixed hide'>
+      <div class='fees hourly mixed contingency fixed <%= controller.action_name == "edit" ? " " : "hide "%>'>
         <div class="col-sm-3">
           <%= f.label :payment_likelihood,  "Likelihood of Recovery:", class: 'control-label' %>
         </div>
@@ -51,18 +54,20 @@
         </div>
       </div>
     </div>
+
     <div class="form-group">
-      <div class='fees hourly mixed contingency fixed hide'>
+      <div class='fees hourly mixed contingency fixed <%= controller.action_name == "edit" ? " " : "hide "%>'>
         <div class="col-sm-3">
-          <%= f.label :referral, "Fee Owed to Referral Source:", class: "control-label" %>
+          <%= f.label :referral, "Percentage Fee Owed to Referral Source:", class: "control-label" %>
         </div>
         <div class="col-sm-9">
-          <%= f.text_field :referral, class: 'monetary form-control' %>
+          <%= f.text_field :referral, class: 'percentage form-control', placeholder: "e.g. 2.5%" %>
         </div>
       </div>
     </div>
+
     <div class="form-group">
-      <div class='fees hourly mixed contingency fixed hide'>
+      <div class='fees hourly mixed contingency fixed <%= controller.action_name == "edit" ? " " : "hide "%>'>
         <div class="col-sm-3">
           <%= f.label :cost_estimate, "Out-of-Pocket Expenses:", class: "control-label" %>
         </div>
@@ -71,8 +76,9 @@
         </div>
       </div>
     </div>
+
     <div class="form-group">
-      <div class='fees hourly mixed contingency fixed hide'>
+      <div class='fees hourly mixed contingency fixed <%= controller.action_name == "edit" ? " " : "hide "%>'>
         <div class="col-sm-3">
           <%= f.label :retainer, "Retainer:", class: 'control-label' %>
         </div>
@@ -81,7 +87,11 @@
         </div>
       </div>
     </div>
-
-  <%end%>
+    <br>
+    <br>
+    <div class="center">
+      <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+    </div>
+  <% end %>
   </div> <!--END FEE DIV -->
 

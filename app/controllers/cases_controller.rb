@@ -1,7 +1,6 @@
 class CasesController < ApplicationController
-    before_action :signed_in_user, :belongs_to_firm
+  before_action :signed_in_user, :belongs_to_firm
 
-  #currently open cases
   def new_case
     @case = Case.new
     @case.matters.build
@@ -13,7 +12,6 @@ class CasesController < ApplicationController
     @case.checks.build
   end
 
-  #Create open case to DB...Read comments for information about the purpose of individual lines
   def create_case
     @case = Case.new(case_params)
     #add a newcourt unless user selects from dropdown list

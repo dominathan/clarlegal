@@ -129,15 +129,15 @@ ActiveRecord::Schema.define(version: 20150309145552) do
   create_table "fees", force: true do |t|
     t.integer  "case_id"
     t.string   "fee_type"
-    t.integer  "high_estimate",      default: 0
-    t.integer  "medium_estimate",    default: 0
-    t.integer  "low_estimate",       default: 0
+    t.integer  "high_estimate",      default: 0, null: false
+    t.integer  "medium_estimate",    default: 0, null: false
+    t.integer  "low_estimate",       default: 0, null: false
     t.string   "payment_likelihood"
-    t.integer  "cost_estimate",      default: 0
+    t.integer  "cost_estimate",      default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "referral"
-    t.integer  "retainer"
+    t.float    "referral",           null: false
+    t.integer  "retainer",           null: false
   end
 
   add_index "fees", ["case_id"], name: "index_fees_on_case_id", using: :btree
@@ -288,9 +288,9 @@ ActiveRecord::Schema.define(version: 20150309145552) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "case_filed"
-    t.date     "estimated_conclusion_fast"
-    t.date     "estimated_conclusion_expected"
-    t.date     "estimated_conclusion_slow"
+    t.date     "estimated_conclusion_fast",     null: false
+    t.date     "estimated_conclusion_expected", null: false
+    t.date     "estimated_conclusion_slow",     null: false
   end
 
   add_index "timings", ["case_id"], name: "index_timings_on_case_id", using: :btree

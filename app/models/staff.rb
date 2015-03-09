@@ -3,7 +3,7 @@ class Staff < ActiveRecord::Base
   belongs_to :staffing
 
   # validates :case_id, presence: true
-  # validates :staffing_id, presence: true
+  validates :staffing_id, presence: true
 
   #this is to collect hours actually worked for a specific case
   def self.case_total_hours_actual(case_id)

@@ -11,6 +11,11 @@ $(document).on('submit', function(){
     $(this).val(Number(currency.replace(/[\$,]/g,"")))
   });
 
+  $('.percentage').each(function(i,obj) {
+    percentage = $(this).val();
+    final_num = parseFloat(percentage.replace(/[\%]/g,"")) <= 1 ? parseFloat(percentage) : parseFloat(percentage.replace(/[\%]/g,""))/100;
+    $(this).val(final_num);
+  });
 });
 
 $(document).ready(function() {
