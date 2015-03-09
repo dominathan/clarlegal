@@ -19,6 +19,7 @@ describe Case do
           high_estimate: 10,
           medium_estimate: 5,
           low_estimate: 1,
+          referral_percentage: 0.01,
           updated_at: 1.month.ago
         )
 
@@ -44,6 +45,7 @@ describe Case do
           high_estimate: 10,
           medium_estimate: 5,
           low_estimate: 1,
+          referral_percentage: 0.01,
           updated_at: Time.now
         )
 

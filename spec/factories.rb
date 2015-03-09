@@ -86,7 +86,7 @@ FactoryGirl.define do
     low_estimate                    1
     retainer                        3
     cost_estimate                   2
-    referral                        1
+    referral_percentage             0.01
   end
 
   factory :timing do
