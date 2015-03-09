@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309143844) do
+ActiveRecord::Schema.define(version: 20150309145552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 20150309143844) do
     t.integer  "cost_estimate",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "referral",           default: 0
+    t.float    "referral"
     t.integer  "retainer"
   end
 
