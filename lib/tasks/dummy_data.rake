@@ -220,7 +220,7 @@ namespace :db do
                   payment_likelihood: payment_likelihood[Random.rand(0..2)],
                   retainer: Random.rand(0..100)*100,
                   cost_estimate: Random.rand(0..100)*1000,
-                  referral: Random.rand(0..100)*1000)
+                  referral: Random.rand(0.0..0.25).round(2))
     end
     Timecop.return
   end
@@ -346,10 +346,10 @@ namespace :db do
                            date_fee_received: Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28)),
                            total_gross_fee_received: actual_recovery*0.5,
                            total_out_of_pocket_expenses: ca.fee.last.cost_estimate,
-                           referring_fees_paid: ca.fee.last.referral,
+                           referring_fees_paid: ca.fee.last.referral * actual_recovery,
                            total_fee_received: (actual_recovery*0.5 -
                                                 ca.fee.last.cost_estimate -
-                                                ca.fee.last.referral))
+                                                ca.fee.last.referral * actual_recovery))
       Closeout.close_case(ca)
     end
   end
@@ -370,7 +370,7 @@ namespace :db do
                   payment_likelihood: payment_likelihood[Random.rand(0..2)],
                   retainer: Random.rand(0..100)*100,
                   cost_estimate: Random.rand(0..100)*1000,
-                  referral: Random.rand(0..100)*1000)
+                  referral: Random.rand(0.0..0.25).round(2))
     end
     Timecop.return
   end

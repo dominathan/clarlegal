@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309145552) do
+ActiveRecord::Schema.define(version: 20150309184924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,15 +129,18 @@ ActiveRecord::Schema.define(version: 20150309145552) do
   create_table "fees", force: true do |t|
     t.integer  "case_id"
     t.string   "fee_type"
-    t.integer  "high_estimate",      default: 0, null: false
-    t.integer  "medium_estimate",    default: 0, null: false
-    t.integer  "low_estimate",       default: 0, null: false
+    t.integer  "high_estimate",       default: 0
+    t.integer  "medium_estimate",     default: 0
+    t.integer  "low_estimate",        default: 0
     t.string   "payment_likelihood"
-    t.integer  "cost_estimate",      default: 0, null: false
+    t.integer  "cost_estimate",       default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "referral",           null: false
-    t.integer  "retainer",           null: false
+    t.float    "referral_percentage"
+    t.integer  "retainer"
+    t.integer  "high_referral"
+    t.integer  "medium_referral"
+    t.integer  "low_referral"
   end
 
   add_index "fees", ["case_id"], name: "index_fees_on_case_id", using: :btree
@@ -288,9 +291,9 @@ ActiveRecord::Schema.define(version: 20150309145552) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "case_filed"
-    t.date     "estimated_conclusion_fast",     null: false
-    t.date     "estimated_conclusion_expected", null: false
-    t.date     "estimated_conclusion_slow",     null: false
+    t.date     "estimated_conclusion_fast"
+    t.date     "estimated_conclusion_expected"
+    t.date     "estimated_conclusion_slow"
   end
 
   add_index "timings", ["case_id"], name: "index_timings_on_case_id", using: :btree
