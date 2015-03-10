@@ -11,7 +11,8 @@ describe Case do
           client_id: Random.rand(1..20),
           practicegroup_id: Random.rand(1..20),
           primary_email: Faker::Internet.email,
-          updated_at: 1.month.ago
+          updated_at: 1.month.ago,
+          user_id: 1
         )
 
       Fee.create!(
@@ -37,7 +38,8 @@ describe Case do
           client_id: Random.rand(1..20),
           practicegroup_id: Random.rand(1..20),
           primary_email: Faker::Internet.email,
-          updated_at: Time.now
+          updated_at: Time.now,
+          user_id: 1
         )
 
       Fee.create!(
