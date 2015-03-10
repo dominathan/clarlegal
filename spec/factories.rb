@@ -41,6 +41,7 @@ FactoryGirl.define do
     open                  false
     court                 "Jeff Co"
     primary_email         "reminderemail@test.com"
+    user_id               1
   end
 
   factory :closeout do

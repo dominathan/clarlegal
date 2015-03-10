@@ -25,7 +25,9 @@ class Case < ActiveRecord::Base
   has_many :related_cases
   accepts_nested_attributes_for :related_cases, :reject_if => :all_blank
 
-  validates :client_id, :practicegroup_id, presence: true
+  has_many :fixed_fees
+
+  validates :client_id, :practicegroup_id, :user_id, presence: true
 
   attr_accessor :new_court, :new_judge, :new_opposing_attorney,
                 :new_type_of_matter, :new_practice_group, :new_referral_source

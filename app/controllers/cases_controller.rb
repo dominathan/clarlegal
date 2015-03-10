@@ -132,7 +132,7 @@ class CasesController < ApplicationController
   end
 
   def user_cases
-    @cases = current_user.cases.load
+    @cases = Case.where(user_id: current_user.id)
   end
 
   private
@@ -183,6 +183,7 @@ class CasesController < ApplicationController
         @case.originations.first.referral_source = params[:case][:originations_attributes]["0"][:new_referral_source]
       end
       @case.primary_email = current_user.email
+      @case.user_id = current_user.id
     end
 
     def add_staff_to_staff_case

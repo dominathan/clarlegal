@@ -183,6 +183,7 @@ namespace :db do
                     case_number: Random.rand(10..14).to_s + " - " + Random.rand(10000..99999).to_s,
                     opposing_attorney: opposing_attorney,
                     description: Faker::Lorem.paragraph,
+                    user_id: Random.rand(1..8),
                     primary_email: User.find_by(id: Random.rand(1..8)).email,
                     open: true)
     end
@@ -211,7 +212,7 @@ namespace :db do
     new_time = Time.local(2008,1,1,12,0,0)
     Timecop.freeze(new_time)
     100.times do |n|
-      high_estimate = Random.rand(1000..4000)*1000
+      high_estimate = Random.rand(1000..2000)*1000
       medium_estimate = Random.rand(500..(1000-1))*1000
       low_estimate = Random.rand(0..499)*1000
       referral_percentage = Random.rand(0.0..0.25).round(2)
@@ -368,7 +369,7 @@ namespace :db do
     100.times do |n|
       new_time = Time.local(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28),12,0,0)
       Timecop.freeze(new_time)
-      high_estimate = Random.rand(1000..4000)*1000
+      high_estimate = Random.rand(1000..2000)*1000
       medium_estimate = Random.rand(500..(1000-1))*1000
       low_estimate = Random.rand(0..499)*1000
       referral_percentage = Random.rand(0.0..0.25).round(2)
