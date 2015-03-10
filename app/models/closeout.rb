@@ -3,10 +3,10 @@ class Closeout < ActiveRecord::Base
 
   validates_presence_of :case
 
-  #validates :total_recovery, presence: true
-  #validates :total_gross_fee_received, presence: true
-  #validates :total_out_of_pocket_expenses, presence: true
-  #validates :referring_fees_paid, presence: true
+  validates :total_recovery, presence: true
+  validates :total_gross_fee_received, presence: true
+  validates :total_out_of_pocket_expenses, presence: true
+  validates :referring_fees_paid, presence: true
   validates :total_fee_received, presence: true
   validates :date_fee_received, presence: true
 
