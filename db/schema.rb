@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309223208) do
+ActiveRecord::Schema.define(version: 20150310204200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20150309223208) do
   add_index "case_types", ["lawfirm_id"], name: "index_case_types_on_lawfirm_id", using: :btree
 
   create_table "cases", force: true do |t|
-    t.integer  "client_id"
+    t.integer  "client_id",         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20150309223208) do
     t.string   "opposing_attorney"
     t.string   "judge"
     t.text     "description"
-    t.integer  "practicegroup_id"
+    t.integer  "practicegroup_id",  null: false
     t.string   "primary_email"
   end
 
@@ -99,11 +99,11 @@ ActiveRecord::Schema.define(version: 20150309223208) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "case_id"
-    t.integer  "total_recovery",               default: 0
-    t.integer  "total_gross_fee_received",     default: 0
-    t.integer  "total_out_of_pocket_expenses", default: 0
-    t.integer  "referring_fees_paid",          default: 0
-    t.integer  "total_fee_received",           default: 0
+    t.integer  "total_recovery",               default: 0, null: false
+    t.integer  "total_gross_fee_received",     default: 0, null: false
+    t.integer  "total_out_of_pocket_expenses", default: 0, null: false
+    t.integer  "referring_fees_paid",          default: 0, null: false
+    t.integer  "total_fee_received",           default: 0, null: false
     t.date     "date_fee_received"
     t.string   "fee_type"
   end
@@ -129,18 +129,18 @@ ActiveRecord::Schema.define(version: 20150309223208) do
   create_table "fees", force: true do |t|
     t.integer  "case_id"
     t.string   "fee_type"
-    t.integer  "high_estimate",       default: 0
-    t.integer  "medium_estimate",     default: 0
-    t.integer  "low_estimate",        default: 0
+    t.integer  "high_estimate",       default: 0, null: false
+    t.integer  "medium_estimate",     default: 0, null: false
+    t.integer  "low_estimate",        default: 0, null: false
     t.string   "payment_likelihood"
-    t.integer  "cost_estimate",       default: 0
+    t.integer  "cost_estimate",       default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "referral_percentage"
+    t.float    "referral_percentage",             null: false
     t.integer  "retainer"
-    t.integer  "high_referral",       default: 0
-    t.integer  "medium_referral",     default: 0
-    t.integer  "low_referral",        default: 0
+    t.integer  "high_referral",       default: 0, null: false
+    t.integer  "medium_referral",     default: 0, null: false
+    t.integer  "low_referral",        default: 0, null: false
   end
 
   add_index "fees", ["case_id"], name: "index_fees_on_case_id", using: :btree
@@ -291,9 +291,9 @@ ActiveRecord::Schema.define(version: 20150309223208) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "case_filed"
-    t.date     "estimated_conclusion_fast"
-    t.date     "estimated_conclusion_expected"
-    t.date     "estimated_conclusion_slow"
+    t.date     "estimated_conclusion_fast",     null: false
+    t.date     "estimated_conclusion_expected", null: false
+    t.date     "estimated_conclusion_slow",     null: false
   end
 
   add_index "timings", ["case_id"], name: "index_timings_on_case_id", using: :btree

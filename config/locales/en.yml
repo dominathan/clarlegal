@@ -20,4 +20,14 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      timings:
+        estimated_conclusion_fast: "Fastest Estimated Conclusion"
+        estimated_conclusion_expected: "Expected Estimated Conclusion"
+        estimated_conclusion_slow: "Slowest Estimated Conclusion"
+      staffs:
+        staffing_id: "Staff Name"
+      case:
+        practicegroup_id: "Practice Group"
+

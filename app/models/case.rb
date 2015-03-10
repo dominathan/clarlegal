@@ -6,7 +6,6 @@ class Case < ActiveRecord::Base
   has_many :fee
   has_many :fees
   accepts_nested_attributes_for :fees
-
   has_many :staff
   has_many :staffs
   accepts_nested_attributes_for :staffs, :reject_if => :all_blank
@@ -26,11 +25,7 @@ class Case < ActiveRecord::Base
   has_many :related_cases
   accepts_nested_attributes_for :related_cases, :reject_if => :all_blank
 
-  has_many :fixed_fees
-
-
-  validates :client_id, presence: true
-  validates :practicegroup_id, presence: true
+  validates :client_id, :practicegroup_id, presence: true
 
   attr_accessor :new_court, :new_judge, :new_opposing_attorney,
                 :new_type_of_matter, :new_practice_group, :new_referral_source
