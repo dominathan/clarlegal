@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Graph do
-  before { @lawfirm  = FactoryGirl.create(:lawfirm),
+  before { @lawfirm  = FactoryGirl.create(:lawfirm, id: 555),
            @lawfirm1 = FactoryGirl.create(:lawfirm, id: 111),
            @lawfirm2 = FactoryGirl.create(:lawfirm, id: 222),
 
