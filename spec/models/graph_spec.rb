@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Graph do
-  before { @lawfirm  = FactoryGirl.create(:lawfirm),
+  before { @lawfirm  = FactoryGirl.create(:lawfirm, id: 555),
            @lawfirm1 = FactoryGirl.create(:lawfirm, id: 111),
            @lawfirm2 = FactoryGirl.create(:lawfirm, id: 222),
 
@@ -429,6 +429,15 @@ describe Graph do
             @timing7 = FactoryGirl.create(:timing, case_id: 27)
             @timing8 = FactoryGirl.create(:timing, case_id: 28)
             @timing9 = FactoryGirl.create(:timing, case_id: 29)
+            @origination1 = FactoryGirl.create(:origination, case_id: 21, referral_source: "source1")
+            @origination2 = FactoryGirl.create(:origination, case_id: 22, referral_source: "source2")
+            @origination3 = FactoryGirl.create(:origination, case_id: 23, referral_source: "source3")
+            @origination4 = FactoryGirl.create(:origination, case_id: 24, referral_source: "source4")
+            @origination5 = FactoryGirl.create(:origination, case_id: 25, referral_source: "source5")
+            @origination6 = FactoryGirl.create(:origination, case_id: 26, referral_source: "source6")
+            @origination7 = FactoryGirl.create(:origination, case_id: 27, referral_source: "source7")
+            @origination8 = FactoryGirl.create(:origination, case_id: 28, referral_source: "source8")
+            @origination9 = FactoryGirl.create(:origination, case_id: 29, referral_source: "source9")
     }
 
     context 'a new case' do
@@ -522,5 +531,49 @@ describe Graph do
           }
     end
 
+    context 'Graph.revenue_by_fee_type_estimated(user,fee_type,timing_estimate,fee_estimate)' do
+      subject { Graph.revenue_by_fee_type_estimated(@user1,'Contingency','estimated_conclusion_fast','high_estimate')}
+      it { should have(5).items }
+      it { should eq([45,0,0,0,0] ) }
+    end
+
+    context 'Graph.fee_estimate_by_origination(user,referral_source,fee_estimate)' do
+      it 'Origination.all_referral_sources(@user1)' do
+        expect(Origination.all_referral_sources(@user1)).to match_array(["Advertising","Attorney",
+                      "Client", "Internet", "Reputation", "source1", "source2", "source3", "source4",
+                      "source5", "source6", "source7", "source8", "source9"])
+      end
+
+      subject { Graph.fee_estimate_by_origination(@user1,'source1',"high_estimate") }
+      it { should eq(5) }
+      it 'another referral source should change the amount' do
+        expect(Graph.fee_estimate_by_origination(@user1,'source2',"low_estimate")).to eq(1)
+      end
+    end
+
+    context 'Graph.fee_estimate_by_year_by_pg(user,pg,timing_estimate,fee_estimate)' do
+      subject { Graph.fee_estimate_by_year_by_pg(@user1,1,'estimated_conclusion_expected','medium_estimate') }
+      it { should eq([0,9,0,0,0])}
+    end
+
+    context 'Graph.fee_estimate_by_origination_pg(user,pg,referral_source,fee_estimate)' do
+      subject { Graph.fee_estimate_by_origination_pg(@user1,1,'source1','high_estimate') }
+      it { should eq(5) }
+    end
+
+    context 'Graph.all_origination_source_fee_estimate_pg(user,pg,fee_estimate)' do
+      subject { Graph.all_origination_source_fee_estimate_pg(@user1,1,"low_estimate") }
+      it { should include(['source1',1]) }
+      it { should include(['Advertising',0]) }
+      it { should include(['source3',1]) }
+    end
+
+    context 'Graph.fee_estimate_by_fee_type_pg(user,pg,fee_estimate,timing_estimate)' do
+      subject { ActiveSupport::JSON.decode(
+                Graph.fee_estimate_by_fee_type_pg(@user1,2,'high_estimate','estimated_conclusion_slow')) }
+      it { should match_array([
+                              { "name" => "Contingency", "data" => [0,0,15,0,0] }
+                              ]) }
+    end
   end
 end
