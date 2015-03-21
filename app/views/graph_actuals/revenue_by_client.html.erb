@@ -31,7 +31,7 @@ var totalOutOfPocketExpenses = <%= @out_of_pocket %>;
 var referringFeesPaid = <%= @referring_fees %>;
 var totalFeeReceived = <%= @total_fee_received %>;
 var totalFeeReceived = <%= @total_fee_received %>;
-var clientName = "<%= raw @client.company || @client.full_name_last_first %>"
+var clientName = "<%= @client.company.empty? ? @client.full_name : @client.company %>"
 
   // Create the chart
   $('#revenueByClientByYearActual').highcharts({
@@ -103,7 +103,7 @@ var clientName = "<%= raw @client.company || @client.full_name_last_first %>"
 
  $(function () {
 
-  var category = ["<%= @client.company ? @client.company.html_safe : @client.full_name_last_first ? @client.full_name_last_first.html_safe : "" %>", "Client Profitability Average"];
+  var category = ["<%= !@client.company.empty? ? @client.company.html_safe : @client.full_name%>", "Client Profitability Average"];
   var grossFee = <%= [@profitability[0], @avg_profitability[0]] %>;
   var directExpenses = <%= [@profitability[1]*-1, @avg_profitability[1]*-1] %>;
   var netFee = <%= [@profitability[2],@avg_profitability[2]] %>;

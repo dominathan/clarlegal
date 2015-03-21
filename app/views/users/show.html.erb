@@ -7,7 +7,7 @@
     <table class='table table-hover'>
       <tr>
         <td>Name:</td>
-        <td><%=User.full_name(@user)%></td>
+        <td><%=current_user.full_name%></td>
       </tr>
       <tr>
         <td>Lawfirm:</td>
@@ -22,5 +22,5 @@
 </div>
 <h4>
 <div class='center'>
-  <%= link_to "Edit #{User.full_name(@user)} Profile and Settings", edit_user_path(@user) %>
+  <%= link_to "Edit #{current_user.full_name} Profile and Settings", edit_user_path(@user) %>
 </div>

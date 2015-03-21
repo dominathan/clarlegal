@@ -15,6 +15,12 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :password, length: { minimum: 7 }
 
+  delegate :full_name, :full_name_last_first, to: :name
+
+  def name
+    NamesHelper::Name.new(first_name, middle_initial, last_name)
+  end
+
   # Returns the hash digest of the given string.
   def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
@@ -75,21 +81,8 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
 
-  def self.full_name(user)
-    [user.first_name, user.last_name].compact.join(" ")
-  end
-
-  def self.full_name_last_first(user)
-    [user.last_name, user.first_name].compact.join(", ")
-  end
-
   def sign_in_incrementer
     increment! :signin_counter
-  end
-
-  def full_name_last_first
-    myarr = [self.last_name, self.first_name, self.middle_initial ? self.middle_initial : ""]
-    myarr[0..-2].join(", ")+(" ")+myarr[-1]
   end
 
   private

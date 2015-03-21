@@ -54,7 +54,7 @@
 
 <script type="text/javascript">
 
-  var category = ["<%= User.full_name_last_first(@client) %>", "Client Profitability Average"];
+  var category = ["<%= @client.full_name_last_first %>", "Client Profitability Average"];
   var grossFee = <%= [@profitability[0], @avg_profitability[0]] %>;
   var directExpenses = <%= [@profitability[1]*-1, @avg_profitability[1]*-1] %>;
   var netFee = <%= [@profitability[2],@avg_profitability[2]] %>;
