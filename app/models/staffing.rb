@@ -10,6 +10,12 @@ class Staffing < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i || ""
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }
 
+  delegate :full_name, :full_name_last_first, to: :name
+
+  def name
+    NamesHelper::Name.new(first_name, middle_initial, last_name)
+  end
+
   def self.all_positions(user)
     position_list = StaticInformation::POSITION_LIST.concat(user.lawfirm.staffings.load
                                                     .collect! { |person| person.position } )
@@ -23,11 +29,6 @@ class Staffing < ActiveRecord::Base
       final_name_list << [staff.full_name_last_first, staff.id]
     end
     final_name_list.sort
-  end
-
-  def full_name_last_first
-    myarr = [self.last_name, self.first_name, self.middle_initial ? self.middle_initial : ""]
-    myarr[0..-2].join(", ")+(" ")+myarr[-1]
   end
 
   def self.import(file,user)
