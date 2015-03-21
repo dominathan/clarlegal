@@ -19,8 +19,8 @@ class Staffing < ActiveRecord::Base
   def self.all_full_names_last_first_with_ids(user)
     #used in _staff_fields for collection select of LastName, FirstName
     final_name_list = []
-    user.lawfirm.staffings.each do |name|
-      final_name_list << [name.full_name_last_first, name.id]
+    user.lawfirm.staffings.each do |staff|
+      final_name_list << [staff.full_name_last_first, staff.id]
     end
     final_name_list.sort
   end

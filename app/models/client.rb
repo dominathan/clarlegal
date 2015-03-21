@@ -15,6 +15,11 @@ class Client < ActiveRecord::Base
   #validates :email, format: { with: VALID_EMAIL_REGEX }
   #validates :phone_number, presence: true
   #validates :street_address, :city, :zip_code, presence: true
+  delegate :full_name, :full_name_last_first, to: :name
+
+  def name
+    NamesHelper::Name.new(first_name, last_name)
+  end
 
   #For _form_new_cases, get list of company names. If company name not present, use full name instead
   def self.company_and_full_names(user)
@@ -29,14 +34,10 @@ class Client < ActiveRecord::Base
   def self.all_full_name_last_first(user)
     #used in _staff_fields for collection select of LastName, FirstName
     final_name_list = []
-    user.lawfirm.clients.each do |name|
-      final_name_list << [name.last_name, name.first_name].compact.join(", ")
+    user.lawfirm.clients.each do |client|
+      final_name_list << client.full_name
     end
     final_name_list.sort
-  end
-
-  def full_name_last_first
-    [last_name, first_name].compact.join(", ")
   end
 
   def self.import(file,user)

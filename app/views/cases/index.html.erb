@@ -1,5 +1,5 @@
 <% provide(:title, 'Cases') %>
-<h2><%= "#{User.full_name_last_first(Client.find_by(id: params[:client_id]))} Cases" %></h2>
+<h2><%= "#{Client.find_by(id: params[:client_id]).full_name_last_first} Cases" %></h2>
 
   <!-- @search_path = client_cases_path(@client) -->
   <!-- render 'shared/search_bar' -->
