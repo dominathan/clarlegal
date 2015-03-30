@@ -1,3 +1,0 @@
-This is the working version of ClarLegal.  Will update the README to document steps taken.
-
-More to follow.
