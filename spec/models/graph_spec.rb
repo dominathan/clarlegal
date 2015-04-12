@@ -607,8 +607,8 @@ describe Graph do
                               ]) }
     end
 
-    context 'Graph.gross_fee_projected_time_frame(user,fee_estimate,timing_estimate,starting_date,ending_date)' do
-      subject { Graph.gross_fee_projected_time_frame(@user1,'medium_estimate','estimated_conclusion_fast',Date.today.beginning_of_year,Date.today.end_of_year) }
+    context 'Graph.projected_amount_earned_time_frame(user,fee_estimate,timing_estimate,starting_date,ending_date)' do
+      subject { Graph.projected_amount_earned_time_frame(@user1,'medium_estimate','estimated_conclusion_fast',Date.today.beginning_of_year,Date.today.end_of_year) }
       it { should eq(27) }
     end
   end
