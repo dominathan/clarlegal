@@ -275,11 +275,12 @@ namespace :db do
 
   desc 'add 200 Staff - random amount per case'
   task populate: :environment do
+
     new_time = Time.local(2008,1,1,12,0,0)
     Timecop.freeze(new_time)
     200.times do |n|
       staff = Staffing.find_by(id: Random.rand(2..16))
-      name = User.full_name_last_first(staff)
+      name = NamesHelper::Name.new(staff.first_name, staff.last_name).full_name_last_first
       position = staff.position
       case_id = Random.rand(1..100)
       hours_actual = 0

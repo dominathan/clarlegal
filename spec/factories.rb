@@ -92,9 +92,9 @@ FactoryGirl.define do
 
   factory :timing do
     association                     :case
-    estimated_conclusion_fast       "Mon, 16 Feb 2015".to_date
-    estimated_conclusion_expected   "Mon, 16 Feb 2015".to_date + 1.year
-    estimated_conclusion_slow       "Mon, 16 Feb 2015".to_date + 2.years
+    estimated_conclusion_fast       Date.today
+    estimated_conclusion_expected   Date.today + 1.year
+    estimated_conclusion_slow       Date.today + 2.years
   end
 
 end

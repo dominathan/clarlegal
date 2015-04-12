@@ -398,46 +398,65 @@ describe Graph do
            {'name' => "SHOW ME", 'data' => [0, 0, 0, 0, 500]}])
       end
     end
+
+    context 'Graph.actual_amount_earned_time_frame(user,closeout_amount, starting_date, ending_date)' do
+      subject { Graph.actual_amount_earned_time_frame(@user1,'total_fee_received', Date.today.beginning_of_year, Date.today) }
+      it { should eq(1) }
+
+      before {
+        FactoryGirl.create(:case, client_id: 1, id: 576, open: false)
+        FactoryGirl.create(:closeout, case_id: 576, total_recovery: 500, date_fee_received: Date.today - 1.day)
+        FactoryGirl.create(:case, client_id: 1, id: 577, open: false)
+        FactoryGirl.create(:closeout, case_id: 577, total_recovery: 500, date_fee_received: Date.today - 12.months)
+        FactoryGirl.create(:case, client_id: 1, id: 578, open: false)
+        FactoryGirl.create(:closeout, case_id: 578, total_recovery: 500, date_fee_received: Date.today + 1.months)
+      }
+
+      it 'should respond to dates correctly' do
+        answer = Graph.actual_amount_earned_time_frame(@user1,'total_recovery',Date.today.beginning_of_year, Date.today)
+        expect(answer).to eq(505)
+      end
+    end
   end
 
   describe 'expected / projected amounts' do
     before {
-            @clcase1 = FactoryGirl.create(:case, open: true, client_id: 1, id: 21, practicegroup_id: 1)
-            @clcase2 = FactoryGirl.create(:case, open: true, client_id: 1, id: 22, practicegroup_id: 1)
-            @clcase3 = FactoryGirl.create(:case, open: true, client_id: 1, id: 23, practicegroup_id: 1)
-            @clcase4 = FactoryGirl.create(:case, open: true, client_id: 2, id: 24, practicegroup_id: 2)
-            @clcase5 = FactoryGirl.create(:case, open: true, client_id: 2, id: 25, practicegroup_id: 2)
-            @clcase6 = FactoryGirl.create(:case, open: true, client_id: 2, id: 26, practicegroup_id: 2)
-            @clcase7 = FactoryGirl.create(:case, open: true, client_id: 3, id: 27, practicegroup_id: 3)
-            @clcase8 = FactoryGirl.create(:case, open: true, client_id: 3, id: 28, practicegroup_id: 3)
-            @clcase9 = FactoryGirl.create(:case, open: true, client_id: 3, id: 29, practicegroup_id: 3)
-            @fee1 = FactoryGirl.create(:fee, case_id: 21)
-            @fee2 = FactoryGirl.create(:fee, case_id: 22)
-            @fee3 = FactoryGirl.create(:fee, case_id: 23)
-            @fee4 = FactoryGirl.create(:fee, case_id: 24)
-            @fee5 = FactoryGirl.create(:fee, case_id: 25)
-            @fee6 = FactoryGirl.create(:fee, case_id: 26)
-            @fee7 = FactoryGirl.create(:fee, case_id: 27)
-            @fee8 = FactoryGirl.create(:fee, case_id: 28)
-            @fee9 = FactoryGirl.create(:fee, case_id: 29)
-            @timing1 = FactoryGirl.create(:timing, case_id: 21)
-            @timing2 = FactoryGirl.create(:timing, case_id: 22)
-            @timing3 = FactoryGirl.create(:timing, case_id: 23)
-            @timing4 = FactoryGirl.create(:timing, case_id: 24)
-            @timing5 = FactoryGirl.create(:timing, case_id: 25)
-            @timing6 = FactoryGirl.create(:timing, case_id: 26)
-            @timing7 = FactoryGirl.create(:timing, case_id: 27)
-            @timing8 = FactoryGirl.create(:timing, case_id: 28)
-            @timing9 = FactoryGirl.create(:timing, case_id: 29)
-            @origination1 = FactoryGirl.create(:origination, case_id: 21, referral_source: "source1")
-            @origination2 = FactoryGirl.create(:origination, case_id: 22, referral_source: "source2")
-            @origination3 = FactoryGirl.create(:origination, case_id: 23, referral_source: "source3")
-            @origination4 = FactoryGirl.create(:origination, case_id: 24, referral_source: "source4")
-            @origination5 = FactoryGirl.create(:origination, case_id: 25, referral_source: "source5")
-            @origination6 = FactoryGirl.create(:origination, case_id: 26, referral_source: "source6")
-            @origination7 = FactoryGirl.create(:origination, case_id: 27, referral_source: "source7")
-            @origination8 = FactoryGirl.create(:origination, case_id: 28, referral_source: "source8")
-            @origination9 = FactoryGirl.create(:origination, case_id: 29, referral_source: "source9")
+      @clcase1 = FactoryGirl.create(:case, open: true, client_id: 1, id: 21, practicegroup_id: 1)
+      @clcase2 = FactoryGirl.create(:case, open: true, client_id: 1, id: 22, practicegroup_id: 1)
+      @clcase3 = FactoryGirl.create(:case, open: true, client_id: 1, id: 23, practicegroup_id: 1)
+      @clcase4 = FactoryGirl.create(:case, open: true, client_id: 2, id: 24, practicegroup_id: 2)
+      @clcase5 = FactoryGirl.create(:case, open: true, client_id: 2, id: 25, practicegroup_id: 2)
+      @clcase6 = FactoryGirl.create(:case, open: true, client_id: 2, id: 26, practicegroup_id: 2)
+      @clcase7 = FactoryGirl.create(:case, open: true, client_id: 3, id: 27, practicegroup_id: 3)
+      @clcase8 = FactoryGirl.create(:case, open: true, client_id: 3, id: 28, practicegroup_id: 3)
+      @clcase9 = FactoryGirl.create(:case, open: true, client_id: 3, id: 29, practicegroup_id: 3)
+      @fee1 = FactoryGirl.create(:fee, case_id: 21)
+      @fee2 = FactoryGirl.create(:fee, case_id: 22)
+      @fee3 = FactoryGirl.create(:fee, case_id: 23)
+      @fee4 = FactoryGirl.create(:fee, case_id: 24)
+      @fee5 = FactoryGirl.create(:fee, case_id: 25)
+      @fee6 = FactoryGirl.create(:fee, case_id: 26)
+      @fee7 = FactoryGirl.create(:fee, case_id: 27)
+      @fee8 = FactoryGirl.create(:fee, case_id: 28)
+      @fee9 = FactoryGirl.create(:fee, case_id: 29)
+      @timing1 = FactoryGirl.create(:timing, case_id: 21)
+      @timing2 = FactoryGirl.create(:timing, case_id: 22)
+      @timing3 = FactoryGirl.create(:timing, case_id: 23)
+      @timing4 = FactoryGirl.create(:timing, case_id: 24)
+      @timing5 = FactoryGirl.create(:timing, case_id: 25)
+      @timing6 = FactoryGirl.create(:timing, case_id: 26)
+      @timing7 = FactoryGirl.create(:timing, case_id: 27)
+      @timing8 = FactoryGirl.create(:timing, case_id: 28)
+      @timing9 = FactoryGirl.create(:timing, case_id: 29)
+      @origination1 = FactoryGirl.create(:origination, case_id: 21, referral_source: "source1")
+      @origination2 = FactoryGirl.create(:origination, case_id: 22, referral_source: "source2")
+      @origination3 = FactoryGirl.create(:origination, case_id: 23, referral_source: "source3")
+      @origination4 = FactoryGirl.create(:origination, case_id: 24, referral_source: "source4")
+      @origination5 = FactoryGirl.create(:origination, case_id: 25, referral_source: "source5")
+      @origination6 = FactoryGirl.create(:origination, case_id: 26, referral_source: "source6")
+      @origination7 = FactoryGirl.create(:origination, case_id: 27, referral_source: "source7")
+      @origination8 = FactoryGirl.create(:origination, case_id: 28, referral_source: "source8")
+      @origination9 = FactoryGirl.create(:origination, case_id: 29, referral_source: "source9")
     }
 
     context 'a new case' do
@@ -460,7 +479,6 @@ describe Graph do
     end
 
     context 'Graph.fee_estimate_by_year(user,timing_estimate,fee_estimate)' do
-
       subject { Graph.fee_estimate_by_year(@user1,'estimated_conclusion_fast',"high_estimate")}
       it { should eq([45,0,0,0,0]) }
 
@@ -485,18 +503,31 @@ describe Graph do
     context 'Graph.fee_estimate_by_month(user,timing_estimate,fee_estimate,year_to_add)' do
       subject { Graph.fee_estimate_by_month(@user1,'estimated_conclusion_fast','low_estimate',0)}
       it { should have(12).items }
-      it { should eq([0,9,0,0,0,0,0,0,0,0,0,0])}
+      it {
+        answer = Array.new(12,0)
+        month_index = Date.today.month - 1
+        answer[month_index] = 9
+        should eq(answer)
+      }
       it 'updating a fee to afew months later will show up' do
-        @timing9.update_attribute(:estimated_conclusion_fast, "Mon, 16 Feb 2015".to_date + 4.months)
-        expect(Graph.fee_estimate_by_month(@user1,'estimated_conclusion_fast','low_estimate',0)).to eq([0,8,0,0,0,1,0,0,0,0,0,0])
+        @timing9.update_attribute(:estimated_conclusion_fast, Date.today + 4.months)
+        answer = Array.new(12,0)
+        month_index = Date.today.month - 1
+        answer[month_index] = 8
+        answer[month_index + 4] = 1
+        expect(Graph.fee_estimate_by_month(@user1,'estimated_conclusion_fast','low_estimate',0)).to eq(answer)
       end
 
       it 'adding a new fee and timing  to an existing case will show the updated fee' do
-        @timing12 = FactoryGirl.create(:timing, case_id: 21, estimated_conclusion_fast: "Mon, 16 Feb 2015".to_date + 4.months,
+        @timing12 = FactoryGirl.create(:timing, case_id: 21, estimated_conclusion_fast: Date.today + 4.months,
                                                         estimated_conclusion_expected: Date.today + 5.years,
                                                         estimated_conclusion_slow: Date.today + 6.years)
         @fee12 = FactoryGirl.create(:fee, case_id: 21, high_estimate: 60, medium_estimate: 60, low_estimate: 60)
-        expect(Graph.fee_estimate_by_month(@user1,'estimated_conclusion_fast','high_estimate',0)).to eq([0,40,0,0,0,60,0,0,0,0,0,0])
+        answer = Array.new(12,0)
+        month_index = Date.today.month - 1
+        answer[month_index] = 40
+        answer[month_index + 4 ] = 60
+        expect(Graph.fee_estimate_by_month(@user1,'estimated_conclusion_fast','high_estimate',0)).to eq(answer)
       end
     end
 
@@ -574,6 +605,11 @@ describe Graph do
       it { should match_array([
                               { "name" => "Contingency", "data" => [0,0,15,0,0] }
                               ]) }
+    end
+
+    context 'Graph.gross_fee_projected_time_frame(user,fee_estimate,timing_estimate,starting_date,ending_date)' do
+      subject { Graph.gross_fee_projected_time_frame(@user1,'medium_estimate','estimated_conclusion_fast',Date.today.beginning_of_year,Date.today.end_of_year) }
+      it { should eq(27) }
     end
   end
 end

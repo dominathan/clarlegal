@@ -643,6 +643,26 @@ class Graph < ActiveRecord::Base
     end
     return all_fee_types.zip(final).map { |name,values|  { 'name' => name, 'data' => values } }.to_json
   end
+  #-----------------------------------END INDIVIDUAL PRACTICE GROUPS-----------------------#
 
+  #Sum a closeout amount for cases with dates of choice
+  def self.actual_amount_earned_time_frame(user,closeout_amount,starting_date,ending_date)
+     user.lawfirm.cases.joins(:closeouts)
+                       .where("date_fee_received >= :start_date AND date_fee_received <= :end_date",
+                                { start_date: starting_date,
+                                  end_date: ending_date })
+                       .sum(closeout_amount)
+  end
+
+  #Sum fee_estimate regardless of case being opened of closed with dates of choice
+  def self.gross_fee_projected_time_frame(user,fee_estimate,timing_estimate,starting_date,ending_date)
+    user.lawfirm.cases.joins(:timings,:fees)
+                      .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                      .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
+                      .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                              { start_date: starting_date,
+                                end_date: ending_date })
+                      .sum(fee_estimate)
+  end
 
 end
