@@ -15,8 +15,13 @@ class GraphsController < ApplicationController
     @total_out_of_pocket_expenses =  Graph.closeout_amount_by_year(current_user,"total_out_of_pocket_expenses").map { |i| i *- 1}
     @referring_fees_paid = Graph.closeout_amount_by_year(current_user,"referring_fees_paid").map {|i| i * -1}
     @total_fee_received = Graph.closeout_amount_by_year(current_user,"total_fee_received")
-    @total_indirect_cost = Graph.total_overhead_per_year(current_user).map {|i| i * -1 }
-    @net_profit = Graph.add_arrays(@total_fee_received,@total_indirect_cost)
+    begin
+        @total_indirect_cost = Graph.total_overhead_per_year(current_user).map {|i| i * -1 }
+        @net_profit = Graph.add_arrays(@total_fee_received,@total_indirect_cost)
+    rescue
+        @total_indirect_cost = [0,0,0,0,0]
+        @net_profit = [0,0,0,0,0]
+    end
 
     #projected graph
     @projected_years = Graph.expected_year_only
@@ -31,7 +36,11 @@ class GraphsController < ApplicationController
     @rev_by_year_high = Graph.add_arrays(rev_by_year_high, Graph.add_arrays(@cost_by_year, referral_by_year_high))
     @rev_by_year_medium = Graph.add_arrays(rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
     @rev_by_year_low = Graph.add_arrays(rev_by_year_low, Graph.add_arrays(@cost_by_year, referral_by_year_low))
-    @overhead_by_year = Array.new(@rev_by_year_low.length, Graph.expected_overhead_next_year(current_user)).map { |x| x*-1 }
+    begin
+        @overhead_by_year = Array.new(@rev_by_year_low.length, Graph.expected_overhead_next_year(current_user)).map { |x| x*-1 }
+    rescue
+        @overhead_by_year = [0,0,0,0,0]
+    end
 
     #Practice Groups
     @medium_fee_expected_conclusion = Graph.revenue_by_practice_group_estimated(current_user,'medium_estimate','estimated_conclusion_expected')
