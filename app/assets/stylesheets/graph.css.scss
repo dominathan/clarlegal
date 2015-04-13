@@ -34,6 +34,21 @@ $navbarBackgroundHighlight: #332051;
     }
 }
 
+.side-nav .active {
+    background-color: #FFFFFF;
+}
+
+.side-nav li.active>a{
+    color: black;
+}
+
+.side-nav li.active>ul>li {
+    background-color: $navbarBackground;
+    a {
+        color: #FFFFFF;
+    }
+}
+
 .side-nav>li>ul {
     padding: 0;
 }

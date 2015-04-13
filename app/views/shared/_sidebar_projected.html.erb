@@ -1,61 +1,54 @@
-
-  <div class="sidebar">
-    <div class="col-sm-12 col-md-4 col-lg-2">
-      <ul class="nav nav-pills nav-stacked">
-        <li class='center'><h2><b>Projected</b></h2></li>
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav side-nav">
+        <li class="">
+            <a href="/dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+        </li>
+        <li>
+            <!-- Expected Earnings -->
         <li class="<%=is_active_for_drilldowns?("graph_drilldowns","rev_by_fee_type")%>">
           <%= link_to "Revenue/Profit by Year", revenue_by_year_path(recovery_rate: 'expected') %>
         </li>
-        <li class="divider"></li>
 
         <li class="<%=is_active_graph?("graphs","practice_group_pie") %>">
           <%= link_to "Cases by Practice Group", practice_group_cases_path %>
         </li>
-        <li role='presentation'class="divider"></li>
 
         <li class="<%=is_active_graph?("graphs","practice_group_revenue_pie_low") %>">
           <%= link_to "Fee Received by Practice Group", practice_group_revenues_path %>
         </li>
-         <li role='presentation' class="divider"></li>
 
         <li class="<%=is_active_graph?('graphs','rev_by_year_by_pg')%> or <%=is_active_graph?('graphs','rev_by_year_by_pg_high')%> or <%=is_active_graph?('graphs','rev_by_year_by_pg_low')%>">
           <%= link_to "Fee Received by Practice Group by Year", revenue_by_year_practice_group_path %>
         </li>
-         <li class="divider"></li>
 
         <li class="<%=is_active_graph?("graphs","rev_by_fee_type_medium")%> <%=is_active_graph?("graphs","rev_by_fee_type_high")%> <%=is_active_graph?("graphs","rev_by_fee_type_low")%>">
           <%= link_to "Fee Received by Fee Type", revenue_by_year_fee_type_medium_path %>
         </li>
-        <li class="divider"></li>
 
         <li class="<%=is_active_graph?('graphs','fee_received_by_referral_medium')%>">
           <%= link_to "Fee Received by Origination Source", revenue_by_origination_path %>
         </li>
-        <li class="divider"></li>
 
         <li class="<%=is_active_graph?('graphs','revenue_by_client_estimate')%>">
           <%= link_to "Client Profitability", revenue_by_client_estimate_graph_path(params[:client_id] || current_user.lawfirm.clients.first, params[:timing] || "estimated_conclusion_expected") %>
         </li>
-        <li class="divider"></li>
 
-        <li class="<%= is_active_graph?("graph_individual_prac_groups","expected_individual_pg_rev") %> dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Practice Groups <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" role="menu" id="individualPracticeGroups">
-
+        <li class='<%= is_active_graph?("graph_individual_prac_groups","expected_individual_pg_rev") %>'>
+        <a href="javascript:;" data-toggle="collapse" data-target="#practice-groups-expected" ><i class="fa fa-fw fa-arrows-v"></i>Practice Groups<i class="fa fa-fw fa-caret-down"></i></a>
+          <ul id="practice-groups-expected" class="collapse">
           </ul>
-        <li>
+        </li>
 
-      </ul>
-    </div>
-  </div>
+            <!-- End Expected -->
+    </ul>
+</div>
 
 <script type="text/javascript">
   $(function () {
     <% prac_group = Graph.user_practice_groups(current_user) %>
     var allPracticeGroups = <%= raw prac_group %>;
     var allPracticeGroupIds = <%= raw Graph.user_practice_group_ids(current_user) %>
-    var ulToAddTo = document.getElementById("individualPracticeGroups");
+    var ulToAddTo = document.getElementById("practice-groups-expected");
     for (var i in allPracticeGroups) {
       var pracgroupID = allPracticeGroupIds[i]
       var li = document.createElement("li");
@@ -67,13 +60,4 @@
       ulToAddTo.appendChild(li);
     };
   });
-
-
-   $('ul.nav li.dropdown').hover(function() {
-      $(this).find('.dropdown-menu').stop(true, true).delay(150).fadeIn();
-   }, function() {
-      $(this).find('.dropdown-menu').stop(true, true).delay(150).fadeOut();
-   });
-
-
 </script>
