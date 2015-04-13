@@ -1,5 +1,6 @@
 class GraphsController < ApplicationController
-  before_action :signed_in_user, :belongs_to_firm, :has_open_cases
+  before_action :signed_in_user, :belongs_to_firm
+  before_action :has_open_cases, except: [:dashboard]
 
   def dashboard
     #boxes
