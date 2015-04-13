@@ -1,0 +1,403 @@
+<% provide(:title, 'Dashboard') %>
+
+<div class="inside-dashboard">
+  <div class="container-fluid">
+    <!-- Page Heading -->
+      <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+              Dashboard <small>Statistics Overview</small>
+            </h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class='col-lg-12'>
+          <ol class="breadcrumb">
+              <li class="active">
+                  <i class="fa fa-dashboard"></i> Dashboard
+              </li>
+          </ol>
+        </div>
+      </div>
+    <!-- /.Page Heading -->
+
+    <!-- Box Icons -->
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <!-- <div class="col-xs-3">
+                            <p>Year-to-Date</p>
+                        </div> -->
+                        <div class="col-xs-12 text-right">
+                            <div class="huge">
+                              <%= number_to_currency(@year_to_date, precision: 0) %>
+                            </div>
+                            <div>
+                              Year-to-Date<br>Net Fee Received
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+<!--                         <div class="col-xs-3">
+                            <i class="fa fa-tasks fa-5x"></i>
+                        </div> -->
+                        <div class="col-xs-12 text-right">
+                            <div class="huge">
+                              <%= number_to_currency(@year_projected_medium, precision: 0) %>
+                            </div>
+                            <div>
+                              Projected for  <br><%= Date.today.year %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+<!--                         <div class="col-xs-3">
+                            <i class="fa fa-shopping-cart fa-5x"></i>
+                        </div> -->
+                        <div class="col-xs-12 text-right">
+                            <div class="huge">
+                              <%= number_to_currency(@year_to_date_compared_to_last_year, precision: 0) %>
+                            </div>
+                            <div>
+                              YTD Net Fee Received <br>Compared to YTD <%= Date.today.year - 1 %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <!-- <div class="col-xs-3">
+                            <i class="fa fa-support fa-5x"></i>
+                        </div> -->
+                        <div class="col-xs-12 text-right">
+                            <div class="huge">
+                              <%= number_to_currency(@trailing_twelve, precision: 0) %>
+                            </div>
+                            <div>
+                              Net Fee Received for <b>Trailing Twelve Months
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--/.Box Icons -->
+
+    <!-- Actual Graph -->
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div id="revenueByYearActual"></div>
+      </div>
+    </div>
+    <!-- /.Actual Graph End -->
+
+    <!-- Projected Graph -->
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-lg-12 ">
+        <div id="revenueByYear"></div>
+      </div>
+    </div>
+    <!-- /.Projected Graph End -->
+
+    <!-- Projected Practice Groups -->
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-lg-12 ">
+        <div id="revenueByYearByPG"></div>
+      </div>
+    </div>
+    <!-- /.Projected Practice Groups End -->
+
+  </div>
+</div>
+
+
+<script type="text/javascript">
+ $(function () {
+    var categoryByYear = <%= Graph.closeout_year_only %>;
+    var totalRecovery = <%= @total_recovery %>;
+    var totalGrossFeeReceived = <%= @total_gross_fee_received %>;
+    var totalOutOfPocketExpenses = <%= @total_out_of_pocket_expenses %>;
+    var referringFeesPaid = <%= @referring_fees_paid %>;
+    var totalFeeReceived = <%= @total_fee_received %>;
+    var totalIndirectCost = <%= @total_indirect_cost %>;
+    var netProfit = <%= @net_profit %>;
+    var categoryLinks = {
+       "<%=@category_by_year[0] %>" : "<%=revenue_by_month_graph_actual_url(1,@category_by_year[0]).to_str %>",
+       "<%=@category_by_year[1] %>" : "<%=revenue_by_month_graph_actual_url(1,@category_by_year[1]).to_str %>",
+       "<%=@category_by_year[2] %>" : "<%=revenue_by_month_graph_actual_url(1,@category_by_year[2]).to_str %>",
+       "<%=@category_by_year[3] %>" : "<%=revenue_by_month_graph_actual_url(1,@category_by_year[3]).to_str %>",
+       "<%=@category_by_year[4] %>" : "<%=revenue_by_month_graph_actual_url(1,@category_by_year[4]) %>"
+   };
+
+  // Create the chart
+  $('#revenueByYearActual').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Net Revenue/Profit by Year'
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+          labels: {
+                    formatter: function () {
+                        return '<a href="'  + categoryLinks[this.value] + '">' + this.value + '</a>';
+                    },
+                    useHTML: true
+                }
+      },
+      yAxis: {
+          title: {
+              text: '$'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX - 40,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Total Recovery',
+          data: totalRecovery,
+      },
+      {
+          name: 'Gross Fee Received',
+          data: totalGrossFeeReceived
+      },
+      {
+          name: 'Out Of Pocket Expenses',
+          data: totalOutOfPocketExpenses
+      },
+      {
+          name: 'Referring Fees Paid',
+          data: referringFeesPaid,
+          color: 'red'
+      },
+      {
+          name: 'Net Fee Received',
+          data: totalFeeReceived
+      },{
+          name: 'Indirect Costs',
+          data: totalIndirectCost
+      },{
+          name: 'Net Profit',
+          data: netProfit
+      }],
+  })
+});
+
+$(function () {
+
+  var categoryByYear = <%= Graph.expected_year_only %>;
+  var costByYear = <%= @cost_by_year %>;
+  var referralFee = <%= @referral_by_year %>;
+  var revByYearHigh = <%= @rev_by_year_high %>;
+  var revByYearMedium = <%= @rev_by_year_medium %>;
+  var revByYearLow = <%= @rev_by_year_low %>;
+  var estimatedOverhead = <%= @overhead_by_year %>;
+  var categoryLinks = {
+     "<%=@projected_years[0] %>" : "<%=revenue_year_path( year:1).to_str %>",
+     "<%=@projected_years[1] %>" : "<%=revenue_year_path(year: 2).to_str %>",
+     "<%=@projected_years[2] %>" : "<%=revenue_year_path(year: 3).to_str %>",
+     "<%=@projected_years[3] %>" : "<%=revenue_year_path(year: 4).to_str %>",
+     "<%=@projected_years[4] %>" : "<%=revenue_year_path(year: 5).to_str %>",
+   };
+
+
+  // Create the chart
+  $('#revenueByYear').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Estimated Net Fee By Year'
+      },
+      subtitle: {
+          text: 'Expected Recovery Rate'
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+          labels: {
+                    formatter: function () {
+                        return '<a href="'  + categoryLinks[this.value] + '">' + this.value + '</a>';
+                    },
+                    useHTML: true
+                }
+      },
+      yAxis: {
+          title: {
+              text: 'Revenue'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Low Net Fee',
+          data: revByYearLow,
+      },
+      {
+          name: 'Medium Net Fee',
+          data: revByYearMedium
+      },
+      {
+          name: 'High Net Fee',
+          data: revByYearHigh
+      },
+      {
+          name: 'Estimated Case Expenses',
+          data: costByYear,
+          color: 'red'
+      },
+      {
+          name: 'Referral Fee',
+          data: referralFee
+      }, {
+          name: 'Expected Overhead',
+          data: estimatedOverhead
+      }],
+  })
+});
+
+$(function () {
+    var categoryYear = <%= Graph.expected_year_only %>;
+    var seriesData = <%= raw @medium_fee_expected_conclusion %>;
+
+        $('#revenueByYearByPG').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Expected Revenue by Year by Practice Group'
+            },
+            credits: {
+                enabled: false
+            },
+            subtitle: {
+                text: 'Expected Recovery / Expected Fees'
+            },
+            xAxis: {
+                categories: categoryYear,
+                gridLineWidth: 1
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Revenue'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>${point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true,
+                positioner: function(boxWidth, boxHeight, point) {
+                    return {
+                        x: point.plotX - 40,
+                        y: point.plotY - 20
+                     };
+                } //this moves the box out of the way of the category links
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: seriesData
+        });
+    });
+
+
+
+
+</script>
+
+

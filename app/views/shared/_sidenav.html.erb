@@ -1,0 +1,89 @@
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav side-nav">
+        <li class="">
+            <a href="/dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+        </li>
+        <li>
+            <!-- Actual Earnings -->
+            <a href="javascript:;" data-toggle="collapse" data-target="#actual"><i class="fa fa-fw fa-arrows-v"></i> Actual Earnings <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="actual" class="collapse">
+                <li class="<%=is_active_graph?("graph_actuals","revenue_by_year") %> <%= is_active_graph?("graph_actuals","revenue_by_month")%>">
+                      <%= link_to "Revenue/Profit by Year", revenue_by_year_graph_actual_path(current_user.lawfirm_id) %>
+                </li>
+
+                <li class="<%=is_active_graph?("graph_actuals","closed_case_load_by_year") %>">
+                      <%= link_to "Cases by Practice Group", closed_case_load_by_year_graph_actual_path(params[:range] || 3) %>
+                </li>
+
+                <li class="<%=is_active_graph?("graph_actuals","revenue_by_pg") %>">
+                      <%= link_to "Fee Received by Practice Group", revenue_by_pg_graph_actual_path(current_user.lawfirm_id) %>
+                </li>
+
+                <li class="<%=is_active_graph?("graph_actuals","revenue_by_fee_type") %>">
+                      <%= link_to "Fee Received by Fee Type", revenue_by_fee_type_graph_actual_path(current_user.lawfirm_id) %>
+                </li>
+
+                <li class="<%=is_active_graph?("graph_actuals","revenue_by_origination") %>">
+                      <%= link_to "Fee Received by Origination Source", revenue_by_origination_graph_actual_path(current_user.lawfirm_id) %>
+                </li>
+
+                <li class="<%=is_active_graph?("graph_actuals","revenue_by_client") %>">
+                      <%= link_to "Client Profitability", revenue_by_client_graph_actual_path(current_user.lawfirm_id) %>
+                </li>
+
+                <!-- Consider styling for Practice Groups -->
+<!--                 <a href="javascript:;" data-toggle="collapse" data-target="#expected-practicegroups"><i class="fa fa-fw fa-arrows-v"></i> Practice Groups <i class="fa fa-fw fa-caret-down"></i></a>
+                <ul id="expected-practicegroups" class="collapse">
+                    <li>
+                        <a href="#">Dropdown Item</a>
+                    </li>
+                    <li>
+                        <a href="#">Dropdown Item</a>
+                    </li>
+                </ul> -->
+            </ul>
+            <!-- /.End Actual Earnings -->
+
+            <!-- Expected Earnings -->
+            <a href="javascript:;" data-toggle="collapse" data-target="#expected"><i class="fa fa-fw fa-arrows-v"></i> Expected Earnings <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="expected" class="collapse">
+                <li class="<%=is_active_for_drilldowns?("graph_drilldowns","rev_by_fee_type")%>">
+                  <%= link_to "Revenue/Profit by Year", revenue_by_year_path(recovery_rate: 'expected') %>
+                </li>
+
+                <li class="<%=is_active_graph?("graphs","practice_group_pie") %>">
+                  <%= link_to "Cases by Practice Group", practice_group_cases_path %>
+                </li>
+
+                <li class="<%=is_active_graph?("graphs","practice_group_revenue_pie_low") %>">
+                  <%= link_to "Fee Received by Practice Group", practice_group_revenues_path %>
+                </li>
+
+                <li class="<%=is_active_graph?('graphs','rev_by_year_by_pg')%> or <%=is_active_graph?('graphs','rev_by_year_by_pg_high')%> or <%=is_active_graph?('graphs','rev_by_year_by_pg_low')%>">
+                  <%= link_to "Fee Received by Practice Group by Year", revenue_by_year_practice_group_path %>
+                </li>
+
+                <li class="<%=is_active_graph?("graphs","rev_by_fee_type_medium")%> <%=is_active_graph?("graphs","rev_by_fee_type_high")%> <%=is_active_graph?("graphs","rev_by_fee_type_low")%>">
+                  <%= link_to "Fee Received by Fee Type", revenue_by_year_fee_type_medium_path %>
+                </li>
+
+                <li class="<%=is_active_graph?('graphs','fee_received_by_referral_medium')%>">
+                  <%= link_to "Fee Received by Origination Source", revenue_by_origination_path %>
+                </li>
+
+                <li class="<%=is_active_graph?('graphs','revenue_by_client_estimate')%>">
+                  <%= link_to "Client Profitability", revenue_by_client_estimate_graph_path(params[:client_id] || current_user.lawfirm.clients.first, params[:timing] || "estimated_conclusion_expected") %>
+                </li>
+
+<!--                 <li class="<%= is_active_graph?("graph_individual_prac_groups","expected_individual_pg_rev") %> dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Practice Groups <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu" id="individualPracticeGroups">
+
+                  </ul>
+                <li> -->
+            </ul>
+            <!-- End Expected -->
+        </li>
+    </ul>
+</div>

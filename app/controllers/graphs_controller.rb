@@ -1,6 +1,42 @@
 class GraphsController < ApplicationController
   before_action :signed_in_user, :belongs_to_firm, :has_open_cases
 
+  def dashboard
+    #boxes
+    @year_to_date = Graph.actual_amount_earned_time_frame(current_user,'total_fee_received',Date.today.beginning_of_year,Date.today)
+    @year_projected_medium = Graph.projected_amount_earned_time_frame(current_user,'medium_estimate','estimated_conclusion_expected',Date.today.beginning_of_year,Date.today.end_of_year)
+    @year_to_date_compared_to_last_year = @year_to_date - Graph.actual_amount_earned_time_frame(current_user,'total_fee_received',Date.today.beginning_of_year - 1.year,Date.today - 1.year)
+    @trailing_twelve = Graph.actual_amount_earned_time_frame(current_user, 'total_fee_received', Date.today - 1.year, Date.today)
+
+    #actual_graph
+    @category_by_year = Graph.closeout_year_only
+    @total_recovery = Graph.closeout_amount_by_year(current_user,"total_recovery")
+    @total_gross_fee_received = Graph.closeout_amount_by_year(current_user,"total_gross_fee_received")
+    @total_out_of_pocket_expenses =  Graph.closeout_amount_by_year(current_user,"total_out_of_pocket_expenses").map { |i| i *- 1}
+    @referring_fees_paid = Graph.closeout_amount_by_year(current_user,"referring_fees_paid").map {|i| i * -1}
+    @total_fee_received = Graph.closeout_amount_by_year(current_user,"total_fee_received")
+    @total_indirect_cost = Graph.total_overhead_per_year(current_user).map {|i| i * -1 }
+    @net_profit = Graph.add_arrays(@total_fee_received,@total_indirect_cost)
+
+    #projected graph
+    @projected_years = Graph.expected_year_only
+    rev_by_year_high = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_expected","high_estimate")
+    rev_by_year_medium = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_expected","medium_estimate")
+    rev_by_year_low = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_expected","low_estimate")
+    @cost_by_year = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_expected","cost_estimate").map { |x| x*-1}
+    referral_by_year_high = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_expected","high_referral").map { |x| x*-1}
+    @referral_by_year = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_expected","medium_referral").map { |x| x*-1}
+    referral_by_year_low = Graph.fee_estimate_by_year(current_user,"estimated_conclusion_expected","low_referral").map { |x| x*-1}
+
+    @rev_by_year_high = Graph.add_arrays(rev_by_year_high, Graph.add_arrays(@cost_by_year, referral_by_year_high))
+    @rev_by_year_medium = Graph.add_arrays(rev_by_year_medium, Graph.add_arrays(@cost_by_year, @referral_by_year))
+    @rev_by_year_low = Graph.add_arrays(rev_by_year_low, Graph.add_arrays(@cost_by_year, referral_by_year_low))
+    @overhead_by_year = Array.new(@rev_by_year_low.length, Graph.expected_overhead_next_year(current_user)).map { |x| x*-1 }
+
+    #Practice Groups
+    @medium_fee_expected_conclusion = Graph.revenue_by_practice_group_estimated(current_user,'medium_estimate','estimated_conclusion_expected')
+  end
+
   def practice_group_pie
     open_cases_by_pg = Graph.open_cases_by_pg(current_user)
     @final_case_open = Graph.remove_arrays_less_than_or_equal_to(open_cases_by_pg,0)

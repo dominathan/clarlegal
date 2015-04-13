@@ -15,7 +15,7 @@ module ApplicationHelper
 
   def is_active_graph?(page_controller,action)
     if controller.controller_name == page_controller &&
-                                    controller.action_name == action
+       controller.action_name == action
       "active"
     else
       ""
@@ -24,7 +24,7 @@ module ApplicationHelper
 
   def is_active_for_drilldowns?(page_controller, action)
     if controller.controller_name == page_controller &&
-                                    controller.action_name != action
+       controller.action_name != action
       "active"
     else
       ""
@@ -35,7 +35,7 @@ module ApplicationHelper
   # graph/graph_drilldowns/graph_individual_prac_groups
   def graph_sidebar_projected?(page_controller)
     if controller.controller_name == page_controller
-      render 'shared/sidebar_projected'
+      render 'shared/sidebar_projected' unless action_name == 'dashboard'
     end
   end
 
@@ -43,6 +43,12 @@ module ApplicationHelper
   def graph_sidebar_actual?(page_controller)
     if controller.controller_name == page_controller
       render 'shared/sidebar_actual'
+    end
+  end
+
+  def sidenav?(page_controller, action)
+    if controller.controller_name == page_controller && action_name == action
+      render 'shared/sidenav'
     end
   end
 
