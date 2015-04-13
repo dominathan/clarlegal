@@ -240,8 +240,8 @@ namespace :db do
       expected_conclusion = fast_conclusion+Random.rand(0..24)
       slow_conclusion = fast_conclusion+expected_conclusion+Random.rand(0..24)
       Timing.create!(case_id: n+1,
-                      date_opened: Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28)),
-                      case_filed: Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28)),
+                      date_opened: Date.new(Random.rand(2009..2015),Random.rand(1..12),Random.rand(1..28)),
+                      case_filed: Date.new(Random.rand(2009..2015),Random.rand(1..12),Random.rand(1..28)),
                       estimated_conclusion_fast: Date.today + fast_conclusion.month,
                       estimated_conclusion_expected: Date.today + expected_conclusion.month,
                       estimated_conclusion_slow: Date.today + slow_conclusion.month)
@@ -321,17 +321,17 @@ namespace :db do
       conflict_check = Random.rand(0..1)
       conflict_check_date = nil
       if conflict_check == 1
-        conflict_check_date = Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28))
+        conflict_check_date = Date.new(Random.rand(2009..2015),Random.rand(1..12),Random.rand(1..28))
       end
       referring_engagement_letter = Random.rand(0..1)
       referring_engagement_letter_date = nil
       if referring_engagement_letter == 1
-        Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28))
+        Date.new(Random.rand(2009..2015),Random.rand(1..12),Random.rand(1..28))
       end
       client_engagement_letter = Random.rand(0..1)
       client_engagement_letter_date = nil
       if client_engagement_letter == 1
-        client_engagement_letter_date = Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28))
+        client_engagement_letter_date = Date.new(Random.rand(2009..2015),Random.rand(1..12),Random.rand(1..28))
       end
       Check.create!(case_id: n+1,
                     conflict_check: conflict_check,
@@ -352,7 +352,7 @@ namespace :db do
       ca.closeouts.create!(case_id: ca.id,
                            fee_type: ca.fees.last.fee_type,
                            total_recovery: actual_recovery,
-                           date_fee_received: Date.new(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28)),
+                           date_fee_received: Date.new(Random.rand(2009..2015),Random.rand(1..12),Random.rand(1..28)),
                            total_gross_fee_received: actual_recovery*0.5,
                            total_out_of_pocket_expenses: ca.fee.last.cost_estimate,
                            referring_fees_paid: ca.fee.last.referral_percentage * actual_recovery,
@@ -368,7 +368,7 @@ namespace :db do
     fee_type = ['Hourly','Fixed Fee', 'Contingency', 'Mixed']
     payment_likelihood = ['High', 'Medium', "Low"]
     100.times do |n|
-      new_time = Time.local(Random.rand(2008..2014),Random.rand(1..12),Random.rand(1..28),12,0,0)
+      new_time = Time.local(Random.rand(2008..2015),Random.rand(1..12),Random.rand(1..28),12,0,0)
       Timecop.freeze(new_time)
       high_estimate = Random.rand(1000..2000)*1000
       medium_estimate = Random.rand(500..(1000-1))*1000
