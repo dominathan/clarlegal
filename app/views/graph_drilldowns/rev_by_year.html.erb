@@ -1,15 +1,23 @@
 <% provide(:title, "Revenue by Year: #{@recovery_rate.capitalize}") %>
 
-<div class="chart container">
-  <div class="col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2">
-    <div id="revenueByYear">
-    </div>
-    <br>
-    <div class='text-center'>
-      <%= link_to "Accelerated Recovery", revenue_by_year_path(recovery_rate: 'fast'), class: "btn btn-primary btn-md" %>
-      <%= link_to "Expected Recovery", revenue_by_year_path(recovery_rate: 'expected'), class: "btn btn-primary btn-md" %>
-      <%= link_to "Slow Recovery", revenue_by_year_path(recovery_rate: 'slow'), class: "btn btn-primary btn-md" %>
-    </div>
+
+<div class="inside-dashboard">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+
+              <div class="row">
+                  <div id="revenueByYear"></div>
+              </div>
+              <div class="row">
+                  <div class='text-center'>
+                      <%= link_to "Accelerated Recovery", revenue_by_year_path(recovery_rate: 'fast'), class: "btn btn-primary btn-md" %>
+                      <%= link_to "Expected Recovery", revenue_by_year_path(recovery_rate: 'expected'), class: "btn btn-primary btn-md" %>
+                      <%= link_to "Slow Recovery", revenue_by_year_path(recovery_rate: 'slow'), class: "btn btn-primary btn-md" %>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
 </div>
 

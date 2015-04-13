@@ -1,14 +1,20 @@
 <% provide(:title, "Revenue By Month") %>
 
-
-<div class="chart container">
-  <div class="col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2">
-    <div id="revenueYear"></div>
-    <br>
-    <div class='center'>
-      <%= link_to "Back", revenue_by_year_path(recovery_rate: params[:recovery_rate]), class: "btn btn-large btn-small btn-primary" %>
+<div class="inside-dashboard">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div id="revenueYear"></div>
+                </div>
+                <div class="row">
+                    <div class='center'>
+                      <%= link_to "Back", revenue_by_year_path(recovery_rate: params[:recovery_rate]), class: "btn btn-large btn-small btn-primary" %>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <script type="text/javascript">

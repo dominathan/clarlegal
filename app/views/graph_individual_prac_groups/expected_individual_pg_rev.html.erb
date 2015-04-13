@@ -1,32 +1,38 @@
-
 <% provide(:title, Practicegroup.find_by(id: params[:id]).group_name) %>
 
-<div class="chart container">
-  <div class="col-sm-12 col-md-8 col-md-offset-4 col-lg-10 col-lg-offset-2">
+<div class="inside-dashboard">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
 
-    <div id="individualPGRevenueByYearExpected">
+
+                <div class="row">
+                    <div id="individualPGRevenueByYearExpected">
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="individualPGRevenueByYearAccelerated">
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="individualPGRevenueByYearSlow">
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div id="individualPGRevenueByYearActual">
+                    </div>
+                </div>
+                <div class="row">
+                    <div id='expectedRevByReferralMedium'></div>
+                </div>
+                <div class="row">
+                    <div id="revenueByPracticeGroupByFeeType"></div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div id="individualPGRevenueByYearAccelerated">
-    </div>
-
-    <div id="individualPGRevenueByYearSlow">
-    </div>
-
-
-
-    <div id="individualPGRevenueByYearActual">
-    </div>
-    <br>
-    <br>
-
-    <div id='expectedRevByReferralMedium'>
-    </div>
-      <div id="revenueByPracticeGroupByFeeType">
-    </div>
-
-    <br>
-  </div>
 </div>
 
 <script type="text/javascript">

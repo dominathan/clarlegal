@@ -1,28 +1,40 @@
 <% provide(:title, 'Client Profitability') %>
-<div class="center">
-  <div class="col-sm-12 col-md-6 col-md-offset-5 col-lg-6 col-lg-offset-3">
-    <h2>Select Other Client</h2>
-      <%= form_tag revenue_by_client_estimate_graph_path(params[:id], params[:client_id]),
-          method: :get do %>
-          <div class="row">
-            <div class='col-lg-6 col-lg-offset-3'>
-              <div class="form-group">
-                <%= select_tag :client_id, options_for_select(@clients), class: 'form-control' %>
-              </div>
-              <%= submit_tag "Change Client", class: 'btn btn-md btn-primary center' %>
+
+<div class="inside-dashboard">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+                <div class="center">
+                    <h2>Select Other Client</h2>
+                    <%= form_tag revenue_by_client_estimate_graph_path(params[:id], params[:client_id]), method: :get do %>
+                    <div class="row">
+                        <div class='col-lg-6 col-lg-offset-3'>
+                            <div class="form-group">
+                                <%= select_tag :client_id, options_for_select(@clients), class: 'form-control' %>
+                            </div>
+                            <%= submit_tag "Change Client", class: 'btn btn-md btn-primary center' %>
+                        </div>
+                    </div>
+                    <%end%>
+                </div>
+
+                <div class="row">
+                    <div id="revenueByClientByYearExpected"></div>
+                </div>
+                <div class="row">
+                    <div id="revenueByClientByYearAccelerated"></div>
+                </div>
+                <div class="row">
+                    <div id="revenueByClientByYearSlow"></div>
+                </div>
+                <div class="row">
+                    <div id="clientProf"></div>
+                </div>
             </div>
-          </div>
-      <%end%>
-  </div>
+        </div>
+    </div>
 </div>
 
-<div class='chart col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2'>
-  <div id="revenueByClientByYearExpected"></div>
-  <div id="revenueByClientByYearAccelerated"></div>
-  <div id="revenueByClientByYearSlow"></div>
-
-  <div id="clientProf"></div>
-</div>
 
 <script type="text/javascript">
 var categoryByYear = <%= Graph.expected_year_only %>;

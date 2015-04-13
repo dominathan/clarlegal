@@ -1,18 +1,25 @@
 <% provide(:title, 'Revenue by Fee Type') %>
 
-<div class="row">
-    <div class="col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2 center">
-        <%= render 'shared/rev_by_fee_type_expected_button_paths' %>
+<div class="inside-dashboard">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+
+                <div class="row center">
+                    <%= render 'shared/rev_by_fee_type_expected_button_paths' %>
+                </div>
+                <div class="row">
+                    <div id="revByFeeTypeExpected"></div>
+                </div>
+                <div class="row">
+                    <div id="revByFeeTypeFast"></div>
+                </div>
+                <div class="row">
+                    <div id="revByFeeTypeSlow"></div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-<div class="chart container">
-  <div class='col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2'>
-
-    <div class="row" id="revByFeeTypeExpected"></div>
-    <div class="row" id="revByFeeTypeFast"></div>
-    <div class="row" id="revByFeeTypeSlow"></div>
-  </div>
 </div>
 
 
