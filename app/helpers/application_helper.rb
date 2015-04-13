@@ -52,4 +52,21 @@ module ApplicationHelper
     end
   end
 
+  def show_sidebars?
+    case
+    when controller.controller_name == 'graphs' &&
+         action_name == 'dashboard'
+      render 'shared/sidenav'
+    when controller.controller_name == 'graphs' &&
+         action_name != 'dashboard'
+      render 'shared/sidebar_projected'
+    when controller.controller_name == 'graph_drilldowns'
+      render 'shared/sidebar_projected'
+    when controller.controller_name == 'graph_individual_prac_groups'
+      render 'shared/sidebar_projected'
+    when controller.controller_name == 'graph_actuals'
+      render 'shared/sidebar_actual'
+    end
+  end
+
 end
