@@ -8,6 +8,7 @@
   <%= csrf_meta_tags %>
   <%= render 'shared/shim' %>
   <%= render 'layouts/analytics' %>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Understand your law firm's profits, cash flow, and revenue, practice group, lawyer, fee type, origination source, referral source.  Enhanced profitability analysis to grow your law firm's profit and to improve your cash flow. Turn your cases into inventory to predict future performance of the firm's profitability.">
   <meta name="keywords" content="law firm, profitability analysis, cash flow, revenue, client, profit by lawyer, profit by fee type, performance, overhead by lawyer">
@@ -20,6 +21,9 @@
     <!-- if controller is graphs related, show graphs sidebar -->
     <%= graph_sidebar_projected?("graphs") || graph_sidebar_projected?("graph_drilldowns") || graph_sidebar_projected?("graph_individual_prac_groups") %>
     <%= graph_sidebar_actual?("graph_actuals") %>
+  </div>
+  <div id="sidenav-wrapper">
+    <%= sidenav?("graphs", "dashboard") %>
   </div>
   <div id="page-content-wrapper">
     <div class="page-content">

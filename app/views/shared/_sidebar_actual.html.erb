@@ -1,59 +1,52 @@
-<!-- For Dashboard Sidebar of Actual Amounts -->
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav side-nav">
+        <li class="">
+            <a href="/dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+        </li>
+        <li>
+            <!-- Begin Actual -->
+          <li class="<%=is_active_graph?("graph_actuals","revenue_by_year") %> <%= is_active_graph?("graph_actuals","revenue_by_month")%>">
+                <%= link_to "Revenue/Profit by Year", revenue_by_year_graph_actual_path(current_user.lawfirm_id) %>
+          </li>
 
-<div class="sidebar">
-  <div class="col-sm-12 col-md-4 col-lg-2">
-    <ul class="nav nav-pills nav-stacked">
-      <li class='center'><h2><b>Actual</b></h2></li>
-      <li role='presentation'class="divider"></li>
+          <li class="<%=is_active_graph?("graph_actuals","closed_case_load_by_year") %>">
+                <%= link_to "Cases by Practice Group", closed_case_load_by_year_graph_actual_path(params[:range] || 3) %>
+          </li>
 
-      <li class="<%=is_active_graph?("graph_actuals","revenue_by_year") %> <%= is_active_graph?("graph_actuals","revenue_by_month")%>">
-          <%= link_to "Revenue/Profit by Year", revenue_by_year_graph_actual_path(current_user.lawfirm_id) %>
-      </li>
-      <li role='presentation'class="divider"></li>
+          <li class="<%=is_active_graph?("graph_actuals","revenue_by_pg") %>">
+                <%= link_to "Fee Received by Practice Group", revenue_by_pg_graph_actual_path(current_user.lawfirm_id) %>
+          </li>
 
-      <li class="<%=is_active_graph?("graph_actuals","closed_case_load_by_year") %>">
-          <%= link_to "Cases by Practice Group", closed_case_load_by_year_graph_actual_path(params[:range] || 3) %>
-      </li>
-      <li role='presentation'class="divider"></li>
+          <li class="<%=is_active_graph?("graph_actuals","revenue_by_fee_type") %>">
+                <%= link_to "Fee Received by Fee Type", revenue_by_fee_type_graph_actual_path(current_user.lawfirm_id) %>
+          </li>
 
-      <li class="<%=is_active_graph?("graph_actuals","revenue_by_pg") %>">
-          <%= link_to "Fee Received by Practice Group", revenue_by_pg_graph_actual_path(current_user.lawfirm_id) %>
-      </li>
-      <li role='presentation'class="divider"></li>
+          <li class="<%=is_active_graph?("graph_actuals","revenue_by_origination") %>">
+                <%= link_to "Fee Received by Origination Source", revenue_by_origination_graph_actual_path(current_user.lawfirm_id) %>
+          </li>
 
-      <li class="<%=is_active_graph?("graph_actuals","revenue_by_fee_type") %>">
-          <%= link_to "Fee Received by Fee Type", revenue_by_fee_type_graph_actual_path(current_user.lawfirm_id) %>
-      </li>
-      <li role='presentation'class="divider"></li>
+          <li class="<%=is_active_graph?("graph_actuals","revenue_by_client") %>">
+                <%= link_to "Client Profitability", revenue_by_client_graph_actual_path(current_user.lawfirm_id) %>
+          </li>
 
-      <li class="<%=is_active_graph?("graph_actuals","revenue_by_origination") %>">
-          <%= link_to "Fee Received by Origination Source", revenue_by_origination_graph_actual_path(current_user.lawfirm_id) %>
-      </li>
-      <li role='presentation'class="divider"></li>
 
-      <li class="<%=is_active_graph?("graph_actuals","revenue_by_client") %>">
-          <%= link_to "Client Profitability", revenue_by_client_graph_actual_path(current_user.lawfirm_id) %>
-      </li>
-      <li role='presentation'class="divider"></li>
-
-      <li class="<%= is_active_graph?("graph_actuals","individual_practice_group") %> dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Practice Groups <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" role="menu" id="individualPracticeGroups">
-
-          </ul>
-      <li>
-
+          <li class='<%= is_active_graph?("graph_actuals","individual_practice_group") %>'>
+            <a href="javascript:;" data-toggle="collapse" data-target="#practice-groups-actual" ><i class="fa fa-fw fa-arrows-v"></i>Practice Groups<i class="fa fa-fw fa-caret-down"></i></a>
+              <ul id="practice-groups-actual" class="collapse">
+              </ul>
+          </li>
+            <!-- \.End Actual -->
+        </li>
     </ul>
-  </div>
 </div>
+
 
 <script type="text/javascript">
     $(function () {
       <% prac_group = Graph.user_practice_groups(current_user) %>
       var allPracticeGroups = <%= raw prac_group %>;
       var allPracticeGroupIds = <%= raw Graph.user_practice_group_ids(current_user) %>
-      var ulToAddTo = document.getElementById("individualPracticeGroups");
+      var ulToAddTo = document.getElementById("practice-groups-actual");
       for (var i in allPracticeGroups) {
         var pracgroupID = allPracticeGroupIds[i]
         var li = document.createElement("li");

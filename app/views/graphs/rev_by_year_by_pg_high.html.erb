@@ -1,17 +1,22 @@
 <% provide(:title, 'Revenue by Year by PG') %>
-<div class="row">
-    <div class="col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2 center">
-        <%= render 'shared/rev_by_pg_button_paths' %>
-    </div>
-</div>
-<div class="chart container">
-    <div class="col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2">
-        <div id="revenueByYearByPGHighExpected"></div>
-        <br>
-        <div id="revenueByYearByPGHighAccelerated"></div>
-        <br>
-        <div id="revenueByYearByPGHighSlow"></div>
-        <br>
+<div class="inside-dashboard">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+                <div class="row center">
+                    <%= render 'shared/rev_by_pg_button_paths' %>
+                </div>
+                <div class="row">
+                    <div id="revenueByYearByPGHighExpected"></div>
+                </div>
+                <div class="row">
+                    <div id="revenueByYearByPGHighAccelerated"></div>
+                </div>
+                <div class="row">
+                    <div id="revenueByYearByPGHighSlow"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

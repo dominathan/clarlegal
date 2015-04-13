@@ -1,12 +1,16 @@
 <% provide(:title, "Revenue By Month") %>
 
 
-<div class="chart container">
-  <div class="col-sm-12 col-md-8 col-md-offset-4 col-lg-10 col-lg-offset-2">
-    <div id="revenueYear1Accelerated"></div>
-    <br>
-    <div class='center'>
-      <%= link_to "Back", revenue_by_year_graph_actual_path, class: "btn btn-large btn-small" %>
+<div class="inside-dashboard">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-lg-12">
+        <div id="revenueYear1Accelerated"></div>
+        <br>
+        <div class='center'>
+          <%= link_to "Back", session[:last_page], class: "btn btn-large btn-small" %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

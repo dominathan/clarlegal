@@ -1,7 +1,10 @@
 <% provide(:title, 'Case Load') %>
-<div class="chart container case-load">
 
-    <div class="col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2">
+<div class="inside-dashboard">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-lg-12">
+
         <div class="row">
             <div class="col-sm-4 col-sm-offset-4">
               <div class="select-year">
@@ -28,17 +31,22 @@
             </div>
         </div>
 
-        <div class="row">
-            <div id="pieChartClosedCases">
+            <div class="row">
+                <div class='col-sm-12 col-md-12 col-lg-12'>
+                    <div id='revenueByPracticeGroupActual'></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-sm-12 col-md-12 col-lg-12'>
+                    <div id="pieChartClosedCases"></div>
+                </div>
+            </div>
+
+
+
+
             </div>
         </div>
-
-        <div class="row">
-            <div id='revenueByPracticeGroupActual'>
-            </div>
-        </div>
-
-
     </div>
 </div>
 

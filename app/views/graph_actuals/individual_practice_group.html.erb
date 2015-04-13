@@ -1,19 +1,23 @@
 <% provide(:title, @prac_group) %>
 
-<div class="col-xs-12 col-md-8 col-md-offset-4 col-lg-8 col-lg-offset-2">
-  <h2><%= @prac_group %></h2>
+<div class="inside-dashboard">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
 
-    <div id="revenueByPracticeGroupByYearActual">
+                <h2><%= @prac_group %></h2>
+                <div class="row">
+                    <div id="revenueByPracticeGroupByYearActual"></div>
+                </div>
+                <div class="row">
+                    <div id='revByPracticeGroupByOriginationSourceActual'></div>
+                </div>
+                <div class="row">
+                    <div id="revenueByPracticeGroupByFeeType"></div>
+                </div>
+            </div>
+        </div>
     </div>
-    <br>
-    <br>
-    <div id='revByPracticeGroupByOriginationSourceActual'>
-    </div>
-    <br>
-    <br>
-    <div id="revenueByPracticeGroupByFeeType">
-    </div>
-
 </div>
 
 <script type="text/javascript">

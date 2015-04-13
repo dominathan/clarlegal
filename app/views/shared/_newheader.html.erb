@@ -1,4 +1,4 @@
-<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+<nav class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
   <div class="container">
     <div class="navbar-header">
       <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
@@ -13,30 +13,20 @@
       <ul class="nav navbar-nav pull-right">
           <li><%= link_to "Home", signed_in? ? user_cases_path : root_path %></li>
 
-          <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<b class='caret'></b>
-          <ul class="dropdown-menu">
-            <li>
-              <%= link_to "Settlement Calculator", calculate_path %>
-            </li>
-          </ul>
-        </li>
-
       <% if signed_in? %>
 
         <% if current_user.lawfirm_id != nil %>
 
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dashboard<b class='caret'></b>
-          <ul class="dropdown-menu">
-            <li>
-              <%= link_to "Actual", revenue_by_year_graph_actual_path(current_user.lawfirm_id) %>
-            </li>
-            <li>
-              <%= link_to "Projected", revenue_by_year_path %>
-            </li>
-          </ul>
-        </li>
+          <li><%= link_to "Dashboard", dashboard_path%></li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<b class='caret'></b>
+            <ul class="dropdown-menu">
+              <li>
+                <%= link_to "Settlement Calculator", calculate_path %>
+              </li>
+            </ul>
+          </li>
 
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Firm <b class='caret'>
@@ -117,12 +107,7 @@
       </ul>
     </nav>
   </div>
-</header>
 
-<script type="text/javascript">
-   // $('ul.nav li.dropdown').hover(function() {
-   //    $(this).find('.dropdown-menu').stop(true, true).delay(150).fadeIn();
-   // }, function() {
-   //    $(this).find('.dropdown-menu').stop(true, true).delay(150).fadeOut();
-   // });
-</script>
+
+
+</nav>

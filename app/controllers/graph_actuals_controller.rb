@@ -1,4 +1,4 @@
-class GraphActualsController < ApplicationController
+  class GraphActualsController < ApplicationController
   before_action :signed_in_user, :belongs_to_firm, :has_closed_cases
   before_action :has_overhead_last_5_years, only: [:revene_by_year, :revenue_by_client, :revenue_by_month]
   #Using params[:range], sets number of years to collect closed cases
@@ -38,6 +38,7 @@ class GraphActualsController < ApplicationController
     @total_fee_received = Graph.closeout_amount_by_month_by_year(current_user,'total_fee_received',params[:year].to_i-@category_years.last)
     ovh_for_year = Graph.total_overhead_this_year(current_user,params[:year].to_i)
     @overhead_per_month = Array.new(12,ovh_for_year/12)
+    session[:last_page] = request.env['HTTP_REFERER'] || revenue_by_year_graph_actual_url
   end
 
   def revenue_by_pg

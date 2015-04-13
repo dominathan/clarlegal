@@ -29,6 +29,7 @@ class GraphDrilldownsController < ApplicationController
     @year_by_month_medium = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_#{@recovery_rate}","medium_estimate", @year)
     @year_by_month_high = Graph.fee_estimate_by_month(current_user,"estimated_conclusion_#{@recovery_rate}","high_estimate", @year)
     @overhead_by_month = Array.new(12,Graph.overhead_by_month(current_user))
+    session[:last_page] = request.env["HTTP_REFERER"] || revenue_by_year_url
   end
 
 end
