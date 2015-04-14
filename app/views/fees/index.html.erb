@@ -15,7 +15,7 @@
       <th>Fee Owed to Referral Source</th>
       <th>Likelihood of Recovery</th>
       <th>Retainer</th>
-      <th>Last Update</th>
+      <th>Date of Entry</th>
       <th>Edit</th>
     </tr>
   </thead>
@@ -27,10 +27,10 @@
           <td><%= number_to_currency fee.medium_estimate, precision: 0%></td>
           <td><%= number_to_currency fee.high_estimate, precision: 0%></td>
           <td><%= number_to_currency fee.cost_estimate, precision: 0%></td>
-          <td><%= (fee.referral_percentage*100).to_s.concat("%") %></td>
+          <td><%= (fee.referral_percentage*100).round(2).to_s.concat("%") %></td>
           <td><%= fee.payment_likelihood%></td>
           <td><%= number_to_currency fee.retainer, precision: 0%></td>
-          <td><%= fee.updated_at.strftime("%b %d, %Y")%></td>
+          <td><%= fee.created_at.strftime("%b %d, %Y")%></td>
           <td><%= link_to "Edit", edit_client_case_fee_path(@client,@case,fee.id)%></td>
         </tr>
       <% end %>

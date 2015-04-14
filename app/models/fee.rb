@@ -14,7 +14,7 @@ class Fee < ActiveRecord::Base
   def self.get_fee_dates(user_case)
     updates = []
     for date in user_case.fee.order(:created_at)
-      updates << date.updated_at.strftime("%b %d, %Y")
+      updates << date.created_at.strftime("%b %d, %Y")
     end
     updates
   end
