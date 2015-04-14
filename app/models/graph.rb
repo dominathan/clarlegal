@@ -658,6 +658,7 @@ class Graph < ActiveRecord::Base
   #Sum fee_estimate regardless of case being opened of closed with dates of choice
   def self.projected_amount_earned_time_frame(user,fee_estimate,timing_estimate,starting_date,ending_date)
     user.lawfirm.cases.joins(:timings,:fees)
+                      .where(open: true)
                       .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
                       .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                       .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
