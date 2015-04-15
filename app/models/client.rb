@@ -113,9 +113,9 @@ class Client < ActiveRecord::Base
       profit[0] += ca.closeouts.last.total_gross_fee_received
       profit[1] += ca.closeouts.last.total_out_of_pocket_expenses
       profit[1] += ca.closeouts.last.referring_fees_paid
+      profit[2] += ca.closeouts.pluck(:total_fee_received).reduce { |sum, el| sum += el }
       profit[3] += Client.actual_hours_worked_per_case(ca)
     end
-    profit[2] = profit[0] - profit[1]
     profit[4] = profit[2] - profit[3]
     return profit
   end
@@ -151,10 +151,10 @@ class Client < ActiveRecord::Base
         profit[0] += ca.closeouts.last.total_gross_fee_received unless ca.closeouts.last.total_gross_fee_received == nil
         profit[1] += ca.closeouts.last.total_out_of_pocket_expenses unless ca.closeouts.last.total_out_of_pocket_expenses == nil
         profit[1] += ca.closeouts.last.referring_fees_paid unless ca.closeouts.last.referring_fees_paid == nil
+        profit[2] += ca.closeouts.pluck(:total_fee_received).reduce { |sum, el| sum += el }
         #return to calculated indirect expenses once overhead calculation is included
         profit[3] += Client.actual_hours_worked_per_case(ca)
       end
-      profit[2] = profit[0] - profit[1]
       profit[4] = profit[2] - profit[3]
       all_client_profits << profit
     end
