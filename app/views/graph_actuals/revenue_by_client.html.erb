@@ -10,7 +10,7 @@
                     <%= form_tag revenue_by_client_graph_actual_path(@client.id),
                         method: :get do %>
                     <div class="row">
-                        <div>
+                        <div class="center">
                             <%= select_tag :client, options_for_select(@clients), class: "form-control" %><br>
                             <%= submit_tag "Change Client", class: 'btn btn-md btn-primary center' %>
                         </div>
