@@ -13,7 +13,10 @@
           <%= f.select(:client_id, Client.company_and_full_names(current_user), {:include_blank => 'Select Client'}, {class: "form-control"}) %>
         </div>
         <div class="col-sm-3">
-          <%= link_to "New Client?", new_client_path, class: 'btn btn-md btn-primary' %>
+          <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#newClientModal">
+            New Client?
+          </button>
+          <%= render 'cases/modals/new_client' %>
         </div>
       </div>
 

@@ -164,6 +164,7 @@ class CasesController < ApplicationController
 
     def new_case_material
       @case = Case.new
+      @client = Client.new
       @case.matters.build
       @case.related_cases.build
       @case.staffs.build

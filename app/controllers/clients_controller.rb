@@ -28,11 +28,16 @@ class ClientsController < ApplicationController
 
   def create
     @client = current_user.clients.build(client_params)
-    if @client.save
-      flash[:success] = "Client Added Successfully"
-      redirect_to clients_path
-    else
-      render 'new'
+    respond_to do |format|
+      if @client.save
+        format.json { render json: @client, status: :created }
+        format.js { render json: @client, status: :created }
+        format.html { redirect_to clients_path, :flash => { :success => "Client Added Successfully" } }
+      else
+        format.html { render :new }
+        format.json { render json: @client.errors, status: :unprocessable_entity }
+        format.js { render json: @client.errors, status: :unprocessable_entity }
+      end
     end
   end
 
