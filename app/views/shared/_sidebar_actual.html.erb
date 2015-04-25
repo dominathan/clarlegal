@@ -64,7 +64,7 @@
         ulToAddTo.appendChild(li);
       };
 
-      <% attorneys = current_user.lawfirm.staffings.order(:last_name).map {|att| att.full_name } %>;
+      <% attorneys = current_user.lawfirm.staffings.order(:last_name).map {|att| att.full_name_last_first } %>;
       <% attorneyIds = current_user.lawfirm.staffings.order(:last_name).ids %>;
       var allAttorneys = <%= raw attorneys %>;
       var allAttorneyIds = <%= raw attorneyIds %>;
