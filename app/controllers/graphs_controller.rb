@@ -65,10 +65,6 @@ class GraphsController < ApplicationController
     end
   end
 
-  def practice_group_revenue_pie
-
-  end
-
 #--------------Expected/Estimated Revenue By Year By Practice Group------------
 
   def rev_by_year_by_pg
