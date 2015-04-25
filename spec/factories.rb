@@ -34,6 +34,14 @@ FactoryGirl.define do
     sequence(:group_name)  { |n| "practice_group#{n}" }
   end
 
+  factory :staffing do
+    association                  :lawfirm
+    sequence(:first_name)        { |n| "FirstNamePlus#{n}" }
+    sequence(:last_name)         { |n| "LastNamePlus#{n}" }
+    sequence(:email)             { |n| "staff_email#{n}@something.com" }
+    position                     "Responsible Attorney"
+  end
+
   factory :case do
     association           :client
     practicegroup_id      1
@@ -95,6 +103,12 @@ FactoryGirl.define do
     estimated_conclusion_fast       Date.today
     estimated_conclusion_expected   Date.today + 1.year
     estimated_conclusion_slow       Date.today + 2.years
+  end
+
+  factory :staff do
+    association                     :case
+    staffing_id                     1
+    position                        "Responsible Attorney"
   end
 
 end

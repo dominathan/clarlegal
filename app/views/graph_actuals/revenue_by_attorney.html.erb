@@ -1,0 +1,96 @@
+<% provide(:title, @attorney_name) %>
+
+<div class="inside-dashboard">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+
+                <h2><%= @attorney_name %></h2>
+
+                <div class="row">
+                  <div id="revenueByAttorney"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+  $(function () {
+
+var categoryByYear = <%= Graph.closeout_year_only %>;
+var totalRecovery = <%= @total_recovery %>;
+var totalGrossFeeReceived = <%= @gross_fee_received %>;
+var totalOutOfPocketExpenses = <%= @out_of_pocket %>;
+var referringFeesPaid = <%= @referring_fees %>;
+var totalFeeReceived = <%= @total_fee_received %>;
+var attorneyName = "<%= @attorney_name %>";
+  // Create the chart
+  $('#revenueByAttorney').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Fee Received By Year | ' + attorneyName
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+      },
+      yAxis: {
+          title: {
+              text: 'Dollar Recovery and Costs'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX - 40,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Total Recovery',
+          data: totalRecovery,
+      },
+      {
+          name: 'Gross Fee Received',
+          data: totalGrossFeeReceived
+      },
+      {
+          name: 'Out Of Pocket Expenses',
+          data: totalOutOfPocketExpenses
+      },
+      {
+          name: 'Referring Fees Paid',
+          data: referringFeesPaid,
+          color: 'red'
+      },
+      {
+          name: 'Net Fee Received',
+          data: totalFeeReceived
+      }],
+  })
+});
+</script>

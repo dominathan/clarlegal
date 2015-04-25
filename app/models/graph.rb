@@ -272,14 +272,24 @@ class Graph < ActiveRecord::Base
     return amounts
   end
 
-  def all_closeout_attributes
-    ["total_recovery",
-    "total_gross_fee_received",
-    "total_out_of_pocket_expenses",
-    "referring_fees_paid",
-    "total_fee_received"]
+  #Return array of closeout by year for staffing_id given.
+  #Position is tricky... As of now, the positions beging checked are only those case.staffs where
+  #position == "Responsible Attorney". Depending on what firms want, this could cause issues.
+  def self.revenue_by_attorney(user,staffing_id,closeout_amount,position)
+    year_of_collection = Graph.closeout_years
+    amounts = Array.new(year_of_collection.length,0)
+    amounts.length.times do |i|
+      amounts[i] = user.lawfirm.cases.where(open: false)
+                                     .joins(:closeouts,:staffs)
+                                     .where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
+                                             {start_date: year_of_collection[i].beginning_of_year,
+                                              end_date: year_of_collection[i].end_of_year})
+                                     .where('staffing_id = ?', staffing_id)
+                                     .where('position = ?', position)
+                                     .sum(closeout_amount)
+    end
+    return amounts
   end
-
 #----------------Individual Practice Groups --- Actual ---------------------------
 
   #Calculate closeoutamounts by specified practicegroup

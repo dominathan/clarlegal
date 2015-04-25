@@ -417,6 +417,18 @@ describe Graph do
         expect(answer).to eq(505)
       end
     end
+
+    context 'Graph.revenue_by_attorney(user,staffing_id,closeout_amount,position)' do
+      before {
+        FactoryGirl.create(:staffing, lawfirm_id: 1, id: 1)
+        FactoryGirl.create(:staff, case_id: 579)
+        FactoryGirl.create(:case, client_id: 1, id: 579, open: false)
+        FactoryGirl.create(:closeout, case_id: 579)
+      }
+
+      subject { Graph.revenue_by_attorney(@user1,1,'total_fee_received',"Responsible Attorney") }
+      it { should eq([0,0,0,0,1]) }
+    end
   end
 
   describe 'expected / projected amounts' do

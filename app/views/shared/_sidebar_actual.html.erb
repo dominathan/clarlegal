@@ -35,6 +35,12 @@
               <ul id="practice-groups-actual" class="collapse">
               </ul>
           </li>
+
+          <li class='<%= is_active_graph?("graph_actuals","revenue_by_attorney") %>'>
+            <a href="javascript:;" data-toggle="collapse" data-target="#rev-attorney-actual" ><i class="fa fa-fw fa-arrows-v"></i>Attorneys<i class="fa fa-fw fa-caret-down"></i></a>
+              <ul id="rev-attorney-actual" class="collapse">
+              </ul>
+          </li>
             <!-- \.End Actual -->
         </li>
     </ul>
@@ -57,5 +63,21 @@
         li.appendChild(a);
         ulToAddTo.appendChild(li);
       };
+
+      <% attorneys = current_user.lawfirm.staffings.order(:last_name).map {|att| att.full_name } %>;
+      <% attorneyIds = current_user.lawfirm.staffings.order(:last_name).ids %>;
+      var allAttorneys = <%= raw attorneys %>;
+      var allAttorneyIds = <%= raw attorneyIds %>;
+      var addToAttorneyUL = document.getElementById("rev-attorney-actual");
+      for (var i in allAttorneys) {
+        var attorneyID = allAttorneyIds[i];
+        var liElement = document.createElement('li');
+        var aElement = document.createElement('a');
+        var newTextForAElement = document.createTextNode(allAttorneys[i]);
+        aElement.appendChild(newTextForAElement);
+        aElement.href = '/graph_actuals/'+attorneyID+'/revenue_by_attorney/';
+        liElement.appendChild(aElement);
+        addToAttorneyUL.appendChild(liElement);
+      }
   });
 </script>
