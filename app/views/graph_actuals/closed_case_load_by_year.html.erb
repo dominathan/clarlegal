@@ -1,4 +1,4 @@
-<% provide(:title, 'Case Load') %>
+<% provide(:title, 'Fee by Practice Group') %>
 
 <div class="inside-dashboard">
   <div class="container-fluid">
@@ -12,7 +12,7 @@
 
                 <div class="col-sm-10 col-lg-6">
                     <%= form_tag closed_case_load_by_year_graph_actual_path(current_user.lawfirm_id),
-                      method: :get do %>
+                              method: :get do %>
                       <div class="row">
                         <div class='col-sm-6'>
                             <div class="form-group">

@@ -53,9 +53,16 @@ class GraphsController < ApplicationController
   end
 
   def practice_group_revenue_pie_low
-    @final_low_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"low_estimate")
-    @final_medium_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"medium_estimate")
-    @final_high_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"high_estimate")
+    @year = params[:range] || 3
+    if params[:range] == nil
+      @final_low_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"low_estimate")
+      @final_medium_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"medium_estimate")
+      @final_high_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"high_estimate")
+    else
+      @final_low_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"low_estimate",params[:range].to_i)
+      @final_medium_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"medium_estimate",params[:range].to_i)
+      @final_high_rev = Graph.open_cases_by_pg_and_fee_estimate(current_user,"high_estimate",params[:range].to_i)
+    end
   end
 
 #--------------Expected/Estimated Revenue By Year By Practice Group------------
