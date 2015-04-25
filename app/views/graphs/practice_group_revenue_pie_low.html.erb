@@ -75,7 +75,7 @@ $(function() {
 </script>
 
 <script> /*for the 3 pie charts*/
-    var yearLookBack = "<%= @year %>"
+    var yearLookForward = "<%= @year %>"
 
     var pieDataLow = [<% @final_low_rev.each do |d|%>
                       <%= raw d %>,
@@ -112,7 +112,7 @@ $(function() {
                 text: 'Estimated Gross Fee Received by Practice Group (Low)'
             },
             subtitle: {
-                text: "Next "+ yearLookBack + " Years | All Open Cases"
+                text: "Next "+ yearLookForward + " Years | All Open Cases"
             },
             tooltip: {
               pointFormat: '<b>${point.y}</b>'
@@ -149,7 +149,7 @@ $(function() {
                 text: 'Estimated Gross Fee Received by Practice Group (Medium)'
             },
             subtitle: {
-                text: "Next " + yearLookBack + " Years | All Open Cases"
+                text: "Next " + yearLookForward + " Years | All Open Cases"
             },
             credits: {
                     enabled: false
@@ -189,7 +189,7 @@ $(function() {
                 text: 'Estimated Gross Fee Received by Practice Group (High)'
             },
             subtitle: {
-                text: "Next " + yearLookBack + " Years | All Open Cases"
+                text: "Next " + yearLookForward + " Years | All Open Cases"
             },
             credits: {
                     enabled: false
