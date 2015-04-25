@@ -198,6 +198,21 @@ class GraphsController < ApplicationController
     @indirect_cost_slow = Graph.client_expected_hours_remaining(@client,'estimated_conclusion_slow').map {|x| (x*-1*current_user.lawfirm.overheads.where(year: Date.today.year).take.rate_per_hour).round(0 )}
   end
 
+  def revenue_by_attorney_estimate
+    @attorney = Staffing.find(params[:id])
+    @high_estimate_expected = Graph.revenue_by_attorney_estimate(current_user,params[:id],'high_estimate','estimated_conclusion_expected',"Responsible Attorney")
+    @medium_estimate_expected = Graph.revenue_by_attorney_estimate(current_user,params[:id],'medium_estimate','estimated_conclusion_expected',"Responsible Attorney")
+    @low_estimate_expected = Graph.revenue_by_attorney_estimate(current_user,params[:id],'low_estimate','estimated_conclusion_expected',"Responsible Attorney")
+
+    @high_estimate_accelerated = Graph.revenue_by_attorney_estimate(current_user,params[:id],'high_estimate','estimated_conclusion_fast',"Responsible Attorney")
+    @medium_estimate_accelerated = Graph.revenue_by_attorney_estimate(current_user,params[:id],'medium_estimate','estimated_conclusion_fast',"Responsible Attorney")
+    @low_estimate_accelerated = Graph.revenue_by_attorney_estimate(current_user,params[:id],'low_estimate','estimated_conclusion_fast',"Responsible Attorney")
+
+    @high_estimate_slow = Graph.revenue_by_attorney_estimate(current_user,params[:id],'high_estimate','estimated_conclusion_slow',"Responsible Attorney")
+    @medium_estimate_slow = Graph.revenue_by_attorney_estimate(current_user,params[:id],'medium_estimate','estimated_conclusion_slow',"Responsible Attorney")
+    @low_estimate_slow = Graph.revenue_by_attorney_estimate(current_user,params[:id],'low_estimate','estimated_conclusion_slow',"Responsible Attorney")
+  end
+
 end
 
 

@@ -1,0 +1,226 @@
+<% provide(:title, 'Fee by Attorney') %>
+
+<div class="inside-dashboard">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+                <h2 class="center"><%=@attorney.full_name%></h2>
+
+                <div class="row">
+                    <div id="revenueByAttorneyExpected"></div>
+                </div>
+                <div class="row">
+                    <div id="revenueByAttorneyAccelerated"></div>
+                </div>
+                <div class="row">
+                    <div id="revenueByAttorneySlow"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+var categoryByYear = <%= Graph.expected_year_only %>;
+var attorneyName = "<%= raw @attorney.full_name %>"
+
+$(function () {
+
+  var high = <%= @high_estimate_expected %>;
+  var medium = <%= @medium_estimate_expected %>;
+  var low = <%= @low_estimate_expected %>;
+
+  // Create the chart
+  $('#revenueByAttorneyExpected').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Fee by Attorney | ' + attorneyName
+      },
+      subtitle: {
+          text: "Expected Recovery Rate"
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+      },
+      yAxis: {
+          title: {
+              text: 'Dollar Recovery and Costs'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX - 40,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Low Estimate',
+          data: low,
+      },
+      {
+          name: 'Medium Estimate',
+          data: medium
+      },
+      {
+          name: 'High Estimate',
+          data: high
+      }],
+  })
+});
+
+$(function () {
+
+  var high = <%= @high_estimate_accelerated %>;
+  var medium = <%= @medium_estimate_accelerated %>;
+  var low = <%= @low_estimate_accelerated %>;
+
+  // Create the chart
+  $('#revenueByAttorneyAccelerated').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Fee by Attorney | ' + attorneyName
+      },
+      subtitle: {
+          text: "Accelerated Recovery Rate"
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+      },
+      yAxis: {
+          title: {
+              text: 'Dollar Recovery and Costs'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX - 40,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Low Estimate',
+          data: low,
+      },
+      {
+          name: 'Medium Estimate',
+          data: medium
+      },
+      {
+          name: 'High Estimate',
+          data: high
+      }],
+  })
+});
+
+$(function () {
+
+  var high = <%= @high_estimate_slow %>;
+  var medium = <%= @medium_estimate_slow %>;
+  var low = <%= @low_estimate_slow %>;
+
+  // Create the chart
+  $('#revenueByAttorneySlow').highcharts({
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Fee by Attorney | ' + attorneyName
+      },
+      subtitle: {
+          text: "Slow Recovery Rate"
+      },
+      credits: {
+        enabled: false
+      },
+      xAxis: {
+          categories: categoryByYear,
+      },
+      yAxis: {
+          title: {
+              text: 'Dollar Recovery and Costs'
+          }
+      },
+      legend: {
+          enabled: true
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>${point.y}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true,
+          positioner: function(boxWidth, boxHeight, point) {
+            return {
+                x: point.plotX - 40,
+                y: point.plotY - 20
+            };
+        } //this moves the box out of the way of the category links
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name: 'Low Estimate',
+          data: low,
+      },
+      {
+          name: 'Medium Estimate',
+          data: medium
+      },
+      {
+          name: 'High Estimate',
+          data: high
+      }],
+  })
+});
+
+</script>
+
