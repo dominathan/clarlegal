@@ -6,6 +6,30 @@
             <div class="col-xs-12 col-md-12 col-lg-12">
 
                 <div class="center">
+                    <h2>Expected Fee Received by Practice Group</h2>
+
+                    <div class="select-year">
+                    <h5>Change Number of Years</h5>
+                        <div class="row">
+                            <div class="col-sm-10 col-lg-12">
+                                <%= form_tag practice_group_revenue_pie_low_graph_path(current_user.lawfirm_id), method: :get do %>
+                            </div>
+                            <div class="row">
+                                <div class='col-lg-1 col-lg-offset-4'>
+                                    <div class="form-group">
+                                        <%= select_tag :range, options_for_select([1,2,3,4,5,6,7,8,9,10]), class: "form-control", id: "select-year" %>
+                                    </div>
+                                </div>
+                                <div class='col-lg-3'>
+                                    <div class="form-group">
+                                        <%= submit_tag "Change Years", class: 'btn btn-sm btn-primary' %>
+                                    </div>
+                                </div>
+                            </div>
+                                <%end%>
+                        </div>
+                    </div>
+
                     <div class="btn-group btn-group-md">
                         <button id="lowButton" type="button" class="btn btn-default">Low Revenue</button>
                         <button id="expectedButton" type="button" class="btn btn-default">Expected Revenue</button>
@@ -51,7 +75,7 @@ $(function() {
 </script>
 
 <script> /*for the 3 pie charts*/
-
+    var yearLookBack = "<%= @year %>"
 
     var pieDataLow = [<% @final_low_rev.each do |d|%>
                       <%= raw d %>,
@@ -88,7 +112,7 @@ $(function() {
                 text: 'Estimated Gross Fee Received by Practice Group (Low)'
             },
             subtitle: {
-                text: "All Open Cases"
+                text: "Next "+ yearLookBack + " Years | All Open Cases"
             },
             tooltip: {
               pointFormat: '<b>${point.y}</b>'
@@ -125,7 +149,7 @@ $(function() {
                 text: 'Estimated Gross Fee Received by Practice Group (Medium)'
             },
             subtitle: {
-                text: "All Open Cases"
+                text: "Next " + yearLookBack + " Years | All Open Cases"
             },
             credits: {
                     enabled: false
@@ -165,7 +189,7 @@ $(function() {
                 text: 'Estimated Gross Fee Received by Practice Group (High)'
             },
             subtitle: {
-                text: "All Open Cases"
+                text: "Next " + yearLookBack + " Years | All Open Cases"
             },
             credits: {
                     enabled: false

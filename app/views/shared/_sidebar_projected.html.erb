@@ -14,7 +14,7 @@
         </li>
 
         <li class="<%=is_active_graph?("graphs","practice_group_revenue_pie_low") %>">
-          <%= link_to "Fee Received by Practice Group", practice_group_revenues_path %>
+          <%= link_to "Fee Received by Practice Group", practice_group_revenue_pie_low_graph_path(current_user.lawfirm_id) %>
         </li>
 
         <li class="<%=is_active_graph?('graphs','rev_by_year_by_pg')%> or <%=is_active_graph?('graphs','rev_by_year_by_pg_high')%> or <%=is_active_graph?('graphs','rev_by_year_by_pg_low')%>">

@@ -431,7 +431,7 @@ class Graph < ActiveRecord::Base
   end
 
   #Sums the #{fee_estimate} by practicegroup
-  def self.open_cases_by_pg_and_fee_estimate(user,fee_estimate)
+  def self.open_cases_by_pg_and_fee_estimate(user,fee_estimate,test_year=3)
     #Get practice group by IDs, and array the length of practice groups to store amounts,
     #and the start_date as a base.
     practice_groups_ids = Graph.user_practice_group_ids(user)
@@ -443,8 +443,9 @@ class Graph < ActiveRecord::Base
     practice_groups_ids.each do |pg|
       pg_fee_estimate = user.lawfirm.cases
                                     .where(open: true, practicegroup_id: pg)
-                                    .joins(:fees)
+                                    .joins(:fees,:timings)
                                     .where("fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)")
+                                    .where('estimated_conclusion_expected < ?', Date.today + test_year.years)
                                     .sum(fee_estimate)
       all_pg_fees << pg_fee_estimate
     end
