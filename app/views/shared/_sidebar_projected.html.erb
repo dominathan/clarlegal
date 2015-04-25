@@ -34,8 +34,14 @@
         </li>
 
         <li class='<%= is_active_graph?("graph_individual_prac_groups","expected_individual_pg_rev") %>'>
-        <a href="javascript:;" data-toggle="collapse" data-target="#practice-groups-expected" ><i class="fa fa-fw fa-arrows-v"></i>Practice Groups<i class="fa fa-fw fa-caret-down"></i></a>
+          <a href="javascript:;" data-toggle="collapse" data-target="#practice-groups-expected" ><i class="fa fa-fw fa-arrows-v"></i>Practice Groups<i class="fa fa-fw fa-caret-down"></i></a>
           <ul id="practice-groups-expected" class="collapse">
+          </ul>
+        </li>
+
+        <li class='<%= is_active_graph?("graphs","revenue_by_attorney_estimate") %>'>
+          <a href="javascript:;" data-toggle="collapse" data-target="#rev-attorney-expected" ><i class="fa fa-fw fa-arrows-v"></i>Attorneys<i class="fa fa-fw fa-caret-down"></i></a>
+          <ul id="rev-attorney-expected" class="collapse">
           </ul>
         </li>
 
@@ -59,5 +65,21 @@
       li.appendChild(a);
       ulToAddTo.appendChild(li);
     };
+
+    <% attorneys = current_user.lawfirm.staffings.order(:last_name).map {|att| att.full_name_last_first } %>;
+    <% attorneyIds = current_user.lawfirm.staffings.order(:last_name).ids %>;
+    var allAttorneys = <%= raw attorneys %>;
+    var allAttorneyIds = <%= raw attorneyIds %>;
+    var addToAttorneyUL = document.getElementById("rev-attorney-expected");
+    for (var i in allAttorneys) {
+      var attorneyID = allAttorneyIds[i];
+      var liElement = document.createElement('li');
+      var aElement = document.createElement('a');
+      var newTextForAElement = document.createTextNode(allAttorneys[i]);
+      aElement.appendChild(newTextForAElement);
+      aElement.href = '/graphs/'+attorneyID+'/revenue_by_attorney_estimate/';
+      liElement.appendChild(aElement);
+      addToAttorneyUL.appendChild(liElement);
+    }
   });
 </script>

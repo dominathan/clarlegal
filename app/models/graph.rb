@@ -272,14 +272,24 @@ class Graph < ActiveRecord::Base
     return amounts
   end
 
-  def all_closeout_attributes
-    ["total_recovery",
-    "total_gross_fee_received",
-    "total_out_of_pocket_expenses",
-    "referring_fees_paid",
-    "total_fee_received"]
+  #Return array of closeout by year for staffing_id given.
+  #Position is tricky... As of now, the positions beging checked are only those case.staffs where
+  #position == "Responsible Attorney". Depending on what firms want, this could cause issues.
+  def self.revenue_by_attorney(user,staffing_id,closeout_amount,position)
+    year_of_collection = Graph.closeout_years
+    amounts = Array.new(year_of_collection.length,0)
+    amounts.length.times do |i|
+      amounts[i] = user.lawfirm.cases.where(open: false)
+                                     .joins(:closeouts,:staffs)
+                                     .where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
+                                             {start_date: year_of_collection[i].beginning_of_year,
+                                              end_date: year_of_collection[i].end_of_year})
+                                     .where('staffing_id = ?', staffing_id)
+                                     .where('position = ?', position)
+                                     .sum(closeout_amount)
+    end
+    return amounts
   end
-
 #----------------Individual Practice Groups --- Actual ---------------------------
 
   #Calculate closeoutamounts by specified practicegroup
@@ -630,19 +640,38 @@ class Graph < ActiveRecord::Base
       amounts = Array.new(year_of_collection.length, 0)
       amounts.length.times do |i|
         amounts[i] = user.lawfirm.cases
-                          .where(open: true, practicegroup_id: pg)
-                          .joins(:fees,:timings)
-                          .where('fee_type = ?', type)
-                          .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
-                          .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
-                          .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
-                                { start_date: year_of_collection[i].beginning_of_year,
-                                  end_date: year_of_collection[i].end_of_year })
-                          .sum(fee_estimate)
+                                  .where(open: true, practicegroup_id: pg)
+                                  .joins(:fees,:timings)
+                                  .where('fee_type = ?', type)
+                                  .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                                  .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
+                                  .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                                        { start_date: year_of_collection[i].beginning_of_year,
+                                          end_date: year_of_collection[i].end_of_year })
+                                  .sum(fee_estimate)
       end
       final << amounts
     end
     return all_fee_types.zip(final).map { |name,values|  { 'name' => name, 'data' => values } }.to_json
+  end
+
+
+  def self.revenue_by_attorney_estimate(user,staffing_id,fee_estimate,timing_estimate,position)
+    year_of_collection = Graph.expected_years
+    amounts = Array.new(year_of_collection.length, 0)
+    amounts.length.times do |i|
+      amounts[i] = user.lawfirm.cases.where(open: true)
+                                     .joins(:fees, :timings, :staffs)
+                                     .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
+                                     .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
+                                     .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
+                                           { start_date: year_of_collection[i].beginning_of_year,
+                                             end_date: year_of_collection[i].end_of_year })
+                                     .where('staffing_id = ?', staffing_id)
+                                     .where('position = ?', position)
+                                     .sum(fee_estimate)
+    end
+    return amounts
   end
   #-----------------------------------END INDIVIDUAL PRACTICE GROUPS-----------------------#
 

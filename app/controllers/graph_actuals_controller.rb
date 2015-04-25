@@ -105,4 +105,13 @@
     @fee_types = Graph.rev_by_fee_type_pg(current_user,params[:id],'total_fee_received')
   end
 
+  def revenue_by_attorney
+    @attorney_name = Staffing.find(params[:id]).full_name
+    @total_recovery = Graph.revenue_by_attorney(current_user,params[:id],"total_recovery","Responsible Attorney")
+    @gross_fee_received = Graph.revenue_by_attorney(current_user,params[:id],"total_gross_fee_received","Responsible Attorney")
+    @out_of_pocket = Graph.revenue_by_attorney(current_user,params[:id],"total_out_of_pocket_expenses","Responsible Attorney").map {|i| i * -1}
+    @referring_fees = Graph.revenue_by_attorney(current_user,params[:id],"referring_fees_paid","Responsible Attorney").map {|i| i * -1}
+    @total_fee_received = Graph.revenue_by_attorney(current_user,params[:id],"total_fee_received","Responsible Attorney")
+  end
+
 end

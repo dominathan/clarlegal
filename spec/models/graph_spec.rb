@@ -417,6 +417,18 @@ describe Graph do
         expect(answer).to eq(505)
       end
     end
+
+    context 'Graph.revenue_by_attorney(user,staffing_id,closeout_amount,position)' do
+      before {
+        FactoryGirl.create(:staffing, lawfirm_id: 1, id: 1)
+        FactoryGirl.create(:staff, case_id: 579)
+        FactoryGirl.create(:case, client_id: 1, id: 579, open: false)
+        FactoryGirl.create(:closeout, case_id: 579)
+      }
+
+      subject { Graph.revenue_by_attorney(@user1,1,'total_fee_received',"Responsible Attorney") }
+      it { should eq([0,0,0,0,1]) }
+    end
   end
 
   describe 'expected / projected amounts' do
@@ -611,5 +623,18 @@ describe Graph do
       subject { Graph.projected_amount_earned_time_frame(@user1,'medium_estimate','estimated_conclusion_fast',Date.today.beginning_of_year,Date.today.end_of_year) }
       it { should eq(27) }
     end
+
+    context 'Graph.revenue_by_attorney_estimate(user,staffing_id,fee_estimate,timing_estimate,position)' do
+      before {
+        FactoryGirl.create(:staffing, lawfirm_id: 1, id: 1)
+        FactoryGirl.create(:staff, case_id: 580)
+        FactoryGirl.create(:case, client_id: 1, id: 580, open: true)
+        FactoryGirl.create(:timing, case_id: 580)
+        FactoryGirl.create(:fee, case_id: 580)
+      }
+      subject { Graph.revenue_by_attorney_estimate(@user1,1,'high_estimate','estimated_conclusion_expected',"Responsible Attorney") }
+      it { should eq([0,5,0,0,0]) }
+    end
+
   end
 end

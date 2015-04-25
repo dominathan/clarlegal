@@ -63,6 +63,9 @@ Claregal::Application.routes.draw do
   match '/lawfirm/cases',          to: 'lawfirms#show_lawfirm_cases', via: 'get' #to show current_user.lawfirm.cases
   match '/user/cases',             to:  'cases#user_cases',       via: 'get' #show all cases of current_user
 #--------------------------Actual GRAPH ROUTES----------------------------------------------------
+
+  get   'dashboard',                               to: "graphs#dashboard"
+
   resources :graph_actuals do
     member do
       get :revenue_by_year
@@ -73,19 +76,18 @@ Claregal::Application.routes.draw do
       get :closed_case_load_by_year
       get :individual_practice_group
       get "/revenue_by_month/:year/", to: :revenue_by_month, as: "revenue_by_month"
+      get :revenue_by_attorney
     end
   end
-
-  #match '/revenue_by_month/:id/actual',            to: "graph_actuals#revenue_by_month",    via: 'get',           as: 'revenue_by_month'
 
   #--------------------------Expected GRAPH ROUTES----------------------------------------------------
   resources :graphs do
     member do
       get :revenue_by_client_estimate
+      get :revenue_by_attorney_estimate
     end
   end
 
-  get   'dashboard',                               to: "graphs#dashboard"
   match '/practice_group/cases',                   to: "graphs#practice_group_pie",             via: 'get'
   match '/practice_group/revenues',                to: "graphs#practice_group_revenue_pie_low", via: 'get'
   match '/practice_group/:id/revenue',             to: "graph_individual_prac_groups#expected_individual_pg_rev", as: 'expected_individual_pg_rev', via: 'get'
@@ -106,8 +108,5 @@ Claregal::Application.routes.draw do
 
   #I do not know why this is here, but when I remove it everything breaks
   match '/revenue_by_referral_source',      to: 'graphs#rev_by_fee_type_medium',            via: 'get'
-
-  #-------------------------------Search Routes--------------------------------------------------
-
 
 end
