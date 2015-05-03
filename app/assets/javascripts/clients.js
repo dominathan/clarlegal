@@ -18,6 +18,8 @@ $(document).ready(function() {
         return m.charAt(0).toUpperCase() + m.slice(1);
       }).join('<br />') + '</span>');
     });
+
+    return this;
   };
 
   $.fn.clear_form_errors = function() {
