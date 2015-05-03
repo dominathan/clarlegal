@@ -192,6 +192,10 @@ $.ajaxSetup({
   dataType: 'json'
 });
 
+$('#newClientModal').on('hidden.bs.modal', function () {
+  $('#new_client').clear_form_errors();
+})
+
 $('#new_client').on('ajax:success', function (e, data, status, xhr) {
   console.log('success');
   $('#newClientModal').modal('hide');
