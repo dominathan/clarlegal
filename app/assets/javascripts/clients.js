@@ -31,6 +31,20 @@ $(document).ready(function() {
   };
 
 
+
+  $('#newClientModal').on('hidden.bs.modal', function () {
+    $('#new_client').clear_form_errors();
+  })
+
+  $('#new_client').on('ajax:success', function (e, data, status, xhr) {
+    console.log('success');
+    $('#newClientModal').modal('hide');
+    $('#new_client').clear_form_fields().clear_form_errors();
+    $('#new_client_status').show().html('<div class="alert alert-success">Client added successfully</div>').fadeOut(5000);
+  }).on('ajax:error', function (e, data, status, xhr) {
+    $('#new_client').render_form_errors('client', data.responseJSON)
+  });
+
   $('#userClients').dataTable({
     order: [[0,'desc']]
   });
