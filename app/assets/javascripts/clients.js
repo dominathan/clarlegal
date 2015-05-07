@@ -45,6 +45,14 @@ $(document).ready(function() {
     $('#new_client').render_form_errors('client', data.responseJSON)
   });
 
+  $.ajaxSetup({
+    dataType: 'json'
+  });
+
+  $("#newClientModal #client_different_billing").click(function(){
+     $("#newClientModal #billing-information").toggleClass('hide')
+   });
+
   $('#userClients').dataTable({
     order: [[0,'desc']]
   });

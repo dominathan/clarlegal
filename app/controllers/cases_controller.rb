@@ -6,6 +6,9 @@ class CasesController < ApplicationController
     @case.fees.build
     @case.timings.build
     @case.checks.build
+    @client = Client.new
+    @client.billings.build
+
   end
 
   def create_case
