@@ -2,6 +2,7 @@ class ClientsController < ApplicationController
   before_action :signed_in_user
   before_action :belongs_to_firm
   before_action :has_overhead_last_5_years, only: [:show]
+  respond_to :html, :js
 
   def index
     @clients = Client.where(user_id: current_user.id).order(:last_name).load
@@ -28,11 +29,16 @@ class ClientsController < ApplicationController
 
   def create
     @client = current_user.clients.build(client_params)
-    if @client.save
-      flash[:success] = "Client Added Successfully"
-      redirect_to clients_path
-    else
-      render 'new'
+    respond_to do |format|
+      if @client.save
+        format.json { render json: @client, status: :created }
+        format.js { render json: @client, status: :created }
+        format.html { redirect_to clients_path, :flash => { :success => "Client Added Successfully" } }
+      else
+        format.html { render :new }
+        format.json { render json: @client.errors, status: :unprocessable_entity }
+        format.js { render json: @client.errors, status: :unprocessable_entity }
+      end
     end
   end
 
