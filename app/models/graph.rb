@@ -370,7 +370,6 @@ class Graph < ActiveRecord::Base
     #all 5 years.
     amounts.length.times do |i|
       amounts[i] = user.lawfirm.cases
-                               .where(open: true)
                                .joins(:timings, :fees)
                                .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
                                .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
@@ -389,7 +388,6 @@ class Graph < ActiveRecord::Base
 
     amounts.length.times do |i|
       amounts[i] = user.lawfirm.cases
-                                .where(open: true)
                                 .joins(:timings, :fees)
                                 .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
                                 .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
@@ -421,7 +419,7 @@ class Graph < ActiveRecord::Base
     #Loop through practicegroups, and collect count of OPEN==true cases that belong to each practice group
     practice_groups = Graph.user_practice_group_ids(user)
     practice_groups.each do |pg|
-      open_case_count = user.lawfirm.cases.where(open: true).
+      open_case_count = user.lawfirm.cases.
                         where('practicegroup_id = ?', pg).count
       final_case_count.push(open_case_count)
     end
@@ -442,7 +440,7 @@ class Graph < ActiveRecord::Base
     #select the most recent fee.created_at, and sum that fee_estimate across all fee.case_id = case.id
     practice_groups_ids.each do |pg|
       pg_fee_estimate = user.lawfirm.cases
-                                    .where(open: true, practicegroup_id: pg)
+                                    .where(practicegroup_id: pg)
                                     .joins(:fees,:timings)
                                     .where("fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)")
                                     .where('estimated_conclusion_expected < ?', Date.today + test_year.years)
@@ -469,7 +467,7 @@ class Graph < ActiveRecord::Base
       amounts = Array.new(year_of_collection.length,0)
       amounts.length.times do |i|
         amounts[i] = user.lawfirm.cases
-                    .where(open: true, practicegroup_id: pg)
+                    .where(practicegroup_id: pg)
                     .joins(:timings, :fees)
                     .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
                     .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
@@ -500,7 +498,7 @@ class Graph < ActiveRecord::Base
       #Join fee and timings with cases, match fee_type and match timing estimate with year[i].
       #Sum fee_estimate
       amounts[i] = user.lawfirm.cases
-                              .where(open: true).joins(:fees,:timings)
+                              .joins(:fees,:timings)
                               .where('fee_type = ?', fee_type)
                               .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                               .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
@@ -515,7 +513,6 @@ class Graph < ActiveRecord::Base
   #Return sum of open cases, fee_estimate by origination.referral_source by year lookback
   def self.fee_estimate_by_origination(user,referral_source,fee_estimate)
     user.lawfirm.cases
-                .where(open: true)
                 .joins(:originations, :fees)
                 .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
                 .where('referral_source = ?', referral_source)
@@ -529,7 +526,6 @@ class Graph < ActiveRecord::Base
     #Join and timings with client.cases
     amounts.length.times do |i|
       case_listing = client.cases
-                           .where(open: true)
                            .joins(:timings)
                            .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                            .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
@@ -556,7 +552,7 @@ class Graph < ActiveRecord::Base
 
     #Get the sum of hours_expected and hours_actual for every case of a client.
     #Subtract the two to get remaining hours.
-    client.cases.where(open: true).each do |ca|
+    client.cases.each do |ca|
       case_hours_expected = ca.staffs.sum('hours_expected')
       case_hours_actual = ca.staffs.sum('hours_actual')
       remaining_hours = case_hours_expected - case_hours_actual
@@ -594,7 +590,7 @@ class Graph < ActiveRecord::Base
     #Sum #{fee_estimate} if date_fee_received between start_date and end_date
     amounts.length.times do |i|
       amounts[i] = user.lawfirm.cases
-                               .where(practicegroup_id: pg, open: true)
+                               .where(practicegroup_id: pg)
                                .joins(:fees,:timings)
                                .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
                                .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
@@ -609,7 +605,7 @@ class Graph < ActiveRecord::Base
   def self.fee_estimate_by_origination_pg(user,pg,referral_source,fee_estimate)
     #Sum #{fee_estimate} by practicegroup and referral_source
     return user.lawfirm.cases
-                       .where(open: true, practicegroup_id: pg)
+                       .where(practicegroup_id: pg)
                        .joins(:originations, :fees)
                        .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
                        .where('referral_source = ?', referral_source)
@@ -641,7 +637,7 @@ class Graph < ActiveRecord::Base
       amounts = Array.new(year_of_collection.length, 0)
       amounts.length.times do |i|
         amounts[i] = user.lawfirm.cases
-                                  .where(open: true, practicegroup_id: pg)
+                                  .where(practicegroup_id: pg)
                                   .joins(:fees,:timings)
                                   .where('fee_type = ?', type)
                                   .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
@@ -661,8 +657,7 @@ class Graph < ActiveRecord::Base
     year_of_collection = Graph.expected_years
     amounts = Array.new(year_of_collection.length, 0)
     amounts.length.times do |i|
-      amounts[i] = user.lawfirm.cases.where(open: true)
-                                     .joins(:fees, :timings, :staffs)
+      amounts[i] = user.lawfirm.cases.joins(:fees, :timings, :staffs)
                                      .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
                                      .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                                      .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",
@@ -688,7 +683,6 @@ class Graph < ActiveRecord::Base
   #Sum fee_estimate regardless of case being opened of closed with dates of choice
   def self.projected_amount_earned_time_frame(user,fee_estimate,timing_estimate,starting_date,ending_date)
     user.lawfirm.cases.joins(:timings,:fees)
-                      .where(open: true)
                       .where('fees.created_at = (SELECT MAX(created_at) FROM fees p group by case_id having p.case_id = fees.case_id)')
                       .where('timings.created_at = (SELECT MAX(created_at) FROM timings d group by case_id having d.case_id = timings.case_id)')
                       .where("#{timing_estimate} >= :start_date AND #{timing_estimate} <= :end_date",

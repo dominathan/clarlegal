@@ -27,12 +27,14 @@ group :development, :test do
   gem 'thin', '1.6.3' #local server
   gem 'rspec-rails', '2.13.1'
   gem 'railroady' #road map of
-  gem 'pry' #debugging
-  gem 'jazz_hands' #easy railsconsole viewing
+  # gem 'pry' #debugging
+  # gem 'jazz_hands' #easy railsconsole viewing
   gem 'hirb', '0.7.2' #easy railsconsole viewing
   gem 'quiet_assets', '1.0.3' #removes all that logger shit about assets
   gem 'letter_opener', '1.2.0' #test email being sent
   gem 'database_cleaner'
+  gem 'byebug'
+  gem 'web-console', '~> 2.0'
 end
 
 group :test do
