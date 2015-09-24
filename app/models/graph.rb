@@ -101,8 +101,7 @@ class Graph < ActiveRecord::Base
   end
 
   def self.user_lawfirm_cases_sum_within_date(user, closeout_amount, date_collection)
-    user.lawfirm.cases.where(open: false)
-                      .joins(:closeouts)
+    user.lawfirm.cases.joins(:closeouts)
                       .where("date_fee_received >= :start_date AND
                               date_fee_received <= :end_date",
                       {start_date: date_collection.first,
@@ -147,8 +146,7 @@ class Graph < ActiveRecord::Base
   #Return sum of closed cases, Closeout.closeout_amount by origination.referral_source by year lookback
   def self.closeout_amount_by_origination(user,referral_source,closeout_amount,test_year=3)
     start_date = Date.today.beginning_of_year - (test_year).years
-    amount = user.lawfirm.cases.where(open: false)
-                              .joins(:originations, :closeouts)
+    amount = user.lawfirm.cases.joins(:originations, :closeouts)
                               .where('referral_source = ?', referral_source)
                               .where('date_fee_received > ?', start_date)
                               .sum(closeout_amount)
@@ -165,7 +163,6 @@ class Graph < ActiveRecord::Base
     practice_groups = Graph.user_practice_group_ids(user)
     practice_groups.each do |pg|
       closed_case_count = user.lawfirm.cases
-                                      .where(open: false)
                                       .joins(:closeouts)
                                       .where('closeouts.created_at = (SELECT MAX(created_at) FROM closeouts p group by case_id having p.case_id = closeouts.case_id)')
                                       .where("date_fee_received > ?", start_date)
@@ -190,7 +187,7 @@ class Graph < ActiveRecord::Base
 
     #Loop through practice groups with closed cases and inner join closeouts.
     practice_groups.each do |pg|
-      pg_closeout_amount = user.lawfirm.cases.where(open: false, practicegroup_id: pg)
+      pg_closeout_amount = user.lawfirm.cases.where(practicegroup_id: pg)
                                              .joins(:closeouts)
                                              .where("date_fee_received > ?", start_date)
                                              .sum(closeout_amount)
@@ -214,7 +211,7 @@ class Graph < ActiveRecord::Base
     practice_groups.each do |pg|
       amounts = Array.new(year_of_collection.length,0)
       amounts.length.times do |i|
-        amounts[i] = user.lawfirm.cases.where(open: false, practicegroup_id: pg)
+        amounts[i] = user.lawfirm.cases.where(practicegroup_id: pg)
                                        .joins(:closeouts)
                                        .where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
                                               {start_date: year_of_collection[i].beginning_of_year,
@@ -240,8 +237,7 @@ class Graph < ActiveRecord::Base
 
     amounts.length.times do |i|
       #Join closeouts with cases, match fee_type and match year[i]. Sum closeout amount
-      amounts[i] = user.lawfirm.cases.where(open: false)
-                                     .joins(:closeouts)
+      amounts[i] = user.lawfirm.cases.joins(:closeouts)
                                      .where('fee_type = ?', fee_type)
                                      .where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
                                               {start_date: year_of_collection[i].beginning_of_year,
@@ -262,8 +258,7 @@ class Graph < ActiveRecord::Base
     amounts = Array.new(year_of_collection.length)
     #Join closeout amounts with client.cases, and sum amounts for the year in question
     amounts.length.times do |i|
-        amounts[i] = client.cases.where(open: false)
-                                 .joins(:closeouts)
+        amounts[i] = client.cases.joins(:closeouts)
                                  .where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
                                         {start_date: year_of_collection[i].beginning_of_year,
                                          end_date: year_of_collection[i].end_of_year})
@@ -279,8 +274,7 @@ class Graph < ActiveRecord::Base
     year_of_collection = Graph.closeout_years
     amounts = Array.new(year_of_collection.length,0)
     amounts.length.times do |i|
-      amounts[i] = user.lawfirm.cases.where(open: false)
-                                     .joins(:closeouts,:staffs)
+      amounts[i] = user.lawfirm.cases.joins(:closeouts,:staffs)
                                      .where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
                                              {start_date: year_of_collection[i].beginning_of_year,
                                               end_date: year_of_collection[i].end_of_year})
@@ -301,7 +295,7 @@ class Graph < ActiveRecord::Base
     #Loop through closed cases with practicegroup_id
     #Sum #{closeout_amount} if date_fee_received between start_date and end_date
     amounts.length.times do |i|
-      amounts[i] = user.lawfirm.cases.where(practicegroup_id: pg, open: false)
+      amounts[i] = user.lawfirm.cases.where(practicegroup_id: pg)
                                      .joins(:closeouts)
                                      .where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
                                             { start_date: year_of_collection[i].beginning_of_year,
@@ -325,7 +319,7 @@ class Graph < ActiveRecord::Base
 
   def self.revenue_by_origination_pg(user,pg,referral_source,closeout_amount)
     #Sum #{closeout_amount} by practicegroup and referral_source
-    return user.lawfirm.cases.where(open: false, practicegroup_id: pg)
+    return user.lawfirm.cases.where(practicegroup_id: pg)
                              .joins(:originations, :closeouts)
                              .where('referral_source = ?', referral_source)
                              .sum(closeout_amount)
@@ -343,7 +337,7 @@ class Graph < ActiveRecord::Base
     all_fee_types.each do |type|
       amounts = Array.new(year_of_collection.length, 0)
       amounts.length.times do |i|
-        amounts[i] = user.lawfirm.cases.where(open: false, practicegroup_id: pg)
+        amounts[i] = user.lawfirm.cases.where(practicegroup_id: pg)
                                        .joins(:closeouts)
                                        .where('fee_type = ?', type)
                                        .where('date_fee_received >= :start_date AND date_fee_received <= :end_date',
